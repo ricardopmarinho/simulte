@@ -1,0 +1,182 @@
+                                                                
+version 2
+run CAIN-0-20190516-17:20:30-10083
+attr configname CAIN
+attr datetime 20190516-17:20:30
+attr experiment CAIN
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network lte.simulations.networks.CAIN
+attr processid 10083
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 0
+param **.**.amcMode "\"AUTO\""
+param **.amcMode "\"D2D\""
+param **.channelControl.alpha 1.0
+param **.channelControl.carrierFrequency 2100e+6Hz
+param **.channelControl.pMax 10W
+param **.d2dCqi 7
+param **.deployer.numRbDl 50
+param **.deployer.numRbUl 50
+param **.fbDelay 1
+param **.feedbackComputation "xmldoc(\"config_channel.xml\")"
+param **.mobility.constraintAreaMaxZ 0m
+param **.mobility.constraintAreaMinZ 0m
+param **.nic.phy.channelModel "xmldoc(\"config_channel.xml\")"
+param **.numBands 50
+param **.rbAllocationType "\"localized\""
+param **.routingRecorder.enabled false
+param **.tcpApp[*].tClose -1s
+param **.usePreconfiguredTxParams false
+param *.eNodeB.d2dCapable false
+param *.eNodeB.mobility.initFromDisplayString false
+param *.eNodeB.mobility.initialX 300m
+param *.eNodeB.mobility.initialY 300m
+param *.eNodeB.nic.phy.enableD2DCqiReporting true
+param *.numUeCell 0
+param *.numUeD2DRx 1
+param *.numUeD2DTx 1
+param *.ue*[0].macCellId 1
+param *.ue*[0].masterId 1
+param *.ue*[0].mobility.initFromDisplayString false
+param *.ueD2D*[*].d2dCapable true
+param *.ueD2D*[0].d2dCapable false
+param *.ueD2D*[0].numTcpApps 1
+param *.ueD2DRx[0].mobility.initialX 310m
+param *.ueD2DRx[0].mobility.initialY 350m
+param *.ueD2DRx[0].nic.d2dPeerAddresses "\"ueD2DTx[0]\""
+param *.ueD2DRx[0].tcpApp[*].localPort 1000
+param *.ueD2DRx[0].tcpApp[*].typename "\"TCPSinkApp\""
+param *.ueD2DTx[0].mobility.initialX 290m
+param *.ueD2DTx[0].mobility.initialY 350m
+param *.ueD2DTx[0].nic.d2dPeerAddresses "\"ueD2DRx[0]\""
+param *.ueD2DTx[0].tcpApp[*].localPort 1000
+param *.ueD2DTx[0].tcpApp[*].sendBytes 1GiB
+param *.ueD2DTx[0].tcpApp[*].typename "\"TCPSessionApp\""
+param *.ueD2DTx[0].tcpApp[0].active true
+param *.ueD2DTx[0].tcpApp[0].connectAddress "\"ueD2DRx[0]\""
+param *.ueD2DTx[0].tcpApp[0].connectPort 1000
+param *.ueD2DTx[0].tcpApp[0].localAddress "\"ueD2DTx[0]\""
+param *.ueD2DTx[0].tcpApp[0].tOpen uniform(0.010s,0.1s)
+param *.ueD2DTx[0].tcpApp[0].tSend uniform(0.15s,0.5s)
+
+vector 8  CAIN.server.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 9  CAIN.server.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 24  CAIN.router.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 25  CAIN.router.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 35  CAIN.router.ppp[1].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 36  CAIN.router.ppp[1].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 56  CAIN.pgw.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 57  CAIN.pgw.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 67  CAIN.pgw.pppInterface.queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 68  CAIN.pgw.pppInterface.ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 95  CAIN.eNodeB.pppIf.queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 96  CAIN.eNodeB.pppIf.ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 120  CAIN.ueD2DTx[0].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 137  CAIN.ueD2DRx[0].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 85  CAIN.eNodeB.nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 179  CAIN.ueD2DTx[0].tcp  tcpRcvQueueBytes  ETV
+vector 166  CAIN.ueD2DTx[0].tcp  "advertised window"  ETV
+vector 165  CAIN.ueD2DTx[0].tcp  "receive window"  ETV
+vector 168  CAIN.ueD2DTx[0].tcp  "sent ack"  ETV
+vector 108  CAIN.ueD2DTx[0].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 111  CAIN.ueD2DTx[0].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 112  CAIN.ueD2DTx[0].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 115  CAIN.ueD2DTx[0].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 87  CAIN.eNodeB.nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 113  CAIN.ueD2DTx[0].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 90  CAIN.eNodeB.nic.phy  averageCqiUlvect:vector  ETV
+attr source  averageCqiUlvect
+attr title  "Average Cqi reported in UL, vector"
+attr unit  cqi
+vector 88  CAIN.eNodeB.nic.mac  measuredItbs:vector  ETV
+attr source  measuredItbs
+attr title  "TBS index, vector"
+attr unit  ""
+vector 114  CAIN.ueD2DTx[0].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 136  CAIN.ueD2DRx[0].nic.phy  averageCqiD2Dvect:vector  ETV
+attr source  averageCqiD2Dvect
+attr title  "Average Cqi reported in D2D, vector"
+attr unit  cqi
+vector 130  CAIN.ueD2DRx[0].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 132  CAIN.ueD2DRx[0].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 131  CAIN.ueD2DRx[0].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 126  CAIN.ueD2DRx[0].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 127  CAIN.ueD2DRx[0].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 145  CAIN.ueD2DRx[0].tcp  "rcvd seq"  ETV
+vector 146  CAIN.ueD2DRx[0].tcp  "rcvd ack"  ETV
+vector 142  CAIN.ueD2DRx[0].tcp  "advertised window"  ETV
+vector 140  CAIN.ueD2DRx[0].tcp  "send window"  ETV
+vector 155  CAIN.ueD2DRx[0].tcp  tcpRcvQueueBytes  ETV
+vector 141  CAIN.ueD2DRx[0].tcp  "receive window"  ETV
+vector 144  CAIN.ueD2DRx[0].tcp  "sent ack"  ETV
+vector 125  CAIN.ueD2DRx[0].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 128  CAIN.ueD2DRx[0].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 129  CAIN.ueD2DRx[0].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
