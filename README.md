@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 SimuLTE
 =======
 
@@ -84,3 +85,9 @@ SimuLTE also contains a form-based configuration editor to edit the most
 often used simulation parameters. To use it, right-click an Ini file, and choose
 'Open With | SimuLTE Configuration Editor' from the context menu. Try it on 
 'simulations/demo/gui.ini'.
+=======
+# simulte
+Adding CAIN network to simulte project
+
+DO NOT copy this project yet. I'm still implementing it and it's just begining.
+>>>>>>> 4cbe087e605fb1c675305b54f533c6a9832b3fc9
