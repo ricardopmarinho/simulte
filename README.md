@@ -90,4 +90,39 @@ often used simulation parameters. To use it, right-click an Ini file, and choose
 Adding CAIN network to simulte project
 
 DO NOT copy this project yet. I'm still implementing it and it's just begining.
+
+PATH: MY_USER/omnetpp-5.0/samples/simulte
+
+
+CAIN changes:
+Network definition file CAIN.ned on PATH/simulations/networks
+
+CAIN node CAIN_UE.ned on PATH/src/corenetwork/nodes
+
+CAINLteRealisticChannelModel.cc and .h on PATH/src/stack/phy/ChannelModel
+
+Included CAINControlInfo class on PATH/src/common/LteControlInfo.msg
+
+Included CAINControlInfo class on PATH/scr/common/LteControlInfo.cc and .h
+
+Included CAINLtePhyUe simple module on PATH/src/stack/phy/LtePhy.ned
+
+Created CAINLtePhyUe.cc and .h on PATH/scr/stack/phy/layer
+
+Included code at the end of PATH/src/stack/phy/layer/LtePhyUeD2D.cc to send the CAINControlInfo and included CAINControlInfo.h on it
+
+included code to store sinr value on table at PATH/src/stack/phy/ChannelModels/LteRealisticChannelModel.cc lines 894~904
+
+created a type sinrMap and included it on the struct EnbInfo at PATH/src/common/LteCommon.h
+
+Included code on PATH/scr/stack/phy/layer/LteMacUeRealisticSD2D.cc::checkRAC (line 441)=>lines 499 to 534
+
+Included code on PATH/src/stack/mac/layer/LteMacEnb.cc::macHandleRac(line 456)=>lines 460, 466 to 481
+
+Included a new LtEPhyFrameType on line 463 from PATH/src/common/LteCommon.h=>CAIN_INFOPKT
+
+Created a new enum type=>CAINDirection (REL, REP and NOTiFY) on PATH/src/common/LteCommon.h lines 121 to 125
+
+Included parameter "pwrThresh" on PATH/simulations/networks/CAIN.ned=>line 35
+
 >>>>>>> 4cbe087e605fb1c675305b54f533c6a9832b3fc9
