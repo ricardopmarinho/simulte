@@ -107,7 +107,7 @@ class UserControlInfo : public UserControlInfo_Base
 
 Register_Class(UserControlInfo);
 
-class CAINControlInfo : public UserControlInfo{
+class CAINControlInfo : public CAINControlInfo_Base{
     protected:
 
         const UserTxParams* userTxParams;
@@ -117,7 +117,13 @@ class CAINControlInfo : public UserControlInfo{
         /** @brief The playground position of the sending host.*/
         Coord senderCoord;
 
-    public:
+      public:
+
+        /**
+         * Constructor: base initialization
+         * @param name packet name
+         * @param kind packet kind
+         */
         CAINControlInfo();
         virtual ~CAINControlInfo();
 
@@ -133,7 +139,7 @@ class CAINControlInfo : public UserControlInfo{
          * @param other source packet
          */
         CAINControlInfo(const CAINControlInfo& other) :
-            UserControlInfo()
+            CAINControlInfo_Base()
         {
             operator=(other);
         }
@@ -146,6 +152,38 @@ class CAINControlInfo : public UserControlInfo{
         {
             return new CAINControlInfo(*this);
         }
+
+        void setUserTxParams(const UserTxParams* arg);
+
+        const UserTxParams* getUserTxParams() const
+        {
+            return userTxParams;
+        }
+
+        const unsigned int getBlocks(Remote antenna, Band b) const
+            {
+            return grantedBlocks.at(antenna).at(b);
+        }
+
+        void setBlocks(Remote antenna, Band b, const unsigned int blocks)
+        {
+            grantedBlocks[antenna][b] = blocks;
+        }
+
+        const RbMap& getGrantedBlocks() const
+        {
+            return grantedBlocks;
+        }
+
+        void setGrantedBlocks(const RbMap& rbMap)
+        {
+            grantedBlocks = rbMap;
+        }
+
+        // struct used to request a feedback computation by nodeB
+        FeedbackRequest feedbackReq;
+        void setCoord(const Coord& coord);
+        Coord getCoord() const;
 };
 
 

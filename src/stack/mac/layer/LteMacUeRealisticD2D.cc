@@ -492,54 +492,6 @@ void LteMacUeRealisticD2D::checkRAC()
     if (!trigger && !triggerD2DMulticast)
         EV << NOW << "Ue " << nodeId_ << ",RAC aborted, no data in queues " << endl;
 
-    EV << "node id => " << getMacNodeId() << endl;
-    EV << "dest id => " << getMacCellId() << endl;
-
-
-    int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
-    std::vector<EnbInfo*>* vect = binder_->getEnbList();
-    for(unsigned int i=0;i< vect->size();i++){
-        if(getMacCellId() == vect->at(i)->id){
-            EV << "FOI" << endl;
-            sinrMap* sMap = vect->operator [](i)->map;
-            std::map<MacNodeId,double>::iterator it = sMap->begin();
-            EV << "MAP size=>" << sMap->size() << endl;
-            for(it; it!=sMap->end();++it){
-                if(getMacNodeId() == it->first){
-                    EV << "ACHEI, sinr=" << it->second << endl;
-                    if(it->second >= pwrThresh){
-                        EV << "sinr maior: sem problemas" << endl;
-                    }else{
-                        EV << "sinr menor: procurar relay!!" << endl;
-                        std::map<MacNodeId,double>::iterator it2 = sMap->begin();
-                        for(it2; it2!=sMap->end();++it2){
-                            if(getMacNodeId() != it2->first && it2->second >=pwrThresh){
-                                EV << "Achei um candidato!\n ID=>" << it2->first <<
-                                        " - SINR=>"<< it2->second<<endl;
-                                CAINInfo* cainInfo = new CAINInfo();
-                                cainInfo->setSourceId(getMacNodeId());
-                                cainInfo->setDestId(it2->first);
-                                cainInfo->setDirection(REL);
-                                cainInfo->setFrameType(CAIN_INFOPKT);
-
-
-                            }
-                        }
-                    }
-                }
-            }
-        }else{
-            EV << "diferente" << endl;
-        }
-    }
-
-    //EV << "PWRThresh=>" << pwr << endl;
-
-    /*EV<< getModuleByPath("CAIN")->getName() << endl;
-    EV<< getParentModule()->getParentModule()->getParentModule()->getName() << endl;
-    EV<< getParentModule()->getParentModule()->getName() << endl;
-    EV<< getParentModule()->getName() << endl;*/
-
     if ((racRequested_=trigger) || (racD2DMulticastRequested_=triggerD2DMulticast))
     {
         LteRac* racReq = new LteRac("RacRequest");

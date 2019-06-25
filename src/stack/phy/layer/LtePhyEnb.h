@@ -41,6 +41,7 @@ class LtePhyEnb : public LtePhyBase
     virtual void handleAirFrame(cMessage* msg);
     bool handleControlPkt(UserControlInfo* lteinfo, LteAirFrame* frame);
     void handleFeedbackPkt(UserControlInfo* lteinfo, LteAirFrame* frame);
+    void handleCainInfoPkt(UserControlInfo* lteinfo, LteAirFrame *frame);
     virtual void requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame, LteFeedbackPkt* pkt);
     /**
      * Getter for the Das Filter

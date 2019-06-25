@@ -19,14 +19,16 @@
 
 cplusplus {{
     #include "common/LteCommon.h"
+    #include "common/LteControlInfo_m.h"
 }}
 
 enum CAINDirection;
 enum LtePhyFrameType;
 
+
 packet CAINInfo {
-    uint16 sourceId;								// Source MacNodeId
-    uint16 destId;									// Destination MacNodeId
-    unsigned short direction enum(CAINDirection); 	// Traffic Direction (REL, REP)
+    //uint16 sourceId;								// Source MacNodeId
+    //uint16 destId;									// Destination MacNodeId
+    unsigned short direction enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
     unsigned short frameType enum(LtePhyFrameType);	// Type of frame
 }

@@ -17,16 +17,17 @@
 
 // cplusplus {{
     #include "common/LteCommon.h"
+    #include "common/LteControlInfo_m.h"
 // }}
 
 /**
- * Class generated from <tt>common/CAINInfo.msg:27</tt> by nedtool.
+ * Class generated from <tt>common/CAINInfo.msg:29</tt> by nedtool.
  * <pre>
  * packet CAINInfo
  * {
- *     uint16 sourceId;								// Source MacNodeId
- *     uint16 destId;									// Destination MacNodeId
- *     unsigned short direction @enum(CAINDirection); 	// Traffic Direction (REL, REP)
+ *     //uint16 sourceId;								// Source MacNodeId
+ *     //uint16 destId;									// Destination MacNodeId
+ *     unsigned short direction @enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
  *     unsigned short frameType @enum(LtePhyFrameType);	// Type of frame
  * }
  * </pre>
@@ -34,8 +35,6 @@
 class CAINInfo : public ::omnetpp::cPacket
 {
   protected:
-    uint16_t sourceId;
-    uint16_t destId;
     unsigned short direction;
     unsigned short frameType;
 
@@ -56,10 +55,6 @@ class CAINInfo : public ::omnetpp::cPacket
     virtual void parsimUnpack(omnetpp::cCommBuffer *b);
 
     // field getter/setter methods
-    virtual uint16_t getSourceId() const;
-    virtual void setSourceId(uint16_t sourceId);
-    virtual uint16_t getDestId() const;
-    virtual void setDestId(uint16_t destId);
     virtual unsigned short getDirection() const;
     virtual void setDirection(unsigned short direction);
     virtual unsigned short getFrameType() const;

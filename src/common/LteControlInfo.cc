@@ -9,6 +9,7 @@
 
 #include "common/LteControlInfo.h"
 #include "stack/mac/amc/UserTxParams.h"
+#include "common/LteControlInfo_m.h"
 
 UserControlInfo::~UserControlInfo()
 {
@@ -75,7 +76,7 @@ CAINControlInfo::~CAINControlInfo()
 }
 
 CAINControlInfo::CAINControlInfo() :
-    UserControlInfo()
+    CAINControlInfo_Base()
 {
     userTxParams = NULL;
     grantedBlocks.clear();
@@ -97,6 +98,25 @@ CAINControlInfo& CAINControlInfo::operator=(const CAINControlInfo& other)
     }
     this->grantedBlocks = other.grantedBlocks;
     this->senderCoord = other.senderCoord;
-    UserControlInfo::operator=(other);
+    CAINControlInfo_Base::operator=(other);
     return *this;
+}
+
+void CAINControlInfo::setCoord(const Coord& coord)
+{
+    senderCoord = coord;
+}
+
+void CAINControlInfo::setUserTxParams(const UserTxParams *newParams)
+{
+    if(userTxParams != NULL){
+        delete userTxParams;
+    }
+    userTxParams = newParams;
+}
+
+
+Coord CAINControlInfo::getCoord() const
+{
+    return senderCoord;
 }

@@ -134,6 +134,14 @@ bool LtePhyEnb::handleControlPkt(UserControlInfo* lteinfo, LteAirFrame* frame)
         delete frame;
         return true;
     }
+
+    //handle feedback pkt
+    if (lteinfo->getFrameType() == CAIN_INFOPKT)
+    {
+        handleCainInfoPkt(lteinfo, frame);
+        delete frame;
+        return true;
+    }
     return false;
 }
 
@@ -329,6 +337,7 @@ void LtePhyEnb::handleFeedbackPkt(UserControlInfo* lteinfo,
     LteAirFrame *frame)
 {
     EV << "Handled Feedback Packet with ID " << frame->getId() << endl;
+
     LteFeedbackPkt* pkt = check_and_cast<LteFeedbackPkt*>(frame->decapsulate());
     // here frame has to be destroyed since it is no more useful
     pkt->setControlInfo(lteinfo);
@@ -377,6 +386,12 @@ void LtePhyEnb::handleFeedbackPkt(UserControlInfo* lteinfo,
     }
     // send decapsulated message along with result control info to upperGateOut_
     send(pkt, upperGateOut_);
+}
+
+void LtePhyEnb::handleCainInfoPkt(UserControlInfo* lteinfo,
+        LteAirFrame *frame){
+    EV << "Handled CAIN Info Packet with ID " << frame->getId() << endl;
+    endSimulation();
 }
 
 // TODO adjust default value
