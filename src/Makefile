@@ -587,6 +587,7 @@ $O/common/CAINInfo_m.o: common/CAINInfo_m.cc \
 	$(INET_PROJ)/src/inet/features.h \
 	common/CAINInfo_m.h \
 	common/LteCommon.h \
+	common/LteControlInfo_m.h \
 	common/lterecorder.h
 $O/common/LteCommon.o: common/LteCommon.cc \
 	$(INET_PROJ)/src/inet/common/Compat.h \

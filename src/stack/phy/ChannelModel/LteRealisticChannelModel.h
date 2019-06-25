@@ -50,6 +50,9 @@ class LteRealisticChannelModel : public LteChannelModel
     bool enableMultiCellInterference_;
     bool enableD2DInCellInterference_;
 
+
+    int pwrThresh = -40;
+
     typedef std::pair<simtime_t, Coord> Position;
 
     // last position of current user

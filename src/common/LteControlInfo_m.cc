@@ -1013,7 +1013,6 @@ UserControlInfo_Base::UserControlInfo_Base() : ::LteControlInfo()
     this->txPower = 0;
     this->d2dTxPower = 0;
     this->totalGrantedBlocks = 0;
-    this->pwrThresh = -40;
 }
 
 UserControlInfo_Base::UserControlInfo_Base(const UserControlInfo_Base& other) : ::LteControlInfo(other)
@@ -1049,7 +1048,6 @@ void UserControlInfo_Base::copy(const UserControlInfo_Base& other)
     this->txPower = other.txPower;
     this->d2dTxPower = other.d2dTxPower;
     this->totalGrantedBlocks = other.totalGrantedBlocks;
-    this->pwrThresh = other.pwrThresh;
 }
 
 void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
@@ -1069,7 +1067,6 @@ void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->txPower);
     doParsimPacking(b,this->d2dTxPower);
     doParsimPacking(b,this->totalGrantedBlocks);
-    doParsimPacking(b,this->pwrThresh);
 }
 
 void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -1089,7 +1086,6 @@ void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->txPower);
     doParsimUnpacking(b,this->d2dTxPower);
     doParsimUnpacking(b,this->totalGrantedBlocks);
-    doParsimUnpacking(b,this->pwrThresh);
 }
 
 unsigned char UserControlInfo_Base::getAcid() const
@@ -1232,16 +1228,6 @@ void UserControlInfo_Base::setTotalGrantedBlocks(unsigned int totalGrantedBlocks
     this->totalGrantedBlocks = totalGrantedBlocks;
 }
 
-int UserControlInfo_Base::getPwrThresh() const
-{
-    return this->pwrThresh;
-}
-
-void UserControlInfo_Base::setPwrThresh(int pwrThresh)
-{
-    this->pwrThresh = pwrThresh;
-}
-
 class UserControlInfoDescriptor : public omnetpp::cClassDescriptor
 {
   private:
@@ -1307,7 +1293,7 @@ const char *UserControlInfoDescriptor::getProperty(const char *propertyname) con
 int UserControlInfoDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 15+basedesc->getFieldCount() : 15;
+    return basedesc ? 14+basedesc->getFieldCount() : 14;
 }
 
 unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
@@ -1333,9 +1319,8 @@ unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
-        FD_ISEDITABLE,
     };
-    return (field>=0 && field<15) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<14) ? fieldTypeFlags[field] : 0;
 }
 
 const char *UserControlInfoDescriptor::getFieldName(int field) const
@@ -1361,9 +1346,8 @@ const char *UserControlInfoDescriptor::getFieldName(int field) const
         "txPower",
         "d2dTxPower",
         "totalGrantedBlocks",
-        "pwrThresh",
     };
-    return (field>=0 && field<15) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<14) ? fieldNames[field] : nullptr;
 }
 
 int UserControlInfoDescriptor::findField(const char *fieldName) const
@@ -1384,7 +1368,6 @@ int UserControlInfoDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='t' && strcmp(fieldName, "txPower")==0) return base+11;
     if (fieldName[0]=='d' && strcmp(fieldName, "d2dTxPower")==0) return base+12;
     if (fieldName[0]=='t' && strcmp(fieldName, "totalGrantedBlocks")==0) return base+13;
-    if (fieldName[0]=='p' && strcmp(fieldName, "pwrThresh")==0) return base+14;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -1411,9 +1394,8 @@ const char *UserControlInfoDescriptor::getFieldTypeString(int field) const
         "double",
         "double",
         "unsigned int",
-        "int",
     };
-    return (field>=0 && field<15) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<14) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **UserControlInfoDescriptor::getFieldPropertyNames(int field) const
@@ -1494,7 +1476,6 @@ std::string UserControlInfoDescriptor::getFieldValueAsString(void *object, int f
         case 11: return double2string(pp->getTxPower());
         case 12: return double2string(pp->getD2dTxPower());
         case 13: return ulong2string(pp->getTotalGrantedBlocks());
-        case 14: return long2string(pp->getPwrThresh());
         default: return "";
     }
 }
@@ -1523,7 +1504,6 @@ bool UserControlInfoDescriptor::setFieldValueAsString(void *object, int field, i
         case 11: pp->setTxPower(string2double(value)); return true;
         case 12: pp->setD2dTxPower(string2double(value)); return true;
         case 13: pp->setTotalGrantedBlocks(string2ulong(value)); return true;
-        case 14: pp->setPwrThresh(string2long(value)); return true;
         default: return false;
     }
 }
@@ -1571,7 +1551,7 @@ CAINControlInfo_Base::CAINControlInfo_Base() : ::LteControlInfo()
     this->txPower = 0;
     this->d2dTxPower = 0;
     this->totalGrantedBlocks = 0;
-    this->pwrThresh = -10;
+    this->CAINDirection = 0;
 }
 
 CAINControlInfo_Base::CAINControlInfo_Base(const CAINControlInfo_Base& other) : ::LteControlInfo(other)
@@ -1607,7 +1587,7 @@ void CAINControlInfo_Base::copy(const CAINControlInfo_Base& other)
     this->txPower = other.txPower;
     this->d2dTxPower = other.d2dTxPower;
     this->totalGrantedBlocks = other.totalGrantedBlocks;
-    this->pwrThresh = other.pwrThresh;
+    this->CAINDirection = other.CAINDirection;
 }
 
 void CAINControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
@@ -1627,7 +1607,7 @@ void CAINControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->txPower);
     doParsimPacking(b,this->d2dTxPower);
     doParsimPacking(b,this->totalGrantedBlocks);
-    doParsimPacking(b,this->pwrThresh);
+    doParsimPacking(b,this->CAINDirection);
 }
 
 void CAINControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -1647,7 +1627,7 @@ void CAINControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->txPower);
     doParsimUnpacking(b,this->d2dTxPower);
     doParsimUnpacking(b,this->totalGrantedBlocks);
-    doParsimUnpacking(b,this->pwrThresh);
+    doParsimUnpacking(b,this->CAINDirection);
 }
 
 unsigned char CAINControlInfo_Base::getAcid() const
@@ -1790,14 +1770,14 @@ void CAINControlInfo_Base::setTotalGrantedBlocks(unsigned int totalGrantedBlocks
     this->totalGrantedBlocks = totalGrantedBlocks;
 }
 
-int CAINControlInfo_Base::getPwrThresh() const
+unsigned short CAINControlInfo_Base::getCAINDirection() const
 {
-    return this->pwrThresh;
+    return this->CAINDirection;
 }
 
-void CAINControlInfo_Base::setPwrThresh(int pwrThresh)
+void CAINControlInfo_Base::setCAINDirection(unsigned short CAINDirection)
 {
-    this->pwrThresh = pwrThresh;
+    this->CAINDirection = CAINDirection;
 }
 
 class CAINControlInfoDescriptor : public omnetpp::cClassDescriptor
@@ -1919,7 +1899,7 @@ const char *CAINControlInfoDescriptor::getFieldName(int field) const
         "txPower",
         "d2dTxPower",
         "totalGrantedBlocks",
-        "pwrThresh",
+        "CAINDirection",
     };
     return (field>=0 && field<15) ? fieldNames[field] : nullptr;
 }
@@ -1942,7 +1922,7 @@ int CAINControlInfoDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='t' && strcmp(fieldName, "txPower")==0) return base+11;
     if (fieldName[0]=='d' && strcmp(fieldName, "d2dTxPower")==0) return base+12;
     if (fieldName[0]=='t' && strcmp(fieldName, "totalGrantedBlocks")==0) return base+13;
-    if (fieldName[0]=='p' && strcmp(fieldName, "pwrThresh")==0) return base+14;
+    if (fieldName[0]=='C' && strcmp(fieldName, "CAINDirection")==0) return base+14;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -1969,7 +1949,7 @@ const char *CAINControlInfoDescriptor::getFieldTypeString(int field) const
         "double",
         "double",
         "unsigned int",
-        "int",
+        "unsigned short",
     };
     return (field>=0 && field<15) ? fieldTypeStrings[field] : nullptr;
 }
@@ -1991,6 +1971,10 @@ const char **CAINControlInfoDescriptor::getFieldPropertyNames(int field) const
             static const char *names[] = { "enum",  nullptr };
             return names;
         }
+        case 14: {
+            static const char *names[] = { "enum",  nullptr };
+            return names;
+        }
         default: return nullptr;
     }
 }
@@ -2009,6 +1993,9 @@ const char *CAINControlInfoDescriptor::getFieldProperty(int field, const char *p
             return nullptr;
         case 10:
             if (!strcmp(propertyname,"enum")) return "LtePhyFrameType";
+            return nullptr;
+        case 14:
+            if (!strcmp(propertyname,"enum")) return "CAINDirection";
             return nullptr;
         default: return nullptr;
     }
@@ -2052,7 +2039,7 @@ std::string CAINControlInfoDescriptor::getFieldValueAsString(void *object, int f
         case 11: return double2string(pp->getTxPower());
         case 12: return double2string(pp->getD2dTxPower());
         case 13: return ulong2string(pp->getTotalGrantedBlocks());
-        case 14: return long2string(pp->getPwrThresh());
+        case 14: return enum2string(pp->getCAINDirection(), "CAINDirection");
         default: return "";
     }
 }
@@ -2081,7 +2068,7 @@ bool CAINControlInfoDescriptor::setFieldValueAsString(void *object, int field, i
         case 11: pp->setTxPower(string2double(value)); return true;
         case 12: pp->setD2dTxPower(string2double(value)); return true;
         case 13: pp->setTotalGrantedBlocks(string2ulong(value)); return true;
-        case 14: pp->setPwrThresh(string2long(value)); return true;
+        case 14: pp->setCAINDirection((CAINDirection)string2enum(value, "CAINDirection")); return true;
         default: return false;
     }
 }

@@ -512,37 +512,35 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
 //        deployer_->channelIncrease(nodeId_);
 //        deployer_->lambdaIncrease(nodeId_,1);
 //    }
+
+
+
+    /*CAINControlInfo* caininfo = new CAINControlInfo();
+    caininfo->setSourceId(nodeId_);
+    caininfo->setDestId(masterId_);
+    caininfo->setFrameType(CAIN_INFOPKT);
+    caininfo->setIsCorruptible(false);
+    // create LteAirFrame and encapsulate a feedback packet
+    LteAirFrame* frame = new LteAirFrame("feedback_pkt");
+    frame->encapsulate(check_and_cast<cPacket*>(fbPkt));
+    caininfo->feedbackReq = req;
+    caininfo->setDirection(UL);
+    caininfo->setCAINDirection(REL);
+    simtime_t signalLength = TTI;
+    caininfo->setTxPower(txPower_);
+    caininfo->setD2dTxPower(d2dTxPower_);
+    // initialize frame fields
+
+    frame->setSchedulingPriority(airFramePriority_);
+    frame->setDuration(signalLength);
+
+    caininfo->setCoord(getRadioPosition());
+
+    frame->setControlInfo(caininfo);*/
+
     lastFeedback_ = NOW;
     EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
        << nodeId_ << " sending feedback to the air channel" << endl;
     sendUnicast(frame);
-
-
-    /*EV << "CHEGOU AQUI!!!!\n";
-
-   CAINControlInfo* uinfo2 = new CAINControlInfo();
-   uinfo2->setSourceId(nodeId_);
-   uinfo2->setDestId(masterId_);
-   uinfo2->setFrameType(FEEDBACKPKT);
-   uinfo2->setIsCorruptible(false);
-   // create LteAirFrame and encapsulate a feedback packet
-   LteAirFrame* frame2 = new LteAirFrame("feedback_pkt");
-   frame2->encapsulate(check_and_cast<cPacket*>(fbPkt));
-   uinfo2->feedbackReq = req;
-   uinfo2->setDirection(UL);
-   simtime_t signalLength2 = TTI;
-   uinfo2->setTxPower(txPower_);
-   // initialize frame fields
-
-   frame2->setSchedulingPriority(airFramePriority_);
-   frame2->setDuration(signalLength2);
-
-   uinfo2->setCoord(getRadioPosition());
-
-   frame2->setControlInfo(uinfo2);
-   lastFeedback_ = NOW;
-   EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
-      << nodeId_ << " sending CAINfeedback to the air channel" << endl;
-   sendUnicast(frame2);*/
 
 }

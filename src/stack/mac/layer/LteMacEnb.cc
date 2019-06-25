@@ -748,6 +748,8 @@ void LteMacEnb::handleSelfMessage()
 
 void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
 {
+
+    EV << "At LteMacEnb::macHandleFeedbackPkt\n";
     LteFeedbackPkt* fb = check_and_cast<LteFeedbackPkt*>(pkt);
     LteFeedbackDoubleVector fbMapDl = fb->getLteFeedbackDoubleVectorDl();
     LteFeedbackDoubleVector fbMapUl = fb->getLteFeedbackDoubleVectorUl();

@@ -139,12 +139,57 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
 
 void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
 {
+    bool find_relay = false;
     UserControlInfo* lteInfo = check_and_cast<UserControlInfo*>(msg->removeControlInfo());
+    //CAINControlInfo* lteInfo = check_and_cast<CAINControlInfo*>(msg->removeControlInfo());
     LteAirFrame* frame = static_cast<LteAirFrame*>(msg);
 
 
     EV << "AQUI MESMO\n";
+
+    EV << "Device "<< lteInfo->getSourceId() << " sending the message to " << lteInfo->getDestId() << endl;
+
+
+    int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
+    std::vector<EnbInfo*>* vect = binder_->getEnbList();
+    for(unsigned int i=0;i< vect->size();i++){
+        if(1 == vect->at(i)->id){
+            EV << "FOI" << endl;
+            sinrMap* sMap = vect->operator [](i)->map;
+            std::map<MacNodeId,double>::iterator it = sMap->begin();
+            EV << "MAP size=>" << sMap->size() << endl;
+            for(it; it!=sMap->end();++it){
+                if(lteInfo->getSourceId() == it->first){
+                    EV << "FOUND, this device is sending the message: sinr=" << it->second << endl;
+                    if(it->second >= pwrThresh){
+                        EV << "sinr maior: sem problemas" << endl;
+                    }else{
+                        EV << "sinr menor: procurar relay!!" << endl;
+                        std::map<MacNodeId,double>::iterator it2 = sMap->begin();
+                        for(it2; it2!=sMap->end();++it2){
+                            if(1 != it2->first && it2->second >=pwrThresh){
+                                EV << "Achei um candidato!\n ID=>" << it2->first <<
+                                        " - SINR=>"<< it2->second<<endl;
+
+
+                                lteInfo->setFrameType(CAIN_INFOPKT);
+                                //if(handleControlPkt(lteInfo,frame))
+
+                                find_relay=true;
+                            }
+                        }
+                    }
+                }
+            }
+        }else{
+            EV << "diferente" << endl;
+        }
+    }
+
+    /*if (lteInfo->getFrameType() == CAIN_INFOPKT)
+            EV << "CAIN_INFOPKT" << endl;*/
     EV << "LtePhyEnbD2D::handleAirFrame - received new LteAirFrame with ID " << frame->getId() << " from channel" << endl;
+
 
     // handle broadcast packet sent by another eNB
     if (lteInfo->getFrameType() == HANDOVERPKT)
@@ -201,6 +246,7 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
     if (handleControlPkt(lteInfo, frame))
         return; // If frame contain a control pkt no further action is needed
 
+
     if ((lteInfo->getUserTxParams()) != NULL)
     {
         double cqi = lteInfo->getUserTxParams()->readCqiVector()[lteInfo->getCw()];
@@ -255,6 +301,10 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
     lteInfo->setDeciderResult(result);
     pkt->setControlInfo(lteInfo);
 
+    /*if(find_relay){
+        lteInfo->setFrameType(CAIN_INFOPKT);
+        send(pkt, upperGateOut_);
+    }else*/
     // send decapsulated message along with result control info to upperGateOut_
     send(pkt, upperGateOut_);
 

@@ -48,6 +48,8 @@ void LteMacEnbRealisticD2D::initialize(int stage)
 
 void LteMacEnbRealisticD2D::macHandleFeedbackPkt(cPacket *pkt)
 {
+
+    EV << "At LteMacEnbRealisticD2D::macHandleFeedbackPkt\n";
     LteFeedbackPkt* fb = check_and_cast<LteFeedbackPkt*>(pkt);
     std::map<MacNodeId, LteFeedbackDoubleVector> fbMapD2D = fb->getLteFeedbackDoubleVectorD2D();
 

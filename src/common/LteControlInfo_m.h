@@ -20,7 +20,7 @@
 // }}
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:49</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:50</tt> by nedtool.
  * <pre>
  * //
  * // @class LteControlInfo
@@ -113,7 +113,7 @@ inline void doParsimPacking(omnetpp::cCommBuffer *b, const LteControlInfo& obj) 
 inline void doParsimUnpacking(omnetpp::cCommBuffer *b, LteControlInfo& obj) {obj.parsimUnpack(b);}
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:86</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:87</tt> by nedtool.
  * <pre>
  * //
  * // @class FlowControlInfo
@@ -182,7 +182,7 @@ inline void doParsimPacking(omnetpp::cCommBuffer *b, const FlowControlInfo& obj)
 inline void doParsimUnpacking(omnetpp::cCommBuffer *b, FlowControlInfo& obj) {obj.parsimUnpack(b);}
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:107</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:108</tt> by nedtool.
  * <pre>
  * //
  * // @class UserControlInfo
@@ -217,10 +217,6 @@ inline void doParsimUnpacking(omnetpp::cCommBuffer *b, FlowControlInfo& obj) {ob
  *     double d2dTxPower;                                 //D2D Transmission Power (used for feedback reporting of D2D links
  *     // blocks granted on all Remotes, all Bands
  *     unsigned int totalGrantedBlocks;
- * 
- * 	///////////////////////////
- *     int pwrThresh = -40;
- *     /////////////////////////
  * 
  *     //#
  *     //# Follows a list of elements only present in
@@ -272,7 +268,6 @@ class UserControlInfo_Base : public ::LteControlInfo
     double txPower;
     double d2dTxPower;
     unsigned int totalGrantedBlocks;
-    int pwrThresh;
 
   private:
     void copy(const UserControlInfo_Base& other);
@@ -321,12 +316,10 @@ class UserControlInfo_Base : public ::LteControlInfo
     virtual void setD2dTxPower(double d2dTxPower);
     virtual unsigned int getTotalGrantedBlocks() const;
     virtual void setTotalGrantedBlocks(unsigned int totalGrantedBlocks);
-    virtual int getPwrThresh() const;
-    virtual void setPwrThresh(int pwrThresh);
 };
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:143</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:140</tt> by nedtool.
  * <pre>
  * class CAINControlInfo extends LteControlInfo
  * {
@@ -354,7 +347,7 @@ class UserControlInfo_Base : public ::LteControlInfo
  *     unsigned int totalGrantedBlocks;
  * 
  *     ///////////////////////////
- *     int pwrThresh = -10;
+ *     unsigned short CAINDirection @enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
  *     /////////////////////////
  * }
  * </pre>
@@ -400,7 +393,7 @@ class CAINControlInfo_Base : public ::LteControlInfo
     double txPower;
     double d2dTxPower;
     unsigned int totalGrantedBlocks;
-    int pwrThresh;
+    unsigned short CAINDirection;
 
   private:
     void copy(const CAINControlInfo_Base& other);
@@ -449,8 +442,8 @@ class CAINControlInfo_Base : public ::LteControlInfo
     virtual void setD2dTxPower(double d2dTxPower);
     virtual unsigned int getTotalGrantedBlocks() const;
     virtual void setTotalGrantedBlocks(unsigned int totalGrantedBlocks);
-    virtual int getPwrThresh() const;
-    virtual void setPwrThresh(int pwrThresh);
+    virtual unsigned short getCAINDirection() const;
+    virtual void setCAINDirection(unsigned short CAINDirection);
 };
 
 

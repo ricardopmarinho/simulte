@@ -19,6 +19,7 @@ enum Direction;
 enum ApplicationType;
 enum LteTrafficClass;
 
+enum CAINDirection;
 //
 // Control info usage in Lte simulator
 //
@@ -128,10 +129,6 @@ class UserControlInfo extends LteControlInfo {
     // blocks granted on all Remotes, all Bands
     unsigned int totalGrantedBlocks;
 
-	///////////////////////////
-    int pwrThresh = -40;
-    /////////////////////////
-
     //#
     //# Follows a list of elements only present in
     //# the customized class (see LteControlInfo.h):
@@ -165,7 +162,7 @@ class CAINControlInfo extends LteControlInfo{
     unsigned int totalGrantedBlocks;
     
     ///////////////////////////
-    int pwrThresh = -10;
+    unsigned short CAINDirection enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
     /////////////////////////
 }
 

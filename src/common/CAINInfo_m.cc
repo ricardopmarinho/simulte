@@ -165,8 +165,6 @@ Register_Class(CAINInfo);
 
 CAINInfo::CAINInfo(const char *name, int kind) : ::omnetpp::cPacket(name,kind)
 {
-    this->sourceId = 0;
-    this->destId = 0;
     this->direction = 0;
     this->frameType = 0;
 }
@@ -190,8 +188,6 @@ CAINInfo& CAINInfo::operator=(const CAINInfo& other)
 
 void CAINInfo::copy(const CAINInfo& other)
 {
-    this->sourceId = other.sourceId;
-    this->destId = other.destId;
     this->direction = other.direction;
     this->frameType = other.frameType;
 }
@@ -199,8 +195,6 @@ void CAINInfo::copy(const CAINInfo& other)
 void CAINInfo::parsimPack(omnetpp::cCommBuffer *b) const
 {
     ::omnetpp::cPacket::parsimPack(b);
-    doParsimPacking(b,this->sourceId);
-    doParsimPacking(b,this->destId);
     doParsimPacking(b,this->direction);
     doParsimPacking(b,this->frameType);
 }
@@ -208,30 +202,8 @@ void CAINInfo::parsimPack(omnetpp::cCommBuffer *b) const
 void CAINInfo::parsimUnpack(omnetpp::cCommBuffer *b)
 {
     ::omnetpp::cPacket::parsimUnpack(b);
-    doParsimUnpacking(b,this->sourceId);
-    doParsimUnpacking(b,this->destId);
     doParsimUnpacking(b,this->direction);
     doParsimUnpacking(b,this->frameType);
-}
-
-uint16_t CAINInfo::getSourceId() const
-{
-    return this->sourceId;
-}
-
-void CAINInfo::setSourceId(uint16_t sourceId)
-{
-    this->sourceId = sourceId;
-}
-
-uint16_t CAINInfo::getDestId() const
-{
-    return this->destId;
-}
-
-void CAINInfo::setDestId(uint16_t destId)
-{
-    this->destId = destId;
 }
 
 unsigned short CAINInfo::getDirection() const
@@ -318,7 +290,7 @@ const char *CAINInfoDescriptor::getProperty(const char *propertyname) const
 int CAINInfoDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 4+basedesc->getFieldCount() : 4;
+    return basedesc ? 2+basedesc->getFieldCount() : 2;
 }
 
 unsigned int CAINInfoDescriptor::getFieldTypeFlags(int field) const
@@ -332,10 +304,8 @@ unsigned int CAINInfoDescriptor::getFieldTypeFlags(int field) const
     static unsigned int fieldTypeFlags[] = {
         FD_ISEDITABLE,
         FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
     };
-    return (field>=0 && field<4) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<2) ? fieldTypeFlags[field] : 0;
 }
 
 const char *CAINInfoDescriptor::getFieldName(int field) const
@@ -347,22 +317,18 @@ const char *CAINInfoDescriptor::getFieldName(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldNames[] = {
-        "sourceId",
-        "destId",
         "direction",
         "frameType",
     };
-    return (field>=0 && field<4) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<2) ? fieldNames[field] : nullptr;
 }
 
 int CAINInfoDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0]=='s' && strcmp(fieldName, "sourceId")==0) return base+0;
-    if (fieldName[0]=='d' && strcmp(fieldName, "destId")==0) return base+1;
-    if (fieldName[0]=='d' && strcmp(fieldName, "direction")==0) return base+2;
-    if (fieldName[0]=='f' && strcmp(fieldName, "frameType")==0) return base+3;
+    if (fieldName[0]=='d' && strcmp(fieldName, "direction")==0) return base+0;
+    if (fieldName[0]=='f' && strcmp(fieldName, "frameType")==0) return base+1;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -375,12 +341,10 @@ const char *CAINInfoDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "uint16",
-        "uint16",
         "unsigned short",
         "unsigned short",
     };
-    return (field>=0 && field<4) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<2) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **CAINInfoDescriptor::getFieldPropertyNames(int field) const
@@ -392,11 +356,11 @@ const char **CAINInfoDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case 2: {
+        case 0: {
             static const char *names[] = { "enum",  nullptr };
             return names;
         }
-        case 3: {
+        case 1: {
             static const char *names[] = { "enum",  nullptr };
             return names;
         }
@@ -413,10 +377,10 @@ const char *CAINInfoDescriptor::getFieldProperty(int field, const char *property
         field -= basedesc->getFieldCount();
     }
     switch (field) {
-        case 2:
+        case 0:
             if (!strcmp(propertyname,"enum")) return "CAINDirection";
             return nullptr;
-        case 3:
+        case 1:
             if (!strcmp(propertyname,"enum")) return "LtePhyFrameType";
             return nullptr;
         default: return nullptr;
@@ -447,10 +411,8 @@ std::string CAINInfoDescriptor::getFieldValueAsString(void *object, int field, i
     }
     CAINInfo *pp = (CAINInfo *)object; (void)pp;
     switch (field) {
-        case 0: return ulong2string(pp->getSourceId());
-        case 1: return ulong2string(pp->getDestId());
-        case 2: return enum2string(pp->getDirection(), "CAINDirection");
-        case 3: return enum2string(pp->getFrameType(), "LtePhyFrameType");
+        case 0: return enum2string(pp->getDirection(), "CAINDirection");
+        case 1: return enum2string(pp->getFrameType(), "LtePhyFrameType");
         default: return "";
     }
 }
@@ -465,10 +427,8 @@ bool CAINInfoDescriptor::setFieldValueAsString(void *object, int field, int i, c
     }
     CAINInfo *pp = (CAINInfo *)object; (void)pp;
     switch (field) {
-        case 0: pp->setSourceId(string2ulong(value)); return true;
-        case 1: pp->setDestId(string2ulong(value)); return true;
-        case 2: pp->setDirection((CAINDirection)string2enum(value, "CAINDirection")); return true;
-        case 3: pp->setFrameType((LtePhyFrameType)string2enum(value, "LtePhyFrameType")); return true;
+        case 0: pp->setDirection((CAINDirection)string2enum(value, "CAINDirection")); return true;
+        case 1: pp->setFrameType((LtePhyFrameType)string2enum(value, "LtePhyFrameType")); return true;
         default: return false;
     }
 }
