@@ -150,7 +150,7 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
     EV << "Device "<< lteInfo->getSourceId() << " sending the message to " << lteInfo->getDestId() << endl;
 
 
-    int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
+    /*int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
     std::vector<EnbInfo*>* vect = binder_->getEnbList();
     for(unsigned int i=0;i< vect->size();i++){
         if(1 == vect->at(i)->id){
@@ -185,7 +185,7 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
             EV << "diferente" << endl;
         }
     }
-
+*/
     /*if (lteInfo->getFrameType() == CAIN_INFOPKT)
             EV << "CAIN_INFOPKT" << endl;*/
     EV << "LtePhyEnbD2D::handleAirFrame - received new LteAirFrame with ID " << frame->getId() << " from channel" << endl;
