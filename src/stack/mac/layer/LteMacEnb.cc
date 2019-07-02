@@ -472,6 +472,54 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     uinfo->setSourceId(nodeId_);
     uinfo->setDirection(DL);
 
+    EV << "ACHEIII\n";
+
+    int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
+    std::vector<EnbInfo*>* vect = binder_->getEnbList();
+    for(unsigned int i=0;i< vect->size();i++){
+        if(1 == vect->at(i)->id){
+            EV << "FOI" << endl;
+            sinrMap* sMap = vect->operator [](i)->map;
+            std::map<MacNodeId,double>::iterator it = sMap->begin();
+            EV << "MAP size=>" << sMap->size() << endl;
+            for(it; it!=sMap->end();++it){
+                if(uinfo->getSourceId() == it->first){
+                    EV << "ACHEI, sinr=" << it->second << endl;
+                    if(it->second >= pwrThresh){
+                        EV << "sinr maior: sem problemas" << endl;
+                    }else{
+                        EV << "sinr menor: procurar relay!!" << endl;
+                        std::map<MacNodeId,double>::iterator it2 = sMap->begin();
+                        for(it2; it2!=sMap->end();++it2){
+                            if(1 != it2->first && it2->second >=pwrThresh){
+                                EV << "Achei um candidato!\n ID=>" << it2->first <<
+                                        " - SINR=>"<< it2->second<<endl;
+
+
+
+                                LteRac* racReq = new LteRac("RacRequest");
+                                CAINControlInfo* cainInfo = check_and_cast<CAINControlInfo*> (
+                                        racPkt->getControlInfo());
+                                cainInfo->setSourceId(1);
+                                cainInfo->setDestId(it2->first);
+                                cainInfo->setDirection(DL);
+                                cainInfo->setCAINDirection(REL);
+                                cainInfo->setFrameType(CAIN_INFOPKT);
+                                racReq->setControlInfo(cainInfo);
+
+                                sendLowerPackets(racReq);
+                            }
+                        }
+                    }
+                }
+            }
+        }else{
+            EV << "diferente" << endl;
+        }
+    }
+
+
+
     sendLowerPackets(racPkt);
 }
 

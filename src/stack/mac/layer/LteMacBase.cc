@@ -65,6 +65,7 @@ void LteMacBase::sendLowerPackets(cPacket* pkt)
     EV << "LteMacBase.cc::sendLowerPackets" << endl;
     // Send message
     updateUserTxParam(pkt);
+    EV << "EITA 1\n";
     send(pkt,down_[OUT]);
     emit(sentPacketToLowerLayer, pkt);
 }

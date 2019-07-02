@@ -115,14 +115,19 @@ included code to store sinr value on table at PATH/src/stack/phy/ChannelModels/L
 
 created a type sinrMap and included it on the struct EnbInfo at PATH/src/common/LteCommon.h
 
-Included code on PATH/scr/stack/phy/layer/LteMacUeRealisticSD2D.cc::checkRAC (line 441)=>lines 499 to 534
+Included code on PATH/scr/stack/mac/layer/LteMacUeRealisticSD2D.cc::checkRAC (line 441)=>lines 499 to 534
 
-Included code on PATH/src/stack/mac/layer/LteMacEnb.cc::macHandleRac(line 456)=>lines 460, 466 to 481
+Included code on PATH/src/stack/mac/layer/LteMacEnb.cc::macHandleRac(line 456)=>lines 460
 
 Included a new LtEPhyFrameType on line 463 from PATH/src/common/LteCommon.h=>CAIN_INFOPKT
 
-Created a new enum type=>CAINDirection (REL, REP and NOTiFY) on PATH/src/common/LteCommon.h lines 121 to 125
+Created a new enum type=>CAINDirection (REL, REP and NOTIFY) on PATH/src/common/LteCommon.h lines 121 to 125
 
 Included parameter "pwrThresh" on PATH/simulations/networks/CAIN.ned=>line 35
 
->>>>>>> 4cbe087e605fb1c675305b54f533c6a9832b3fc9
+Included code on PATH/src/stack/phy/layer/LtePhyEnbD2D.cc=>lines 302-305 (line 307 is from original code) 
+
+Included method handleCainInfoPkt on PATH/src/stack/phy/layer/LtePhyEnb.h and .cc
+
+========================VERIFICAR=========================
+Em PATH/src/stack/mac/layer/LteMacEnbRealistic.cc no método LteMacEnbRealistic::handleSelfMessage() (linha 372). Nas linhas 44 e 448 verificar se a criação da mensagem parte daí

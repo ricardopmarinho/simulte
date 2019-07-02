@@ -73,6 +73,7 @@ void LtePhyBase::initialize(int stage)
 void LtePhyBase::handleMessage(cMessage* msg)
 {
     EV << " LtePhyBase::handleMessage - new message received" << endl;
+    EV << "EITA 2\n";
 
     if (msg->isSelfMessage())
     {
@@ -134,6 +135,7 @@ void LtePhyBase::handleUpperMessage(cMessage* msg)
         msg->removeControlInfo());
 
     LteAirFrame* frame = NULL;
+    EV << "uinfo frame type: " << lteInfo->getFrameType() << endl;
 
     if (lteInfo->getFrameType() == HARQPKT
         || lteInfo->getFrameType() == GRANTPKT
