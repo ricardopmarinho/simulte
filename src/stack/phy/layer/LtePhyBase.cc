@@ -137,6 +137,12 @@ void LtePhyBase::handleUpperMessage(cMessage* msg)
     LteAirFrame* frame = NULL;
     EV << "uinfo frame type: " << lteInfo->getFrameType() << endl;
 
+    if(lteInfo->getCAINEnable()){
+        EV<<"\nCAIN MESSAGE!!!!\n";
+        EV<<"Options: "<< lteInfo->getCAINOptions() << endl;
+    }else
+        EV<<"\nRegular (not cain) message.\n";
+
     if (lteInfo->getFrameType() == HARQPKT
         || lteInfo->getFrameType() == GRANTPKT
         || lteInfo->getFrameType() == RACPKT

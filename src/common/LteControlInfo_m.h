@@ -224,6 +224,11 @@ inline void doParsimUnpacking(omnetpp::cCommBuffer *b, FlowControlInfo& obj) {ob
  *     //#
  *     //# RemoteSet ru;                                // Remote Antenna Set
  *     //# RbMap grantedBlocks;                        // Blocks allocated per Remote, per Band.
+ * 
+ *      ///////////////////////////
+ *     unsigned short CAINDirection @enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
+ *     bool CAINEnable = false;
+ *     /////////////////////////
  * }
  * </pre>
  *
@@ -268,6 +273,8 @@ class UserControlInfo_Base : public ::LteControlInfo
     double txPower;
     double d2dTxPower;
     unsigned int totalGrantedBlocks;
+    unsigned short CAINDirection;
+    bool CAINEnable;
 
   private:
     void copy(const UserControlInfo_Base& other);
@@ -316,10 +323,14 @@ class UserControlInfo_Base : public ::LteControlInfo
     virtual void setD2dTxPower(double d2dTxPower);
     virtual unsigned int getTotalGrantedBlocks() const;
     virtual void setTotalGrantedBlocks(unsigned int totalGrantedBlocks);
+    virtual unsigned short getCAINDirection() const;
+    virtual void setCAINDirection(unsigned short CAINDirection);
+    virtual bool getCAINEnable() const;
+    virtual void setCAINEnable(bool CAINEnable);
 };
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:140</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:145</tt> by nedtool.
  * <pre>
  * class CAINControlInfo extends LteControlInfo
  * {

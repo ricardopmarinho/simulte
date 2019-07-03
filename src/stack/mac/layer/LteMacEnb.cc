@@ -484,12 +484,41 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
             sinrMapW* WsMap = vect->operator [](i)->Wmap;
             if(WsMap->size()>0){
                 std::map<MacNodeId,double>::iterator it = WsMap->begin();
+                MacNodeId dest = it->first;
                 EV << "\nNode " << it->first << " with SINR " << it->second << " needs find a relay! \n";
 
                 sinrMapB* BsMap = vect->operator [](i)->Bmap;
                 it = BsMap->begin();
+                MacNodeId relay = it->first;
 
                 EV << "\nNode " << it->first << " with SINR " << it->second << " can be a relay! \n";
+                EV << "=============== SETTING CAIN MESSAGE ===============\n";
+                uinfo->setCAINEnable(true);
+                uinfo->setCAINDirection(REL);
+
+                std::ostringstream stream;
+                stream << it->first << "/" << it->second;
+
+                uinfo->appendOption(stream.str());
+
+                stream.str("");
+                stream.clear();
+                stream << it->first << "/" << it->second;
+
+                uinfo->appendOption(stream.str());
+                /*LteRac* racReq = new LteRac("RacRequest");
+                CAINControlInfo* cainInfo = check_and_cast<CAINControlInfo*> (
+                        racPkt->getControlInfo());
+                cainInfo->setSourceId(1);
+                cainInfo->setDestId(dest);
+                cainInfo->setDirection(DL);
+                cainInfo->setCAINDirection(REL);
+                cainInfo->setFrameType(CAIN_INFOPKT);
+                racReq->setControlInfo(cainInfo);
+
+                sendLowerPackets(racReq);*/
+                uinfo->setDestId(dest);
+                EV << "=============== END OF SETTINGS ===============\n";
             }
 
             /*
