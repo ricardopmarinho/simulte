@@ -771,7 +771,8 @@ typedef std::pair<unsigned char, CwList> UnitList;
  * value: sinr
  */
 
-typedef std::map<MacNodeId,double> sinrMap;
+typedef std::map<MacNodeId,double> sinrMapB;//stores sinr that are better than the threshold
+typedef std::map<MacNodeId,double> sinrMapW;//stores sinr that are worse than the threshold
 
 /*********************
  * Incell Interference Support
@@ -796,7 +797,9 @@ struct EnbInfo
     LteRealisticChannelModel * realChan;
     cModule * eNodeB;
 //////
-    sinrMap* map;
+    sinrMapB* Bmap;
+    sinrMapW* Wmap;
+    int pwrThresh;
 //////
     int x2;
 };

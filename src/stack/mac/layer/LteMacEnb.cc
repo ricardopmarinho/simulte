@@ -293,7 +293,9 @@ void LteMacEnb::initialize(int stage)
         info->init = false;            // flag for phy initialization
         info->eNodeB = this->getParentModule()->getParentModule();  // reference to the eNodeB module
         /////
-        info->map = new std::map<MacNodeId,double>();
+        info->Bmap = new std::map<MacNodeId,double>();
+        info->Wmap = new std::map<MacNodeId,double>();
+        info->pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
         //////
         binder_->addEnbInfo(info);
 
@@ -479,8 +481,18 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     for(unsigned int i=0;i< vect->size();i++){
         if(1 == vect->at(i)->id){
             EV << "FOI" << endl;
-            sinrMap* sMap = vect->operator [](i)->map;
-            std::map<MacNodeId,double>::iterator it = sMap->begin();
+            sinrMapW* WsMap = vect->operator [](i)->Wmap;
+            if(WsMap->size()>0){
+                std::map<MacNodeId,double>::iterator it = WsMap->begin();
+                EV << "\nNode " << it->first << " with SINR " << it->second << " needs find a relay! \n";
+
+                sinrMapB* BsMap = vect->operator [](i)->Bmap;
+                it = BsMap->begin();
+
+                EV << "\nNode " << it->first << " with SINR " << it->second << " can be a relay! \n";
+            }
+
+            /*
             EV << "MAP size=>" << sMap->size() << endl;
             for(it; it!=sMap->end();++it){
                 if(uinfo->getSourceId() == it->first){
@@ -512,9 +524,9 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                         }
                     }
                 }
-            }
+            }*/
         }else{
-            EV << "diferente" << endl;
+            EV << "diferent" << endl;
         }
     }
 
