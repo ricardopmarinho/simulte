@@ -892,12 +892,20 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
 
         EV << "CHEGOU 2" << "\n";
         std::vector<EnbInfo*>* vect = binder_->getEnbList();
-        sinrMap* sMap = NULL;
+        int pwrThresh = 0;
+        sinrMapB* BsMap = NULL;
+        sinrMapW* WsMap = NULL;
 
         for(unsigned int i = 0; i < vect->size();i++){
             if(eNbId == vect->at(i)->id){
-                sMap = vect->operator [](i)->map;
-                sMap->operator [](ueId)=recvPower;
+                pwrThresh = vect->operator [](i)->pwrThresh;
+                if(recvPower >= pwrThresh){
+                    BsMap = vect->operator [](i)->Bmap;
+                    BsMap->operator [](ueId)=recvPower;
+                }else{
+                    WsMap = vect->operator [](i)->Wmap;
+                    WsMap->operator [](ueId)=recvPower;
+                }
             }
         }
 
