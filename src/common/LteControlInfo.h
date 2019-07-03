@@ -35,6 +35,7 @@ class UserControlInfo : public UserControlInfo_Base
     //Move senderMovement;
     /** @brief The playground position of the sending host.*/
     Coord senderCoord;
+    std::string CAINoptions;
 
   public:
 
@@ -103,6 +104,9 @@ class UserControlInfo : public UserControlInfo_Base
     FeedbackRequest feedbackReq;
     void setCoord(const Coord& coord);
     Coord getCoord() const;
+    //////////////////////////
+    void appendOption(std::string newOpt);
+    std::string getCAINOptions();
 };
 
 Register_Class(UserControlInfo);

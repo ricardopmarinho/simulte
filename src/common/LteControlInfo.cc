@@ -66,6 +66,17 @@ Coord UserControlInfo::getCoord() const
     return senderCoord;
 }
 
+void UserControlInfo::appendOption(std::string newOpt){
+    if(this->CAINoptions.empty())
+        this->CAINoptions=newOpt;
+    else
+        this->CAINoptions.append(";"+newOpt);
+}
+
+std::string UserControlInfo::getCAINOptions(){
+    return this->CAINoptions;
+}
+
 CAINControlInfo::~CAINControlInfo()
 {
     if (userTxParams != NULL)

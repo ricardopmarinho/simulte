@@ -111,9 +111,9 @@ Created CAINLtePhyUe.cc and .h on PATH/scr/stack/phy/layer
 
 Included code at the end of PATH/src/stack/phy/layer/LtePhyUeD2D.cc to send the CAINControlInfo and included CAINControlInfo.h on it
 
-included code to store sinr value on table at PATH/src/stack/phy/ChannelModels/LteRealisticChannelModel.cc lines 894~904
+included code to store sinr value on table at PATH/src/stack/phy/ChannelModels/LteRealisticChannelModel.cc lines 893~918
 
-created a type sinrMap and included it on the struct EnbInfo at PATH/src/common/LteCommon.h
+created types sinrMapB and sinrMapW and included it on the struct EnbInfo at PATH/src/common/LteCommon.h
 
 Included code on PATH/scr/stack/mac/layer/LteMacUeRealisticSD2D.cc::checkRAC (line 441)=>lines 499 to 534
 
@@ -129,5 +129,12 @@ Included code on PATH/src/stack/phy/layer/LtePhyEnbD2D.cc=>lines 302-305 (line 3
 
 Included method handleCainInfoPkt on PATH/src/stack/phy/layer/LtePhyEnb.h and .cc
 
-========================VERIFICAR=========================
-Em PATH/src/stack/mac/layer/LteMacEnbRealistic.cc no método LteMacEnbRealistic::handleSelfMessage() (linha 372). Nas linhas 44 e 448 verificar se a criação da mensagem parte daí
+Included code on PATH/src/stack/phy/layer/LtePhyBase.cc on method LtePhyBase::handleUpperMessage (linha 130) lines 138~144
+
+Created methods getCAINOptions() (lines 76~78) and appendOption() (lines 69~74) on PATH/src/commom/LteControlInfo.cc and  .h lines 108 and 109
+
+Included std::string CAINoptions (line 38) on PATH/src/commom/LteControlInfo.h
+
+Included code on PATH/src/stack/mac/layer/LteMacEnb.cc lines 479~560
+
+Included  code on PATH/src/commom/LteControlInfo.msg lines 140 and 141

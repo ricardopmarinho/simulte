@@ -1013,6 +1013,8 @@ UserControlInfo_Base::UserControlInfo_Base() : ::LteControlInfo()
     this->txPower = 0;
     this->d2dTxPower = 0;
     this->totalGrantedBlocks = 0;
+    this->CAINDirection = 0;
+    this->CAINEnable = false;
 }
 
 UserControlInfo_Base::UserControlInfo_Base(const UserControlInfo_Base& other) : ::LteControlInfo(other)
@@ -1048,6 +1050,8 @@ void UserControlInfo_Base::copy(const UserControlInfo_Base& other)
     this->txPower = other.txPower;
     this->d2dTxPower = other.d2dTxPower;
     this->totalGrantedBlocks = other.totalGrantedBlocks;
+    this->CAINDirection = other.CAINDirection;
+    this->CAINEnable = other.CAINEnable;
 }
 
 void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
@@ -1067,6 +1071,8 @@ void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->txPower);
     doParsimPacking(b,this->d2dTxPower);
     doParsimPacking(b,this->totalGrantedBlocks);
+    doParsimPacking(b,this->CAINDirection);
+    doParsimPacking(b,this->CAINEnable);
 }
 
 void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -1086,6 +1092,8 @@ void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->txPower);
     doParsimUnpacking(b,this->d2dTxPower);
     doParsimUnpacking(b,this->totalGrantedBlocks);
+    doParsimUnpacking(b,this->CAINDirection);
+    doParsimUnpacking(b,this->CAINEnable);
 }
 
 unsigned char UserControlInfo_Base::getAcid() const
@@ -1228,6 +1236,26 @@ void UserControlInfo_Base::setTotalGrantedBlocks(unsigned int totalGrantedBlocks
     this->totalGrantedBlocks = totalGrantedBlocks;
 }
 
+unsigned short UserControlInfo_Base::getCAINDirection() const
+{
+    return this->CAINDirection;
+}
+
+void UserControlInfo_Base::setCAINDirection(unsigned short CAINDirection)
+{
+    this->CAINDirection = CAINDirection;
+}
+
+bool UserControlInfo_Base::getCAINEnable() const
+{
+    return this->CAINEnable;
+}
+
+void UserControlInfo_Base::setCAINEnable(bool CAINEnable)
+{
+    this->CAINEnable = CAINEnable;
+}
+
 class UserControlInfoDescriptor : public omnetpp::cClassDescriptor
 {
   private:
@@ -1293,7 +1321,7 @@ const char *UserControlInfoDescriptor::getProperty(const char *propertyname) con
 int UserControlInfoDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 14+basedesc->getFieldCount() : 14;
+    return basedesc ? 16+basedesc->getFieldCount() : 16;
 }
 
 unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
@@ -1319,8 +1347,10 @@ unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<14) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<16) ? fieldTypeFlags[field] : 0;
 }
 
 const char *UserControlInfoDescriptor::getFieldName(int field) const
@@ -1346,8 +1376,10 @@ const char *UserControlInfoDescriptor::getFieldName(int field) const
         "txPower",
         "d2dTxPower",
         "totalGrantedBlocks",
+        "CAINDirection",
+        "CAINEnable",
     };
-    return (field>=0 && field<14) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<16) ? fieldNames[field] : nullptr;
 }
 
 int UserControlInfoDescriptor::findField(const char *fieldName) const
@@ -1368,6 +1400,8 @@ int UserControlInfoDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='t' && strcmp(fieldName, "txPower")==0) return base+11;
     if (fieldName[0]=='d' && strcmp(fieldName, "d2dTxPower")==0) return base+12;
     if (fieldName[0]=='t' && strcmp(fieldName, "totalGrantedBlocks")==0) return base+13;
+    if (fieldName[0]=='C' && strcmp(fieldName, "CAINDirection")==0) return base+14;
+    if (fieldName[0]=='C' && strcmp(fieldName, "CAINEnable")==0) return base+15;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -1394,8 +1428,10 @@ const char *UserControlInfoDescriptor::getFieldTypeString(int field) const
         "double",
         "double",
         "unsigned int",
+        "unsigned short",
+        "bool",
     };
-    return (field>=0 && field<14) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<16) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **UserControlInfoDescriptor::getFieldPropertyNames(int field) const
@@ -1412,6 +1448,10 @@ const char **UserControlInfoDescriptor::getFieldPropertyNames(int field) const
             return names;
         }
         case 10: {
+            static const char *names[] = { "enum",  nullptr };
+            return names;
+        }
+        case 14: {
             static const char *names[] = { "enum",  nullptr };
             return names;
         }
@@ -1433,6 +1473,9 @@ const char *UserControlInfoDescriptor::getFieldProperty(int field, const char *p
             return nullptr;
         case 10:
             if (!strcmp(propertyname,"enum")) return "LtePhyFrameType";
+            return nullptr;
+        case 14:
+            if (!strcmp(propertyname,"enum")) return "CAINDirection";
             return nullptr;
         default: return nullptr;
     }
@@ -1476,6 +1519,8 @@ std::string UserControlInfoDescriptor::getFieldValueAsString(void *object, int f
         case 11: return double2string(pp->getTxPower());
         case 12: return double2string(pp->getD2dTxPower());
         case 13: return ulong2string(pp->getTotalGrantedBlocks());
+        case 14: return enum2string(pp->getCAINDirection(), "CAINDirection");
+        case 15: return bool2string(pp->getCAINEnable());
         default: return "";
     }
 }
@@ -1504,6 +1549,8 @@ bool UserControlInfoDescriptor::setFieldValueAsString(void *object, int field, i
         case 11: pp->setTxPower(string2double(value)); return true;
         case 12: pp->setD2dTxPower(string2double(value)); return true;
         case 13: pp->setTotalGrantedBlocks(string2ulong(value)); return true;
+        case 14: pp->setCAINDirection((CAINDirection)string2enum(value, "CAINDirection")); return true;
+        case 15: pp->setCAINEnable(string2bool(value)); return true;
         default: return false;
     }
 }

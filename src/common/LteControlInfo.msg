@@ -135,6 +135,11 @@ class UserControlInfo extends LteControlInfo {
     //#
     //# RemoteSet ru;                                // Remote Antenna Set
     //# RbMap grantedBlocks;                        // Blocks allocated per Remote, per Band.
+    
+     ///////////////////////////
+    unsigned short CAINDirection enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
+    bool CAINEnable = false;
+    /////////////////////////
 }
 
 class CAINControlInfo extends LteControlInfo{
