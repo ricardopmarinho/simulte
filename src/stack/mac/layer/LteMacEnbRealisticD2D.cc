@@ -212,6 +212,44 @@ void LteMacEnbRealisticD2D::sendGrants(LteMacScheduleList* scheduleList)
         uinfo->setDestId(nodeId);
         uinfo->setFrameType(GRANTPKT);
 
+        int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
+        std::vector<EnbInfo*>* vect = binder_->getEnbList();
+        for(unsigned int i=0;i< vect->size();i++){
+            if(1 == vect->at(i)->id){
+                EV << "FOI" << endl;
+                sinrMapW* WsMap = vect->operator [](i)->Wmap;
+                if(WsMap->size()>0){
+                    std::map<MacNodeId,double>::iterator it = WsMap->begin();
+                    MacNodeId dest = it->first;
+                    EV << "\nNode " << it->first << " with SINR " << it->second << " needs find a relay! \n";
+
+                    sinrMapB* BsMap = vect->operator [](i)->Bmap;
+                    it = BsMap->begin();
+                    MacNodeId relay = it->first;
+
+                    EV << "\nNode " << it->first << " with SINR " << it->second << " can be a relay! \n";
+                    EV << "=============== SETTING CAIN MESSAGE ===============\n";
+                    uinfo->setCAINEnable(true);
+                    uinfo->setCAINDirection(REL);
+
+                    std::ostringstream stream;
+                    stream << it->first << "/" << it->second;
+
+                    uinfo->appendOption(stream.str());
+
+                    stream.str("");
+                    stream.clear();
+                    stream << it->first << "/" << it->second;
+
+                    uinfo->appendOption(stream.str());
+                    uinfo->setDestId(dest);
+                    EV << "=============== END OF SETTINGS ===============\n";
+                }
+            }else{
+                EV << "different" << endl;
+            }
+        }
+
         grant->setControlInfo(uinfo);
 
         const UserTxParams& ui = getAmc()->computeTxParams(nodeId, dir);
