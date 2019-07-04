@@ -473,15 +473,13 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     uinfo->setSourceId(nodeId_);
     uinfo->setDirection(DL);
 
-    EV << "ACHEIII\n";
-
-    int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
     std::vector<EnbInfo*>* vect = binder_->getEnbList();
     for(unsigned int i=0;i< vect->size();i++){
         if(1 == vect->at(i)->id){
             EV << "FOI" << endl;
             sinrMapW* WsMap = vect->operator [](i)->Wmap;
-            if(WsMap->size()>0){
+            sinrMapB* BsMap = vect->operator [](i)->Bmap;
+            if(WsMap->size() > 0 && BsMap->size() > 0){
                 std::map<MacNodeId,double>::iterator it = WsMap->begin();
                 MacNodeId dest = it->first;
                 EV << "\nNode " << it->first << " with SINR " << it->second << " needs find a relay! \n";
@@ -508,8 +506,6 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 uinfo->setDestId(dest);
                 EV << "=============== END OF SETTINGS ===============\n";
             }
-        }else{
-            EV << "diferent" << endl;
         }
     }
 

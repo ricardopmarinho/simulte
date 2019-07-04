@@ -279,7 +279,6 @@ void LtePhyUe::doHandover()
 void LtePhyUe::handleAirFrame(cMessage* msg)
 {
     UserControlInfo* lteInfo = dynamic_cast<UserControlInfo*>(msg->removeControlInfo());
-
     if (useBattery_)
     {
         //TODO BatteryAccess::drawCurrent(rxAmount_, 0);

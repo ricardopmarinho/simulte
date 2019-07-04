@@ -66,6 +66,14 @@ void LtePhyUeD2D::handleAirFrame(cMessage* msg)
 {
     UserControlInfo* lteInfo = check_and_cast<UserControlInfo*>(msg->removeControlInfo());
 
+    EV << "uinfo frame type: " << lteInfo->getFrameType() << endl;
+
+    EV << "Message arriving with destination " << lteInfo->getDestId() << " from " << lteInfo->getSourceId() << endl;
+    if(lteInfo->getCAINEnable()){
+        EV<<"\nCAIN MESSAGE!!!!\n";
+        EV<<"Options: "<< lteInfo->getCAINOptions() << endl;
+    }
+
     if (useBattery_)
     {
         //TODO BatteryAccess::drawCurrent(rxAmount_, 0);

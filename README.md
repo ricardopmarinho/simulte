@@ -135,6 +135,22 @@ Created methods getCAINOptions() (lines 76~78) and appendOption() (lines 69~74) 
 
 Included std::string CAINoptions (line 38) on PATH/src/commom/LteControlInfo.h
 
-Included code on PATH/src/stack/mac/layer/LteMacEnb.cc lines 479~560
+Included code on PATH/src/stack/mac/layer/LteMacEnb.cc lines 476~510
 
 Included  code on PATH/src/commom/LteControlInfo.msg lines 140 and 141
+
+Included code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc lines 518~525
+
+========================== SO FAR ==========================
+When eNB sends a RACPKT to an UE, it checks if there is a UE with a poor sinr. If there is, eNB sends a CAIN message piggbacking the RACPKT (PATH/src/stack/mac/layer/LteMacEnb.cc lines 476~510)
+The UE receive this message and on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc lines 518~525 realizes the message is a CAIN one and checks if it is destine to it.
+
+========================== NEXT ============================
+
+When the UE receive a CAIN message destined to it, proccess it and forward the message to the correct destination
+
+========================== LAST UPDATE =====================
+
+07/04/2019 - July 4th
+
+

@@ -101,6 +101,7 @@ void LtePhyBase::handleMessage(cMessage* msg)
 void LtePhyBase::handleControlMsg(LteAirFrame *frame,
     UserControlInfo *userInfo)
 {
+    EV << "LtePhyBase::handleControlMsg" << endl;
     cPacket *pkt = frame->decapsulate();
     delete frame;
     pkt->setControlInfo(userInfo);
@@ -135,13 +136,6 @@ void LtePhyBase::handleUpperMessage(cMessage* msg)
         msg->removeControlInfo());
 
     LteAirFrame* frame = NULL;
-    EV << "uinfo frame type: " << lteInfo->getFrameType() << endl;
-
-    if(lteInfo->getCAINEnable()){
-        EV<<"\nCAIN MESSAGE!!!!\n";
-        EV<<"Options: "<< lteInfo->getCAINOptions() << endl;
-    }else
-        EV<<"\nRegular (not cain) message.\n";
 
     if (lteInfo->getFrameType() == HARQPKT
         || lteInfo->getFrameType() == GRANTPKT
