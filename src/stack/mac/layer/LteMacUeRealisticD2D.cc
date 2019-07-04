@@ -515,6 +515,15 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
 {
     LteRac* racPkt = check_and_cast<LteRac*>(pkt);
 
+    UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
+
+    EV << "Getting control info from node " << uinfo->getSourceId() << " to node " << uinfo->getDestId()<< endl;
+    if(uinfo->getCAINEnable())
+        EV << "CAIN message arriving" << endl;
+
+    if(uinfo->getDestId()==nodeId_)
+        EV << "This message is destined to me" << endl;
+
     if (racPkt->getSuccess())
     {
         EV << "LteMacUeRealisticD2D::macHandleRac - Ue " << nodeId_ << " won RAC" << endl;

@@ -917,55 +917,6 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             }
         }
 
-        //int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
-        //std::vector<EnbInfo*>* vect = binder_->getEnbList();
-        /*for(unsigned int i=0;i< vect->size();i++){
-            if(eNbId == vect->at(i)->id){
-                EV << "FOI" << endl;
-                sinrMap* sMap = vect->operator [](i)->map;
-                std::map<MacNodeId,double>::iterator it = sMap->begin();
-                EV << "MAP size=>" << sMap->size() << endl;
-                for(it; it!=sMap->end();++it){
-                    if(ueId == it->first){
-                        EV << "ACHEI, sinr=" << it->second << endl;
-                        if(it->second >= pwrThresh){
-                            EV << "sinr maior: sem problemas" << endl;
-                        }else{
-                            EV << "sinr menor: procurar relay!!" << endl;
-                            std::map<MacNodeId,double>::iterator it2 = sMap->begin();
-                            for(it2; it2!=sMap->end();++it2){
-                                if(eNbId != it2->first && it2->second >=pwrThresh){
-                                    EV << "Achei um candidato!\n ID=>" << it2->first <<
-                                            " - SINR=>"<< it2->second<<endl;
-
-                                    /*LteRac* racReq = new LteRac("RacRequest");
-                                    CAINControlInfo* cainInfo = new CAINControlInfo();
-                                    cainInfo->setSourceId(getMacNodeId());
-                                    cainInfo->setDestId(it2->first);
-                                    cainInfo->setDirection(UL);
-                                    cainInfo->setDirection(REL);
-                                    cainInfo->setFrameType(CAIN_INFOPKT);
-                                    racReq->setControlInfo(cainInfo);
-
-                                    sendLowerPackets(racReq);*/
-                                    /*CAINInfo* cainInfo = new CAINInfo();
-                                    cainInfo->setSourceId(getMacNodeId());
-                                    cainInfo->setDestId(it2->first);
-                                    cainInfo->setDirection(REL);
-                                    cainInfo->setFrameType(CAIN_INFOPKT);
-
-                                    LteRac* racReq = new LteRac("RacRequest");
-                                    racReq*/
-                               /* }
-                            }
-                        }
-                    }
-                }
-            }else{
-                EV << "diferente" << endl;
-            }
-        }*/
-
         snrVector.push_back(finalRecvPower);
     }
     //============ END PATH LOSS + SHADOWING + FADING ===============
