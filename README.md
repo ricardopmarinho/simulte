@@ -141,6 +141,8 @@ Included  code on PATH/src/commom/LteControlInfo.msg lines 140 and 141
 
 Included code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc lines 518~525
 
+Added two methos od PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc and .h (handleCainMsg -line 567 .cc and  line 69 .h, getRelay - line 598 .cc line 74 .h)
+
 ========================== SO FAR ==========================
 When eNB sends a RACPKT to an UE, it checks if there is a UE with a poor sinr. If there is, eNB sends a CAIN message piggbacking the RACPKT (PATH/src/stack/mac/layer/LteMacEnb.cc lines 476~510)
 The UE receive this message and on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc lines 518~525 realizes the message is a CAIN one and checks if it is destine to it.
@@ -149,8 +151,10 @@ The UE receive this message and on PATH/src/stack/mac/layer/LteMacUeRealisticD2D
 
 When the UE receive a CAIN message destined to it, proccess it and forward the message to the correct destination
 
+Create LteAirFrame, encapsulate it on a Packet msg to set ControlInfo to it and send the new CAIN message after processing it - PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc handleCainMsg (line 567)
+
 ========================== LAST UPDATE =====================
 
-07/04/2019 - July 4th
+07/04/2019 - July 10th
 
 

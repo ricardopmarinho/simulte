@@ -63,6 +63,16 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
      */
     virtual void macHandleRac(cPacket* pkt);
 
+    /*
+     * Handles CAIN message on UE
+     * */
+    virtual void handleCainMsg(cPacket* pkt);
+
+    /*
+     * Returns the chosen relay for the message
+     * */
+    virtual MacNodeId getRelay(std::vector<std::string> relayVect);
+
     void macHandleD2DModeSwitch(cPacket* pkt);
 
     virtual LteMacPdu* makeBsr(int size);
