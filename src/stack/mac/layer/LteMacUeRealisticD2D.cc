@@ -521,8 +521,10 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
     if(uinfo->getCAINEnable())
         EV << "CAIN message arriving" << endl;
 
-    if(uinfo->getDestId()==nodeId_)
+    if(uinfo->getDestId()==nodeId_){
         EV << "This message is destined to me" << endl;
+        handleCainMsg(pkt);
+    }
 
     if (racPkt->getSuccess())
     {
@@ -561,6 +563,63 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
     delete racPkt;
 }
 
+
+void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
+
+    UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
+    std::string cainOpt = uinfo->getCAINOptions();
+
+    if(uinfo->getCAINDirection()==NOTIFY){
+        std::vector<std::string> relays;
+        std::string token;
+        std::istringstream tokenStream(cainOpt);
+        while (std::getline(tokenStream, token, ';'))
+        {
+            relays.push_back(token);
+        }
+
+        EV << "Available relays: " << endl;
+
+        for(int i=0;i<relays.size();i++){
+            EV << relays[i] << " " << endl;
+        }
+
+        MacNodeId relay = getRelay(relays);
+        EV << "The best relay available is: " << relay << endl;
+
+        uinfo->setDestId(relay);
+        uinfo->setCAINDirection(REL);
+        uinfo->setCAINEnable(true);
+
+        //sendLowerPackets(pkt);
+    }
+}
+
+MacNodeId LteMacUeRealisticD2D::getRelay(std::vector<std::string> relayVect){
+    std::vector<std::string> relays;
+    MacNodeId relay;
+    int metric;
+
+    for(int i = 0; i<relayVect.size(); i++){
+        std::string token;
+        std::istringstream tokenStream(relayVect[i]);
+        while (std::getline(tokenStream, token, '/'))
+        {
+            relays.push_back(token);
+        }
+        //first iteration -> better relay so far
+        if (i==0){
+            relay = stoi(relays[0]);
+            metric = stoi(relays[1]);
+        }else{
+            if(metric > stoi(relays[1])){
+                relay = stoi(relays[0]);
+                metric = stoi(relays[1]);
+            }
+        }
+    }
+    return relay;
+}
 
 void LteMacUeRealisticD2D::handleSelfMessage()
 {

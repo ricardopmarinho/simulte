@@ -79,6 +79,7 @@ class LteMacUeD2D : public LteMacUe
      */
     virtual void macHandleRac(cPacket* pkt);
 
+
     void macHandleD2DModeSwitch(cPacket* pkt);
 
   public:

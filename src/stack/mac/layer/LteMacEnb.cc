@@ -491,7 +491,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "\nNode " << it->first << " with SINR " << it->second << " can be a relay! \n";
                 EV << "=============== SETTING CAIN MESSAGE ===============\n";
                 uinfo->setCAINEnable(true);
-                uinfo->setCAINDirection(REL);
+                uinfo->setCAINDirection(NOTIFY);
 
                 std::ostringstream stream;
                 stream << it->first << "/" << it->second;
@@ -500,9 +500,9 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
                 stream.str("");
                 stream.clear();
-                stream << it->first << "/" << it->second;
+                /*stream << it->first << "/" << it->second;
 
-                uinfo->appendOption(stream.str());
+                uinfo->appendOption(stream.str());*/
                 uinfo->setDestId(dest);
                 EV << "=============== END OF SETTINGS ===============\n";
             }
