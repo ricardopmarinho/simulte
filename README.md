@@ -153,8 +153,10 @@ When the UE receive a CAIN message destined to it, proccess it and forward the m
 
 Create LteAirFrame, encapsulate it on a Packet msg to set ControlInfo to it and send the new CAIN message after processing it - PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc handleCainMsg (line 567)
 
+SegFault when sending the message on the abovementioned method
+
 ========================== LAST UPDATE =====================
 
-07/04/2019 - July 10th
+07/04/2019 - July 11th
 
 

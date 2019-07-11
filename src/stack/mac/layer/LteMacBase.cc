@@ -62,6 +62,25 @@ void LteMacBase::sendLowerPackets(cPacket* pkt)
 {
     EV << "LteMacBase : Sending packet " << pkt->getName() << " on port MAC_to_PHY\n";
 
+    UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
+    if(uinfo->getCAINEnable()){
+        EV << "CAIN message arriving: " << endl;
+        switch(uinfo->getCAINDirection()){
+        case NOTIFY:
+            EV << "NOTIFY ";
+            break;
+        case REL:
+            EV << "REL ";
+            break;
+        case REP:
+            EV << "REP ";
+            break;
+        default:
+            EV << "Not defined ";
+            break;
+        }
+        EV << "message" << endl;
+    }
     EV << "LteMacBase.cc::sendLowerPackets" << endl;
     // Send message
     updateUserTxParam(pkt);

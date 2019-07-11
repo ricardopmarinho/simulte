@@ -518,14 +518,19 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
 
     EV << "Getting control info from node " << uinfo->getSourceId() << " to node " << uinfo->getDestId()<< endl;
-    if(uinfo->getCAINEnable())
+    if(uinfo->getCAINEnable()){
         EV << "CAIN message arriving" << endl;
 
-    if(uinfo->getDestId()==nodeId_){
-        EV << "This message is destined to me" << endl;
-        handleCainMsg(pkt);
-    }
+        if(uinfo->getDestId()==nodeId_){
+            EV << "This message is destined to me" << endl;
+            cPacket* pack = pkt->dup();
+            pack->encapsulate(pkt->decapsulate());
+            pack->setControlInfo(pkt->getControlInfo());
+            handleCainMsg(pack);
+            //delete pack;
+        }
 
+    }else{
     if (racPkt->getSuccess())
     {
         EV << "LteMacUeRealisticD2D::macHandleRac - Ue " << nodeId_ << " won RAC" << endl;
@@ -560,6 +565,7 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
             EV << NOW << " Ue " << nodeId_ << " RAC attempt failed, backoff extracted : " << racBackoffTimer_ << endl;
         }
     }
+    }
     delete racPkt;
 }
 
@@ -591,7 +597,11 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
         uinfo->setCAINDirection(REL);
         uinfo->setCAINEnable(true);
 
-        //sendLowerPackets(pkt);
+        /*cPacket* pack = pkt->dup();
+        pack->setControlInfo(uinfo);*/
+
+        //endSimulation();
+        sendLowerPackets(pkt);
     }
 }
 
