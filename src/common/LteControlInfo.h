@@ -104,9 +104,14 @@ class UserControlInfo : public UserControlInfo_Base
     FeedbackRequest feedbackReq;
     void setCoord(const Coord& coord);
     Coord getCoord() const;
-    //////////////////////////
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     void appendOption(std::string newOpt);
+    void setOption(std::string newOpt);
     std::string getCAINOptions();
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 };
 
 Register_Class(UserControlInfo);
