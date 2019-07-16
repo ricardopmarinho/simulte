@@ -91,7 +91,7 @@ Adding CAIN network to simulte project
 
 DO NOT copy this project yet. I'm still implementing it and it's just begining.
 
-PATH: MY_USER/omnetpp-5.0/samples/simulte
+ATH: MY_USER/omnetpp-5.0/samples/simulte
 
 
 CAIN changes:
@@ -131,7 +131,7 @@ Included method handleCainInfoPkt on PATH/src/stack/phy/layer/LtePhyEnb.h and .c
 
 Included code on PATH/src/stack/phy/layer/LtePhyBase.cc on method LtePhyBase::handleUpperMessage (linha 130) lines 138~144
 
-Created methods getCAINOptions() (lines 76~78) and appendOption() (lines 69~74) on PATH/src/commom/LteControlInfo.cc and  .h lines 108 and 109
+Created methods getCAINOptions() (lines 76~78), appendOption() (lines 69~74) and setOption() (lines 80~82) on PATH/src/commom/LteControlInfo.cc and  .h lines 109~113
 
 Included std::string CAINoptions (line 38) on PATH/src/commom/LteControlInfo.h
 
@@ -149,14 +149,12 @@ The UE receive this message and on PATH/src/stack/mac/layer/LteMacUeRealisticD2D
 
 ========================== NEXT ============================
 
-When the UE receive a CAIN message destined to it, proccess it and forward the message to the correct destination
+When REL node receive the CAIN message, check if it can be a relay (PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc line 611);
 
-Create LteAirFrame, encapsulate it on a Packet msg to set ControlInfo to it and send the new CAIN message after processing it - PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc handleCainMsg (line 567)
-
-SegFault when sending the message on the abovementioned method
+When the sender node receive the OK message, send a message to the relay (PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc line 625)
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - July 11th
+07/04/2019 - July 16th
 
 

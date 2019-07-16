@@ -269,6 +269,26 @@ void LtePhyUeD2D::handleUpperMessage(cMessage* msg)
     }
     lastActive_ = NOW;
 
+    if(lteInfo->getCAINEnable()){
+        EV << "CAIN message from " << lteInfo->getSourceId() << " to destination " << lteInfo->getDestId() << endl;
+        EV << "CAIN message arriving: " << endl;
+        switch(lteInfo->getCAINDirection()){
+        case NOTIFY:
+            EV << "NOTIFY ";
+            break;
+        case REL:
+            EV << "REL ";
+            break;
+        case REP:
+            EV << "REP ";
+            break;
+        default:
+            EV << "Not defined ";
+            break;
+        }
+        EV << "message" << endl;
+    }
+
     EV << NOW << " LtePhyUeD2D::handleUpperMessage - message from stack" << endl;
     LteAirFrame* frame = NULL;
 

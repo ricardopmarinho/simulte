@@ -77,6 +77,10 @@ std::string UserControlInfo::getCAINOptions(){
     return this->CAINoptions;
 }
 
+void UserControlInfo::setOption(std::string newOpt){
+    this->CAINoptions=newOpt;
+}
+
 CAINControlInfo::~CAINControlInfo()
 {
     if (userTxParams != NULL)

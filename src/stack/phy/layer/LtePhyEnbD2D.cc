@@ -149,45 +149,10 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
 
     EV << "Device "<< lteInfo->getSourceId() << " sending the message to " << lteInfo->getDestId() << endl;
 
-
-    /*int pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
-    std::vector<EnbInfo*>* vect = binder_->getEnbList();
-    for(unsigned int i=0;i< vect->size();i++){
-        if(1 == vect->at(i)->id){
-            EV << "FOI" << endl;
-            sinrMap* sMap = vect->operator [](i)->map;
-            std::map<MacNodeId,double>::iterator it = sMap->begin();
-            EV << "MAP size=>" << sMap->size() << endl;
-            for(it; it!=sMap->end();++it){
-                if(lteInfo->getSourceId() == it->first){
-                    EV << "FOUND, this device is sending the message: sinr=" << it->second << endl;
-                    if(it->second >= pwrThresh){
-                        EV << "sinr maior: sem problemas" << endl;
-                    }else{
-                        EV << "sinr menor: procurar relay!!" << endl;
-                        std::map<MacNodeId,double>::iterator it2 = sMap->begin();
-                        for(it2; it2!=sMap->end();++it2){
-                            if(1 != it2->first && it2->second >=pwrThresh){
-                                EV << "Achei um candidato!\n ID=>" << it2->first <<
-                                        " - SINR=>"<< it2->second<<endl;
-
-
-                                lteInfo->setFrameType(CAIN_INFOPKT);
-                                //if(handleControlPkt(lteInfo,frame))
-
-                                find_relay=true;
-                            }
-                        }
-                    }
-                }
-            }
-        }else{
-            EV << "diferente" << endl;
-        }
+    if(lteInfo->getCAINEnable()){
+        EV << "CAIN message!"<< endl;
     }
-*/
-    /*if (lteInfo->getFrameType() == CAIN_INFOPKT)
-            EV << "CAIN_INFOPKT" << endl;*/
+
     EV << "LtePhyEnbD2D::handleAirFrame - received new LteAirFrame with ID " << frame->getId() << " from channel" << endl;
 
 

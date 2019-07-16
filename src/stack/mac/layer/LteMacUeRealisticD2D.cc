@@ -523,11 +523,7 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
 
         if(uinfo->getDestId()==nodeId_){
             EV << "This message is destined to me" << endl;
-            cPacket* pack = pkt->dup();
-            pack->encapsulate(pkt->decapsulate());
-            pack->setControlInfo(pkt->getControlInfo());
-            handleCainMsg(pack);
-            //delete pack;
+            handleCainMsg(pkt);
         }
 
     }else{
@@ -565,43 +561,77 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
             EV << NOW << " Ue " << nodeId_ << " RAC attempt failed, backoff extracted : " << racBackoffTimer_ << endl;
         }
     }
-    }
     delete racPkt;
+    }
 }
 
 
 void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
 
+    EV << "LteMacUeRealisticD2D::handleCainMsg" << endl;
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
     std::string cainOpt = uinfo->getCAINOptions();
 
-    if(uinfo->getCAINDirection()==NOTIFY){
-        std::vector<std::string> relays;
-        std::string token;
-        std::istringstream tokenStream(cainOpt);
-        while (std::getline(tokenStream, token, ';'))
+    switch(uinfo->getCAINDirection()){
+        case NOTIFY:
         {
-            relays.push_back(token);
+            cPacket* pack = pkt->dup();
+            pack->encapsulate(pkt->decapsulate());
+            pack->setControlInfo(uinfo);
+            EV << "Receiving a NOTIFY message to node "<< uinfo->getDestId() << endl;
+            std::vector<std::string> relays;
+            std::string token;
+            std::istringstream tokenStream(cainOpt);
+            while (std::getline(tokenStream, token, ';'))
+            {
+                relays.push_back(token);
+            }
+
+            EV << "Available relays: " << endl;
+
+            for(int i=0;i<relays.size();i++){
+                EV << relays[i] << " " << endl;
+            }
+
+            MacNodeId relay = getRelay(relays);
+            EV << "The best relay available is: " << relay << endl;
+
+            uinfo->setDestId(relay);
+            uinfo->setSourceId(nodeId_);
+            uinfo->setCAINDirection(REL);
+            uinfo->setCAINEnable(true);
+
+            /*cPacket* pack = pkt->dup();
+            pack->setControlInfo(uinfo);*/
+
+            //endSimulation();
+            sendLowerPackets(pack);
+            break;
         }
-
-        EV << "Available relays: " << endl;
-
-        for(int i=0;i<relays.size();i++){
-            EV << relays[i] << " " << endl;
+        case REL:
+        {
+            EV << "Receiving a REL message to node "<< uinfo->getDestId() << endl;
+            if(uinfo->getDestId()==nodeId_){
+                MacNodeId dest = uinfo->getSourceId();
+                uinfo->setDestId(dest);
+                uinfo->setSourceId(nodeId_);
+                uinfo->setCAINDirection(REP);
+                uinfo->setOption("OK");
+                uinfo->setCAINEnable(true);
+                sendLowerPackets(pkt);
+            }
+            break;
         }
-
-        MacNodeId relay = getRelay(relays);
-        EV << "The best relay available is: " << relay << endl;
-
-        uinfo->setDestId(relay);
-        uinfo->setCAINDirection(REL);
-        uinfo->setCAINEnable(true);
-
-        /*cPacket* pack = pkt->dup();
-        pack->setControlInfo(uinfo);*/
-
-        //endSimulation();
-        sendLowerPackets(pkt);
+        case REP:
+            EV << "Receiving a REP message to node "<< uinfo->getDestId() << endl;
+            if(uinfo->getDestId()==nodeId_){
+                EV << "The response to relay request to node " << uinfo->getSourceId() << " is " << uinfo->getCAINOptions() << endl;
+                endSimulation();
+            }
+            break;
+        default:
+            EV << "Unknow CAIN message" << endl;
+            break;
     }
 }
 
