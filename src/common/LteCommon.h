@@ -121,9 +121,10 @@ enum Direction
  */
 enum CAINDirection
 {
+    NOTIFY,
     REL,
     REP,
-    NOTIFY
+    FWD
 };
 
 /// Modulations

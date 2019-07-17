@@ -73,6 +73,11 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
      * */
     virtual MacNodeId getRelay(std::vector<std::string> relayVect);
 
+    /*
+     * Returns the node that needs a relay
+     * */
+    virtual MacNodeId getNode(std::string nodeSinr);
+
     void macHandleD2DModeSwitch(cPacket* pkt);
 
     virtual LteMacPdu* makeBsr(int size);

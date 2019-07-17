@@ -572,6 +572,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
     std::string cainOpt = uinfo->getCAINOptions();
 
+    EV << "CAIN message from id: " << uinfo->getSourceId() << ", to id: " << uinfo->getDestId() << endl;
+
     switch(uinfo->getCAINDirection()){
         case NOTIFY:
         {
@@ -579,33 +581,27 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             pack->encapsulate(pkt->decapsulate());
             pack->setControlInfo(uinfo);
             EV << "Receiving a NOTIFY message to node "<< uinfo->getDestId() << endl;
-            std::vector<std::string> relays;
-            std::string token;
-            std::istringstream tokenStream(cainOpt);
-            while (std::getline(tokenStream, token, ';'))
-            {
-                relays.push_back(token);
-            }
 
-            EV << "Available relays: " << endl;
+
+           /* EV << "Available relays: " << endl;
 
             for(int i=0;i<relays.size();i++){
                 EV << relays[i] << " " << endl;
-            }
+            }*/
 
-            MacNodeId relay = getRelay(relays);
-            EV << "The best relay available is: " << relay << endl;
+            //MacNodeId relay = getRelay(relays);
+            MacNodeId node = getNode(cainOpt);
+            EV << "The node that needs a relay is: " << node << endl;
 
-            uinfo->setDestId(relay);
+            EV<<endl << "The eNB id is " << uinfo->getENBId() << endl;
+
+            uinfo->setDestId(node);
             uinfo->setSourceId(nodeId_);
             uinfo->setCAINDirection(REL);
             uinfo->setCAINEnable(true);
-
-            /*cPacket* pack = pkt->dup();
-            pack->setControlInfo(uinfo);*/
-
-            //endSimulation();
+            uinfo->setCAINOption("OK");
             sendLowerPackets(pack);
+
             break;
         }
         case REL:
@@ -616,7 +612,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                 uinfo->setDestId(dest);
                 uinfo->setSourceId(nodeId_);
                 uinfo->setCAINDirection(REP);
-                uinfo->setOption("OK");
+                uinfo->setCAINOption("message");
                 uinfo->setCAINEnable(true);
                 sendLowerPackets(pkt);
             }
@@ -626,7 +622,12 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             EV << "Receiving a REP message to node "<< uinfo->getDestId() << endl;
             if(uinfo->getDestId()==nodeId_){
                 EV << "The response to relay request to node " << uinfo->getSourceId() << " is " << uinfo->getCAINOptions() << endl;
-                endSimulation();
+                uinfo->setDestId(uinfo->getENBId());
+                uinfo->setSourceId(nodeId_);
+                uinfo->setCAINDirection(FWD);
+                uinfo->setCAINOption("message");
+                uinfo->setCAINEnable(true);
+                sendLowerPackets(pkt);
             }
             break;
         default:
@@ -659,6 +660,55 @@ MacNodeId LteMacUeRealisticD2D::getRelay(std::vector<std::string> relayVect){
         }
     }
     return relay;
+}
+
+MacNodeId LteMacUeRealisticD2D::getNode(std::string nodeSinr){
+
+    int i;
+
+    /*
+     * nodeSinr division:
+     * -----------------------------------------
+     * |nodeId/SINR;nodeId/SINR;nodeId/SINR;...|
+     * -----------------------------------------
+     * */
+    std::vector<std::string> nodes;
+    /*
+     * nodes division:
+     * -----------------------------------------
+     * |nodeId/SINR|nodeId/SINR|nodeId/SINR|...|
+     * -----------------------------------------
+     * */
+    MacNodeId node;
+    int metric;
+    std::string token;
+    std::istringstream tokenStream(nodeSinr);
+    while (std::getline(tokenStream, token, ';'))
+    {
+        nodes.push_back(token);
+    }
+    std::vector<std::string> dest;
+    /*
+     * dest division:
+     * -----------------------------------------
+     * |nodeId|SINR|nodeId|SINR|nodeId|SINR|...|
+     * -----------------------------------------
+     * */
+    for(i = 0; i<nodes.size(); i++){
+        std::istringstream tokenStream(nodes[i]);
+        while (std::getline(tokenStream, token, '/'))
+        {
+            dest.push_back(token);
+        }
+    }
+    /*
+     * will check (for now) node and sinr, therefore i+=2
+     * */
+    for(i=0;i<dest.size();i+=2){
+        node=stoi(dest[i]);
+        metric=stoi(dest[i+1]);
+    }
+    return node;
 }
 
 void LteMacUeRealisticD2D::handleSelfMessage()

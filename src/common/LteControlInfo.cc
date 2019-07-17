@@ -73,12 +73,13 @@ void UserControlInfo::appendOption(std::string newOpt){
         this->CAINoptions.append(";"+newOpt);
 }
 
-std::string UserControlInfo::getCAINOptions(){
-    return this->CAINoptions;
+
+void UserControlInfo::setCAINOption(std::string newOpt){
+    this->CAINoptions=newOpt;
 }
 
-void UserControlInfo::setOption(std::string newOpt){
-    this->CAINoptions=newOpt;
+std::string UserControlInfo::getCAINOptions(){
+    return this->CAINoptions;
 }
 
 CAINControlInfo::~CAINControlInfo()
