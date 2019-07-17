@@ -480,35 +480,39 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
             sinrMapW* WsMap = vect->operator [](i)->Wmap;
             sinrMapB* BsMap = vect->operator [](i)->Bmap;
             if(WsMap->size() > 0 && BsMap->size() > 0){
+                EV << "=============== SETTING CAIN MESSAGE ===============\n";
                 std::map<MacNodeId,double>::iterator it = WsMap->begin();
-                MacNodeId dest = it->first;
+                MacNodeId node = it->first;
                 EV << "\nNode " << it->first << " with SINR " << it->second << " needs find a relay! \n";
+                /*
+                 * setting options field with the id of the node that needs a relay
+                 * and it's sinr
+                 * */
+                std::ostringstream stream;
+                stream << node << "/" << it->second;
+                uinfo->appendOption(stream.str());
+                stream.str("");
+                stream.clear();
+
+                /*
+                 * end of options setting
+                 * */
 
                 sinrMapB* BsMap = vect->operator [](i)->Bmap;
                 it = BsMap->begin();
                 MacNodeId relay = it->first;
-
                 EV << "\nNode " << it->first << " with SINR " << it->second << " can be a relay! \n";
-                EV << "=============== SETTING CAIN MESSAGE ===============\n";
                 uinfo->setCAINEnable(true);
                 uinfo->setCAINDirection(NOTIFY);
-
-                std::ostringstream stream;
-                stream << it->first << "/" << it->second;
-
-                uinfo->appendOption(stream.str());
-
-                stream.str("");
-                stream.clear();
-                /*stream << it->first << "/" << it->second;
-
-                uinfo->appendOption(stream.str());*/
-                uinfo->setDestId(dest);
+                uinfo->setDestId(relay);
+                uinfo->setENBId(nodeId_);
                 EV << "=============== END OF SETTINGS ===============\n";
             }
         }
     }
 
+    double freq = getModuleByPath("CAIN.channelControl")->par("carrierFrequency");
+    EV << "Carrier frequency: " << freq << "Hz" << endl;
 
 
     sendLowerPackets(racPkt);

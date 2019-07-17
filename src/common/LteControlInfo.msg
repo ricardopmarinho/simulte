@@ -139,6 +139,7 @@ class UserControlInfo extends LteControlInfo {
      ///////////////////////////
     unsigned short CAINDirection enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
     bool CAINEnable = false;
+    uint16 eNBId;
     /////////////////////////
 }
 

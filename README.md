@@ -91,7 +91,7 @@ Adding CAIN network to simulte project
 
 DO NOT copy this project yet. I'm still implementing it and it's just begining.
 
-ATH: MY_USER/omnetpp-5.0/samples/simulte
+PATH: MY_USER/omnetpp-5.0/samples/simulte
 
 
 CAIN changes:
@@ -121,7 +121,7 @@ Included code on PATH/src/stack/mac/layer/LteMacEnb.cc::macHandleRac(line 456)=>
 
 Included a new LtEPhyFrameType on line 463 from PATH/src/common/LteCommon.h=>CAIN_INFOPKT
 
-Created a new enum type=>CAINDirection (REL, REP and NOTIFY) on PATH/src/common/LteCommon.h lines 121 to 125
+Created a new enum type=>CAINDirection (REL, REP, NOTIFY and FWD) on PATH/src/common/LteCommon.h lines 121 to 125
 
 Included parameter "pwrThresh" on PATH/simulations/networks/CAIN.ned=>line 35
 
@@ -141,17 +141,23 @@ Included  code on PATH/src/commom/LteControlInfo.msg lines 140 and 141
 
 Included code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc lines 518~525
 
-Added two methos od PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc and .h (handleCainMsg -line 567 .cc and  line 69 .h, getRelay - line 598 .cc line 74 .h)
+Added two methos od PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc and .h (handleCainMsg -line 567 .cc and  line 69 .h, getRelay - line 598 .cc line 74 .h getNode line 665 .cc line 79 .h)
+
+Added code on PATH/src/stack/mac/layer/LteMacBase.cc lines 90~93 and 162
+
+
+========================== CAIN msg =========================
+---------------------------------------------
+|Source|Destination|eNB ID|Direction|Options|
+---------------------------------------------
+
 
 ========================== SO FAR ==========================
-When eNB sends a RACPKT to an UE, it checks if there is a UE with a poor sinr. If there is, eNB sends a CAIN message piggbacking the RACPKT (PATH/src/stack/mac/layer/LteMacEnb.cc lines 476~510)
-The UE receive this message and on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc lines 518~525 realizes the message is a CAIN one and checks if it is destine to it.
+eNB is receiving the message 
 
 ========================== NEXT ============================
 
-When REL node receive the CAIN message, check if it can be a relay (PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc line 611);
-
-When the sender node receive the OK message, send a message to the relay (PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc line 625)
+create the statistics when eNB receive the message (PATH/src/stack/mac/layer/LteMacBase.cc lines 90~93)
 
 ========================== LAST UPDATE =====================
 
