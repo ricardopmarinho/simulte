@@ -133,7 +133,10 @@ simple LteMacBase like LteMac {
         //# signals for indicating buffer overflow
         @signal[macBufferOverflowUl];
         @signal[macBufferOverflowDl];
-
+        
+        ///////////////////////////
+        @signal[CainMessage](type=long);
+        @statistic[CainMessage](title="eNB received CAIN message";record=vector,count;interpolationmode=none);
     gates:
         //# 
         //# Gates connecting RLC and MAC Layers

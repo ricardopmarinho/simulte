@@ -95,6 +95,8 @@ PATH: MY_USER/omnetpp-5.0/samples/simulte
 
 
 CAIN changes:
+pwrThresh definition on PATH/simulations/networks/CAIN.ned - line 35
+
 Network definition file CAIN.ned on PATH/simulations/networks
 
 CAIN node CAIN_UE.ned on PATH/src/corenetwork/nodes
@@ -145,6 +147,7 @@ Added two methos od PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc and .h (han
 
 Added code on PATH/src/stack/mac/layer/LteMacBase.cc lines 90~93 and 162
 
+Added cainMessage signal on PATH/src/stack/mac/LteMac.ned (lines 138 and 139), PATH/src/stack/mac/layer/LteMacEnb.cc and .h (lines 468~471 and lines 61~64)
 
 ========================== CAIN msg =========================
 ---------------------------------------------
@@ -153,14 +156,15 @@ Added code on PATH/src/stack/mac/layer/LteMacBase.cc lines 90~93 and 162
 
 
 ========================== SO FAR ==========================
-eNB is receiving the message 
+
+statistics are being collected on eNB
 
 ========================== NEXT ============================
 
-create the statistics when eNB receive the message (PATH/src/stack/mac/layer/LteMacBase.cc lines 90~93)
+modify nodes position to sinr become lower than threshold (PATH/simulations/networks/CAIN.ned)
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - July 16th
+07/04/2019 - July 23th
 
 

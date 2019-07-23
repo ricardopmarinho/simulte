@@ -32,9 +32,10 @@ network CAIN
         int numUeD2DTx = default(0);
         int numUeD2DRx = default(0);
         //////////////////////////////////
-        int pwrThresh = default(-40);
+        int pwrThresh = default(13);
         //////////////////////////////////
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
+        
     submodules:
         channelControl: LteChannelControl {
             @display("p=50,25;is=s");
