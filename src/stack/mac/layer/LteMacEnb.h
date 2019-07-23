@@ -58,6 +58,11 @@ class LteMacEnb : public LteMacBase
     simsignal_t cqiDlSiso4_;
     TaggedSample* tSample_;
 
+    //////////////////
+    simsignal_t cainMessageSignal;
+    long CainMessage = 0;
+    //////////////////
+
     /**
      * Variable used for Downlink energy consumption computation
      */

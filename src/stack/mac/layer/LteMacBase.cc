@@ -87,9 +87,10 @@ void LteMacBase::fromPhy(cPacket *pkt)
     UserControlInfo *userInfo = check_and_cast<UserControlInfo *>(pkt->getControlInfo());
     MacNodeId src = userInfo->getSourceId();
 
+
     if(userInfo->getCAINEnable() && userInfo->getCAINDirection()==FWD){
         EV << "Receiving relay message: " << userInfo->getCAINOptions() << ", from relay: " << userInfo->getSourceId() << endl;
-        endSimulation();
+        macHandleRac(pkt);
     }else{
 
         if (userInfo->getFrameType() == HARQPKT)
@@ -311,6 +312,9 @@ void LteMacBase::initialize(int stage)
 {
     if (stage == inet::INITSTAGE_LOCAL)
     {
+
+        cainMessageSignal = registerSignal("CainMessage");
+
         /* Gates initialization */
         up_[IN] = gate("RLC_to_MAC");
         up_[OUT] = gate("MAC_to_RLC");

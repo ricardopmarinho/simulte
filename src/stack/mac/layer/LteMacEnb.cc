@@ -464,6 +464,11 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*> (
         racPkt->getControlInfo());
 
+
+    if(uinfo->getCAINEnable() && uinfo->getCAINDirection()==FWD){
+        CainMessage++;
+        emit(cainMessageSignal,CainMessage);
+    }
     enbSchedulerUl_->signalRac(uinfo->getSourceId());
 
     // TODO all RACs are marked are successful
@@ -479,8 +484,11 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
             EV << "FOI" << endl;
             sinrMapW* WsMap = vect->operator [](i)->Wmap;
             sinrMapB* BsMap = vect->operator [](i)->Bmap;
+            std::ostringstream stream;
             if(WsMap->size() > 0 && BsMap->size() > 0){
                 EV << "=============== SETTING CAIN MESSAGE ===============\n";
+                //reset any previous option
+                uinfo->setCAINOption("");
                 std::map<MacNodeId,double>::iterator it = WsMap->begin();
                 MacNodeId node = it->first;
                 EV << "\nNode " << it->first << " with SINR " << it->second << " needs find a relay! \n";
@@ -488,7 +496,6 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                  * setting options field with the id of the node that needs a relay
                  * and it's sinr
                  * */
-                std::ostringstream stream;
                 stream << node << "/" << it->second;
                 uinfo->appendOption(stream.str());
                 stream.str("");
