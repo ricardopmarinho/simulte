@@ -313,7 +313,6 @@ void LteMacBase::initialize(int stage)
     if (stage == inet::INITSTAGE_LOCAL)
     {
 
-        cainMessageSignal = registerSignal("CainMessage");
 
         /* Gates initialization */
         up_[IN] = gate("RLC_to_MAC");
