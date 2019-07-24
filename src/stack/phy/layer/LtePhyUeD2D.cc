@@ -72,6 +72,8 @@ void LtePhyUeD2D::handleAirFrame(cMessage* msg)
     if(lteInfo->getCAINEnable()){
         EV<<"\nCAIN MESSAGE!!!!\n";
         EV<<"Options: "<< lteInfo->getCAINOptions() << endl;
+        double tx = getModuleByPath("CAIN.eNodeB")->par("txPower");
+        EV << "txPower="<< tx << endl;
     }
 
     if (useBattery_)

@@ -889,6 +889,31 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
            << " speed " << speed << " thermal noise " << thermalNoise_
            << " fading attenuation " << fadingAttenuation << endl;
 
+        std::vector<EnbInfo*>* vect = binder_->getEnbList();
+        int pwrThresh = 0;
+        sinrMapB* BsMap = NULL;
+        sinrMapW* WsMap = NULL;
+
+        for(unsigned int j = 0; j < vect->size();j++){
+            if(eNbId == vect->at(j)->id){
+                pwrThresh = vect->operator [](j)->pwrThresh;
+                BsMap = vect->operator [](j)->Bmap;
+                WsMap = vect->operator [](j)->Wmap;
+                if(recvPower >= pwrThresh){
+                    /*
+                     * If a previous record from a node is recorded on the
+                     * other map, we must erase it to keep the integrity
+                     * */
+                    if(WsMap->count(ueId)==1)
+                        WsMap->erase(ueId);
+                    BsMap->operator [](ueId)=recvPower;
+                }else{
+                    if(BsMap->count(ueId)==1)
+                        BsMap->erase(ueId);
+                    WsMap->operator [](ueId)=recvPower;
+                }
+            }
+        }
 
         snrVector.push_back(finalRecvPower);
     }
@@ -946,32 +971,6 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
 
             // compute final SINR
             snrVector[i] -= den;
-
-            std::vector<EnbInfo*>* vect = binder_->getEnbList();
-            int pwrThresh = 0;
-            sinrMapB* BsMap = NULL;
-            sinrMapW* WsMap = NULL;
-
-            for(unsigned int j = 0; j < vect->size();j++){
-                if(eNbId == vect->at(j)->id){
-                    pwrThresh = vect->operator [](j)->pwrThresh;
-                    BsMap = vect->operator [](j)->Bmap;
-                    WsMap = vect->operator [](j)->Wmap;
-                    if(recvPower >= pwrThresh){
-                        /*
-                         * If a previous record from a node is recorded on the
-                         * other map, we must erase it to keep the integrity
-                         * */
-                        if(WsMap->count(ueId)==1)
-                            WsMap->erase(ueId);
-                        BsMap->operator [](ueId)=snrVector[i]-den;
-                    }else{
-                        if(BsMap->count(ueId)==1)
-                            BsMap->erase(ueId);
-                        WsMap->operator [](ueId)=snrVector[i]-den;
-                    }
-                }
-            }
 
         }
     }

@@ -220,6 +220,9 @@ void LteMacEnb::initialize(int stage)
     LteMacBase::initialize(stage);
     if (stage == inet::INITSTAGE_LOCAL)
     {
+
+        cainMessageSignal = registerSignal("CainMessage");
+
         // TODO: read NED parameters, when will be present
         deployer_ = getDeployer();
         /* Get num RB Dl */
