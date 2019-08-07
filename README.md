@@ -157,11 +157,12 @@ Added cainMessage signal on PATH/src/stack/mac/LteMac.ned (lines 138 and 139), P
 
 ========================== SO FAR ==========================
 
-statistics are being collected on eNB
+More devices on the network enabled
 
 ========================== NEXT ============================
 
-modify nodes position to sinr become lower than threshold (PATH/simulations/networks/CAIN.ned)
+Make communication with more devices on the network
+
 
 ========================== LAST UPDATE =====================
 
