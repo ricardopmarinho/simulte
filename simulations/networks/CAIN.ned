@@ -32,7 +32,7 @@ network CAIN
         int numUeD2DTx = default(0);
         int numUeD2DRx = default(0);
         //////////////////////////////////
-        int pwrThresh = default(-40);
+        int pwrThresh = default(-90);
         //////////////////////////////////
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
         
