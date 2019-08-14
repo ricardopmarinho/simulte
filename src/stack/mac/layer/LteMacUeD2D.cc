@@ -75,6 +75,7 @@ UserTxParams* LteMacUeD2D::getPreconfiguredTxParams()
 
 void LteMacUeD2D::handleMessage(cMessage* msg)
 {
+    EV << "LteMacUeD2D::handleMessage" << endl;
     if (msg->isSelfMessage())
     {
         LteMacUe::handleMessage(msg);

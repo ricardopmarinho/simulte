@@ -894,6 +894,7 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
         sinrMapB* BsMap = NULL;
         sinrMapW* WsMap = NULL;
 
+        EV << "Creating map" << endl;
         for(unsigned int j = 0; j < vect->size();j++){
             if(eNbId == vect->at(j)->id){
                 pwrThresh = vect->operator [](j)->pwrThresh;
@@ -904,10 +905,12 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
                      * If a previous record from a node is recorded on the
                      * other map, we must erase it to keep the integrity
                      * */
+                    EV << "Storing a good power device: " << ueId << endl;
                     if(WsMap->count(ueId)==1)
                         WsMap->erase(ueId);
                     BsMap->operator [](ueId)=recvPower;
                 }else{
+                    EV << "Storing a bad power device: " << ueId << endl;
                     if(BsMap->count(ueId)==1)
                         BsMap->erase(ueId);
                     WsMap->operator [](ueId)=recvPower;

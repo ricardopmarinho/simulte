@@ -481,7 +481,9 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     uinfo->setSourceId(nodeId_);
     uinfo->setDirection(DL);
 
-    /*std::vector<EnbInfo*>* vect = binder_->getEnbList();
+    EV << "Message arriving!" << endl;
+
+    std::vector<EnbInfo*>* vect = binder_->getEnbList();
     for(unsigned int i=0;i< vect->size();i++){
         if(1 == vect->at(i)->id){
             sinrMapW* WsMap = vect->operator [](i)->Wmap;
@@ -498,7 +500,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                  * setting options field with the id of the node that needs a relay
                  * and it's sinr
                  * */
-               /* stream << node << "/" << it->second;
+                stream << node << "/" << it->second;
                 uinfo->appendOption(stream.str());
                 stream.str("");
                 stream.clear();
@@ -507,7 +509,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                  * end of options setting
                  * */
 
-                /*sinrMapB* BsMap = vect->operator [](i)->Bmap;
+                sinrMapB* BsMap = vect->operator [](i)->Bmap;
                 it = BsMap->begin();
                 MacNodeId relay = it->first;
                 EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
@@ -522,7 +524,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
     double freq = getModuleByPath("CAIN.channelControl")->par("carrierFrequency");
     EV << "Carrier frequency: " << freq << "Hz" << endl;
-*/
+
     sendLowerPackets(racPkt);
 }
 
