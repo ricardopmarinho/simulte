@@ -161,11 +161,11 @@ More devices on the network enabled
 
 ========================== NEXT ============================
 
-Make communication with more devices on the network
+Make communication with more devices on the network - check TcpApp
 
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - July 23th
+07/04/2019 - August 14th
 
 

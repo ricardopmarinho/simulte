@@ -494,6 +494,7 @@ void LteMacUeRealisticD2D::checkRAC()
 
     if ((racRequested_=trigger) || (racD2DMulticastRequested_=triggerD2DMulticast))
     {
+        EV << "BORA MacUeRealistic" << endl;
         LteRac* racReq = new LteRac("RacRequest");
         UserControlInfo* uinfo = new UserControlInfo();
         uinfo->setSourceId(getMacNodeId());

@@ -363,6 +363,7 @@ void LteMacBase::initialize(int stage)
 
 void LteMacBase::handleMessage(cMessage* msg)
 {
+    EV << "LteMacBase.cc::handleMessage" << endl;
     if (msg->isSelfMessage())
     {
         handleSelfMessage();
@@ -374,7 +375,6 @@ void LteMacBase::handleMessage(cMessage* msg)
     EV << "LteMacBase : Received packet " << pkt->getName() <<
     " from port " << pkt->getArrivalGate()->getName() << endl;
 
-    EV << "LteMacBase.cc::handleMessage" << endl;
 
     cGate* incoming = pkt->getArrivalGate();
 
