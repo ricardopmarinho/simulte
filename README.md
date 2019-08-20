@@ -157,15 +157,16 @@ Added cainMessage signal on PATH/src/stack/mac/LteMac.ned (lines 138 and 139), P
 
 ========================== SO FAR ==========================
 
-More devices on the network enabled
+Two of the same devices communicating
 
 ========================== NEXT ============================
 
-Make communication with more devices on the network - check TcpApp
+Check where change destination device 
+
 
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - August 14th
+07/04/2019 - August 20th
 
 
