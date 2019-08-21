@@ -469,6 +469,8 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
 
     if(uinfo->getCAINEnable() && uinfo->getCAINDirection()==FWD){
+        EV << "ENB receiving a CAIN FWD message!" << endl;
+        EV << "Options: " << uinfo->getCAINOptions() << endl;
         CainMessage++;
         emit(cainMessageSignal,CainMessage);
     }
@@ -491,6 +493,8 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
             std::ostringstream stream;
             if(WsMap->size() > 0 && BsMap->size() > 0){
                 EV << "=============== SETTING CAIN MESSAGE ===============\n";
+                EV << "BsMap size: " << BsMap->size() << endl;
+                EV << "WsMap size: " << WsMap->size() << endl;
                 //reset any previous option
                 uinfo->setCAINOption("");
                 std::map<MacNodeId,double>::iterator it = WsMap->begin();
@@ -510,13 +514,25 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                  * */
 
                 sinrMapB* BsMap = vect->operator [](i)->Bmap;
-                it = BsMap->begin();
-                MacNodeId relay = it->first;
-                EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
+                MacNodeId relay;
                 uinfo->setCAINEnable(true);
                 uinfo->setCAINDirection(NOTIFY);
-                uinfo->setDestId(relay);
                 uinfo->setENBId(nodeId_);
+                if(BsMap->size() >= 2){
+                    int j;
+                    for(j = 0, it = BsMap->begin(); j < BsMap->size()-1;it++, j++){
+                        relay = it->first;
+                        EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
+                        UserControlInfo* uinfoDup = uinfo->dup();
+                        uinfoDup->setDestId(relay);
+                        LteRac* racDup = racPkt->dup();
+                        racDup->setControlInfo(uinfoDup);
+                        sendLowerPackets(racDup);
+                    }
+                    relay = it->first;
+                    EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
+                    uinfo->setDestId(relay);
+                }
                 EV << "=============== END OF SETTINGS ===============\n";
             }
         }

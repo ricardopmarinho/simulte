@@ -149,6 +149,8 @@ Added code on PATH/src/stack/mac/layer/LteMacBase.cc lines 90~93 and 162
 
 Added cainMessage signal on PATH/src/stack/mac/LteMac.ned (lines 138 and 139), PATH/src/stack/mac/layer/LteMacEnb.cc and .h (lines 468~471 and lines 61~64)
 
+Modifications on PATH/src/stack/mac/layer/LteMacEnb.cc to send more than one message (lines 521~534)
+
 ========================== CAIN msg =========================
 ---------------------------------------------
 |Source|Destination|eNB ID|Direction|Options|
@@ -157,16 +159,14 @@ Added cainMessage signal on PATH/src/stack/mac/LteMac.ned (lines 138 and 139), P
 
 ========================== SO FAR ==========================
 
-Two of the same devices communicating
+CAIN message are being sent for two relays
 
 ========================== NEXT ============================
 
-Check where change destination device 
-
-
+Check where change connectAddress and localAddress
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - August 20th
+07/04/2019 - August 21th
 
 
