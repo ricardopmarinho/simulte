@@ -1016,6 +1016,7 @@ UserControlInfo_Base::UserControlInfo_Base() : ::LteControlInfo()
     this->CAINDirection = 0;
     this->CAINEnable = false;
     this->eNBId = 0;
+    this->CAINuePwr = 0;
 }
 
 UserControlInfo_Base::UserControlInfo_Base(const UserControlInfo_Base& other) : ::LteControlInfo(other)
@@ -1054,6 +1055,7 @@ void UserControlInfo_Base::copy(const UserControlInfo_Base& other)
     this->CAINDirection = other.CAINDirection;
     this->CAINEnable = other.CAINEnable;
     this->eNBId = other.eNBId;
+    this->CAINuePwr = other.CAINuePwr;
 }
 
 void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
@@ -1076,6 +1078,7 @@ void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->CAINDirection);
     doParsimPacking(b,this->CAINEnable);
     doParsimPacking(b,this->eNBId);
+    doParsimPacking(b,this->CAINuePwr);
 }
 
 void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -1098,6 +1101,7 @@ void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->CAINDirection);
     doParsimUnpacking(b,this->CAINEnable);
     doParsimUnpacking(b,this->eNBId);
+    doParsimUnpacking(b,this->CAINuePwr);
 }
 
 unsigned char UserControlInfo_Base::getAcid() const
@@ -1270,6 +1274,16 @@ void UserControlInfo_Base::setENBId(uint16_t eNBId)
     this->eNBId = eNBId;
 }
 
+double UserControlInfo_Base::getCAINuePwr() const
+{
+    return this->CAINuePwr;
+}
+
+void UserControlInfo_Base::setCAINuePwr(double CAINuePwr)
+{
+    this->CAINuePwr = CAINuePwr;
+}
+
 class UserControlInfoDescriptor : public omnetpp::cClassDescriptor
 {
   private:
@@ -1335,7 +1349,7 @@ const char *UserControlInfoDescriptor::getProperty(const char *propertyname) con
 int UserControlInfoDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 17+basedesc->getFieldCount() : 17;
+    return basedesc ? 18+basedesc->getFieldCount() : 18;
 }
 
 unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
@@ -1364,8 +1378,9 @@ unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
+        FD_ISEDITABLE,
     };
-    return (field>=0 && field<17) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<18) ? fieldTypeFlags[field] : 0;
 }
 
 const char *UserControlInfoDescriptor::getFieldName(int field) const
@@ -1394,8 +1409,9 @@ const char *UserControlInfoDescriptor::getFieldName(int field) const
         "CAINDirection",
         "CAINEnable",
         "eNBId",
+        "CAINuePwr",
     };
-    return (field>=0 && field<17) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<18) ? fieldNames[field] : nullptr;
 }
 
 int UserControlInfoDescriptor::findField(const char *fieldName) const
@@ -1419,6 +1435,7 @@ int UserControlInfoDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='C' && strcmp(fieldName, "CAINDirection")==0) return base+14;
     if (fieldName[0]=='C' && strcmp(fieldName, "CAINEnable")==0) return base+15;
     if (fieldName[0]=='e' && strcmp(fieldName, "eNBId")==0) return base+16;
+    if (fieldName[0]=='C' && strcmp(fieldName, "CAINuePwr")==0) return base+17;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -1448,8 +1465,9 @@ const char *UserControlInfoDescriptor::getFieldTypeString(int field) const
         "unsigned short",
         "bool",
         "uint16",
+        "double",
     };
-    return (field>=0 && field<17) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<18) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **UserControlInfoDescriptor::getFieldPropertyNames(int field) const
@@ -1540,6 +1558,7 @@ std::string UserControlInfoDescriptor::getFieldValueAsString(void *object, int f
         case 14: return enum2string(pp->getCAINDirection(), "CAINDirection");
         case 15: return bool2string(pp->getCAINEnable());
         case 16: return ulong2string(pp->getENBId());
+        case 17: return double2string(pp->getCAINuePwr());
         default: return "";
     }
 }
@@ -1571,6 +1590,7 @@ bool UserControlInfoDescriptor::setFieldValueAsString(void *object, int field, i
         case 14: pp->setCAINDirection((CAINDirection)string2enum(value, "CAINDirection")); return true;
         case 15: pp->setCAINEnable(string2bool(value)); return true;
         case 16: pp->setENBId(string2ulong(value)); return true;
+        case 17: pp->setCAINuePwr(string2double(value)); return true;
         default: return false;
     }
 }

@@ -765,6 +765,7 @@ typedef std::list<Codeword> CwList;
 
 /// Pair of acid, list of unit ids
 typedef std::pair<unsigned char, CwList> UnitList;
+
 /**
  * Included by Ricardo Pagoto Marinho
  * Map for store UE id and it's sinr value
@@ -774,6 +775,7 @@ typedef std::pair<unsigned char, CwList> UnitList;
 
 typedef std::map<MacNodeId,double> sinrMapB;//stores sinr that are better than the threshold
 typedef std::map<MacNodeId,double> sinrMapW;//stores sinr that are worse than the threshold
+typedef std::map<MacNodeId,double> relayList;//stores the list of possible relays for a UE
 
 /*********************
  * Incell Interference Support
@@ -814,6 +816,9 @@ struct UeInfo
     LteRealisticChannelModel * realChan;
     cModule * ue;
     LtePhyBase* phy;
+///////
+    relayList* rList;
+///////
 };
 
 typedef std::vector<ExtCell*> ExtCellList;
