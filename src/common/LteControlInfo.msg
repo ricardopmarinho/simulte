@@ -138,8 +138,9 @@ class UserControlInfo extends LteControlInfo {
     
      ///////////////////////////
     unsigned short CAINDirection enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
-    bool CAINEnable = false;
+    bool CAINEnable = false;							// False if the message is not a CAIN, true otherwise
     uint16 eNBId;
+    double CAINuePwr;									// Relay's power value
     /////////////////////////
 }
 

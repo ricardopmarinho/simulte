@@ -494,7 +494,6 @@ void LteMacUeRealisticD2D::checkRAC()
 
     if ((racRequested_=trigger) || (racD2DMulticastRequested_=triggerD2DMulticast))
     {
-        EV << "BORA MacUeRealistic" << endl;
         LteRac* racReq = new LteRac("RacRequest");
         UserControlInfo* uinfo = new UserControlInfo();
         uinfo->setSourceId(getMacNodeId());
@@ -578,6 +577,9 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
     switch(uinfo->getCAINDirection()){
         case NOTIFY:
         {
+            /**
+             * Message from eNB to relay
+             */
             cPacket* pack = pkt->dup();
             pack->encapsulate(pkt->decapsulate());
             pack->setControlInfo(uinfo);
@@ -607,6 +609,9 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
         }
         case REL:
         {
+            /*
+             * Message from relay to UE
+             * */
             EV << "Receiving a REL message to node "<< uinfo->getDestId() << endl;
             if(uinfo->getDestId()==nodeId_){
                 MacNodeId dest = uinfo->getSourceId();
@@ -620,6 +625,10 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             break;
         }
         case REP:
+        {
+            /*
+             * Message from UE to relay
+             * */
             EV << "Receiving a REP message to node "<< uinfo->getDestId() << endl;
             if(uinfo->getDestId()==nodeId_){
                 EV << "The response to relay request to node " << uinfo->getSourceId() << " is " << uinfo->getCAINOptions() << endl;
@@ -631,6 +640,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                 sendLowerPackets(pkt);
             }
             break;
+        }
         default:
             EV << "Unknow CAIN message" << endl;
             break;

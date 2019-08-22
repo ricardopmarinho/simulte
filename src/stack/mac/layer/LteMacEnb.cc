@@ -525,6 +525,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                         EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
                         UserControlInfo* uinfoDup = uinfo->dup();
                         uinfoDup->setDestId(relay);
+                        uinfoDup->setCAINuePwr(it->second);
                         LteRac* racDup = racPkt->dup();
                         racDup->setControlInfo(uinfoDup);
                         sendLowerPackets(racDup);

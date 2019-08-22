@@ -74,6 +74,10 @@ void LteMacUe::initialize(int stage)
         info->init = false;            // flag for phy initialization
         info->ue = this->getParentModule()->getParentModule();  // reference to the UE module
 
+        ///////////
+        info->rList = new std::map<MacNodeId,double>();
+        ///////////
+
         // Get the Physical Channel reference of the node
         info->phy = check_and_cast<LtePhyBase*>(info->ue->getSubmodule("nic")->getSubmodule("phy"));
 
