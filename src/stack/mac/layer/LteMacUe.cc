@@ -80,8 +80,20 @@ void LteMacUe::initialize(int stage)
 
         // Get the Physical Channel reference of the node
         info->phy = check_and_cast<LtePhyBase*>(info->ue->getSubmodule("nic")->getSubmodule("phy"));
-
         binder_->addUeInfo(info);
+
+        /*
+         * This line changes the local address value given at .ini file
+         * so we can add more devices.
+         * This value is static and defined at the .ini file, therefore
+         * to add more devices on the network, we would have to set this
+         * value to every single device.
+         * */
+        info->ue->getSubmodule("tcpApp",0)->getAncestorPar("localAddress") = info->ue->getFullName();
+        if(!std::strcmp(info->ue->getFullName(),info->ue->getSubmodule("tcpApp",0)->par("connectAddress"))){
+            info->ue->getSubmodule("tcpApp",0)->getAncestorPar("connectAddress")="ueD2DTx[1]";
+        }
+
     }
     else if (stage == INITSTAGE_NETWORK_LAYER_3)
     {

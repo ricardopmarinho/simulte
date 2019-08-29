@@ -3332,16 +3332,8 @@ $O/stack/phy/layer/CAINLtePhyUe.o: stack/phy/layer/CAINLtePhyUe.cc \
 	stack/mac/amc/LteAmc.h \
 	stack/mac/amc/LteMcs.h \
 	stack/mac/amc/UserTxParams.h \
-	stack/mac/buffer/harq/LteHarqBufferTx.h \
-	stack/mac/buffer/harq/LteHarqProcessTx.h \
-	stack/mac/buffer/harq/LteHarqUnitTx.h \
 	stack/mac/layer/LteMacBase.h \
 	stack/mac/layer/LteMacEnb.h \
-	stack/mac/layer/LteMacUe.h \
-	stack/mac/packet/LteHarqFeedback_m.h \
-	stack/mac/packet/LteMacPdu.h \
-	stack/mac/packet/LteMacPdu_m.h \
-	stack/pdcp_rrc/packet/LtePdcpPdu_m.h \
 	stack/phy/ChannelModel/LteChannelModel.h \
 	stack/phy/ChannelModel/LteDummyChannelModel.h \
 	stack/phy/ChannelModel/LteRealisticChannelModel.h \
@@ -3361,15 +3353,6 @@ $O/stack/phy/layer/CAINLtePhyUe.o: stack/phy/layer/CAINLtePhyUe.cc \
 	stack/phy/packet/LteFeedbackPkt.h \
 	stack/phy/packet/LteFeedbackPkt_m.h \
 	stack/phy/packet/ModulationType.h \
-	stack/rlc/LteRlcDefs.h \
-	stack/rlc/packet/LteRlcPdu.h \
-	stack/rlc/packet/LteRlcPdu_m.h \
-	stack/rlc/packet/LteRlcSdu.h \
-	stack/rlc/packet/LteRlcSdu_m.h \
-	stack/rlc/um/LteRlcUm.h \
-	stack/rlc/um/buffer/UmFragbuf.h \
-	stack/rlc/um/buffer/UmRxQueue.h \
-	stack/rlc/um/buffer/UmTxQueue.h \
 	world/radio/ChannelAccess.h \
 	world/radio/ChannelControl.h \
 	world/radio/IChannelControl.h \
