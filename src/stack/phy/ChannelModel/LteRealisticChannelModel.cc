@@ -918,6 +918,13 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             }
         }
 
+        std::vector<UeInfo*> * ueinfo = binder_->getUeList();
+        for(int i=0;i<ueinfo->size();i++){
+            UeInfo* info = ueinfo->at(i);
+            MacNodeId ueNodeId = info->id;
+            const char* name = info->ue->getFullName();
+            binder_->addNodeIdName(ueNodeId,name);
+        }
         snrVector.push_back(finalRecvPower);
     }
     //============ END PATH LOSS + SHADOWING + FADING ===============
