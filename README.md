@@ -151,6 +151,14 @@ Added cainMessage signal on PATH/src/stack/mac/LteMac.ned (lines 138 and 139), P
 
 Modifications on PATH/src/stack/mac/layer/LteMacEnb.cc to send more than one message (lines 521~534)
 
+Added std::map<MacNodeId, const char*> UesIdToName_ on PATH/src/corenetwork/binder/LteBinder.h (line 57) to map the UEs node id to their names
+
+Added addNodeIdName(MacNodeId nodeId,const char* name) and getUeNodeNameById(MacNodeId nodeId) on PATH/src/corenetwork/binder/LteBinder.h (lines 276~284)
+
+Added code on PATH/src/stack/mac/layer/LteMacUe.cc (lines 92~95)
+
+Added code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 600~603)
+
 ========================== CAIN msg =========================
 ---------------------------------------------
 |Source|Destination|eNB ID|Direction|Options|
@@ -159,14 +167,14 @@ Modifications on PATH/src/stack/mac/layer/LteMacEnb.cc to send more than one mes
 
 ========================== SO FAR ==========================
 
-CAIN message are being sent for two relays
+modified local and connect address for UEs
 
 ========================== NEXT ============================
 
-Check where change connectAddress and localAddress
+Adjust connect address when cain messages arrive
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - August 21th
+07/04/2019 - August 29th
 
 

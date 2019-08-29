@@ -585,6 +585,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             pack->setControlInfo(uinfo);
             EV << "Receiving a NOTIFY message to node "<< uinfo->getDestId() << endl;
 
+            //getModuleByPath("CAIN.")->getSubmodule("tcpApp",0)->getAncestorPar("connectAddress") = connectUe;
+
 
            /* EV << "Available relays: " << endl;
 
@@ -595,7 +597,10 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             //MacNodeId relay = getRelay(relays);
             MacNodeId node = getNode(cainOpt);
             EV << "The node that needs a relay is: " << node << endl;
+            const char* connectUe = binder_->getUeNodeNameById(node);
 
+            EV<< "Connect address: " << connectUe << endl;
+            EV << this->getFullName() << endl;
             EV<<endl << "The eNB id is " << uinfo->getENBId() << endl;
 
             uinfo->setDestId(node);
