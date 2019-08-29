@@ -53,6 +53,10 @@ class LteBinder : public cSimpleModule
     std::vector<MacNodeId> nextHop_; // MacNodeIdMaster --> MacNodeIdSlave
     std::map<int, OmnetId> nodeIds_;
 
+    ///////////////////
+    std::map<MacNodeId, const char*> UesIdToName_;//maps the nodeId to it's name
+    ///////////////////
+
     // list of static external cells. Used for intercell interference evaluation
     ExtCellList extCellList_;
 
@@ -264,6 +268,19 @@ class LteBinder : public cSimpleModule
     void setMacNodeId(IPv4Address address, MacNodeId nodeId)
     {
         macNodeIdToIPAddress_[address] = nodeId;
+    }
+    /*
+         * Associates the Ue node ID to a name
+         *
+         * */
+    void addNodeIdName(MacNodeId nodeId,const char* name){
+        UesIdToName_[nodeId] = name;
+    }
+
+    const char* getUeNodeNameById(MacNodeId nodeId){
+        if (UesIdToName_.find(nodeId) == UesIdToName_.end())
+                throw cRuntimeError("LteBinder::UesIdToName_ - node ID not found");
+        return UesIdToName_[nodeId];
     }
     /**
      * Associates the given IP address with the given X2NodeId.
