@@ -159,6 +159,8 @@ Added code on PATH/src/stack/mac/layer/LteMacUe.cc (lines 92~95)
 
 Added code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 600~603)
 
+Added LteMacUeRealisticD2D::handleCainMsg on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (line 569)
+
 ========================== CAIN msg =========================
 ---------------------------------------------
 |Source|Destination|eNB ID|Direction|Options|
@@ -167,14 +169,14 @@ Added code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 600~603)
 
 ========================== SO FAR ==========================
 
-modified local and connect address for UEs
+modified connected addres online
 
 ========================== NEXT ============================
 
-Adjust connect address when cain messages arrive
+Add relay list at the UE
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - August 29th
+07/04/2019 - August 30th
 
 
