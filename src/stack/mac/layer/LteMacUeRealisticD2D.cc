@@ -579,6 +579,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
         {
             /**
              * Message from eNB to relay
+             *
+             * The relay node receives this message
              */
             cPacket* pack = pkt->dup();
             pack->encapsulate(pkt->decapsulate());
@@ -597,10 +599,15 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             //MacNodeId relay = getRelay(relays);
             MacNodeId node = getNode(cainOpt);
             EV << "The node that needs a relay is: " << node << endl;
-            const char* connectUe = binder_->getUeNodeNameById(node);
 
-            EV<< "Connect address: " << connectUe << endl;
-            EV << this->getFullName() << endl;
+            /*
+             * Changing the connect address online
+             * */
+            const char* connectUe = binder_->getUeNodeNameById(node);
+            this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
+                    ->getAncestorPar("connectAddress") = connectUe;
+
+
             EV<<endl << "The eNB id is " << uinfo->getENBId() << endl;
 
             uinfo->setDestId(node);
@@ -616,10 +623,21 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
         {
             /*
              * Message from relay to UE
+             *
+             * The UE receives this message
              * */
             EV << "Receiving a REL message to node "<< uinfo->getDestId() << endl;
             if(uinfo->getDestId()==nodeId_){
+
                 MacNodeId dest = uinfo->getSourceId();
+                /*
+                * Changing the connect address online
+                * */
+               const char* connectUe = binder_->getUeNodeNameById(dest);
+               this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
+                       ->getAncestorPar("connectAddress") = connectUe;
+
+
                 uinfo->setDestId(dest);
                 uinfo->setSourceId(nodeId_);
                 uinfo->setCAINDirection(REP);
@@ -633,9 +651,17 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
         {
             /*
              * Message from UE to relay
+             *
+             * The relay receives this message
              * */
             EV << "Receiving a REP message to node "<< uinfo->getDestId() << endl;
             if(uinfo->getDestId()==nodeId_){
+
+                /*
+                * The connect address is just for the UEs.
+                * The message here is for eNB, therefore
+                * there is no need to change the connect address
+                * */
                 EV << "The response to relay request to node " << uinfo->getSourceId() << " is " << uinfo->getCAINOptions() << endl;
                 uinfo->setDestId(uinfo->getENBId());
                 uinfo->setSourceId(nodeId_);
