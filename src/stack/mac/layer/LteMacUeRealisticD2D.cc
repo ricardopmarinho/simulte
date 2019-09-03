@@ -587,9 +587,6 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             pack->setControlInfo(uinfo);
             EV << "Receiving a NOTIFY message to node "<< uinfo->getDestId() << endl;
 
-            //getModuleByPath("CAIN.")->getSubmodule("tcpApp",0)->getAncestorPar("connectAddress") = connectUe;
-
-
            /* EV << "Available relays: " << endl;
 
             for(int i=0;i<relays.size();i++){
@@ -610,8 +607,12 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
 
             EV<<endl << "The eNB id is " << uinfo->getENBId() << endl;
 
+            MacNodeId thisNode = uinfo->getDestId();
+
+            EV << "This node: " << thisNode << endl;
+
             uinfo->setDestId(node);
-            uinfo->setSourceId(nodeId_);
+            uinfo->setSourceId(thisNode);
             uinfo->setCAINDirection(REL);
             uinfo->setCAINEnable(true);
             uinfo->setCAINOption("OK");
@@ -638,12 +639,23 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                        ->getAncestorPar("connectAddress") = connectUe;
 
 
-                uinfo->setDestId(dest);
-                uinfo->setSourceId(nodeId_);
-                uinfo->setCAINDirection(REP);
-                uinfo->setCAINOption("message");
-                uinfo->setCAINEnable(true);
-                sendLowerPackets(pkt);
+               /*
+                * Updatint the relay list
+                * */
+
+               if(updateRelayList(dest)){
+                   EV << "Relay list updated: " << endl;
+                   printRelayList(nodeId_);
+               }else{
+                   EV << "Relay list not updated: " << endl;
+               }
+
+               uinfo->setDestId(dest);
+               uinfo->setSourceId(nodeId_);
+               uinfo->setCAINDirection(REP);
+               uinfo->setCAINOption("message");
+               uinfo->setCAINEnable(true);
+               sendLowerPackets(pkt);
             }
             break;
         }
@@ -678,6 +690,76 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
     }
 }
 
+
+bool LteMacUeRealisticD2D::updateRelayList(MacNodeId relayId){
+    /*
+     * find EnBInfo for the eNB
+     * */
+
+    std::vector<EnbInfo*>* enbVect = binder_->getEnbList();
+    for(unsigned int i=0;i< enbVect->size();i++){
+        if(1 == enbVect->at(i)->id){
+
+            EV << "Got eNB info" << endl;
+            /*
+             * get the better metric map
+             * */
+            sinrMapB* BsMap = enbVect->operator [](i)->Bmap;
+            std::map<MacNodeId,double>::iterator it = BsMap->begin();
+
+            /*
+             * find UeInfo for the UE
+             * */
+            std::vector<UeInfo*>* ueVect = binder_->getUeList();
+            for(unsigned int j=0; j < ueVect->size(); j++){
+                if(this->getMacNodeId() == ueVect->at(j)->id){
+
+                    EV << "Got UE info" << endl;
+                    /*
+                     * get the relayList for this UE
+                     * */
+                    relayList* rList = ueVect->operator [](j)->rList;
+                    /*
+                     * If this relay is already at the list,
+                     * erase it to update the value
+                     * */
+                    if(rList->count(relayId)==1)
+                        rList->erase(relayId);
+                    for(it = BsMap->begin(); it != BsMap->end();it++){
+                        EV << "searching for node " << relayId << endl;
+                        EV << "Iterator: "<< it->first << endl;
+                        /*
+                         * finding the relay at the metric map
+                         * */
+                        if(it->first == relayId){
+                            rList->operator [](relayId)=it->second;
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+
+        }
+    }
+    return false;
+}
+
+void LteMacUeRealisticD2D::printRelayList(MacNodeId nodeId){
+    std::vector<UeInfo*>* ueVect = binder_->getUeList();
+    for(unsigned int j=0; j < ueVect->size(); j++){
+        if(nodeId == ueVect->at(j)->id){
+            /*
+             * get the relayList for this UE
+             * */
+            relayList* rList = ueVect->operator [](j)->rList;
+            std::map<MacNodeId,double>::iterator it;
+            for(it = rList->begin(); it != rList->end(); it++)
+                EV<< "Relay: " << it->first << " metric value: " << it->second << endl;
+        }
+    }
+}
+
 MacNodeId LteMacUeRealisticD2D::getRelay(std::vector<std::string> relayVect){
     std::vector<std::string> relays;
     MacNodeId relay;
@@ -706,21 +788,21 @@ MacNodeId LteMacUeRealisticD2D::getRelay(std::vector<std::string> relayVect){
 
 MacNodeId LteMacUeRealisticD2D::getNode(std::string nodeSinr){
 
-    int i;
-
     /*
-     * nodeSinr division:
-     * -----------------------------------------
-     * |nodeId/SINR;nodeId/SINR;nodeId/SINR;...|
-     * -----------------------------------------
-     * */
-    std::vector<std::string> nodes;
+    * nodeSinr division:
+    * -----------------------------------------
+    * |nodeId/SINR;nodeId/SINR;nodeId/SINR;...|
+    * -----------------------------------------
+    * */
+
+    int i;
     /*
      * nodes division:
      * -----------------------------------------
      * |nodeId/SINR|nodeId/SINR|nodeId/SINR|...|
      * -----------------------------------------
      * */
+    std::vector<std::string> nodes;
     MacNodeId node;
     int metric;
     std::string token;
@@ -729,13 +811,13 @@ MacNodeId LteMacUeRealisticD2D::getNode(std::string nodeSinr){
     {
         nodes.push_back(token);
     }
-    std::vector<std::string> dest;
     /*
      * dest division:
      * -----------------------------------------
      * |nodeId|SINR|nodeId|SINR|nodeId|SINR|...|
      * -----------------------------------------
      * */
+    std::vector<std::string> dest;
     for(i = 0; i<nodes.size(); i++){
         std::istringstream tokenStream(nodes[i]);
         while (std::getline(tokenStream, token, '/'))
@@ -744,7 +826,7 @@ MacNodeId LteMacUeRealisticD2D::getNode(std::string nodeSinr){
         }
     }
     /*
-     * will check (for now) node and sinr, therefore i+=2
+     * will check node and metric, therefore i+=2
      * */
     for(i=0;i<dest.size();i+=2){
         node=stoi(dest[i]);
