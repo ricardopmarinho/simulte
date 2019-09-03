@@ -115,7 +115,7 @@ Included code at the end of PATH/src/stack/phy/layer/LtePhyUeD2D.cc to send the 
 
 included code to store sinr value on table at PATH/src/stack/phy/ChannelModels/LteRealisticChannelModel.cc lines 893~918
 
-created types sinrMapB and sinrMapW and included it on the struct EnbInfo at PATH/src/common/LteCommon.h
+created types sinrMapB and sinrMapW and included them on the struct EnbInfo at PATH/src/common/LteCommon.h
 
 Included code on PATH/scr/stack/mac/layer/LteMacUeRealisticSD2D.cc::checkRAC (line 441)=>lines 499 to 534
 
@@ -169,14 +169,14 @@ Added LteMacUeRealisticD2D::handleCainMsg on PATH/src/stack/mac/layer/LteMacUeRe
 
 ========================== SO FAR ==========================
 
-modified connected addres online
+Array list working with one relay
 
 ========================== NEXT ============================
 
-Add relay list at the UE
+Test array list with more relay
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - August 30th
+07/04/2019 - Septenber 2nd
 
 

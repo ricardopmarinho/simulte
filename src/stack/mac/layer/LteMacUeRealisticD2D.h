@@ -93,6 +93,16 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
      */
     virtual void macPduMake();
 
+    /*
+     * Method to update relay list, therefore the UE that
+     * calls this method needs a relay.
+     * We must search for 'relayId' at the sinrMapB
+     * */
+    bool updateRelayList(MacNodeId relayId);
+
+    void printRelayList(MacNodeId nodeId);
+
+
   public:
     LteMacUeRealisticD2D();
     virtual ~LteMacUeRealisticD2D();

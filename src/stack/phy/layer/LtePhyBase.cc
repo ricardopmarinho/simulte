@@ -165,8 +165,6 @@ void LtePhyBase::handleUpperMessage(cMessage* msg)
     lteInfo->setTxPower(txPower_);
     frame->setControlInfo(lteInfo);
 
-    EV<< "EM LTEPHYBASE" << endl;
-
     EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id " << nodeId_
        << " sending message to the air channel. Dest=" << lteInfo->getDestId() << endl;
     sendUnicast(frame);

@@ -513,12 +513,12 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                  * end of options setting
                  * */
 
-                sinrMapB* BsMap = vect->operator [](i)->Bmap;
+                //sinrMapB* BsMap = vect->operator [](i)->Bmap;
                 MacNodeId relay;
                 uinfo->setCAINEnable(true);
                 uinfo->setCAINDirection(NOTIFY);
                 uinfo->setENBId(nodeId_);
-                if(BsMap->size() >= 2){
+                //if(BsMap->size() >= 2){
                     int j;
                     for(j = 0, it = BsMap->begin(); j < BsMap->size()-1;it++, j++){
                         relay = it->first;
@@ -530,10 +530,11 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                         racDup->setControlInfo(uinfoDup);
                         sendLowerPackets(racDup);
                     }
-                    relay = it->first;
-                    EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
-                    uinfo->setDestId(relay);
-                }
+                //}
+                relay = it->first;
+                EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
+                uinfo->setDestId(relay);
+                uinfo->setCAINuePwr(it->second);
                 EV << "=============== END OF SETTINGS ===============\n";
             }
         }
@@ -541,6 +542,11 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
     double freq = getModuleByPath("CAIN.channelControl")->par("carrierFrequency");
     EV << "Carrier frequency: " << freq << "Hz" << endl;
+
+
+    UserControlInfo* info = check_and_cast<UserControlInfo*>(racPkt->getControlInfo());
+
+    EV << "Source: " << info->getSourceId() << " dest: " << info->getDestId() << endl;
 
     sendLowerPackets(racPkt);
 }
