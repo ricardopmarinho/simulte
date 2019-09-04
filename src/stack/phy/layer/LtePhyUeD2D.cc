@@ -68,7 +68,7 @@ void LtePhyUeD2D::handleAirFrame(cMessage* msg)
 
     EV << "Message arriving with destination " << lteInfo->getDestId() << " from " << lteInfo->getSourceId() << endl;
     if(lteInfo->getCAINEnable()){
-        EV<<"\nCAIN MESSAGE!!!!\n";
+        EV<<"CAIN MESSAGE!!!!\n";
         EV<<"Options: "<< lteInfo->getCAINOptions() << endl;
     }
 
