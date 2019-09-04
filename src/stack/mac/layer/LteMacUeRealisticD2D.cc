@@ -572,7 +572,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
     std::string cainOpt = uinfo->getCAINOptions();
 
-    EV << "CAIN message from id: " << uinfo->getSourceId() << ", to id: " << uinfo->getDestId() << endl;
+    EV << "CAIN message from id: " << uinfo->getSourceId() << ", to id: " << uinfo->getDestId()
+            << " with option: " << cainOpt << endl;
 
     switch(uinfo->getCAINDirection()){
         case NOTIFY:
@@ -582,42 +583,55 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
              *
              * The relay node receives this message
              */
-            cPacket* pack = pkt->dup();
-            pack->encapsulate(pkt->decapsulate());
-            pack->setControlInfo(uinfo);
             EV << "Receiving a NOTIFY message to node "<< uinfo->getDestId() << endl;
 
-           /* EV << "Available relays: " << endl;
+            std::vector<MacNodeId> node = getNode(cainOpt);
+            EV << "The nodes that need a relay are: " << endl;
+            EV << "Node list size: " << node.size() << endl;
+            int i = 0;
+            /*for(i = 0; i < node.size()-1; i++){
+                EV << node[i] << endl;
 
-            for(int i=0;i<relays.size();i++){
-                EV << relays[i] << " " << endl;
+                /*
+                 * Changing the connect address online
+                 * */
+                /*const char* connectUe = binder_->getUeNodeNameById(node[i]);
+                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
+                        ->getAncestorPar("connectAddress") = connectUe;
+
+                //EV<<endl << "The eNB id is " << uinfo->getENBId() << endl;
+
+                //MacNodeId thisNode = nodeId_;
+
+                EV << "This node: " << nodeId_ << endl;
+
+                cPacket* pack = pkt->dup();
+                pack->encapsulate(pkt->decapsulate());
+                //UserControlInfo* uinfoDup = uinfo->dup();
+                uinfo->setDestId(node[i]);
+                uinfo->setSourceId(nodeId_);
+                uinfo->setCAINDirection(REL);
+                uinfo->setCAINEnable(true);
+                uinfo->setCAINOption("OK");
+                if(pack->getControlInfo() == NULL)
+                    pack->setControlInfo(uinfo);
+                sendLowerPackets(pack);
             }*/
 
-            //MacNodeId relay = getRelay(relays);
-            MacNodeId node = getNode(cainOpt);
-            EV << "The node that needs a relay is: " << node << endl;
-
-            /*
-             * Changing the connect address online
-             * */
-            const char* connectUe = binder_->getUeNodeNameById(node);
+            cPacket* pack = pkt->dup();
+            pack->encapsulate(pkt->decapsulate());
+            EV << node[i] << endl;
+            //MacNodeId thisNode = uinfo->getDestId();
+            const char* connectUe = binder_->getUeNodeNameById(node[i]);
             this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
                     ->getAncestorPar("connectAddress") = connectUe;
-
-
-            EV<<endl << "The eNB id is " << uinfo->getENBId() << endl;
-
-            MacNodeId thisNode = uinfo->getDestId();
-
-            EV << "This node: " << thisNode << endl;
-
-            uinfo->setDestId(node);
-            uinfo->setSourceId(thisNode);
+            uinfo->setDestId(node[i]);
+            uinfo->setSourceId(nodeId_);
             uinfo->setCAINDirection(REL);
             uinfo->setCAINEnable(true);
             uinfo->setCAINOption("OK");
+            pack->setControlInfo(uinfo);
             sendLowerPackets(pack);
-
             break;
         }
         case REL:
@@ -644,7 +658,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                 * */
 
                if(updateRelayList(dest)){
-                   EV << "Relay list updated: " << endl;
+                   EV << "Relay list updated" << endl;
                    printRelayList(nodeId_);
                }else{
                    EV << "Relay list not updated: " << endl;
@@ -786,7 +800,7 @@ MacNodeId LteMacUeRealisticD2D::getRelay(std::vector<std::string> relayVect){
     return relay;
 }
 
-MacNodeId LteMacUeRealisticD2D::getNode(std::string nodeSinr){
+std::vector<MacNodeId> LteMacUeRealisticD2D::getNode(std::string nodeSinr){
 
     /*
     * nodeSinr division:
@@ -803,7 +817,7 @@ MacNodeId LteMacUeRealisticD2D::getNode(std::string nodeSinr){
      * -----------------------------------------
      * */
     std::vector<std::string> nodes;
-    MacNodeId node;
+    std::vector<MacNodeId> node;
     int metric;
     std::string token;
     std::istringstream tokenStream(nodeSinr);
@@ -829,7 +843,7 @@ MacNodeId LteMacUeRealisticD2D::getNode(std::string nodeSinr){
      * will check node and metric, therefore i+=2
      * */
     for(i=0;i<dest.size();i+=2){
-        node=stoi(dest[i]);
+        node.push_back(stoi(dest[i]));
         metric=stoi(dest[i+1]);
     }
     return node;

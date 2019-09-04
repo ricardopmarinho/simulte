@@ -473,6 +473,8 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
         EV << "Options: " << uinfo->getCAINOptions() << endl;
         CainMessage++;
         emit(cainMessageSignal,CainMessage);
+        delete pkt;
+        return;
     }
     enbSchedulerUl_->signalRac(uinfo->getSourceId());
 
@@ -497,17 +499,19 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "WsMap size: " << WsMap->size() << endl;
                 //reset any previous option
                 uinfo->setCAINOption("");
-                std::map<MacNodeId,double>::iterator it = WsMap->begin();
-                MacNodeId node = it->first;
-                EV << "\nNode " << it->first << " with power " << it->second << " needs find a relay! \n";
-                /*
-                 * setting options field with the id of the node that needs a relay
-                 * and it's sinr
-                 * */
-                stream << node << "/" << it->second;
-                uinfo->appendOption(stream.str());
-                stream.str("");
-                stream.clear();
+                std::map<MacNodeId,double>::iterator it;
+                for(it = WsMap->begin(); it != WsMap->end(); it++){
+                    MacNodeId node = it->first;
+                    EV << "\nNode " << it->first << " with power " << it->second << " needs find a relay! \n";
+                    /*
+                     * setting options field with the id of the node that needs a relay
+                     * and it's sinr
+                     * */
+                    stream << node << "/" << it->second;
+                    uinfo->appendOption(stream.str());
+                    stream.str("");
+                    stream.clear();
+                }
 
                 /*
                  * end of options setting
@@ -519,17 +523,19 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 uinfo->setCAINDirection(NOTIFY);
                 uinfo->setENBId(nodeId_);
                 //if(BsMap->size() >= 2){
-                    int j;
-                    for(j = 0, it = BsMap->begin(); j < BsMap->size()-1;it++, j++){
-                        relay = it->first;
-                        EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
-                        UserControlInfo* uinfoDup = uinfo->dup();
-                        uinfoDup->setDestId(relay);
-                        uinfoDup->setCAINuePwr(it->second);
-                        LteRac* racDup = racPkt->dup();
-                        racDup->setControlInfo(uinfoDup);
-                        sendLowerPackets(racDup);
-                    }
+                int j;
+                for(j = 0, it = BsMap->begin(); j < BsMap->size()-1;it++, j++){
+                    relay = it->first;
+                    EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
+                    UserControlInfo* uinfoDup = uinfo->dup();
+                    uinfoDup->setDestId(relay);
+                    uinfoDup->setCAINuePwr(it->second);
+                    uinfoDup->setCAINOption(uinfo->getCAINOptions());
+                    LteRac* racDup = racPkt->dup();
+                    racDup->setControlInfo(uinfoDup);
+                    EV << "Options: " << uinfoDup->getCAINOptions() << endl;
+                    sendLowerPackets(racDup);
+                }
                 //}
                 relay = it->first;
                 EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
@@ -548,6 +554,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
     EV << "Source: " << info->getSourceId() << " dest: " << info->getDestId() << endl;
 
+    EV << "Options: " << uinfo->getCAINOptions() << endl;
     sendLowerPackets(racPkt);
 }
 

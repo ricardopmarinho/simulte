@@ -169,14 +169,14 @@ Added LteMacUeRealisticD2D::handleCainMsg on PATH/src/stack/mac/layer/LteMacUeRe
 
 ========================== SO FAR ==========================
 
-Array list working with one relay
+Array list with more relays working
 
 ========================== NEXT ============================
 
-Test array list with more relay
+Send relay message to more than one device
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - Septenber 2nd
+07/04/2019 - Septenber 4th
 
 
