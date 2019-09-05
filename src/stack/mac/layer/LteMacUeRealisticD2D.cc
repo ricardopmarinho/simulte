@@ -82,6 +82,7 @@ LteMacPdu* LteMacUeRealisticD2D::makeBsr(int size){
 
 void LteMacUeRealisticD2D::macPduMake()
 {
+    EV << "LteMacUeRealisticD2D::macPduMake1" << endl;
     int64 size = 0;
 
     macPduList_.clear();
@@ -144,18 +145,23 @@ void LteMacUeRealisticD2D::macPduMake()
         }
     }
 
+    EV << "LteMacUeRealisticD2D::macPduMake2" << endl;
     if(!bsrAlreadyMade)
     {
+        EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
         // In a D2D communication if BSR was created above this part isn't executed
         // Build a MAC PDU for each scheduled user on each codeword
         LteMacScheduleList::const_iterator it;
         for (it = scheduleList_->begin(); it != scheduleList_->end(); it++)
         {
+            EV << "LteMacUeRealisticD2D::macPduMake4" << endl;
             LteMacPdu* macPkt;
             cPacket* pkt;
 
             MacCid destCid = it->first.first;
             Codeword cw = it->first.second;
+
+            EV << "destCid: " << destCid << endl;
 
             // get the direction (UL/D2D/D2D_MULTI) and the corresponding destination ID
             FlowControlInfo* lteInfo = &(connDesc_.at(destCid));
@@ -175,6 +181,7 @@ void LteMacUeRealisticD2D::macPduMake()
             // No packets for this user on this codeword
             if (pit == macPduList_.end())
             {
+                EV << "LteMacUeRealisticD2D::macPduMake5" << endl;
                 // Always goes here because of the macPduList_.clear() at the beginning
                 // Build the Control Element of the MAC PDU
                 UserControlInfo* uinfo = new UserControlInfo();
@@ -202,6 +209,7 @@ void LteMacUeRealisticD2D::macPduMake()
 
             while (sduPerCid > 0)
             {
+                EV << "LteMacUeRealisticD2D::macPduMake6" << endl;
                 // Add SDU to PDU
                 // Find Mac Pkt
                 if (mbuf_.find(destCid) == mbuf_.end())
@@ -569,8 +577,15 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
 void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
 
     EV << "LteMacUeRealisticD2D::handleCainMsg" << endl;
-    UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
+    LteRac* racPkt = check_and_cast<LteRac*> (pkt);
+    UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(
+            racPkt->getControlInfo());
+
     std::string cainOpt = uinfo->getCAINOptions();
+
+    // TODO all RACs are marked are successful
+    racPkt->setSuccess(true);
+
 
     EV << "CAIN message from id: " << uinfo->getSourceId() << ", to id: " << uinfo->getDestId()
             << " with option: " << cainOpt << endl;
@@ -589,13 +604,13 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             EV << "The nodes that need a relay are: " << endl;
             EV << "Node list size: " << node.size() << endl;
             int i = 0;
-            /*for(i = 0; i < node.size()-1; i++){
+            for(i = 0; i < node.size()-1; i++){
                 EV << node[i] << endl;
 
                 /*
                  * Changing the connect address online
                  * */
-                /*const char* connectUe = binder_->getUeNodeNameById(node[i]);
+                const char* connectUe = binder_->getUeNodeNameById(node[i]);
                 this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
                         ->getAncestorPar("connectAddress") = connectUe;
 
@@ -605,21 +620,21 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
 
                 EV << "This node: " << nodeId_ << endl;
 
-                cPacket* pack = pkt->dup();
-                pack->encapsulate(pkt->decapsulate());
-                //UserControlInfo* uinfoDup = uinfo->dup();
-                uinfo->setDestId(node[i]);
-                uinfo->setSourceId(nodeId_);
-                uinfo->setCAINDirection(REL);
-                uinfo->setCAINEnable(true);
-                uinfo->setCAINOption("OK");
-                if(pack->getControlInfo() == NULL)
-                    pack->setControlInfo(uinfo);
+                LteRac* pack = racPkt->dup();
+                //pack->encapsulate(pkt->decapsulate());
+                UserControlInfo* uinfoDup = uinfo->dup();
+                uinfoDup->setDestId(node[i]);
+                uinfoDup->setSourceId(nodeId_);
+                uinfoDup->setCAINDirection(REL);
+                uinfoDup->setCAINEnable(true);
+                uinfoDup->setCAINOption("OK");
+                //if(pack->getControlInfo() == NULL)
+                pack->setControlInfo(uinfoDup);
                 sendLowerPackets(pack);
-            }*/
+            }
 
-            cPacket* pack = pkt->dup();
-            pack->encapsulate(pkt->decapsulate());
+            /*cPacket* pack = pkt->dup();
+            pack->encapsulate(pkt->decapsulate());*/
             EV << node[i] << endl;
             //MacNodeId thisNode = uinfo->getDestId();
             const char* connectUe = binder_->getUeNodeNameById(node[i]);
@@ -630,8 +645,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             uinfo->setCAINDirection(REL);
             uinfo->setCAINEnable(true);
             uinfo->setCAINOption("OK");
-            pack->setControlInfo(uinfo);
-            sendLowerPackets(pack);
+            //racPkt->setControlInfo(uinfo);
+            sendLowerPackets(racPkt);
             break;
         }
         case REL:
@@ -995,6 +1010,7 @@ void LteMacUeRealisticD2D::handleSelfMessage()
         if(!retx)
         {
             scheduleList_ = lcgScheduler_->schedule();
+            EV << "LteMacUeRealisticD2D aqui" << endl;
             if ((bsrTriggered_ || bsrD2DMulticastTriggered_) && scheduleList_->empty())
             {
                 // no connection scheduled, but we can use this grant to send a BSR to the eNB

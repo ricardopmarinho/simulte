@@ -94,8 +94,10 @@ bool LteMacUeRealistic::macSduRequest()
 
 void LteMacUeRealistic::macPduMake()
 {
+    EV << "LteMacUeRealistic::macPduMake" << endl;
     int64 size = 0;
 
+    EV << "LteMacUeRealistic::macPduMake1" << endl;
     macPduList_.clear();
 
     //  Build a MAC pdu for each scheduled user on each codeword
@@ -395,15 +397,20 @@ void LteMacUeRealistic::handleUpperMessage(cPacket* pkt)
     // bufferize packet
     bufferizePacket(pkt);
 
+    EV << "Aqui" << endl;
+
     if (strcmp(pkt->getName(), "lteRlcFragment") == 0)
     {
+        EV << "Aqui1" << endl;
         // new MAC SDU has been received
         if (pkt->getByteLength() == 0)
             delete pkt;
 
+        EV << "Aqui 2" << endl;
         // creates pdus from schedule list and puts them in harq buffers
         macPduMake();
 
+        EV << "Aqui 3" << endl;
         EV << NOW << " LteMacUeRealistic::handleUpperMessage - incrementing counter for HARQ processes " << (unsigned int)currentHarq_ << " --> " << (currentHarq_+1)%harqProcesses_ << endl;
         currentHarq_ = (currentHarq_+1)%harqProcesses_;
     }
