@@ -1,20 +1,20 @@
 version 2
-run CAIN-17-20190905-13:25:51-3079
+run CAIN-16-20190905-13:25:51-3074
 attr configname CAIN
 attr datetime 20190905-13:25:51
 attr experiment CAIN
 attr inifile omnetpp.ini
 attr iterationvars $numUe=5
-attr iterationvars2 "$numUe=5, $repetition=2"
+attr iterationvars2 "$numUe=5, $repetition=1"
 attr measurement $numUe=5
 attr network lte.simulations.networks.CAIN
 attr numUe 5
-attr processid 3079
-attr repetition 2
-attr replication #2
+attr processid 3074
+attr repetition 1
+attr replication #1
 attr resultdir results
-attr runnumber 17
-attr seedset 2
+attr runnumber 16
+attr seedset 1
 param **.**.amcMode "\"AUTO\""
 param **.amcMode "\"D2D\""
 param **.channelControl.alpha 1.0
@@ -776,35 +776,55 @@ scalar CAIN.pgw.udp 	sentPk:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPk
 attr title  "packets sent, sum(packetBytes)"
-scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToLowerLayer:count 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToLowerLayer:count 	4
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	172
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToUpperLayer:count 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToUpperLayer:count 	4
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	168
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	4
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	172
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	4
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	0
+scalar CAIN.eNodeB.nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	168
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.eNodeB.nic.rlc.um 	rlcCellPacketLossUl:lteAvg 	0
+attr source  rlcCellPacketLossUl
+attr title  "rlc Cell Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.eNodeB.nic.rlc.um 	rlcCellPacketLossDl:lteAvg 	0
+attr source  rlcCellPacketLossDl
+attr title  "rlc Cell Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.eNodeB.nic.rlc.um 	rlcCellThroughputDl:lteRate 	35.116374030216
+attr source  rlcCellThroughputDl
+attr title  "Cell Throughput at the rlc layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.eNodeB.nic.rlc.um 	rlcCellThroughputUl:lteRate 	35.080562920661
+attr source  rlcCellThroughputUl
+attr title  "Cell Throughput at the rlc layer UL, lteRate"
+attr unit  Bps
 scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	15
 attr source  cqiDlMuMimo4
 attr title  "Average cqi MuMimo band 4, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	3
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	13
+attr source  cqiDlMuMimo4
+attr title  "Average cqi MuMimo band 4, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	11
 attr source  cqiDlMuMimo4
 attr title  "Average cqi MuMimo band 4, lteAvg"
 attr unit  cqi
@@ -812,11 +832,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	2
 attr source  cqiDlMuMimo4
 attr title  "Average cqi MuMimo band 4, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	7
-attr source  cqiDlMuMimo4
-attr title  "Average cqi MuMimo band 4, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	6
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo4:lteAvg 	2
 attr source  cqiDlMuMimo4
 attr title  "Average cqi MuMimo band 4, lteAvg"
 attr unit  cqi
@@ -824,11 +840,15 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	15
 attr source  cqiDlMuMimo3
 attr title  "Average cqi MuMimo band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	5
 attr source  cqiDlMuMimo3
 attr title  "Average cqi MuMimo band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	13
+attr source  cqiDlMuMimo3
+attr title  "Average cqi MuMimo band 3, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	2
 attr source  cqiDlMuMimo3
 attr title  "Average cqi MuMimo band 3, lteAvg"
 attr unit  cqi
@@ -836,15 +856,15 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	6
 attr source  cqiDlMuMimo3
 attr title  "Average cqi MuMimo band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo3:lteAvg 	5
-attr source  cqiDlMuMimo3
-attr title  "Average cqi MuMimo band 3, lteAvg"
-attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	15
 attr source  cqiDlMuMimo2
 attr title  "Average cqi MuMimo band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	14
+attr source  cqiDlMuMimo2
+attr title  "Average cqi MuMimo band 2, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	13
 attr source  cqiDlMuMimo2
 attr title  "Average cqi MuMimo band 2, lteAvg"
 attr unit  cqi
@@ -852,11 +872,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	2
 attr source  cqiDlMuMimo2
 attr title  "Average cqi MuMimo band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	3
-attr source  cqiDlMuMimo2
-attr title  "Average cqi MuMimo band 2, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	9
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo2:lteAvg 	4
 attr source  cqiDlMuMimo2
 attr title  "Average cqi MuMimo band 2, lteAvg"
 attr unit  cqi
@@ -864,7 +880,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo1:lteAvg 	15
 attr source  cqiDlMuMimo1
 attr title  "Average cqi MuMimo band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo1:lteAvg 	2
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo1:lteAvg 	10
+attr source  cqiDlMuMimo1
+attr title  "Average cqi MuMimo band 1, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo1:lteAvg 	14
 attr source  cqiDlMuMimo1
 attr title  "Average cqi MuMimo band 1, lteAvg"
 attr unit  cqi
@@ -876,23 +896,19 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo1:lteAvg 	4
 attr source  cqiDlMuMimo1
 attr title  "Average cqi MuMimo band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo1:lteAvg 	2
-attr source  cqiDlMuMimo1
-attr title  "Average cqi MuMimo band 1, lteAvg"
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo0:lteAvg 	15
+attr source  cqiDlMuMimo0
+attr title  "Average cqi MuMimo band 0, lteAvg"
 attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo0:lteAvg 	15
 attr source  cqiDlMuMimo0
 attr title  "Average cqi MuMimo band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo0:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo0:lteAvg 	12
 attr source  cqiDlMuMimo0
 attr title  "Average cqi MuMimo band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo0:lteAvg 	4
-attr source  cqiDlMuMimo0
-attr title  "Average cqi MuMimo band 0, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo0:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlMuMimo0:lteAvg 	2
 attr source  cqiDlMuMimo0
 attr title  "Average cqi MuMimo band 0, lteAvg"
 attr unit  cqi
@@ -904,14 +920,6 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv4:lteAvg 	15
 attr source  cqiDlTxDiv4
 attr title  "Average cqi TxDiv band 4, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv4:lteAvg 	13
-attr source  cqiDlTxDiv4
-attr title  "Average cqi TxDiv band 4, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv4:lteAvg 	8
-attr source  cqiDlTxDiv4
-attr title  "Average cqi TxDiv band 4, lteAvg"
-attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv4:lteAvg 	15
 attr source  cqiDlTxDiv4
 attr title  "Average cqi TxDiv band 4, lteAvg"
@@ -920,6 +928,18 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv4:lteAvg 	15
 attr source  cqiDlTxDiv4
 attr title  "Average cqi TxDiv band 4, lteAvg"
 attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv4:lteAvg 	2
+attr source  cqiDlTxDiv4
+attr title  "Average cqi TxDiv band 4, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv4:lteAvg 	10
+attr source  cqiDlTxDiv4
+attr title  "Average cqi TxDiv band 4, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv3:lteAvg 	15
+attr source  cqiDlTxDiv3
+attr title  "Average cqi TxDiv band 3, lteAvg"
+attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv3:lteAvg 	15
 attr source  cqiDlTxDiv3
 attr title  "Average cqi TxDiv band 3, lteAvg"
@@ -928,11 +948,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv3:lteAvg 	15
 attr source  cqiDlTxDiv3
 attr title  "Average cqi TxDiv band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv3:lteAvg 	14
-attr source  cqiDlTxDiv3
-attr title  "Average cqi TxDiv band 3, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv3:lteAvg 	15
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv3:lteAvg 	4
 attr source  cqiDlTxDiv3
 attr title  "Average cqi TxDiv band 3, lteAvg"
 attr unit  cqi
@@ -948,11 +964,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv2:lteAvg 	15
 attr source  cqiDlTxDiv2
 attr title  "Average cqi TxDiv band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv2:lteAvg 	6
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv2:lteAvg 	15
 attr source  cqiDlTxDiv2
 attr title  "Average cqi TxDiv band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv2:lteAvg 	13
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv2:lteAvg 	4
 attr source  cqiDlTxDiv2
 attr title  "Average cqi TxDiv band 2, lteAvg"
 attr unit  cqi
@@ -964,11 +980,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	15
 attr source  cqiDlTxDiv1
 attr title  "Average cqi TxDiv band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	9
-attr source  cqiDlTxDiv1
-attr title  "Average cqi TxDiv band 1, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	8
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	15
 attr source  cqiDlTxDiv1
 attr title  "Average cqi TxDiv band 1, lteAvg"
 attr unit  cqi
@@ -976,7 +988,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	15
 attr source  cqiDlTxDiv1
 attr title  "Average cqi TxDiv band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	9
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	2
+attr source  cqiDlTxDiv1
+attr title  "Average cqi TxDiv band 1, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv1:lteAvg 	14
 attr source  cqiDlTxDiv1
 attr title  "Average cqi TxDiv band 1, lteAvg"
 attr unit  cqi
@@ -984,15 +1000,15 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv0:lteAvg 	15
 attr source  cqiDlTxDiv0
 attr title  "Average cqi TxDiv band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv0:lteAvg 	14
-attr source  cqiDlTxDiv0
-attr title  "Average cqi TxDiv band 0, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv0:lteAvg 	14
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv0:lteAvg 	15
 attr source  cqiDlTxDiv0
 attr title  "Average cqi TxDiv band 0, lteAvg"
 attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv0:lteAvg 	15
+attr source  cqiDlTxDiv0
+attr title  "Average cqi TxDiv band 0, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlTxDiv0:lteAvg 	2
 attr source  cqiDlTxDiv0
 attr title  "Average cqi TxDiv band 0, lteAvg"
 attr unit  cqi
@@ -1004,7 +1020,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	15
 attr source  cqiDlSpmux4
 attr title  "Average cqi Spmux band 4, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	10
+attr source  cqiDlSpmux4
+attr title  "Average cqi Spmux band 4, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	8
 attr source  cqiDlSpmux4
 attr title  "Average cqi Spmux band 4, lteAvg"
 attr unit  cqi
@@ -1012,11 +1032,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	2
 attr source  cqiDlSpmux4
 attr title  "Average cqi Spmux band 4, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	6
-attr source  cqiDlSpmux4
-attr title  "Average cqi Spmux band 4, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	6
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux4:lteAvg 	2
 attr source  cqiDlSpmux4
 attr title  "Average cqi Spmux band 4, lteAvg"
 attr unit  cqi
@@ -1028,7 +1044,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux3:lteAvg 	5
 attr source  cqiDlSpmux3
 attr title  "Average cqi Spmux band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux3:lteAvg 	5
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux3:lteAvg 	10
+attr source  cqiDlSpmux3
+attr title  "Average cqi Spmux band 3, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux3:lteAvg 	2
 attr source  cqiDlSpmux3
 attr title  "Average cqi Spmux band 3, lteAvg"
 attr unit  cqi
@@ -1036,15 +1056,15 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux3:lteAvg 	6
 attr source  cqiDlSpmux3
 attr title  "Average cqi Spmux band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux3:lteAvg 	5
-attr source  cqiDlSpmux3
-attr title  "Average cqi Spmux band 3, lteAvg"
-attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	15
 attr source  cqiDlSpmux2
 attr title  "Average cqi Spmux band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	5
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	11
+attr source  cqiDlSpmux2
+attr title  "Average cqi Spmux band 2, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	10
 attr source  cqiDlSpmux2
 attr title  "Average cqi Spmux band 2, lteAvg"
 attr unit  cqi
@@ -1052,11 +1072,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	2
 attr source  cqiDlSpmux2
 attr title  "Average cqi Spmux band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	4
-attr source  cqiDlSpmux2
-attr title  "Average cqi Spmux band 2, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	7
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux2:lteAvg 	5
 attr source  cqiDlSpmux2
 attr title  "Average cqi Spmux band 2, lteAvg"
 attr unit  cqi
@@ -1064,7 +1080,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux1:lteAvg 	15
 attr source  cqiDlSpmux1
 attr title  "Average cqi Spmux band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux1:lteAvg 	2
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux1:lteAvg 	7
+attr source  cqiDlSpmux1
+attr title  "Average cqi Spmux band 1, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux1:lteAvg 	11
 attr source  cqiDlSpmux1
 attr title  "Average cqi Spmux band 1, lteAvg"
 attr unit  cqi
@@ -1076,23 +1096,19 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux1:lteAvg 	5
 attr source  cqiDlSpmux1
 attr title  "Average cqi Spmux band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux1:lteAvg 	2
-attr source  cqiDlSpmux1
-attr title  "Average cqi Spmux band 1, lteAvg"
-attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux0:lteAvg 	15
 attr source  cqiDlSpmux0
 attr title  "Average cqi Spmux band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux0:lteAvg 	5
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux0:lteAvg 	13
 attr source  cqiDlSpmux0
 attr title  "Average cqi Spmux band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux0:lteAvg 	5
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux0:lteAvg 	8
 attr source  cqiDlSpmux0
 attr title  "Average cqi Spmux band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux0:lteAvg 	5
+scalar CAIN.eNodeB.nic.mac 	cqiDlSpmux0:lteAvg 	2
 attr source  cqiDlSpmux0
 attr title  "Average cqi Spmux band 0, lteAvg"
 attr unit  cqi
@@ -1104,7 +1120,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	15
 attr source  cqiDlSiso4
 attr title  "Average cqi siso band 4, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	3
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	13
+attr source  cqiDlSiso4
+attr title  "Average cqi siso band 4, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	11
 attr source  cqiDlSiso4
 attr title  "Average cqi siso band 4, lteAvg"
 attr unit  cqi
@@ -1112,11 +1132,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	2
 attr source  cqiDlSiso4
 attr title  "Average cqi siso band 4, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	7
-attr source  cqiDlSiso4
-attr title  "Average cqi siso band 4, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	6
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso4:lteAvg 	2
 attr source  cqiDlSiso4
 attr title  "Average cqi siso band 4, lteAvg"
 attr unit  cqi
@@ -1124,11 +1140,15 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	15
 attr source  cqiDlSiso3
 attr title  "Average cqi siso band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	5
 attr source  cqiDlSiso3
 attr title  "Average cqi siso band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	13
+attr source  cqiDlSiso3
+attr title  "Average cqi siso band 3, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	2
 attr source  cqiDlSiso3
 attr title  "Average cqi siso band 3, lteAvg"
 attr unit  cqi
@@ -1136,15 +1156,15 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	6
 attr source  cqiDlSiso3
 attr title  "Average cqi siso band 3, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso3:lteAvg 	5
-attr source  cqiDlSiso3
-attr title  "Average cqi siso band 3, lteAvg"
-attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	15
 attr source  cqiDlSiso2
 attr title  "Average cqi siso band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	14
+attr source  cqiDlSiso2
+attr title  "Average cqi siso band 2, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	13
 attr source  cqiDlSiso2
 attr title  "Average cqi siso band 2, lteAvg"
 attr unit  cqi
@@ -1152,11 +1172,7 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	2
 attr source  cqiDlSiso2
 attr title  "Average cqi siso band 2, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	3
-attr source  cqiDlSiso2
-attr title  "Average cqi siso band 2, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	9
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso2:lteAvg 	4
 attr source  cqiDlSiso2
 attr title  "Average cqi siso band 2, lteAvg"
 attr unit  cqi
@@ -1164,7 +1180,11 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSiso1:lteAvg 	15
 attr source  cqiDlSiso1
 attr title  "Average cqi siso band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso1:lteAvg 	2
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso1:lteAvg 	10
+attr source  cqiDlSiso1
+attr title  "Average cqi siso band 1, lteAvg"
+attr unit  cqi
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso1:lteAvg 	14
 attr source  cqiDlSiso1
 attr title  "Average cqi siso band 1, lteAvg"
 attr unit  cqi
@@ -1176,23 +1196,19 @@ scalar CAIN.eNodeB.nic.mac 	cqiDlSiso1:lteAvg 	4
 attr source  cqiDlSiso1
 attr title  "Average cqi siso band 1, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso1:lteAvg 	2
-attr source  cqiDlSiso1
-attr title  "Average cqi siso band 1, lteAvg"
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso0:lteAvg 	15
+attr source  cqiDlSiso0
+attr title  "Average cqi siso band 0, lteAvg"
 attr unit  cqi
 scalar CAIN.eNodeB.nic.mac 	cqiDlSiso0:lteAvg 	15
 attr source  cqiDlSiso0
 attr title  "Average cqi siso band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso0:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso0:lteAvg 	12
 attr source  cqiDlSiso0
 attr title  "Average cqi siso band 0, lteAvg"
 attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso0:lteAvg 	4
-attr source  cqiDlSiso0
-attr title  "Average cqi siso band 0, lteAvg"
-attr unit  cqi
-scalar CAIN.eNodeB.nic.mac 	cqiDlSiso0:lteAvg 	4
+scalar CAIN.eNodeB.nic.mac 	cqiDlSiso0:lteAvg 	2
 attr source  cqiDlSiso0
 attr title  "Average cqi siso band 0, lteAvg"
 attr unit  cqi
@@ -1204,30 +1220,30 @@ scalar CAIN.eNodeB.nic.mac 	depletedPowerUl:lteAvg 	0
 attr source  depletedPowerUl
 attr title  "LTE ENodeB depleted power Ul, lteAvg"
 attr unit  watts
-scalar CAIN.eNodeB.nic.mac 	depletedPowerDl:lteAvg 	260
+scalar CAIN.eNodeB.nic.mac 	depletedPowerDl:lteAvg 	260.006016
 attr source  depletedPowerDl
 attr title  "LTE ENodeB depleted power Dl, lteAvg"
 attr unit  watts
-scalar CAIN.eNodeB.nic.mac 	avgServedBlocksUl:lteAvg 	0.3974
+scalar CAIN.eNodeB.nic.mac 	avgServedBlocksUl:lteAvg 	0.4396
 attr source  avgServedBlocksUl
 attr title  "LTE Avg Served Blocks Ul, lteAvg"
 attr unit  blocks
-scalar CAIN.eNodeB.nic.mac 	avgServedBlocksDl:lteAvg 	0
+scalar CAIN.eNodeB.nic.mac 	avgServedBlocksDl:lteAvg 	0.0016
 attr source  avgServedBlocksDl
 attr title  "LTE Avg Served Blocks Dl, lteAvg"
 attr unit  blocks
-scalar CAIN.eNodeB.nic.mac 	cellBlocksUtilizationUl:lteAvg 	0.0079480000000001
+scalar CAIN.eNodeB.nic.mac 	cellBlocksUtilizationUl:lteAvg 	0.0087919999999998
 attr source  cellBlocksUtilizationUl
 attr title  "LTE Cell Blocks Utilization Ul, lteAvg"
 attr unit  blocks
-scalar CAIN.eNodeB.nic.mac 	cellBlocksUtilizationDl:lteAvg 	0
+scalar CAIN.eNodeB.nic.mac 	cellBlocksUtilizationDl:lteAvg 	3.2e-05
 attr source  cellBlocksUtilizationDl
 attr title  "LTE Cell Blocks Utilization Dl, lteAvg"
 attr unit  blocks
-scalar CAIN.eNodeB.nic.mac 	CainMessage:count 	19844
+scalar CAIN.eNodeB.nic.mac 	CainMessage:count 	0
 attr interpolationmode  none
 attr title  "eNB received CAIN message, count"
-scalar CAIN.eNodeB.nic.mac 	measuredItbs:mean 	-nan
+scalar CAIN.eNodeB.nic.mac 	measuredItbs:mean 	7.8
 attr source  measuredItbs
 attr title  "TBS index, mean"
 attr unit  ""
@@ -1307,38 +1323,94 @@ scalar CAIN.eNodeB.nic.mac 	macCellPacketLossD2D:mean 	-nan
 attr source  macCellPacketLossD2D
 attr title  "Mac Cell Packet Loss D2D, mean"
 attr unit  ""
-scalar CAIN.eNodeB.nic.mac 	macCellPacketLossUl:mean 	-nan
+scalar CAIN.eNodeB.nic.mac 	macCellPacketLossUl:mean 	0
 attr source  macCellPacketLossUl
 attr title  "Mac Cell Packet Loss, mean"
 attr unit  ""
-scalar CAIN.eNodeB.nic.mac 	macCellPacketLossDl:mean 	-nan
+scalar CAIN.eNodeB.nic.mac 	macCellPacketLossDl:mean 	0
 attr source  macCellPacketLossDl
 attr title  "Mac Cell Packet Loss, mean"
 attr unit  ""
-scalar CAIN.eNodeB.nic.mac 	sentPacketToLowerLayer:count 	6952
+scalar CAIN.eNodeB.nic.mac 	macCellThroughputDl:lteRate 	38.383013474888
+attr source  macCellThroughputDl
+attr title  "Cell Throughput at the MAC layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.eNodeB.nic.mac 	macCellThroughputUl:lteRate 	838.40844498579
+attr source  macCellThroughputUl
+attr title  "Cell Throughput at the MAC layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[0].nic.mac 	macThroughputUl:lteRate 	418.51927391393
+attr source  macThroughputUl
+attr title  "Throughput at the MAC layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[1].nic.mac 	macThroughputUl:lteRate 	400.32480714576
+attr source  macThroughputUl
+attr title  "Throughput at the MAC layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[2].nic.mac 	macThroughputUl:lteRate 	10.827374872319
+attr source  macThroughputUl
+attr title  "Throughput at the MAC layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[4].nic.mac 	macThroughputUl:lteRate 	10.796496231412
+attr source  macThroughputUl
+attr title  "Throughput at the MAC layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[0].nic.mac 	macDelayUl:lteAvg 	0.004
+attr source  macDelayUl
+attr title  "Delay at the MAC layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[1].nic.mac 	macDelayUl:lteAvg 	0.004
+attr source  macDelayUl
+attr title  "Delay at the MAC layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[2].nic.mac 	macDelayUl:lteAvg 	0.0066666666666667
+attr source  macDelayUl
+attr title  "Delay at the MAC layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[4].nic.mac 	macDelayUl:lteAvg 	0.004
+attr source  macDelayUl
+attr title  "Delay at the MAC layer UL, lteAvg"
+attr unit  s
+scalar CAIN.eNodeB.nic.mac 	sentPacketToLowerLayer:count 	6916
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
 scalar CAIN.eNodeB.nic.mac 	sentPacketToLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.eNodeB.nic.mac 	sentPacketToUpperLayer:count 	0
+scalar CAIN.eNodeB.nic.mac 	sentPacketToUpperLayer:count 	8
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.eNodeB.nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.eNodeB.nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	180
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.eNodeB.nic.mac 	receivedPacketFromLowerLayer:count 	28979
+scalar CAIN.eNodeB.nic.mac 	receivedPacketFromLowerLayer:count 	9106
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
 scalar CAIN.eNodeB.nic.mac 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.eNodeB.nic.mac 	receivedPacketFromUpperLayer:count 	0
+scalar CAIN.eNodeB.nic.mac 	receivedPacketFromUpperLayer:count 	8
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.eNodeB.nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	0
+scalar CAIN.eNodeB.nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	352
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.ueD2DTx[0].nic.mac 	averageCqiUl:lteAvg 	2
+attr source  averageCqiUl
+attr title  "Average Cqi reported in UL, lteAvg"
+attr unit  cqi
+scalar CAIN.ueD2DTx[1].nic.mac 	averageCqiUl:lteAvg 	2
+attr source  averageCqiUl
+attr title  "Average Cqi reported in UL, lteAvg"
+attr unit  cqi
+scalar CAIN.ueD2DTx[2].nic.mac 	averageCqiUl:lteAvg 	2
+attr source  averageCqiUl
+attr title  "Average Cqi reported in UL, lteAvg"
+attr unit  cqi
+scalar CAIN.ueD2DTx[4].nic.mac 	averageCqiUl:lteAvg 	2
+attr source  averageCqiUl
+attr title  "Average Cqi reported in UL, lteAvg"
+attr unit  cqi
 statistic CAIN.eNodeB.pppIf.queue 	queueingTime:histogram
 field count 0
 field mean -nan
@@ -1549,30 +1621,82 @@ scalar CAIN.ueD2DTx[0].tcpApp[0] 	sentPk:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPk
 attr title  "packets sent, sum(packetBytes)"
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToLowerLayer:count 	2
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToLowerLayer:count 	4
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	90
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	172
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToUpperLayer:count 	0
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToUpperLayer:count 	2
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	88
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	0
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	2
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	90
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	2
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	4
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	88
+scalar CAIN.ueD2DTx[0].nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	168
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPduPacketLossDl:lteAvg 	0
+attr source  rlcPduPacketLossDl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPduPacketLossUl:lteAvg 	0
+attr source  rlcPduPacketLossUl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPacketLossTotal:lteAvg 	0
+attr source  rlcPacketLossTotal
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPacketLossDl:lteAvg 	0
+attr source  rlcPacketLossDl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPacketLossUl:lteAvg 	0
+attr source  rlcPacketLossUl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPduThroughputUl:lteRate 	17.597708205443
+attr source  rlcPduThroughputUl
+attr title  "Throughput at the rlc layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPduDelayUl:lteAvg 	0.004
+attr source  rlcPduDelayUl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPduThroughputDl:lteRate 	19.191506737444
+attr source  rlcPduThroughputDl
+attr title  "Throughput at the rlc layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcPduDelayDl:lteAvg 	0.004
+attr source  rlcPduDelayDl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcThroughputUl:lteRate 	16.779210149376
+attr source  rlcThroughputUl
+attr title  "Throughput at the rlc layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcDelayUl:lteAvg 	0.013
+attr source  rlcDelayUl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcThroughputDl:lteRate 	18.374846876276
+attr source  rlcThroughputDl
+attr title  "Throughput at the rlc layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[0].nic.rlc.um 	rlcDelayDl:lteAvg 	0.005
+attr source  rlcDelayDl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
 scalar CAIN.ueD2DTx[0].nic.mac 	CainMessage:count 	0
 attr interpolationmode  none
 attr title  "eNB received CAIN message, count"
@@ -1620,11 +1744,11 @@ scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRate_1st_D2D:mean 	-nan
 attr source  harqErrorRate_1st_D2D
 attr title  "Harq Error Rate D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRate_1st_Dl:mean 	-nan
+scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRate_1st_Dl:mean 	0
 attr source  harqErrorRate_1st_Dl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRate_1st_Ul:mean 	-nan
+scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRate_1st_Ul:mean 	0
 attr source  harqErrorRate_1st_Ul
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -1632,11 +1756,11 @@ scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRateD2D:mean 	-nan
 attr source  harqErrorRateD2D
 attr title  "Harq Error Rate D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRateDl:mean 	-nan
+scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRateDl:mean 	0
 attr source  harqErrorRateDl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRateUl:mean 	-nan
+scalar CAIN.ueD2DTx[0].nic.mac 	harqErrorRateUl:mean 	0
 attr source  harqErrorRateUl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -1644,11 +1768,11 @@ scalar CAIN.ueD2DTx[0].nic.mac 	macPacketLossD2D:mean 	-nan
 attr source  macPacketLossD2D
 attr title  "Mac Packet Loss D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[0].nic.mac 	macPacketLossDl:mean 	-nan
+scalar CAIN.ueD2DTx[0].nic.mac 	macPacketLossDl:mean 	0
 attr source  macPacketLossDl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[0].nic.mac 	macPacketLossUl:mean 	-nan
+scalar CAIN.ueD2DTx[0].nic.mac 	macPacketLossUl:mean 	0
 attr source  macPacketLossUl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
@@ -1664,30 +1788,42 @@ scalar CAIN.ueD2DTx[0].nic.mac 	macCellPacketLossDl:mean 	-nan
 attr source  macCellPacketLossDl
 attr title  "Mac Cell Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[0].nic.mac 	sentPacketToLowerLayer:count 	40694
+scalar CAIN.ueD2DTx[0].nic.mac 	macThroughputDl:lteRate 	20.008166598612
+attr source  macThroughputDl
+attr title  "Throughput at the MAC layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[0].nic.mac 	macDelayDl:lteAvg 	0.004
+attr source  macDelayDl
+attr title  "Delay at the MAC layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[0].nic.mac 	sentPacketToLowerLayer:count 	1968
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
 scalar CAIN.ueD2DTx[0].nic.mac 	sentPacketToLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[0].nic.mac 	sentPacketToUpperLayer:count 	0
+scalar CAIN.ueD2DTx[0].nic.mac 	sentPacketToUpperLayer:count 	8
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[0].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[0].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	94
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[0].nic.mac 	receivedPacketFromLowerLayer:count 	25801
+scalar CAIN.ueD2DTx[0].nic.mac 	receivedPacketFromLowerLayer:count 	2951
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
 scalar CAIN.ueD2DTx[0].nic.mac 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[0].nic.mac 	receivedPacketFromUpperLayer:count 	2
+scalar CAIN.ueD2DTx[0].nic.mac 	receivedPacketFromUpperLayer:count 	10
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.ueD2DTx[0].nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	90
+scalar CAIN.ueD2DTx[0].nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	258
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.ueD2DTx[0].nic.mac 	averageCqiDl:lteAvg 	15
+attr source  averageCqiDl
+attr title  "Average Cqi reported in DL, lteAvg"
+attr unit  cqi
 scalar CAIN.ueD2DTx[0].networkLayer.arp 	failedARPResolution:count 	0
 attr title  "ARP failed resolutions, count"
 scalar CAIN.ueD2DTx[0].networkLayer.arp 	completedARPResolution:count 	0
@@ -1835,7 +1971,7 @@ scalar CAIN.ueD2DTx[1].nic.mac 	harqErrorRate_1st_Dl:mean 	-nan
 attr source  harqErrorRate_1st_Dl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[1].nic.mac 	harqErrorRate_1st_Ul:mean 	-nan
+scalar CAIN.ueD2DTx[1].nic.mac 	harqErrorRate_1st_Ul:mean 	0
 attr source  harqErrorRate_1st_Ul
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -1847,7 +1983,7 @@ scalar CAIN.ueD2DTx[1].nic.mac 	harqErrorRateDl:mean 	-nan
 attr source  harqErrorRateDl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[1].nic.mac 	harqErrorRateUl:mean 	-nan
+scalar CAIN.ueD2DTx[1].nic.mac 	harqErrorRateUl:mean 	0
 attr source  harqErrorRateUl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -1859,7 +1995,7 @@ scalar CAIN.ueD2DTx[1].nic.mac 	macPacketLossDl:mean 	-nan
 attr source  macPacketLossDl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[1].nic.mac 	macPacketLossUl:mean 	-nan
+scalar CAIN.ueD2DTx[1].nic.mac 	macPacketLossUl:mean 	0
 attr source  macPacketLossUl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
@@ -1875,7 +2011,7 @@ scalar CAIN.ueD2DTx[1].nic.mac 	macCellPacketLossDl:mean 	-nan
 attr source  macCellPacketLossDl
 attr title  "Mac Cell Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[1].nic.mac 	sentPacketToLowerLayer:count 	5954
+scalar CAIN.ueD2DTx[1].nic.mac 	sentPacketToLowerLayer:count 	1974
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
 scalar CAIN.ueD2DTx[1].nic.mac 	sentPacketToLowerLayer:sum(packetBytes) 	0
@@ -1887,7 +2023,7 @@ attr source  sentPacketToUpperLayer
 scalar CAIN.ueD2DTx[1].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[1].nic.mac 	receivedPacketFromLowerLayer:count 	4962
+scalar CAIN.ueD2DTx[1].nic.mac 	receivedPacketFromLowerLayer:count 	2960
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
 scalar CAIN.ueD2DTx[1].nic.mac 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
@@ -1971,30 +2107,82 @@ scalar CAIN.ueD2DTx[2].tcpApp[0] 	sentPk:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPk
 attr title  "packets sent, sum(packetBytes)"
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToLowerLayer:count 	2
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToLowerLayer:count 	1
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	90
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	45
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToUpperLayer:count 	0
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToUpperLayer:count 	1
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	40
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	0
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	1
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	41
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	2
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	1
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	88
+scalar CAIN.ueD2DTx[2].nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	44
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPduPacketLossDl:lteAvg 	0
+attr source  rlcPduPacketLossDl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPduPacketLossUl:lteAvg 	0
+attr source  rlcPduPacketLossUl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPacketLossTotal:lteAvg 	0
+attr source  rlcPacketLossTotal
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPacketLossDl:lteAvg 	0
+attr source  rlcPacketLossDl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPacketLossUl:lteAvg 	0
+attr source  rlcPacketLossUl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPduThroughputUl:lteRate 	9.6291743495185
+attr source  rlcPduThroughputUl
+attr title  "Throughput at the rlc layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPduDelayUl:lteAvg 	0.012
+attr source  rlcPduDelayUl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPduThroughputDl:lteRate 	8.8550247116969
+attr source  rlcPduThroughputDl
+attr title  "Throughput at the rlc layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcPduDelayDl:lteAvg 	0.004
+attr source  rlcPduDelayDl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcThroughputUl:lteRate 	9.219422249539
+attr source  rlcThroughputUl
+attr title  "Throughput at the rlc layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcDelayUl:lteAvg 	0.02241296104
+attr source  rlcDelayUl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcThroughputDl:lteRate 	8.4431630971993
+attr source  rlcThroughputDl
+attr title  "Throughput at the rlc layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[2].nic.rlc.um 	rlcDelayDl:lteAvg 	0.005
+attr source  rlcDelayDl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
 scalar CAIN.ueD2DTx[2].nic.mac 	CainMessage:count 	0
 attr interpolationmode  none
 attr title  "eNB received CAIN message, count"
@@ -2034,7 +2222,7 @@ scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_2nd_Dl:mean 	-nan
 attr source  harqErrorRate_2nd_Dl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_2nd_Ul:mean 	-nan
+scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_2nd_Ul:mean 	0
 attr source  harqErrorRate_2nd_Ul
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -2042,11 +2230,11 @@ scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_1st_D2D:mean 	-nan
 attr source  harqErrorRate_1st_D2D
 attr title  "Harq Error Rate D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_1st_Dl:mean 	-nan
+scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_1st_Dl:mean 	0
 attr source  harqErrorRate_1st_Dl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_1st_Ul:mean 	-nan
+scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRate_1st_Ul:mean 	0.33333333333333
 attr source  harqErrorRate_1st_Ul
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -2054,11 +2242,11 @@ scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRateD2D:mean 	-nan
 attr source  harqErrorRateD2D
 attr title  "Harq Error Rate D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRateDl:mean 	-nan
+scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRateDl:mean 	0
 attr source  harqErrorRateDl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRateUl:mean 	-nan
+scalar CAIN.ueD2DTx[2].nic.mac 	harqErrorRateUl:mean 	0.25
 attr source  harqErrorRateUl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -2066,11 +2254,11 @@ scalar CAIN.ueD2DTx[2].nic.mac 	macPacketLossD2D:mean 	-nan
 attr source  macPacketLossD2D
 attr title  "Mac Packet Loss D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	macPacketLossDl:mean 	-nan
+scalar CAIN.ueD2DTx[2].nic.mac 	macPacketLossDl:mean 	0
 attr source  macPacketLossDl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	macPacketLossUl:mean 	-nan
+scalar CAIN.ueD2DTx[2].nic.mac 	macPacketLossUl:mean 	0
 attr source  macPacketLossUl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
@@ -2086,30 +2274,42 @@ scalar CAIN.ueD2DTx[2].nic.mac 	macCellPacketLossDl:mean 	-nan
 attr source  macCellPacketLossDl
 attr title  "Mac Cell Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[2].nic.mac 	sentPacketToLowerLayer:count 	5956
+scalar CAIN.ueD2DTx[2].nic.mac 	macThroughputDl:lteRate 	9.2668863261944
+attr source  macThroughputDl
+attr title  "Throughput at the MAC layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[2].nic.mac 	macDelayDl:lteAvg 	0.004
+attr source  macDelayDl
+attr title  "Delay at the MAC layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[2].nic.mac 	sentPacketToLowerLayer:count 	7
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
 scalar CAIN.ueD2DTx[2].nic.mac 	sentPacketToLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[2].nic.mac 	sentPacketToUpperLayer:count 	0
+scalar CAIN.ueD2DTx[2].nic.mac 	sentPacketToUpperLayer:count 	4
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[2].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[2].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	43
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[2].nic.mac 	receivedPacketFromLowerLayer:count 	4962
+scalar CAIN.ueD2DTx[2].nic.mac 	receivedPacketFromLowerLayer:count 	12
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
 scalar CAIN.ueD2DTx[2].nic.mac 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[2].nic.mac 	receivedPacketFromUpperLayer:count 	2
+scalar CAIN.ueD2DTx[2].nic.mac 	receivedPacketFromUpperLayer:count 	4
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.ueD2DTx[2].nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	90
+scalar CAIN.ueD2DTx[2].nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	92
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.ueD2DTx[2].nic.mac 	averageCqiDl:lteAvg 	11
+attr source  averageCqiDl
+attr title  "Average Cqi reported in DL, lteAvg"
+attr unit  cqi
 scalar CAIN.ueD2DTx[2].networkLayer.arp 	failedARPResolution:count 	0
 attr title  "ARP failed resolutions, count"
 scalar CAIN.ueD2DTx[2].networkLayer.arp 	completedARPResolution:count 	0
@@ -2297,7 +2497,7 @@ scalar CAIN.ueD2DTx[3].nic.mac 	macCellPacketLossDl:mean 	-nan
 attr source  macCellPacketLossDl
 attr title  "Mac Cell Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[3].nic.mac 	sentPacketToLowerLayer:count 	5954
+scalar CAIN.ueD2DTx[3].nic.mac 	sentPacketToLowerLayer:count 	984
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
 scalar CAIN.ueD2DTx[3].nic.mac 	sentPacketToLowerLayer:sum(packetBytes) 	0
@@ -2309,7 +2509,7 @@ attr source  sentPacketToUpperLayer
 scalar CAIN.ueD2DTx[3].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[3].nic.mac 	receivedPacketFromLowerLayer:count 	4962
+scalar CAIN.ueD2DTx[3].nic.mac 	receivedPacketFromLowerLayer:count 	983
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
 scalar CAIN.ueD2DTx[3].nic.mac 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
@@ -2393,30 +2593,82 @@ scalar CAIN.ueD2DTx[4].tcpApp[0] 	sentPk:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPk
 attr title  "packets sent, sum(packetBytes)"
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToLowerLayer:count 	2
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToLowerLayer:count 	1
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	90
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToLowerLayer:sum(packetBytes) 	45
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToUpperLayer:count 	0
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToUpperLayer:count 	1
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	sentPacketToUpperLayer:sum(packetBytes) 	40
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	0
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromLowerLayer:count 	1
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromLowerLayer:sum(packetBytes) 	41
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	2
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromUpperLayer:count 	1
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	88
+scalar CAIN.ueD2DTx[4].nic.pdcpRrc 	receivedPacketFromUpperLayer:sum(packetBytes) 	44
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPduPacketLossDl:lteAvg 	0
+attr source  rlcPduPacketLossDl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPduPacketLossUl:lteAvg 	0
+attr source  rlcPduPacketLossUl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPacketLossTotal:lteAvg 	0
+attr source  rlcPacketLossTotal
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPacketLossDl:lteAvg 	0
+attr source  rlcPacketLossDl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPacketLossUl:lteAvg 	0
+attr source  rlcPacketLossUl
+attr title  "rlc Packet Loss, lteAvg"
+attr unit  ""
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPduThroughputUl:lteRate 	9.5859677748317
+attr source  rlcPduThroughputUl
+attr title  "Throughput at the rlc layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPduDelayUl:lteAvg 	0.004
+attr source  rlcPduDelayUl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPduThroughputDl:lteRate 	8.8078656288406
+attr source  rlcPduThroughputDl
+attr title  "Throughput at the rlc layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcPduDelayDl:lteAvg 	0.004
+attr source  rlcPduDelayDl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcThroughputUl:lteRate 	9.1780542524985
+attr source  rlcThroughputUl
+attr title  "Throughput at the rlc layer UL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcDelayUl:lteAvg 	0.014742016353
+attr source  rlcDelayUl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcThroughputDl:lteRate 	8.3981974600574
+attr source  rlcThroughputDl
+attr title  "Throughput at the rlc layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[4].nic.rlc.um 	rlcDelayDl:lteAvg 	0.005
+attr source  rlcDelayDl
+attr title  "Delay at the rlc layer UL, lteAvg"
+attr unit  s
 scalar CAIN.ueD2DTx[4].nic.mac 	CainMessage:count 	0
 attr interpolationmode  none
 attr title  "eNB received CAIN message, count"
@@ -2464,11 +2716,11 @@ scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRate_1st_D2D:mean 	-nan
 attr source  harqErrorRate_1st_D2D
 attr title  "Harq Error Rate D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRate_1st_Dl:mean 	-nan
+scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRate_1st_Dl:mean 	0
 attr source  harqErrorRate_1st_Dl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRate_1st_Ul:mean 	-nan
+scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRate_1st_Ul:mean 	0
 attr source  harqErrorRate_1st_Ul
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -2476,11 +2728,11 @@ scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRateD2D:mean 	-nan
 attr source  harqErrorRateD2D
 attr title  "Harq Error Rate D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRateDl:mean 	-nan
+scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRateDl:mean 	0
 attr source  harqErrorRateDl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRateUl:mean 	-nan
+scalar CAIN.ueD2DTx[4].nic.mac 	harqErrorRateUl:mean 	0
 attr source  harqErrorRateUl
 attr title  "Harq Error Rate Dl, mean"
 attr unit  ""
@@ -2488,11 +2740,11 @@ scalar CAIN.ueD2DTx[4].nic.mac 	macPacketLossD2D:mean 	-nan
 attr source  macPacketLossD2D
 attr title  "Mac Packet Loss D2D, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[4].nic.mac 	macPacketLossDl:mean 	-nan
+scalar CAIN.ueD2DTx[4].nic.mac 	macPacketLossDl:mean 	0
 attr source  macPacketLossDl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[4].nic.mac 	macPacketLossUl:mean 	-nan
+scalar CAIN.ueD2DTx[4].nic.mac 	macPacketLossUl:mean 	0
 attr source  macPacketLossUl
 attr title  "Mac Packet Loss, mean"
 attr unit  ""
@@ -2508,30 +2760,42 @@ scalar CAIN.ueD2DTx[4].nic.mac 	macCellPacketLossDl:mean 	-nan
 attr source  macCellPacketLossDl
 attr title  "Mac Cell Packet Loss, mean"
 attr unit  ""
-scalar CAIN.ueD2DTx[4].nic.mac 	sentPacketToLowerLayer:count 	5956
+scalar CAIN.ueD2DTx[4].nic.mac 	macThroughputDl:lteRate 	9.2175337976239
+attr source  macThroughputDl
+attr title  "Throughput at the MAC layer DL, lteRate"
+attr unit  Bps
+scalar CAIN.ueD2DTx[4].nic.mac 	macDelayDl:lteAvg 	0.004
+attr source  macDelayDl
+attr title  "Delay at the MAC layer UL, lteAvg"
+attr unit  s
+scalar CAIN.ueD2DTx[4].nic.mac 	sentPacketToLowerLayer:count 	6
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
 scalar CAIN.ueD2DTx[4].nic.mac 	sentPacketToLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  sentPacketToLowerLayer
-scalar CAIN.ueD2DTx[4].nic.mac 	sentPacketToUpperLayer:count 	993
+scalar CAIN.ueD2DTx[4].nic.mac 	sentPacketToUpperLayer:count 	4
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[4].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	0
+scalar CAIN.ueD2DTx[4].nic.mac 	sentPacketToUpperLayer:sum(packetBytes) 	43
 attr interpolationmode  none
 attr source  sentPacketToUpperLayer
-scalar CAIN.ueD2DTx[4].nic.mac 	receivedPacketFromLowerLayer:count 	5955
+scalar CAIN.ueD2DTx[4].nic.mac 	receivedPacketFromLowerLayer:count 	10
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
 scalar CAIN.ueD2DTx[4].nic.mac 	receivedPacketFromLowerLayer:sum(packetBytes) 	0
 attr interpolationmode  none
 attr source  receivedPacketFromLowerLayer
-scalar CAIN.ueD2DTx[4].nic.mac 	receivedPacketFromUpperLayer:count 	995
+scalar CAIN.ueD2DTx[4].nic.mac 	receivedPacketFromUpperLayer:count 	4
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
-scalar CAIN.ueD2DTx[4].nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	90
+scalar CAIN.ueD2DTx[4].nic.mac 	receivedPacketFromUpperLayer:sum(packetBytes) 	92
 attr interpolationmode  none
 attr source  receivedPacketFromUpperLayer
+scalar CAIN.ueD2DTx[4].nic.mac 	averageCqiDl:lteAvg 	4
+attr source  averageCqiDl
+attr title  "Average Cqi reported in DL, lteAvg"
+attr unit  cqi
 scalar CAIN.ueD2DTx[4].networkLayer.arp 	failedARPResolution:count 	0
 attr title  "ARP failed resolutions, count"
 scalar CAIN.ueD2DTx[4].networkLayer.arp 	completedARPResolution:count 	0

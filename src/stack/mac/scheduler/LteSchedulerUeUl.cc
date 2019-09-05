@@ -85,6 +85,7 @@ LteSchedulerUeUl::schedule()
             // set schedule list entry
             std::pair<MacCid, Codeword> schedulePair(it->first, cw);
             scheduleList_[schedulePair] = it->second;
+            EV << "LteSchedulerUeUl::schedule " << endl;
         }
 
         MacCid highestBackloggedFlow = 0;
