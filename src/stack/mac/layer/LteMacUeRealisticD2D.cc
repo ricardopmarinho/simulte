@@ -614,40 +614,48 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                 this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
                         ->getAncestorPar("connectAddress") = connectUe;
 
-                //EV<<endl << "The eNB id is " << uinfo->getENBId() << endl;
-
-                //MacNodeId thisNode = nodeId_;
 
                 EV << "This node: " << nodeId_ << endl;
 
-                LteRac* pack = racPkt->dup();
-                //pack->encapsulate(pkt->decapsulate());
-                UserControlInfo* uinfoDup = uinfo->dup();
-                uinfoDup->setDestId(node[i]);
-                uinfoDup->setSourceId(nodeId_);
-                uinfoDup->setCAINDirection(REL);
-                uinfoDup->setCAINEnable(true);
-                uinfoDup->setCAINOption("OK");
-                //if(pack->getControlInfo() == NULL)
-                pack->setControlInfo(uinfoDup);
-                sendLowerPackets(pack);
+                /*
+                 * if returns true, the relay is waiting for another relay response from that node
+                 * otherwise, the relay did not send any relay request to that node and can send one now
+                 * */
+                if(checkRepList(node[i])){
+                    EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
+                }else{
+                    LteRac* pack = racPkt->dup();
+                    //pack->encapsulate(pkt->decapsulate());
+                    UserControlInfo* uinfoDup = uinfo->dup();
+                    uinfoDup->setDestId(node[i]);
+                    uinfoDup->setSourceId(nodeId_);
+                    uinfoDup->setDirection(D2D);
+                    uinfoDup->setCAINDirection(REL);
+                    uinfoDup->setCAINEnable(true);
+                    uinfoDup->setCAINOption("OK");
+                    //if(pack->getControlInfo() == NULL)
+                    pack->setControlInfo(uinfoDup);
+                    sendLowerPackets(pack);
+                }
             }
 
-            /*cPacket* pack = pkt->dup();
-            pack->encapsulate(pkt->decapsulate());*/
             EV << node[i] << endl;
-            //MacNodeId thisNode = uinfo->getDestId();
-            const char* connectUe = binder_->getUeNodeNameById(node[i]);
-            this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
-                    ->getAncestorPar("connectAddress") = connectUe;
-            uinfo->setDestId(node[i]);
-            uinfo->setSourceId(nodeId_);
-            uinfo->setCAINDirection(REL);
-            uinfo->setCAINEnable(true);
-            uinfo->setCAINOption("OK");
-            //racPkt->setControlInfo(uinfo);
-            sendLowerPackets(racPkt);
-            break;
+            if(checkRepList(node[i])){
+                EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
+                delete racPkt;
+            }else{
+                const char* connectUe = binder_->getUeNodeNameById(node[i]);
+                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
+                        ->getAncestorPar("connectAddress") = connectUe;
+                uinfo->setDestId(node[i]);
+                uinfo->setSourceId(nodeId_);
+                uinfo->setDirection(D2D);
+                uinfo->setCAINDirection(REL);
+                uinfo->setCAINEnable(true);
+                uinfo->setCAINOption("OK");
+                sendLowerPackets(racPkt);
+            }
+                break;
         }
         case REL:
         {
@@ -669,7 +677,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
 
 
                /*
-                * Updatint the relay list
+                * Updating the relay list
                 * */
 
                if(updateRelayList(dest)){
@@ -699,13 +707,19 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             if(uinfo->getDestId()==nodeId_){
 
                 /*
+                 * Node sent a response to relay request -> remove the id from repList
+                 * */
+                removeNodeRepList(uinfo->getSourceId());
+
+                /*
                 * The connect address is just for the UEs.
                 * The message here is for eNB, therefore
                 * there is no need to change the connect address
                 * */
-                EV << "The response to relay request to node " << uinfo->getSourceId() << " is " << uinfo->getCAINOptions() << endl;
+                EV << "The response to relay request from node " << uinfo->getSourceId() << " is " << uinfo->getCAINOptions() << endl;
                 uinfo->setDestId(uinfo->getENBId());
                 uinfo->setSourceId(nodeId_);
+                uinfo->setDirection(UL);
                 uinfo->setCAINDirection(FWD);
                 uinfo->setCAINOption("message");
                 uinfo->setCAINEnable(true);
@@ -719,6 +733,50 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
     }
 }
 
+bool LteMacUeRealisticD2D::checkRepList(MacNodeId nodeId){
+    /*
+     * find UeInfo for the UE
+     * */
+    std::vector<UeInfo*>* ueVect = binder_->getUeList();
+    for(unsigned int i=0; i < ueVect->size(); i++){
+        if(this->getMacNodeId() == ueVect->at(i)->id){
+            /*
+             * get the repList for this UE
+             * */
+            rep_list* repList = ueVect->operator [](i)->repList;
+            for(unsigned int j=0; j < repList->size(); j++){
+                if(repList->at(j) == nodeId)
+                    return true;
+            }
+            return false;
+        }
+    }
+
+}
+
+void LteMacUeRealisticD2D::removeNodeRepList(MacNodeId nodeId){
+    /*
+     * find UeInfo for the UE
+     * */
+    std::vector<UeInfo*>* ueVect = binder_->getUeList();
+    for(unsigned int i=0; i < ueVect->size(); i++){
+        if(this->getMacNodeId() == ueVect->at(i)->id){
+            /*
+             * get the repList for this UE
+             * */
+            rep_list* repList = ueVect->operator [](i)->repList;
+            std::vector<MacNodeId>::iterator it = std::find(repList->begin(), repList->end(), nodeId);
+            if(it != repList->end()){
+                EV << "Node found on repList, removing it" << endl;
+                repList->erase(it);
+                return;
+            }else{
+                EV << "Node not found on repList, doing nothing" << endl;
+                return;
+            }
+        }
+    }
+}
 
 bool LteMacUeRealisticD2D::updateRelayList(MacNodeId relayId){
     /*

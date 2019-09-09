@@ -161,6 +161,8 @@ Added code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 600~603)
 
 Added LteMacUeRealisticD2D::handleCainMsg on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (line 569)
 
+Add LteMacUeRealisticD2D::checkRepList, LteMacUeRealisticD2D::removeNodeRepList, LteMacUeRealisticD2D::updateRelayList and LteMacUeRealisticD2D::printRelayList at PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 736, 757, 781 and 835) and .h (lines 99, 101, 108, 110)
+
 ========================== CAIN msg =========================
 ---------------------------------------------
 |Source|Destination|eNB ID|Direction|Options|
@@ -173,10 +175,10 @@ Array list with more relays working
 
 ========================== NEXT ============================
 
-Send relay message to more than one device
+Fix cid bug on simulation #10
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - Septenber 4th
+07/04/2019 - Septenber 9th
 
 

@@ -773,9 +773,23 @@ typedef std::pair<unsigned char, CwList> UnitList;
  * value: sinr
  */
 
-typedef std::map<MacNodeId,double> sinrMapB;//stores sinr that are better than the threshold
-typedef std::map<MacNodeId,double> sinrMapW;//stores sinr that are worse than the threshold
-typedef std::map<MacNodeId,double> relayList;//stores the list of possible relays for a UE
+/*
+ * stores sinr that are better than the threshold
+ */
+typedef std::map<MacNodeId,double> sinrMapB;
+/*
+ * stores sinr that are worse than the threshold
+ * */
+typedef std::map<MacNodeId,double> sinrMapW;
+/*
+ * stores the list of possible relays for a UE
+ * */
+typedef std::map<MacNodeId,double> relayList;
+
+/*
+ * stores the list of nodes that did not send a REP message to relay
+ * */
+typedef std::vector<MacNodeId> rep_list;
 
 /*********************
  * Incell Interference Support
@@ -818,6 +832,7 @@ struct UeInfo
     LtePhyBase* phy;
 ///////
     relayList* rList;
+    rep_list* repList;
 ///////
 };
 
