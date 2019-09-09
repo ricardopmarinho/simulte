@@ -92,6 +92,13 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
      * containing the size of its buffer (for that CID)
      */
     virtual void macPduMake();
+    /*
+     * Check the repList, if the list contains
+     * nodeId return true, otherwise, false
+     * */
+    bool checkRepList(MacNodeId nodeId);
+
+    void removeNodeRepList(MacNodeId nodeId);
 
     /*
      * Method to update relay list, therefore the UE that
