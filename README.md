@@ -163,6 +163,10 @@ Added LteMacUeRealisticD2D::handleCainMsg on PATH/src/stack/mac/layer/LteMacUeRe
 
 Add LteMacUeRealisticD2D::checkRepList, LteMacUeRealisticD2D::removeNodeRepList, LteMacUeRealisticD2D::updateRelayList and LteMacUeRealisticD2D::printRelayList at PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 736, 757, 781 and 835) and .h (lines 99, 101, 108, 110)
 
+HAD TO COMMENT line 81 from inet/src/inet/transportlayer/tcp/TCPConnectionRcvSegment.cc to simulations work
+	For some reason, some simulations send a packet without ACK bit setted and a new packet is produced, creating a problem
+	to CAIN
+
 ========================== CAIN msg =========================
 ---------------------------------------------
 |Source|Destination|eNB ID|Direction|Options|
@@ -179,6 +183,6 @@ Fix cid bug on simulation #10
 
 ========================== LAST UPDATE =====================
 
-07/04/2019 - Septenber 9th
+07/04/2019 - Septenber 10th
 
 

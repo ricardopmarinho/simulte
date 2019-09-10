@@ -16,3 +16,8 @@ std::map<MacNodeId,double> relayList -> list of possible relays at PATH/src/comm
 std::vector<MacNodeId> rep_list -> list of nodes that did not send a REP message to relay at PATH/src/common/LteCommon.h (line 790)
 	struct is part of UeInfo at PATH/src/common/LteCommon.h (line 835)
 	initialized at PATH/src/stack/mac/layer/LteMacUe.cc (line 79)
+
+
+HAD TO COMMENT line 81 from inet/src/inet/transportlayer/tcp/TCPConnectionRcvSegment.cc to simulations work
+	For some reason, some simulations send a packet without ACK bit setted and a new packet is produced, creating a problem
+	to CAIN
