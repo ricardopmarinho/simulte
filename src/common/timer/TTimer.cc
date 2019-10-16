@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "common/timer/TTimer.h"
+#include "TTimer.h"
 
 void TTimer::start(simtime_t t)
 {

@@ -7,9 +7,8 @@
 // and cannot be removed from it.
 //
 
-#include "common/LteControlInfo.h"
-#include "stack/mac/amc/UserTxParams.h"
-#include "common/LteControlInfo_m.h"
+#include "LteControlInfo.h"
+#include "UserTxParams.h"
 
 UserControlInfo::~UserControlInfo()
 {
@@ -54,7 +53,7 @@ void UserControlInfo::setCoord(const Coord& coord)
 
 void UserControlInfo::setUserTxParams(const UserTxParams *newParams)
 {
-    if(userTxParams != NULL){
+    if(userTxParams){
         delete userTxParams;
     }
     userTxParams = newParams;
@@ -62,77 +61,6 @@ void UserControlInfo::setUserTxParams(const UserTxParams *newParams)
 
 
 Coord UserControlInfo::getCoord() const
-{
-    return senderCoord;
-}
-
-void UserControlInfo::appendOption(std::string newOpt){
-    if(this->CAINoptions.empty())
-        this->CAINoptions=newOpt;
-    else
-        this->CAINoptions.append(";"+newOpt);
-}
-
-
-void UserControlInfo::setCAINOption(std::string newOpt){
-    this->CAINoptions=newOpt;
-}
-
-std::string UserControlInfo::getCAINOptions(){
-    return this->CAINoptions;
-}
-
-CAINControlInfo::~CAINControlInfo()
-{
-    if (userTxParams != NULL)
-    {
-        delete userTxParams;
-        userTxParams = NULL;
-    }
-}
-
-CAINControlInfo::CAINControlInfo() :
-    CAINControlInfo_Base()
-{
-    userTxParams = NULL;
-    grantedBlocks.clear();
-}
-
-CAINControlInfo& CAINControlInfo::operator=(const CAINControlInfo& other)
-{
-    if (&other == this)
-        return *this;
-
-    if (other.userTxParams != NULL)
-    {
-        const UserTxParams* txParams = check_and_cast<const UserTxParams*>(other.userTxParams);
-        this->userTxParams = txParams->dup();
-    }
-    else
-    {
-        this->userTxParams = NULL;
-    }
-    this->grantedBlocks = other.grantedBlocks;
-    this->senderCoord = other.senderCoord;
-    CAINControlInfo_Base::operator=(other);
-    return *this;
-}
-
-void CAINControlInfo::setCoord(const Coord& coord)
-{
-    senderCoord = coord;
-}
-
-void CAINControlInfo::setUserTxParams(const UserTxParams *newParams)
-{
-    if(userTxParams != NULL){
-        delete userTxParams;
-    }
-    userTxParams = newParams;
-}
-
-
-Coord CAINControlInfo::getCoord() const
 {
     return senderCoord;
 }

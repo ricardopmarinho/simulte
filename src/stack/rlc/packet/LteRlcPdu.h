@@ -10,8 +10,8 @@
 #ifndef LTERLCPDU_H_
 #define LTERLCPDU_H_
 
-#include "stack/rlc/packet/LteRlcPdu_m.h"
-#include "common/LteControlInfo.h"
+#include "LteRlcPdu_m.h"
+#include "LteControlInfo.h"
 
 class LteRlcPdu : public LteRlcPdu_Base {
    private:

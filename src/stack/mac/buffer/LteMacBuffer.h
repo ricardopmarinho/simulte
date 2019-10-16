@@ -10,7 +10,7 @@
 #ifndef _LTE_LTEMACBUFFER_H_
 #define _LTE_LTEMACBUFFER_H_
 
-#include "common/LteCommon.h"
+#include "LteCommon.h"
 #include <omnetpp.h>
 
 class LteMacQueue;

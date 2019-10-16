@@ -8,7 +8,7 @@
 //
 
 cplusplus {{
-#include "stack/rlc/packet/LteRlcSdu.h"
+    #include "LteRlcSdu.h"
 }}
 
 packet LteRlcSdu;

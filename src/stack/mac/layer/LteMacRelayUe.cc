@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 // 
 
-#include "stack/mac/layer/LteMacRelayUe.h"
+#include "LteMacRelayUe.h"
 
 Define_Module(LteMacRelayUe);
 

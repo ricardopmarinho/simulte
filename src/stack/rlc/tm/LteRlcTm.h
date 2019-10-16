@@ -11,8 +11,8 @@
 #define _LTE_LTERLCTM_H_
 
 #include <omnetpp.h>
-#include "common/LteCommon.h"
-#include "stack/rlc/LteRlcDefs.h"
+#include "LteCommon.h"
+#include "LteRlcDefs.h"
 
 /**
  * @class LteRlcTm

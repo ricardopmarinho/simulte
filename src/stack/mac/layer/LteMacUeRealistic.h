@@ -10,8 +10,8 @@
 #ifndef _LTE_LTEMACUEREALISTIC_H_
 #define _LTE_LTEMACUEREALISTIC_H_
 
-#include "stack/mac/layer/LteMacUe.h"
-#include "stack/mac/buffer/harq/LteHarqBufferTx.h"
+#include "LteMacUe.h"
+#include "LteHarqBufferTx.h"
 
 class LteSchedulingGrant;
 class LteSchedulerUeUl;

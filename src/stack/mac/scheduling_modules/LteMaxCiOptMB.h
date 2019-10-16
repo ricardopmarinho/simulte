@@ -8,9 +8,9 @@
 #ifndef LTEMAXCIOPTMB_H_
 #define LTEMAXCIOPTMB_H_
 
-#include "stack/mac/scheduler/LteScheduler.h"
+#include "LteScheduler.h"
 #include <string>
-#include "stack/mac/amc/AmcPilot.h"
+#include "AmcPilot.h"
 
 using namespace std;
 

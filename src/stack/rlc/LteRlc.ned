@@ -18,7 +18,6 @@ module LteRlc {
         @display("i=block/transport");      
         string LteRlcUmType = default("LteRlcUmRealistic");          // One of: "LteRlcUm", "LteRlcUmRealistic", "LteRlcUmRealisticD2D"      
         bool d2dCapable;                                             // inherit the value from the parent module
-        string umType = d2dCapable ? "LteRlcUmRealisticD2D" : LteRlcUmType;
 
     gates:
         //# 
@@ -43,7 +42,13 @@ module LteRlc {
         }
         
         // UM Module        
-        um: <umType> like ILteRlcUm {
+        um: LteRlcUm if (LteRlcUmType=="LteRlcUm") {
+            @display("p=200,100;");
+        }
+        um: LteRlcUmRealistic if (LteRlcUmType=="LteRlcUmRealistic" && !d2dCapable) {
+            @display("p=200,100;");
+        }
+        um: LteRlcUmRealisticD2D if (LteRlcUmType=="LteRlcUmRealistic" && d2dCapable) {
             @display("p=200,100;");
         }
         
@@ -100,13 +105,7 @@ simple LteRlcTm {
 // 
 // UM Module for the RLC layer of LTE Stack.
 //
-moduleinterface ILteRlcUm {
-    gates:
-        inout UM_Sap_up;    // Gate to PDCP
-        inout UM_Sap_down;    // Gate to RLC Mux
-}
-
-simple LteRlcUm like ILteRlcUm {
+simple LteRlcUm {
     parameters:
         @class("LteRlcUm");
         

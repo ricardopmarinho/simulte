@@ -9,8 +9,8 @@
 
 #ifndef _LTE_LTECHANNELMODEL_H_
 #define _LTE_LTECHANNELMODEL_H_
-#include "common/LteCommon.h"
-#include "common/LteControlInfo.h"
+#include "LteCommon.h"
+#include "LteControlInfo.h"
 
 class LteAirFrame;
 

@@ -10,7 +10,7 @@
 #ifndef _LTE_LTERLCAMPDU_H_
 #define _LTE_LTERLCAMPDU_H_
 
-#include "stack/rlc/am/packet/LteRlcAmPdu_m.h"
+#include "LteRlcAmPdu_m.h"
 
 class LteRlcAmPdu : public LteRlcAmPdu_Base
 {

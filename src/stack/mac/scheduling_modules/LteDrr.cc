@@ -7,8 +7,8 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/scheduling_modules/LteDrr.h"
-#include "stack/mac/scheduler/LteSchedulerEnb.h"
+#include "LteDrr.h"
+#include "LteSchedulerEnb.h"
 
 void LteDrr::prepareSchedule()
 {

@@ -11,8 +11,8 @@
 #define _LTE_UMTXENTITY_H_
 
 #include <omnetpp.h>
-#include "stack/rlc/um/LteRlcUmRealistic.h"
-#include "stack/rlc/LteRlcDefs.h"
+#include "LteRlcUmRealistic.h"
+#include "LteRlcDefs.h"
 
 /**
  * @class UmTxEntity

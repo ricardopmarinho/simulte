@@ -10,7 +10,7 @@
 #ifndef _LTE_LTEMACBASE_H_
 #define _LTE_LTEMACBASE_H_
 
-#include "common/LteCommon.h"
+#include "LteCommon.h"
 
 class LteHarqBufferTx;
 class LteHarqBufferRx;

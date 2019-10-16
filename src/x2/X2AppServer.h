@@ -10,9 +10,9 @@
 #ifndef __X2APPSERVER_H_
 #define __X2APPSERVER_H_
 
-#include "inet/applications/sctpapp/SCTPServer.h"
-#include "common/LteCommon.h"
-#include "corenetwork/binder/LteBinder.h"
+#include "SCTPServer.h"
+#include "LteCommon.h"
+#include "LteBinder.h"
 
 
 /**

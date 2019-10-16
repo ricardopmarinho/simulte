@@ -7,13 +7,13 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/layer/LteMacEnbRealisticD2D.h"
-#include "stack/phy/packet/LteFeedbackPkt.h"
-#include "stack/mac/layer/LteMacUeRealisticD2D.h"
-#include "stack/mac/buffer/harq/LteHarqBufferRx.h"
-#include "stack/mac/amc/AmcPilotD2D.h"
-#include "stack/mac/scheduler/LteSchedulerEnbUl.h"
-#include "stack/mac/packet/LteSchedulingGrant.h"
+#include "LteMacEnbRealisticD2D.h"
+#include "LteFeedbackPkt.h"
+#include "LteMacUeRealisticD2D.h"
+#include "LteHarqBufferRx.h"
+#include "AmcPilotD2D.h"
+#include "LteSchedulerEnbUl.h"
+#include "LteSchedulingGrant.h"
 
 Define_Module(LteMacEnbRealisticD2D);
 
@@ -48,8 +48,6 @@ void LteMacEnbRealisticD2D::initialize(int stage)
 
 void LteMacEnbRealisticD2D::macHandleFeedbackPkt(cPacket *pkt)
 {
-
-    EV << "At LteMacEnbRealisticD2D::macHandleFeedbackPkt\n";
     LteFeedbackPkt* fb = check_and_cast<LteFeedbackPkt*>(pkt);
     std::map<MacNodeId, LteFeedbackDoubleVector> fbMapD2D = fb->getLteFeedbackDoubleVectorD2D();
 

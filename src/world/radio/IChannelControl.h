@@ -20,8 +20,8 @@
 #include <list>
 #include <set>
 
-#include "inet/common/INETDefs.h"
-#include "inet/common/geometry/common/Coord.h"
+#include "INETDefs.h"
+#include "Coord.h"
 
 using namespace inet;
 
@@ -31,7 +31,7 @@ class AirFrame;
 /**
  * Interface to implement for a module that controls radio frequency channel access.
  */
-class IChannelControl
+class INET_API IChannelControl
 {
   protected:
     struct RadioEntry;

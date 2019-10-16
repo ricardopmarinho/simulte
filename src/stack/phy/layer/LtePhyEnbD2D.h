@@ -10,7 +10,7 @@
 #ifndef _LTE_AIRPHYENBD2D_H_
 #define _LTE_AIRPHYENBD2D_H_
 
-#include "stack/phy/layer/LtePhyEnb.h"
+#include "LtePhyEnb.h"
 
 class LtePhyEnbD2D : public LtePhyEnb
 {

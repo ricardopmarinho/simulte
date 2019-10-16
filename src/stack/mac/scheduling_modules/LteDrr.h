@@ -11,8 +11,8 @@
 #define _LTE_LTEDRR_H_
 
 #include <map>
-#include "stack/mac/scheduler/LteScheduler.h"
-#include "common/Circular.h"
+#include "LteScheduler.h"
+#include "Circular.h"
 
 class LteSchedulerEnb;
 

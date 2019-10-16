@@ -11,8 +11,8 @@
 #define _LTE_LTERLCMUX_H_
 
 #include <omnetpp.h>
-#include "common/LteCommon.h"
-#include "common/LteControlInfo.h"
+#include "LteCommon.h"
+#include "LteControlInfo.h"
 
 /**
  * \class LteRLC

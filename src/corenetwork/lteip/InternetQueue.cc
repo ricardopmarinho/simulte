@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "corenetwork/lteip/InternetQueue.h"
+#include "InternetQueue.h"
 
 Define_Module(InternetQueue);
 

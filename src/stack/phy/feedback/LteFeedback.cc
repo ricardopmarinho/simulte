@@ -8,7 +8,7 @@
 //
 
 #include <iostream>
-#include "stack/phy/feedback/LteFeedback.h"
+#include "LteFeedback.h"
 
 void
 LteSummaryBuffer::createSummary(LteFeedback fb)

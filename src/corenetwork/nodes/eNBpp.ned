@@ -71,7 +71,7 @@ module eNBpp
             nodeType = nodeType;
             @display("p=200,311");
         }
-        pppIf: PPPInterface {
+        ppp: PPPInterface {
             @display("p=569,311");
         }
         gtp_user: GtpUser {
@@ -101,7 +101,7 @@ module eNBpp
         //#
 
         nic.radioIn <-- radioIn;
-        pppIf.phys <--> ppp;
+        ppp.phys <--> ppp;
 
         udp.ipOut --> networkLayer.transportIn++;
         udp.ipIn <-- networkLayer.transportOut++;
@@ -111,8 +111,8 @@ module eNBpp
         gtp_user.udpOut --> udp.appIn++;
         gtp_user.udpIn <-- udp.appOut++;
 
-        networkLayer.ifOut++ --> pppIf.upperLayerIn;
-        pppIf.upperLayerOut --> networkLayer.ifIn++;
+        networkLayer.ifOut++ --> ppp.upperLayerIn;
+        ppp.upperLayerOut --> networkLayer.ifIn++;
 
         nic.upperLayerOut --> trafficFlowFilter.internetFilterGateIn;
         gtp_user.pppGate --> nic.upperLayerIn;

@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/buffer/LteMacBuffer.h"
+#include "LteMacBuffer.h"
 
 LteMacBuffer::LteMacBuffer()
 {

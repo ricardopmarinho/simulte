@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/compManager/LteCompManagerBase.h"
+#include "LteCompManagerBase.h"
 
 
 void LteCompManagerBase::initialize()

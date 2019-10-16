@@ -10,7 +10,7 @@
 #ifndef _LTE_LTEHARQPROCESSTX_H_
 #define _LTE_LTEHARQPROCESSTX_H_
 
-#include "stack/mac/buffer/harq/LteHarqUnitTx.h"
+#include "LteHarqUnitTx.h"
 
 typedef std::vector<LteHarqUnitTx *> UnitVector;
 typedef std::pair<unsigned char, TxHarqPduStatus> UnitStatus;

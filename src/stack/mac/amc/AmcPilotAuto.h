@@ -10,7 +10,7 @@
 #ifndef _LTE_AMCPILOTAUTO_H_
 #define _LTE_AMCPILOTAUTO_H_
 
-#include "stack/mac/amc/AmcPilot.h"
+#include "AmcPilot.h"
 
 /**
  * @class AmcPilotAuto

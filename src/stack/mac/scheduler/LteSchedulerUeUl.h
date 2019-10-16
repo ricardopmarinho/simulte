@@ -10,7 +10,7 @@
 #ifndef _LTE_LTE_SCHEDULER_UE_UL_H_
 #define _LTE_LTE_SCHEDULER_UE_UL_H_
 
-#include "common/LteCommon.h"
+#include "LteCommon.h"
 
 class LteMacUe;
 class LcgScheduler;

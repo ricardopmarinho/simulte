@@ -11,8 +11,8 @@
 #define _LTE_LTEHARQBUFFERTX_H_
 
 #include <vector>
-#include "stack/mac/packet/LteHarqFeedback_m.h"
-#include "stack/mac/buffer/harq/LteHarqProcessTx.h"
+#include "LteHarqFeedback_m.h"
+#include "LteHarqProcessTx.h"
 
 /*
  * NOTA: e' compito del mac ul usare solo il processo di turno, non c'e' nessun controllo.

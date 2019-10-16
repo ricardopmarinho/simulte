@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 // 
 
-#include "stack/phy/feedback/testFeedback/FeedbackTester.h"
+#include "FeedbackTester.h"
 
 Define_Module(FeedbackTester);
 

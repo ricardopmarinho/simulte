@@ -7,10 +7,10 @@
 // and cannot be removed from it.
 //
 
-#include "stack/rlc/um/entity/UmRxEntity.h"
-#include "stack/mac/layer/LteMacBase.h"
-#include "stack/mac/layer/LteMacEnb.h"
-#include "stack/rlc/um/LteRlcUm.h"
+#include "UmRxEntity.h"
+#include "LteMacBase.h"
+#include "LteMacEnb.h"
+#include "LteRlcUm.h"
 
 Define_Module(UmRxEntity);
 

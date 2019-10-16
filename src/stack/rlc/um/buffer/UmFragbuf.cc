@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/rlc/um/buffer/UmFragbuf.h"
+#include "UmFragbuf.h"
 
 bool UmFragbuf::insert(unsigned int pktId, unsigned int totFrag,
     unsigned int fragSno, unsigned int fragSize, FlowControlInfo* info)

@@ -10,7 +10,7 @@
 #ifndef _LTE_AMCPILOTD2D_H_
 #define _LTE_AMCPILOTD2D_H_
 
-#include "stack/mac/amc/AmcPilot.h"
+#include "AmcPilot.h"
 
 /**
  * @class AmcPilotD2D

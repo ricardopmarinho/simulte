@@ -11,7 +11,7 @@
 #ifndef _LTE_LCGSCHEDULERREALISTIC_H_
 #define _LTE_LCGSCHEDULERREALISTIC_H_
 
-#include "stack/mac/scheduler/LcgScheduler.h"
+#include "LcgScheduler.h"
 
 /**
  * @class LcgSchedulerRealistic

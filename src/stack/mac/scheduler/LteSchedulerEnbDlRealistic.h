@@ -11,10 +11,10 @@
 #ifndef _LTE_LTESCHEDULERENBDLREALISTIC_H_
 #define _LTE_LTESCHEDULERENBDLREALISTIC_H_
 
-#include "stack/mac/scheduler/LteSchedulerEnbDl.h"
-#include "common/LteCommon.h"
-#include "stack/mac/amc/LteAmc.h"
-#include "stack/mac/amc/UserTxParams.h"
+#include "LteSchedulerEnbDl.h"
+#include "LteCommon.h"
+#include "LteAmc.h"
+#include "UserTxParams.h"
 
 class LteSchedulerEnbDlRealistic : public LteSchedulerEnbDl
 {

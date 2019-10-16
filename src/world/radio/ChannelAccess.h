@@ -24,9 +24,9 @@
 #include <list>
 #include <limits>
 
-#include "inet/common/INETDefs.h"
+#include "INETDefs.h"
 
-#include "world/radio/IChannelControl.h"
+#include "IChannelControl.h"
 
 // Forward declarations
 class AirFrame;
@@ -48,7 +48,7 @@ class AirFrame;
  * @ingroup channelControl
  * @ingroup phyLayer
  */
-class ChannelAccess : public cSimpleModule, public cListener
+class INET_API ChannelAccess : public cSimpleModule, public cListener
 {
   protected:
     IChannelControl* cc;  // Pointer to the ChannelControl module

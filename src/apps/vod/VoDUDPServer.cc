@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
-#include "apps/vod/VoDUDPServer.h"
+#include "VoDUDPServer.h"
 
 Define_Module(VoDUDPServer);
 

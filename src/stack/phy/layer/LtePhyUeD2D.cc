@@ -8,9 +8,9 @@
 //
 
 #include <assert.h>
-#include "stack/phy/layer/LtePhyUeD2D.h"
-#include "stack/phy/packet/LteFeedbackPkt.h"
-#include "stack/d2dModeSelection/D2DModeSelectionBase.h"
+#include "LtePhyUeD2D.h"
+#include "LteFeedbackPkt.h"
+#include "D2DModeSelectionBase.h"
 
 Define_Module(LtePhyUeD2D);
 
@@ -65,12 +65,6 @@ void LtePhyUeD2D::handleSelfMessage(cMessage *msg)
 void LtePhyUeD2D::handleAirFrame(cMessage* msg)
 {
     UserControlInfo* lteInfo = check_and_cast<UserControlInfo*>(msg->removeControlInfo());
-
-    EV << "Message arriving with destination " << lteInfo->getDestId() << " from " << lteInfo->getSourceId() << endl;
-    if(lteInfo->getCAINEnable()){
-        EV<<"CAIN MESSAGE!!!!\n";
-        EV<<"Options: "<< lteInfo->getCAINOptions() << endl;
-    }
 
     if (useBattery_)
     {
@@ -291,8 +285,6 @@ void LtePhyUeD2D::handleUpperMessage(cMessage* msg)
 
     lteInfo->setTxPower(txPower_);
     frame->setControlInfo(lteInfo);
-
-    EV << "Source id: " << lteInfo->getSourceId() << endl;
 
     EV << "LtePhyUeD2D::handleUpperMessage - " << nodeTypeToA(nodeType_) << " with id " << nodeId_
        << " sending message to the air channel. Dest=" << lteInfo->getDestId() << endl;
@@ -520,10 +512,8 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
 //        deployer_->channelIncrease(nodeId_);
 //        deployer_->lambdaIncrease(nodeId_,1);
 //    }
-
     lastFeedback_ = NOW;
     EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
        << nodeId_ << " sending feedback to the air channel" << endl;
     sendUnicast(frame);
-
 }

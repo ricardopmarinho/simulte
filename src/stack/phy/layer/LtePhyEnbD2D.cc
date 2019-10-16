@@ -7,10 +7,10 @@
 // and cannot be removed from it.
 //
 
-#include "stack/phy/layer/LtePhyEnbD2D.h"
-#include "stack/phy/packet/LteFeedbackPkt.h"
-#include "common/LteCommon.h"
-#include "stack/phy/das/DasFilter.h"
+#include "LtePhyEnbD2D.h"
+#include "LteFeedbackPkt.h"
+#include "LteCommon.h"
+#include "DasFilter.h"
 
 Define_Module(LtePhyEnbD2D);
 
@@ -139,22 +139,10 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
 
 void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
 {
-    bool find_relay = false;
     UserControlInfo* lteInfo = check_and_cast<UserControlInfo*>(msg->removeControlInfo());
-    //CAINControlInfo* lteInfo = check_and_cast<CAINControlInfo*>(msg->removeControlInfo());
     LteAirFrame* frame = static_cast<LteAirFrame*>(msg);
 
-
-    EV << "AQUI MESMO\n";
-
-    EV << "Device "<< lteInfo->getSourceId() << " sending the message to " << lteInfo->getDestId() << endl;
-
-    if(lteInfo->getCAINEnable()){
-        EV << "CAIN message!"<< endl;
-    }
-
     EV << "LtePhyEnbD2D::handleAirFrame - received new LteAirFrame with ID " << frame->getId() << " from channel" << endl;
-
 
     // handle broadcast packet sent by another eNB
     if (lteInfo->getFrameType() == HANDOVERPKT)
@@ -211,7 +199,6 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
     if (handleControlPkt(lteInfo, frame))
         return; // If frame contain a control pkt no further action is needed
 
-
     if ((lteInfo->getUserTxParams()) != NULL)
     {
         double cqi = lteInfo->getUserTxParams()->readCqiVector()[lteInfo->getCw()];
@@ -266,10 +253,6 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
     lteInfo->setDeciderResult(result);
     pkt->setControlInfo(lteInfo);
 
-    /*if(find_relay){
-        lteInfo->setFrameType(CAIN_INFOPKT);
-        send(pkt, upperGateOut_);
-    }else*/
     // send decapsulated message along with result control info to upperGateOut_
     send(pkt, upperGateOut_);
 

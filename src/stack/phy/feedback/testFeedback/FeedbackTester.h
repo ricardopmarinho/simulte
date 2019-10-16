@@ -11,7 +11,7 @@
 #define _LTE_FEEDBACKTESTER_H_
 
 #include <omnetpp.h>
-#include "stack/phy/feedback/LteDlFeedbackGenerator.h"
+#include "LteDlFeedbackGenerator.h"
 
 /**
  * TODO

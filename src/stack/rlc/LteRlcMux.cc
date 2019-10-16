@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/rlc/LteRlcMux.h"
+#include "LteRlcMux.h"
 
 Define_Module(LteRlcMux);
 

@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for libsimulte
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep --make-so -O out -I../../inet/src -L../../inet/out/$$\(CONFIGNAME\)/src -lINET -KINET_PROJ=../../inet
+#  opp_makemake -f --deep --make-so -O out -I../../inet/src/inet/mobility/contract -I../../inet/src/inet/mobility/static -I../../inet/src/inet/networklayer/contract/ipv4 -I../../inet/src/inet/common -I../../inet/src/inet/networklayer/common -I../../inet/src -I../../inet/src/inet/common/geometry/common -I../../inet/src/inet/transportlayer/tcp_common -I../../inet/src/inet/common/queue -I../../inet/src/inet/transportlayer/udp -I../../inet/src/inet/networklayer/ipv4 -I../../inet/src/inet/transportlayer/contract/udp -I../../inet/src/inet/transportlayer/contract/sctp -I../../inet/src/inet/applications/sctpapp -I../../inet/src/inet/transportlayer/sctp -I../../inet/src/inet/networklayer/configurator/ipv4 -L../../inet/out/$$\(CONFIGNAME\)/src -lINET -KINET_PROJ=../../inet
 #
 
 # Name of target to be created (-o option)
@@ -10,7 +10,22 @@ TARGET = libsimulte$(SHARED_LIB_SUFFIX)
 
 # C++ include paths (with -I)
 INCLUDE_PATH = \
+    -I../../inet/src/inet/mobility/contract \
+    -I../../inet/src/inet/mobility/static \
+    -I../../inet/src/inet/networklayer/contract/ipv4 \
+    -I../../inet/src/inet/common \
+    -I../../inet/src/inet/networklayer/common \
     -I../../inet/src \
+    -I../../inet/src/inet/common/geometry/common \
+    -I../../inet/src/inet/transportlayer/tcp_common \
+    -I../../inet/src/inet/common/queue \
+    -I../../inet/src/inet/transportlayer/udp \
+    -I../../inet/src/inet/networklayer/ipv4 \
+    -I../../inet/src/inet/transportlayer/contract/udp \
+    -I../../inet/src/inet/transportlayer/contract/sctp \
+    -I../../inet/src/inet/applications/sctpapp \
+    -I../../inet/src/inet/transportlayer/sctp \
+    -I../../inet/src/inet/networklayer/configurator/ipv4 \
     -I. \
     -Iapps \
     -Iapps/alert \
@@ -2155,7 +2170,6 @@ $O/stack/mac/layer/LteMacUeRealisticD2D.o: stack/mac/layer/LteMacUeRealisticD2D.
 	$(INET_PROJ)/src/inet/networklayer/common/ModulePathAddress.h \
 	$(INET_PROJ)/src/inet/networklayer/contract/ipv4/IPv4Address.h \
 	$(INET_PROJ)/src/inet/networklayer/contract/ipv6/IPv6Address.h \
-	common/CAINInfo_m.h \
 	common/LteCommon.h \
 	common/LteControlInfo.h \
 	common/LteControlInfo_m.h \
@@ -2191,7 +2205,6 @@ $O/stack/mac/layer/LteMacUeRealisticD2D.o: stack/mac/layer/LteMacUeRealisticD2D.
 	stack/mac/packet/LteHarqFeedback_m.h \
 	stack/mac/packet/LteMacPdu.h \
 	stack/mac/packet/LteMacPdu_m.h \
-	stack/mac/packet/LteRac_m.h \
 	stack/mac/packet/LteSchedulingGrant.h \
 	stack/mac/packet/LteSchedulingGrant_m.h \
 	stack/mac/scheduler/LteSchedulerUeUl.h \
@@ -2951,7 +2964,6 @@ $O/stack/phy/ChannelModel/CAINLteRealisticChannelModel.o: stack/phy/ChannelModel
 	stack/phy/feedback/LteFeedback.h \
 	stack/phy/feedback/LteFeedbackComputation.h \
 	stack/phy/feedback/LteFeedbackComputationRealistic.h \
-	stack/phy/layer/CAINLtePhyUe.h \
 	stack/phy/layer/LtePhyBase.h \
 	stack/phy/layer/LtePhyEnb.h \
 	stack/phy/layer/LtePhyUe.h \
@@ -3042,7 +3054,6 @@ $O/stack/phy/ChannelModel/LteRealisticChannelModel.o: stack/phy/ChannelModel/Lte
 	stack/phy/feedback/LteFeedback.h \
 	stack/phy/feedback/LteFeedbackComputation.h \
 	stack/phy/feedback/LteFeedbackComputationRealistic.h \
-	stack/phy/layer/CAINLtePhyUe.h \
 	stack/phy/layer/LtePhyBase.h \
 	stack/phy/layer/LtePhyEnb.h \
 	stack/phy/layer/LtePhyUe.h \
@@ -3162,7 +3173,6 @@ $O/stack/phy/feedback/LteDlFeedbackGenerator.o: stack/phy/feedback/LteDlFeedback
 	stack/phy/feedback/LteFeedbackComputation.h \
 	stack/phy/feedback/LteFeedbackComputationDummy.h \
 	stack/phy/feedback/LteFeedbackComputationRealistic.h \
-	stack/phy/layer/CAINLtePhyUe.h \
 	stack/phy/layer/LtePhyBase.h \
 	stack/phy/layer/LtePhyEnb.h \
 	stack/phy/layer/LtePhyUe.h \
@@ -3332,8 +3342,16 @@ $O/stack/phy/layer/CAINLtePhyUe.o: stack/phy/layer/CAINLtePhyUe.cc \
 	stack/mac/amc/LteAmc.h \
 	stack/mac/amc/LteMcs.h \
 	stack/mac/amc/UserTxParams.h \
+	stack/mac/buffer/harq/LteHarqBufferTx.h \
+	stack/mac/buffer/harq/LteHarqProcessTx.h \
+	stack/mac/buffer/harq/LteHarqUnitTx.h \
 	stack/mac/layer/LteMacBase.h \
 	stack/mac/layer/LteMacEnb.h \
+	stack/mac/layer/LteMacUe.h \
+	stack/mac/packet/LteHarqFeedback_m.h \
+	stack/mac/packet/LteMacPdu.h \
+	stack/mac/packet/LteMacPdu_m.h \
+	stack/pdcp_rrc/packet/LtePdcpPdu_m.h \
 	stack/phy/ChannelModel/LteChannelModel.h \
 	stack/phy/ChannelModel/LteDummyChannelModel.h \
 	stack/phy/ChannelModel/LteRealisticChannelModel.h \
@@ -3353,6 +3371,15 @@ $O/stack/phy/layer/CAINLtePhyUe.o: stack/phy/layer/CAINLtePhyUe.cc \
 	stack/phy/packet/LteFeedbackPkt.h \
 	stack/phy/packet/LteFeedbackPkt_m.h \
 	stack/phy/packet/ModulationType.h \
+	stack/rlc/LteRlcDefs.h \
+	stack/rlc/packet/LteRlcPdu.h \
+	stack/rlc/packet/LteRlcPdu_m.h \
+	stack/rlc/packet/LteRlcSdu.h \
+	stack/rlc/packet/LteRlcSdu_m.h \
+	stack/rlc/um/LteRlcUm.h \
+	stack/rlc/um/buffer/UmFragbuf.h \
+	stack/rlc/um/buffer/UmRxQueue.h \
+	stack/rlc/um/buffer/UmTxQueue.h \
 	world/radio/ChannelAccess.h \
 	world/radio/ChannelControl.h \
 	world/radio/IChannelControl.h \
@@ -3596,7 +3623,6 @@ $O/stack/phy/layer/LtePhyUe.o: stack/phy/layer/LtePhyUe.cc \
 	stack/phy/feedback/LteFeedbackComputation.h \
 	stack/phy/feedback/LteFeedbackComputationDummy.h \
 	stack/phy/feedback/LteFeedbackComputationRealistic.h \
-	stack/phy/layer/CAINLtePhyUe.h \
 	stack/phy/layer/LtePhyBase.h \
 	stack/phy/layer/LtePhyEnb.h \
 	stack/phy/layer/LtePhyUe.h \
@@ -3669,7 +3695,6 @@ $O/stack/phy/layer/LtePhyUeD2D.o: stack/phy/layer/LtePhyUeD2D.cc \
 	stack/phy/feedback/LteFeedback.h \
 	stack/phy/feedback/LteFeedbackComputation.h \
 	stack/phy/feedback/LteFeedbackComputationRealistic.h \
-	stack/phy/layer/CAINLtePhyUe.h \
 	stack/phy/layer/LtePhyBase.h \
 	stack/phy/layer/LtePhyEnb.h \
 	stack/phy/layer/LtePhyUe.h \

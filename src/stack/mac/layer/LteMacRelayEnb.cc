@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/layer/LteMacRelayEnb.h"
+#include "LteMacRelayEnb.h"
 
 Define_Module(LteMacRelayEnb);
 

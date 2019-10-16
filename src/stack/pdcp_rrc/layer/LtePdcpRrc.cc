@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/pdcp_rrc/layer/LtePdcpRrc.h"
+#include "LtePdcpRrc.h"
 
 Define_Module(LtePdcpRrcUe);
 Define_Module(LtePdcpRrcEnb);

@@ -7,8 +7,8 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/allocator/LteAllocationModule.h"
-#include "stack/mac/layer/LteMacEnb.h"
+#include "LteAllocationModule.h"
+#include "LteMacEnb.h"
 
 LteAllocationModule::LteAllocationModule(LteMacEnb *mac, Direction direction)
 {
