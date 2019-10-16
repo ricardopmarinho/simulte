@@ -10,7 +10,7 @@
 #ifndef _LTE_LTEMACRELAYENB_H_
 #define _LTE_LTEMACRELAYENB_H_
 
-#include "stack/mac/layer/LteMacEnb.h"
+#include "LteMacEnb.h"
 
 class LteAmc;
 

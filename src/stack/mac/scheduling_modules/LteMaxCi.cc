@@ -7,8 +7,8 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/scheduling_modules/LteMaxCi.h"
-#include "stack/mac/scheduler/LteSchedulerEnb.h"
+#include "LteMaxCi.h"
+#include "LteSchedulerEnb.h"
 
 void LteMaxCi::prepareSchedule()
 {

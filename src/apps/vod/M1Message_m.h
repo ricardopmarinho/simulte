@@ -16,7 +16,7 @@
 
 
 // cplusplus {{
-#include "inet/networklayer/common/L3Address.h"
+#include "L3Address.h"
 // }}
 
 /**

@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/rlc/packet/LteRlcDataPdu.h"
+#include "LteRlcDataPdu.h"
 
 void LteRlcDataPdu::setPduSequenceNumber(unsigned int sno)
 {

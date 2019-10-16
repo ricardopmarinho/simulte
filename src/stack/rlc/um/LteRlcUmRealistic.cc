@@ -7,8 +7,8 @@
 // and cannot be removed from it.
 //
 
-#include "stack/rlc/um/LteRlcUmRealistic.h"
-#include "stack/mac/packet/LteMacSduRequest.h"
+#include "LteRlcUmRealistic.h"
+#include "LteMacSduRequest.h"
 
 Define_Module(LteRlcUmRealistic);
 

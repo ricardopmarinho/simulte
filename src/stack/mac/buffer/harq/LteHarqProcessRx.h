@@ -12,7 +12,7 @@
 
 #include <omnetpp.h>
 
-#include "common/LteCommon.h"
+#include "LteCommon.h"
 
 typedef std::pair<unsigned char, RxHarqPduStatus> RxUnitStatus;
 typedef std::vector<std::vector<RxUnitStatus> > RxBufferStatus;

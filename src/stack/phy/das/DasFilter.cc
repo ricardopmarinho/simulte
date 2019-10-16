@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/phy/das/DasFilter.h"
+#include "DasFilter.h"
 
 DasFilter::DasFilter(LtePhyBase* ltePhy, LteBinder* binder,
     RemoteAntennaSet* ruSet, double rssiThreshold)

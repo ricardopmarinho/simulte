@@ -11,8 +11,8 @@
 #define _LTE_EXTCELL_H_
 
 #include <omnetpp.h>
-#include "common/LteCommon.h"
-#include "corenetwork/binder/LteBinder.h"
+#include "LteCommon.h"
+#include "LteBinder.h"
 
 using namespace inet;
 

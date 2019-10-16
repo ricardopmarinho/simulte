@@ -8,7 +8,7 @@
 //
 //
 
-#include "apps/vod/VoDUDPClient.h"
+#include "VoDUDPClient.h"
 
 using namespace std;
 

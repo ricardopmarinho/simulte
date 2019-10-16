@@ -37,7 +37,7 @@ simple LtePhyBase like LtePhy {
         double eNodeBTxPower =default(46);
         double relayTxPower =default(20);
         double microTxPower =default(30);
-        string txDirection = default("OMNI");
+        string txDirection = default("MASSIVEMIMO");	//original was 'OMNI'
         double txAngle = default(0);       
         
         // switch for handover messages handling on UEs
@@ -70,7 +70,6 @@ simple LtePhyBase like LtePhy {
 simple LtePhyUe extends LtePhyBase {
      parameters:
          @class("LtePhyUe");
-         @signal[servingCell];
          @statistic[servingCell](title="ID of the serving eNodeB for the UE"; unit=""; source="servingCell"; record=vector);
 }
 
@@ -109,10 +108,4 @@ simple LtePhyRelay extends LtePhyBase {
     @class("LtePhyRelay");
 }
 
-simple CAINLtePhyUe extends LtePhyUe {
-     parameters:
-         @class("CAINLtePhyUe");
-         @signal[servingCell];
-         @statistic[servingCell](title="ID of the serving eNodeB for the UE"; unit=""; source="servingCell"; record=vector);
-}
 

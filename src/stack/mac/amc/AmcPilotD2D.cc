@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/amc/AmcPilotD2D.h"
+#include "AmcPilotD2D.h"
 
 void AmcPilotD2D::setPreconfiguredTxParams(Cqi cqi)
 {

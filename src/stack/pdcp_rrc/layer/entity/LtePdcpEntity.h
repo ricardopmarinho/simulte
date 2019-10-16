@@ -10,8 +10,8 @@
 #ifndef _LTE_LTEPDCPENTITY_H_
 #define _LTE_LTEPDCPENTITY_H_
 
-#include "common/LteCommon.h"
-#include "common/LteControlInfo.h"
+#include "LteCommon.h"
+#include "LteControlInfo.h"
 
 /**
  * @class LtePdcpEntity

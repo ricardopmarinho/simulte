@@ -13,7 +13,7 @@
 /// This is the maximum number of allowed connections * 2
 #define TABLE_SIZE 2048
 
-#include "common/LteCommon.h"
+#include "LteCommon.h"
 
 /**
  * @class ConnectionsTable

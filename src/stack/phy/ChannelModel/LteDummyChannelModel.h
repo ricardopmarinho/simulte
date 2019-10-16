@@ -10,7 +10,7 @@
 #ifndef _LTE_LTEDUMMYCHANNELMODEL_H_
 #define _LTE_LTEDUMMYCHANNELMODEL_H_
 
-#include "stack/phy/ChannelModel/LteChannelModel.h"
+#include "LteChannelModel.h"
 
 class LteDummyChannelModel : public LteChannelModel
 {

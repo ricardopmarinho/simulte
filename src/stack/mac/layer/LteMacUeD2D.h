@@ -10,9 +10,9 @@
 #ifndef _LTE_LTEMACUED2D_H_
 #define _LTE_LTEMACUED2D_H_
 
-#include "stack/mac/layer/LteMacUe.h"
-#include "stack/mac/layer/LteMacEnbD2D.h"
-#include "stack/mac/buffer/harq_d2d/LteHarqBufferTxD2D.h"
+#include "LteMacUe.h"
+#include "LteMacEnbD2D.h"
+#include "LteHarqBufferTxD2D.h"
 
 class LteMacUeD2D : public LteMacUe
 {
@@ -78,7 +78,6 @@ class LteMacUeD2D : public LteMacUe
      * Receives and handles RAC responses
      */
     virtual void macHandleRac(cPacket* pkt);
-
 
     void macHandleD2DModeSwitch(cPacket* pkt);
 

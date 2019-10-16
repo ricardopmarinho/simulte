@@ -7,8 +7,8 @@
 // and cannot be removed from it.
 //
 
-#include "stack/mac/scheduling_modules/LteMaxCiComp.h"
-#include "stack/mac/scheduler/LteSchedulerEnb.h"
+#include "LteMaxCiComp.h"
+#include "LteSchedulerEnb.h"
 
 void LteMaxCiComp::getBandLimit(std::vector<BandLimit>* bandLimit, MacNodeId ueId)
 {

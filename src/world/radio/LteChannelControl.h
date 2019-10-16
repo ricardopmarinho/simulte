@@ -10,7 +10,7 @@
 #ifndef LTECHANNELCONTROL_H
 #define LTECHANNELCONTROL_H
 
-#include "world/radio/ChannelControl.h"
+#include "ChannelControl.h"
 
 /**
  * Monitors which radios are "in range"

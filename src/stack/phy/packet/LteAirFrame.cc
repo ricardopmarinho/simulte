@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 // 
 
-#include "stack/phy/packet/LteAirFrame.h"
+#include "LteAirFrame.h"
 
 void LteAirFrame::addRemoteUnitPhyDataVector(RemoteUnitPhyData data)
 {

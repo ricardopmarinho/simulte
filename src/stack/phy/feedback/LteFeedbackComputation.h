@@ -10,7 +10,7 @@
 #ifndef _LTE_LTEFEEDBACKCOMPUTATION_H_
 #define _LTE_LTEFEEDBACKCOMPUTATION_H_
 
-#include "stack/phy/feedback/LteFeedback.h"
+#include "LteFeedback.h"
 
 class LteFeedbackComputation
 {

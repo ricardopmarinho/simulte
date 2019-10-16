@@ -21,6 +21,7 @@ import lte.corenetwork.nodes.eNodeB;
 import lte.world.radio.LteChannelControl;
 import lte.epc.PgwStandardSimplified;
 
+import inet.physicallayer.idealradio.IdealRadioMedium;
 
 network SingleCell_D2DMulticast
 {
@@ -29,6 +30,11 @@ network SingleCell_D2DMulticast
         int numUeD2D = default(0);
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
     submodules:
+	
+	radioMedium: IdealRadioMedium{
+		@display("p=50,50");
+	}
+
         channelControl: LteChannelControl {
             @display("p=50,25;is=s");
         }

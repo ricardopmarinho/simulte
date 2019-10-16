@@ -7,10 +7,10 @@
 // and cannot be removed from it.
 //
 
-#include "stack/rlc/am/LteRlcAm.h"
-#include "common/LteCommon.h"
-#include "stack/rlc/am/buffer/AmTxQueue.h"
-#include "stack/rlc/am/buffer/AmRxQueue.h"
+#include "LteRlcAm.h"
+#include "LteCommon.h"
+#include "AmTxQueue.h"
+#include "AmRxQueue.h"
 
 Define_Module(LteRlcAm);
 

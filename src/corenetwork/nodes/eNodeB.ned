@@ -23,7 +23,6 @@ import inet.transportlayer.udp.UDP;
 import inet.transportlayer.tcp.TCP;
 import inet.transportlayer.sctp.SCTP;
 import lte.x2.LteX2App;
-import lte.stack.phy.ILteNic;
 import lte.stack.phy.LteNicEnb;
 import lte.stack.phy.LteNicEnbD2D;
 import lte.corenetwork.deployer.LteDeployer;
@@ -46,7 +45,6 @@ module eNodeB
         int macCellId = default(0);  // TODO: this is not a real parameter
         double txPower @unit(mw) = default(100mw);
         bool d2dCapable = default(false);
-        string nicType = d2dCapable ? "LteNicEnbD2D" : "LteNicEnb";
 
         //# Network Layer specs
         string networkLayerType = default("IPv4NetworkLayer");
@@ -86,12 +84,19 @@ module eNodeB
         //#
         //# NIC modules
         //#
-        nic: <nicType> like ILteNic {
+        // NOTE: instance must be named "nic"
+        // TODO: rename to something like lte?
+        nic: LteNicEnbD2D if d2dCapable {
             nodeType = nodeType;
             d2dCapable = d2dCapable;
-            @display("p=242.3325,347.65");
+            @display("p=330,363");
         }
-        pppIf: PPPInterface {
+        nic: LteNicEnb if !d2dCapable {
+            nodeType = nodeType;
+            d2dCapable = d2dCapable;
+            @display("p=330,363");
+        }
+        ppp: PPPInterface {
             @display("p=501,363");
         }
         x2ppp[sizeof(x2)]: PPPInterface {
@@ -164,9 +169,9 @@ module eNodeB
         //#
         //# PPP interface to network layer connections
         //#    
-        pppIf.phys <--> ppp;
-        pppIf.upperLayerOut --> networkLayer.ifIn++;
-        pppIf.upperLayerIn <-- networkLayer.ifOut++;
+        ppp.phys <--> ppp;
+        ppp.upperLayerOut --> networkLayer.ifIn++;
+        ppp.upperLayerIn <-- networkLayer.ifOut++;
 
 
         gtpUserX2.lteStackOut --> nic.x2$i++;

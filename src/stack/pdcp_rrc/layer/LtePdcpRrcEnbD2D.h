@@ -11,7 +11,7 @@
 #define _LTE_LTEPDCPRRCENBD2D_H_
 
 #include <omnetpp.h>
-#include "stack/pdcp_rrc/layer/LtePdcpRrc.h"
+#include "LtePdcpRrc.h"
 
 /**
  * @class LtePdcp

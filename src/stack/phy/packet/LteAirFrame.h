@@ -10,9 +10,9 @@
 #ifndef _LTE_LTEAIRFRAME_H_
 #define _LTE_LTEAIRFRAME_H_
 
-#include "common/LteCommon.h"
-#include "stack/phy/packet/LteAirFrame_m.h"
-#include "common/LteControlInfo.h"
+#include "LteCommon.h"
+#include "LteAirFrame_m.h"
+#include "LteControlInfo.h"
 
 class LteAirFrame : public LteAirFrame_Base
 {

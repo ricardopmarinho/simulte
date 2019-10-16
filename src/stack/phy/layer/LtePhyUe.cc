@@ -8,10 +8,10 @@
 //
 
 #include <assert.h>
-#include "stack/phy/layer/LtePhyUe.h"
-#include "stack/phy/packet/LteFeedbackPkt.h"
-#include "corenetwork/lteip/IP2lte.h"
-#include "stack/phy/feedback/LteDlFeedbackGenerator.h"
+#include "LtePhyUe.h"
+#include "LteFeedbackPkt.h"
+#include "IP2lte.h"
+#include "LteDlFeedbackGenerator.h"
 
 Define_Module(LtePhyUe);
 
@@ -57,8 +57,8 @@ void LtePhyUe::initialize(int stage)
         //int index2=intuniform(0,binder_->phyPisaData.maxChannel2()-1);
         deployer_->lambdaInit(nodeId_, index);
         //deployer_->channelUpdate(nodeId_,index2);
-        servingCell_ = registerSignal("servingCell");
-        emit(servingCell_, (long)masterId_);
+//        servingCell_ = registerSignal("servingCell");
+//        emit(servingCell_, (long)masterId_);
         WATCH(nodeType_);
         WATCH(masterId_);
         WATCH(candidateMasterId_);
@@ -279,6 +279,7 @@ void LtePhyUe::doHandover()
 void LtePhyUe::handleAirFrame(cMessage* msg)
 {
     UserControlInfo* lteInfo = dynamic_cast<UserControlInfo*>(msg->removeControlInfo());
+
     if (useBattery_)
     {
         //TODO BatteryAccess::drawCurrent(rxAmount_, 0);
@@ -542,6 +543,4 @@ void LtePhyUe::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVecto
     EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
        << nodeId_ << " sending feedback to the air channel" << endl;
     sendUnicast(frame);
-
-
 }

@@ -11,7 +11,7 @@
 #define _LTE_UMFRAGBUF_H_
 
 #include <omnetpp.h>
-#include "common/LteControlInfo.h"
+#include "LteControlInfo.h"
 
 /**
  * @class UmFragbuf

@@ -9,7 +9,7 @@
 
 
 cplusplus {{
-    #include "common/LteCommon.h"
+    #include "LteCommon.h"
     typedef std::list<X2NodeId> DestinationIdList;
 }}
 

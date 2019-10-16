@@ -18,7 +18,6 @@ import inet.networklayer.contract.IRoutingTable;
 import inet.networklayer.contract.INetworkLayer;
 import inet.transportlayer.tcp.TCP;
 import inet.transportlayer.udp.UDP;
-import lte.stack.phy.ILteNic;
 import lte.stack.phy.LteNicUe;
 import lte.stack.phy.LteNicUeD2D;
 
@@ -46,7 +45,6 @@ module Ue
         
         //# D2D capability
         bool d2dCapable = default(false);
-        string nicType = d2dCapable ? "LteNicUeD2D" : "LteNicUe";
 
         //# Network Layer specs
         string networkLayerType = default("IPv4NetworkLayer");
@@ -81,7 +79,14 @@ module Ue
         udp: UDP if numUdpApps>0 {
             @display("p=325,150");
         }
-        nic: <nicType> like ILteNic {
+        // NOTE: instance must be named "nic"
+        nic: LteNicUe if !d2dCapable {
+            nodeType = nodeType;
+            d2dCapable = d2dCapable;
+            @display("p=250,407");
+        }
+        // NOTE: instance must be named "nic"
+        nic: LteNicUeD2D if d2dCapable {
             nodeType = nodeType;
             d2dCapable = d2dCapable;
             @display("p=250,407");

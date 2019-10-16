@@ -8,7 +8,7 @@
 //
 
 cplusplus {{
-    #include "common/LteCommon.h"
+    #include "LteCommon.h"
 
     /**
      * Timer type

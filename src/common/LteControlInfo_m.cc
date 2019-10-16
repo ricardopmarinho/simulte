@@ -1013,10 +1013,6 @@ UserControlInfo_Base::UserControlInfo_Base() : ::LteControlInfo()
     this->txPower = 0;
     this->d2dTxPower = 0;
     this->totalGrantedBlocks = 0;
-    this->CAINDirection = 0;
-    this->CAINEnable = false;
-    this->eNBId = 0;
-    this->CAINuePwr = 0;
 }
 
 UserControlInfo_Base::UserControlInfo_Base(const UserControlInfo_Base& other) : ::LteControlInfo(other)
@@ -1052,10 +1048,6 @@ void UserControlInfo_Base::copy(const UserControlInfo_Base& other)
     this->txPower = other.txPower;
     this->d2dTxPower = other.d2dTxPower;
     this->totalGrantedBlocks = other.totalGrantedBlocks;
-    this->CAINDirection = other.CAINDirection;
-    this->CAINEnable = other.CAINEnable;
-    this->eNBId = other.eNBId;
-    this->CAINuePwr = other.CAINuePwr;
 }
 
 void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
@@ -1075,10 +1067,6 @@ void UserControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
     doParsimPacking(b,this->txPower);
     doParsimPacking(b,this->d2dTxPower);
     doParsimPacking(b,this->totalGrantedBlocks);
-    doParsimPacking(b,this->CAINDirection);
-    doParsimPacking(b,this->CAINEnable);
-    doParsimPacking(b,this->eNBId);
-    doParsimPacking(b,this->CAINuePwr);
 }
 
 void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
@@ -1098,10 +1086,6 @@ void UserControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->txPower);
     doParsimUnpacking(b,this->d2dTxPower);
     doParsimUnpacking(b,this->totalGrantedBlocks);
-    doParsimUnpacking(b,this->CAINDirection);
-    doParsimUnpacking(b,this->CAINEnable);
-    doParsimUnpacking(b,this->eNBId);
-    doParsimUnpacking(b,this->CAINuePwr);
 }
 
 unsigned char UserControlInfo_Base::getAcid() const
@@ -1244,46 +1228,6 @@ void UserControlInfo_Base::setTotalGrantedBlocks(unsigned int totalGrantedBlocks
     this->totalGrantedBlocks = totalGrantedBlocks;
 }
 
-unsigned short UserControlInfo_Base::getCAINDirection() const
-{
-    return this->CAINDirection;
-}
-
-void UserControlInfo_Base::setCAINDirection(unsigned short CAINDirection)
-{
-    this->CAINDirection = CAINDirection;
-}
-
-bool UserControlInfo_Base::getCAINEnable() const
-{
-    return this->CAINEnable;
-}
-
-void UserControlInfo_Base::setCAINEnable(bool CAINEnable)
-{
-    this->CAINEnable = CAINEnable;
-}
-
-uint16_t UserControlInfo_Base::getENBId() const
-{
-    return this->eNBId;
-}
-
-void UserControlInfo_Base::setENBId(uint16_t eNBId)
-{
-    this->eNBId = eNBId;
-}
-
-double UserControlInfo_Base::getCAINuePwr() const
-{
-    return this->CAINuePwr;
-}
-
-void UserControlInfo_Base::setCAINuePwr(double CAINuePwr)
-{
-    this->CAINuePwr = CAINuePwr;
-}
-
 class UserControlInfoDescriptor : public omnetpp::cClassDescriptor
 {
   private:
@@ -1349,7 +1293,7 @@ const char *UserControlInfoDescriptor::getProperty(const char *propertyname) con
 int UserControlInfoDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 18+basedesc->getFieldCount() : 18;
+    return basedesc ? 14+basedesc->getFieldCount() : 14;
 }
 
 unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
@@ -1375,12 +1319,8 @@ unsigned int UserControlInfoDescriptor::getFieldTypeFlags(int field) const
         FD_ISEDITABLE,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
     };
-    return (field>=0 && field<18) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<14) ? fieldTypeFlags[field] : 0;
 }
 
 const char *UserControlInfoDescriptor::getFieldName(int field) const
@@ -1406,12 +1346,8 @@ const char *UserControlInfoDescriptor::getFieldName(int field) const
         "txPower",
         "d2dTxPower",
         "totalGrantedBlocks",
-        "CAINDirection",
-        "CAINEnable",
-        "eNBId",
-        "CAINuePwr",
     };
-    return (field>=0 && field<18) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<14) ? fieldNames[field] : nullptr;
 }
 
 int UserControlInfoDescriptor::findField(const char *fieldName) const
@@ -1432,10 +1368,6 @@ int UserControlInfoDescriptor::findField(const char *fieldName) const
     if (fieldName[0]=='t' && strcmp(fieldName, "txPower")==0) return base+11;
     if (fieldName[0]=='d' && strcmp(fieldName, "d2dTxPower")==0) return base+12;
     if (fieldName[0]=='t' && strcmp(fieldName, "totalGrantedBlocks")==0) return base+13;
-    if (fieldName[0]=='C' && strcmp(fieldName, "CAINDirection")==0) return base+14;
-    if (fieldName[0]=='C' && strcmp(fieldName, "CAINEnable")==0) return base+15;
-    if (fieldName[0]=='e' && strcmp(fieldName, "eNBId")==0) return base+16;
-    if (fieldName[0]=='C' && strcmp(fieldName, "CAINuePwr")==0) return base+17;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
@@ -1462,12 +1394,8 @@ const char *UserControlInfoDescriptor::getFieldTypeString(int field) const
         "double",
         "double",
         "unsigned int",
-        "unsigned short",
-        "bool",
-        "uint16",
-        "double",
     };
-    return (field>=0 && field<18) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<14) ? fieldTypeStrings[field] : nullptr;
 }
 
 const char **UserControlInfoDescriptor::getFieldPropertyNames(int field) const
@@ -1484,10 +1412,6 @@ const char **UserControlInfoDescriptor::getFieldPropertyNames(int field) const
             return names;
         }
         case 10: {
-            static const char *names[] = { "enum",  nullptr };
-            return names;
-        }
-        case 14: {
             static const char *names[] = { "enum",  nullptr };
             return names;
         }
@@ -1509,9 +1433,6 @@ const char *UserControlInfoDescriptor::getFieldProperty(int field, const char *p
             return nullptr;
         case 10:
             if (!strcmp(propertyname,"enum")) return "LtePhyFrameType";
-            return nullptr;
-        case 14:
-            if (!strcmp(propertyname,"enum")) return "CAINDirection";
             return nullptr;
         default: return nullptr;
     }
@@ -1555,10 +1476,6 @@ std::string UserControlInfoDescriptor::getFieldValueAsString(void *object, int f
         case 11: return double2string(pp->getTxPower());
         case 12: return double2string(pp->getD2dTxPower());
         case 13: return ulong2string(pp->getTotalGrantedBlocks());
-        case 14: return enum2string(pp->getCAINDirection(), "CAINDirection");
-        case 15: return bool2string(pp->getCAINEnable());
-        case 16: return ulong2string(pp->getENBId());
-        case 17: return double2string(pp->getCAINuePwr());
         default: return "";
     }
 }
@@ -1587,10 +1504,6 @@ bool UserControlInfoDescriptor::setFieldValueAsString(void *object, int field, i
         case 11: pp->setTxPower(string2double(value)); return true;
         case 12: pp->setD2dTxPower(string2double(value)); return true;
         case 13: pp->setTotalGrantedBlocks(string2ulong(value)); return true;
-        case 14: pp->setCAINDirection((CAINDirection)string2enum(value, "CAINDirection")); return true;
-        case 15: pp->setCAINEnable(string2bool(value)); return true;
-        case 16: pp->setENBId(string2ulong(value)); return true;
-        case 17: pp->setCAINuePwr(string2double(value)); return true;
         default: return false;
     }
 }
@@ -1617,571 +1530,6 @@ void *UserControlInfoDescriptor::getFieldStructValuePointer(void *object, int fi
         field -= basedesc->getFieldCount();
     }
     UserControlInfo_Base *pp = (UserControlInfo_Base *)object; (void)pp;
-    switch (field) {
-        default: return nullptr;
-    }
-}
-
-CAINControlInfo_Base::CAINControlInfo_Base() : ::LteControlInfo()
-{
-    this->acid = 0;
-    this->cw = 0;
-    this->txNumber = 0;
-    this->ndi = true;
-    this->isCorruptible = false;
-    this->isBroadcast = false;
-    this->deciderResult = false;
-    this->blerTh = 0;
-    this->blerValue = 0;
-    this->txMode = 0;
-    this->frameType = 0;
-    this->txPower = 0;
-    this->d2dTxPower = 0;
-    this->totalGrantedBlocks = 0;
-    this->CAINDirection = 0;
-}
-
-CAINControlInfo_Base::CAINControlInfo_Base(const CAINControlInfo_Base& other) : ::LteControlInfo(other)
-{
-    copy(other);
-}
-
-CAINControlInfo_Base::~CAINControlInfo_Base()
-{
-}
-
-CAINControlInfo_Base& CAINControlInfo_Base::operator=(const CAINControlInfo_Base& other)
-{
-    if (this==&other) return *this;
-    ::LteControlInfo::operator=(other);
-    copy(other);
-    return *this;
-}
-
-void CAINControlInfo_Base::copy(const CAINControlInfo_Base& other)
-{
-    this->acid = other.acid;
-    this->cw = other.cw;
-    this->txNumber = other.txNumber;
-    this->ndi = other.ndi;
-    this->isCorruptible = other.isCorruptible;
-    this->isBroadcast = other.isBroadcast;
-    this->deciderResult = other.deciderResult;
-    this->blerTh = other.blerTh;
-    this->blerValue = other.blerValue;
-    this->txMode = other.txMode;
-    this->frameType = other.frameType;
-    this->txPower = other.txPower;
-    this->d2dTxPower = other.d2dTxPower;
-    this->totalGrantedBlocks = other.totalGrantedBlocks;
-    this->CAINDirection = other.CAINDirection;
-}
-
-void CAINControlInfo_Base::parsimPack(omnetpp::cCommBuffer *b) const
-{
-    ::LteControlInfo::parsimPack(b);
-    doParsimPacking(b,this->acid);
-    doParsimPacking(b,this->cw);
-    doParsimPacking(b,this->txNumber);
-    doParsimPacking(b,this->ndi);
-    doParsimPacking(b,this->isCorruptible);
-    doParsimPacking(b,this->isBroadcast);
-    doParsimPacking(b,this->deciderResult);
-    doParsimPacking(b,this->blerTh);
-    doParsimPacking(b,this->blerValue);
-    doParsimPacking(b,this->txMode);
-    doParsimPacking(b,this->frameType);
-    doParsimPacking(b,this->txPower);
-    doParsimPacking(b,this->d2dTxPower);
-    doParsimPacking(b,this->totalGrantedBlocks);
-    doParsimPacking(b,this->CAINDirection);
-}
-
-void CAINControlInfo_Base::parsimUnpack(omnetpp::cCommBuffer *b)
-{
-    ::LteControlInfo::parsimUnpack(b);
-    doParsimUnpacking(b,this->acid);
-    doParsimUnpacking(b,this->cw);
-    doParsimUnpacking(b,this->txNumber);
-    doParsimUnpacking(b,this->ndi);
-    doParsimUnpacking(b,this->isCorruptible);
-    doParsimUnpacking(b,this->isBroadcast);
-    doParsimUnpacking(b,this->deciderResult);
-    doParsimUnpacking(b,this->blerTh);
-    doParsimUnpacking(b,this->blerValue);
-    doParsimUnpacking(b,this->txMode);
-    doParsimUnpacking(b,this->frameType);
-    doParsimUnpacking(b,this->txPower);
-    doParsimUnpacking(b,this->d2dTxPower);
-    doParsimUnpacking(b,this->totalGrantedBlocks);
-    doParsimUnpacking(b,this->CAINDirection);
-}
-
-unsigned char CAINControlInfo_Base::getAcid() const
-{
-    return this->acid;
-}
-
-void CAINControlInfo_Base::setAcid(unsigned char acid)
-{
-    this->acid = acid;
-}
-
-unsigned char CAINControlInfo_Base::getCw() const
-{
-    return this->cw;
-}
-
-void CAINControlInfo_Base::setCw(unsigned char cw)
-{
-    this->cw = cw;
-}
-
-unsigned char CAINControlInfo_Base::getTxNumber() const
-{
-    return this->txNumber;
-}
-
-void CAINControlInfo_Base::setTxNumber(unsigned char txNumber)
-{
-    this->txNumber = txNumber;
-}
-
-bool CAINControlInfo_Base::getNdi() const
-{
-    return this->ndi;
-}
-
-void CAINControlInfo_Base::setNdi(bool ndi)
-{
-    this->ndi = ndi;
-}
-
-bool CAINControlInfo_Base::getIsCorruptible() const
-{
-    return this->isCorruptible;
-}
-
-void CAINControlInfo_Base::setIsCorruptible(bool isCorruptible)
-{
-    this->isCorruptible = isCorruptible;
-}
-
-bool CAINControlInfo_Base::getIsBroadcast() const
-{
-    return this->isBroadcast;
-}
-
-void CAINControlInfo_Base::setIsBroadcast(bool isBroadcast)
-{
-    this->isBroadcast = isBroadcast;
-}
-
-bool CAINControlInfo_Base::getDeciderResult() const
-{
-    return this->deciderResult;
-}
-
-void CAINControlInfo_Base::setDeciderResult(bool deciderResult)
-{
-    this->deciderResult = deciderResult;
-}
-
-double CAINControlInfo_Base::getBlerTh() const
-{
-    return this->blerTh;
-}
-
-void CAINControlInfo_Base::setBlerTh(double blerTh)
-{
-    this->blerTh = blerTh;
-}
-
-double CAINControlInfo_Base::getBlerValue() const
-{
-    return this->blerValue;
-}
-
-void CAINControlInfo_Base::setBlerValue(double blerValue)
-{
-    this->blerValue = blerValue;
-}
-
-unsigned short CAINControlInfo_Base::getTxMode() const
-{
-    return this->txMode;
-}
-
-void CAINControlInfo_Base::setTxMode(unsigned short txMode)
-{
-    this->txMode = txMode;
-}
-
-unsigned int CAINControlInfo_Base::getFrameType() const
-{
-    return this->frameType;
-}
-
-void CAINControlInfo_Base::setFrameType(unsigned int frameType)
-{
-    this->frameType = frameType;
-}
-
-double CAINControlInfo_Base::getTxPower() const
-{
-    return this->txPower;
-}
-
-void CAINControlInfo_Base::setTxPower(double txPower)
-{
-    this->txPower = txPower;
-}
-
-double CAINControlInfo_Base::getD2dTxPower() const
-{
-    return this->d2dTxPower;
-}
-
-void CAINControlInfo_Base::setD2dTxPower(double d2dTxPower)
-{
-    this->d2dTxPower = d2dTxPower;
-}
-
-unsigned int CAINControlInfo_Base::getTotalGrantedBlocks() const
-{
-    return this->totalGrantedBlocks;
-}
-
-void CAINControlInfo_Base::setTotalGrantedBlocks(unsigned int totalGrantedBlocks)
-{
-    this->totalGrantedBlocks = totalGrantedBlocks;
-}
-
-unsigned short CAINControlInfo_Base::getCAINDirection() const
-{
-    return this->CAINDirection;
-}
-
-void CAINControlInfo_Base::setCAINDirection(unsigned short CAINDirection)
-{
-    this->CAINDirection = CAINDirection;
-}
-
-class CAINControlInfoDescriptor : public omnetpp::cClassDescriptor
-{
-  private:
-    mutable const char **propertynames;
-  public:
-    CAINControlInfoDescriptor();
-    virtual ~CAINControlInfoDescriptor();
-
-    virtual bool doesSupport(omnetpp::cObject *obj) const override;
-    virtual const char **getPropertyNames() const override;
-    virtual const char *getProperty(const char *propertyname) const override;
-    virtual int getFieldCount() const override;
-    virtual const char *getFieldName(int field) const override;
-    virtual int findField(const char *fieldName) const override;
-    virtual unsigned int getFieldTypeFlags(int field) const override;
-    virtual const char *getFieldTypeString(int field) const override;
-    virtual const char **getFieldPropertyNames(int field) const override;
-    virtual const char *getFieldProperty(int field, const char *propertyname) const override;
-    virtual int getFieldArraySize(void *object, int field) const override;
-
-    virtual std::string getFieldValueAsString(void *object, int field, int i) const override;
-    virtual bool setFieldValueAsString(void *object, int field, int i, const char *value) const override;
-
-    virtual const char *getFieldStructName(int field) const override;
-    virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
-};
-
-Register_ClassDescriptor(CAINControlInfoDescriptor);
-
-CAINControlInfoDescriptor::CAINControlInfoDescriptor() : omnetpp::cClassDescriptor("CAINControlInfo", "LteControlInfo")
-{
-    propertynames = nullptr;
-}
-
-CAINControlInfoDescriptor::~CAINControlInfoDescriptor()
-{
-    delete[] propertynames;
-}
-
-bool CAINControlInfoDescriptor::doesSupport(omnetpp::cObject *obj) const
-{
-    return dynamic_cast<CAINControlInfo_Base *>(obj)!=nullptr;
-}
-
-const char **CAINControlInfoDescriptor::getPropertyNames() const
-{
-    if (!propertynames) {
-        static const char *names[] = { "customize",  nullptr };
-        omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-        const char **basenames = basedesc ? basedesc->getPropertyNames() : nullptr;
-        propertynames = mergeLists(basenames, names);
-    }
-    return propertynames;
-}
-
-const char *CAINControlInfoDescriptor::getProperty(const char *propertyname) const
-{
-    if (!strcmp(propertyname,"customize")) return "true";
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? basedesc->getProperty(propertyname) : nullptr;
-}
-
-int CAINControlInfoDescriptor::getFieldCount() const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 15+basedesc->getFieldCount() : 15;
-}
-
-unsigned int CAINControlInfoDescriptor::getFieldTypeFlags(int field) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldTypeFlags(field);
-        field -= basedesc->getFieldCount();
-    }
-    static unsigned int fieldTypeFlags[] = {
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-    };
-    return (field>=0 && field<15) ? fieldTypeFlags[field] : 0;
-}
-
-const char *CAINControlInfoDescriptor::getFieldName(int field) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldName(field);
-        field -= basedesc->getFieldCount();
-    }
-    static const char *fieldNames[] = {
-        "acid",
-        "cw",
-        "txNumber",
-        "ndi",
-        "isCorruptible",
-        "isBroadcast",
-        "deciderResult",
-        "blerTh",
-        "blerValue",
-        "txMode",
-        "frameType",
-        "txPower",
-        "d2dTxPower",
-        "totalGrantedBlocks",
-        "CAINDirection",
-    };
-    return (field>=0 && field<15) ? fieldNames[field] : nullptr;
-}
-
-int CAINControlInfoDescriptor::findField(const char *fieldName) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    int base = basedesc ? basedesc->getFieldCount() : 0;
-    if (fieldName[0]=='a' && strcmp(fieldName, "acid")==0) return base+0;
-    if (fieldName[0]=='c' && strcmp(fieldName, "cw")==0) return base+1;
-    if (fieldName[0]=='t' && strcmp(fieldName, "txNumber")==0) return base+2;
-    if (fieldName[0]=='n' && strcmp(fieldName, "ndi")==0) return base+3;
-    if (fieldName[0]=='i' && strcmp(fieldName, "isCorruptible")==0) return base+4;
-    if (fieldName[0]=='i' && strcmp(fieldName, "isBroadcast")==0) return base+5;
-    if (fieldName[0]=='d' && strcmp(fieldName, "deciderResult")==0) return base+6;
-    if (fieldName[0]=='b' && strcmp(fieldName, "blerTh")==0) return base+7;
-    if (fieldName[0]=='b' && strcmp(fieldName, "blerValue")==0) return base+8;
-    if (fieldName[0]=='t' && strcmp(fieldName, "txMode")==0) return base+9;
-    if (fieldName[0]=='f' && strcmp(fieldName, "frameType")==0) return base+10;
-    if (fieldName[0]=='t' && strcmp(fieldName, "txPower")==0) return base+11;
-    if (fieldName[0]=='d' && strcmp(fieldName, "d2dTxPower")==0) return base+12;
-    if (fieldName[0]=='t' && strcmp(fieldName, "totalGrantedBlocks")==0) return base+13;
-    if (fieldName[0]=='C' && strcmp(fieldName, "CAINDirection")==0) return base+14;
-    return basedesc ? basedesc->findField(fieldName) : -1;
-}
-
-const char *CAINControlInfoDescriptor::getFieldTypeString(int field) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldTypeString(field);
-        field -= basedesc->getFieldCount();
-    }
-    static const char *fieldTypeStrings[] = {
-        "unsigned char",
-        "unsigned char",
-        "unsigned char",
-        "bool",
-        "bool",
-        "bool",
-        "bool",
-        "double",
-        "double",
-        "unsigned short",
-        "unsigned int",
-        "double",
-        "double",
-        "unsigned int",
-        "unsigned short",
-    };
-    return (field>=0 && field<15) ? fieldTypeStrings[field] : nullptr;
-}
-
-const char **CAINControlInfoDescriptor::getFieldPropertyNames(int field) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldPropertyNames(field);
-        field -= basedesc->getFieldCount();
-    }
-    switch (field) {
-        case 9: {
-            static const char *names[] = { "enum",  nullptr };
-            return names;
-        }
-        case 10: {
-            static const char *names[] = { "enum",  nullptr };
-            return names;
-        }
-        case 14: {
-            static const char *names[] = { "enum",  nullptr };
-            return names;
-        }
-        default: return nullptr;
-    }
-}
-
-const char *CAINControlInfoDescriptor::getFieldProperty(int field, const char *propertyname) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldProperty(field, propertyname);
-        field -= basedesc->getFieldCount();
-    }
-    switch (field) {
-        case 9:
-            if (!strcmp(propertyname,"enum")) return "TxMode";
-            return nullptr;
-        case 10:
-            if (!strcmp(propertyname,"enum")) return "LtePhyFrameType";
-            return nullptr;
-        case 14:
-            if (!strcmp(propertyname,"enum")) return "CAINDirection";
-            return nullptr;
-        default: return nullptr;
-    }
-}
-
-int CAINControlInfoDescriptor::getFieldArraySize(void *object, int field) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldArraySize(object, field);
-        field -= basedesc->getFieldCount();
-    }
-    CAINControlInfo_Base *pp = (CAINControlInfo_Base *)object; (void)pp;
-    switch (field) {
-        default: return 0;
-    }
-}
-
-std::string CAINControlInfoDescriptor::getFieldValueAsString(void *object, int field, int i) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldValueAsString(object,field,i);
-        field -= basedesc->getFieldCount();
-    }
-    CAINControlInfo_Base *pp = (CAINControlInfo_Base *)object; (void)pp;
-    switch (field) {
-        case 0: return ulong2string(pp->getAcid());
-        case 1: return ulong2string(pp->getCw());
-        case 2: return ulong2string(pp->getTxNumber());
-        case 3: return bool2string(pp->getNdi());
-        case 4: return bool2string(pp->getIsCorruptible());
-        case 5: return bool2string(pp->getIsBroadcast());
-        case 6: return bool2string(pp->getDeciderResult());
-        case 7: return double2string(pp->getBlerTh());
-        case 8: return double2string(pp->getBlerValue());
-        case 9: return enum2string(pp->getTxMode(), "TxMode");
-        case 10: return enum2string(pp->getFrameType(), "LtePhyFrameType");
-        case 11: return double2string(pp->getTxPower());
-        case 12: return double2string(pp->getD2dTxPower());
-        case 13: return ulong2string(pp->getTotalGrantedBlocks());
-        case 14: return enum2string(pp->getCAINDirection(), "CAINDirection");
-        default: return "";
-    }
-}
-
-bool CAINControlInfoDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->setFieldValueAsString(object,field,i,value);
-        field -= basedesc->getFieldCount();
-    }
-    CAINControlInfo_Base *pp = (CAINControlInfo_Base *)object; (void)pp;
-    switch (field) {
-        case 0: pp->setAcid(string2ulong(value)); return true;
-        case 1: pp->setCw(string2ulong(value)); return true;
-        case 2: pp->setTxNumber(string2ulong(value)); return true;
-        case 3: pp->setNdi(string2bool(value)); return true;
-        case 4: pp->setIsCorruptible(string2bool(value)); return true;
-        case 5: pp->setIsBroadcast(string2bool(value)); return true;
-        case 6: pp->setDeciderResult(string2bool(value)); return true;
-        case 7: pp->setBlerTh(string2double(value)); return true;
-        case 8: pp->setBlerValue(string2double(value)); return true;
-        case 9: pp->setTxMode((TxMode)string2enum(value, "TxMode")); return true;
-        case 10: pp->setFrameType((LtePhyFrameType)string2enum(value, "LtePhyFrameType")); return true;
-        case 11: pp->setTxPower(string2double(value)); return true;
-        case 12: pp->setD2dTxPower(string2double(value)); return true;
-        case 13: pp->setTotalGrantedBlocks(string2ulong(value)); return true;
-        case 14: pp->setCAINDirection((CAINDirection)string2enum(value, "CAINDirection")); return true;
-        default: return false;
-    }
-}
-
-const char *CAINControlInfoDescriptor::getFieldStructName(int field) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldStructName(field);
-        field -= basedesc->getFieldCount();
-    }
-    switch (field) {
-        default: return nullptr;
-    };
-}
-
-void *CAINControlInfoDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
-{
-    omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    if (basedesc) {
-        if (field < basedesc->getFieldCount())
-            return basedesc->getFieldStructValuePointer(object, field, i);
-        field -= basedesc->getFieldCount();
-    }
-    CAINControlInfo_Base *pp = (CAINControlInfo_Base *)object; (void)pp;
     switch (field) {
         default: return nullptr;
     }

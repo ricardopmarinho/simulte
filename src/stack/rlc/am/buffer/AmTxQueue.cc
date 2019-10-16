@@ -7,9 +7,9 @@
 // and cannot be removed from it.
 //
 
-#include "stack/rlc/am/buffer/AmTxQueue.h"
-#include "stack/rlc/am/LteRlcAm.h"
-#include "stack/mac/layer/LteMacBase.h"
+#include "AmTxQueue.h"
+#include "LteRlcAm.h"
+#include "LteMacBase.h"
 
 Define_Module(AmTxQueue);
 

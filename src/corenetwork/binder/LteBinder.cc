@@ -7,11 +7,11 @@
 // and cannot be removed from it.
 //
 
-#include "corenetwork/binder/LteBinder.h"
-#include "corenetwork/deployer/LteDeployer.h"
-#include "inet/networklayer/common/L3AddressResolver.h"
+#include "LteBinder.h"
+#include "LteDeployer.h"
+#include "L3AddressResolver.h"
 #include <cctype>
-#include "corenetwork/nodes/InternetMux.h"
+#include "InternetMux.h"
 
 using namespace std;
 

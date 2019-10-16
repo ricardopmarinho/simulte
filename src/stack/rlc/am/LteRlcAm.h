@@ -11,7 +11,7 @@
 #define _LTE_LTERLCAM_H_
 
 #include <omnetpp.h>
-#include "common/LteCommon.h"
+#include "LteCommon.h"
 
 class AmTxQueue;
 class AmRxQueue;

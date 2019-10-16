@@ -11,8 +11,8 @@
 #define _LTE_UMTXBUFFER_H_
 
 #include <omnetpp.h>
-#include "stack/rlc/um/LteRlcUm.h"
-#include "stack/rlc/LteRlcDefs.h"
+#include "LteRlcUm.h"
+#include "LteRlcDefs.h"
 
 /**
  * @class UmTxQueue

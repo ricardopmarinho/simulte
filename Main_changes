@@ -21,3 +21,16 @@ std::vector<MacNodeId> rep_list -> list of nodes that did not send a REP message
 HAD TO COMMENT line 81 from inet/src/inet/transportlayer/tcp/TCPConnectionRcvSegment.cc to simulations work
 	For some reason, some simulations send a packet without ACK bit setted and a new packet is produced, creating a problem
 	to CAIN
+
+CAIN message is created at PATH/src/stack/mac/layer/LteMacEnb.cc, method LteMacEnb::macHandleRac (line 463)
+
+Change antenna type:
+The type is defined at PATH/src/stack/phy/LtePhy.ned (line 40)
+	the types allowed are defined at PATH/src/common/LteCommon.h (lines 282 and 294)
+	the parameter is defined at PATH/src/stack/phy/layer/LtePhyEnb.cc (line 66)
+	this is the base of LtePhyBase
+	LtePhyUe, LtePhyUeD2D, LtePhyEnb, and LtePhyEnbD2D use the same (all of them defined at the same file)
+	the antenna type is used on PATH/src/stack/phy/ChannelModel/LteRealisticChannelModel.cc (lines 826 and 2415)
+
+	Enb txPower_ param is setted at PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 60~63)
+	eNodeBTxPower is defined at PATH/src/stack/phy/LtePhy.ned (line 37)

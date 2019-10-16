@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 SimuLTE
 =======
 
 LTE user plane simulation model, compatible with the INET Framework.
 
-Dependencies
-------------
-
-The current master/head version requires either of
-
-- OMNeT++ 5.0 and INET 3.4
-- OMNeT++ 5.1 and INET 3.5
 
 Features
 --------
@@ -85,11 +77,7 @@ SimuLTE also contains a form-based configuration editor to edit the most
 often used simulation parameters. To use it, right-click an Ini file, and choose
 'Open With | SimuLTE Configuration Editor' from the context menu. Try it on 
 'simulations/demo/gui.ini'.
-=======
-# simulte
-Adding CAIN network to simulte project
 
-DO NOT copy this project yet. I'm still implementing it and it's just begining.
 
 PATH: MY_USER/omnetpp-5.0/samples/simulte
 
@@ -161,11 +149,13 @@ Added code on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 600~603)
 
 Added LteMacUeRealisticD2D::handleCainMsg on PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (line 569)
 
-Add LteMacUeRealisticD2D::checkRepList, LteMacUeRealisticD2D::removeNodeRepList, LteMacUeRealisticD2D::updateRelayList and LteMacUeRealisticD2D::printRelayList at PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc (lines 736, 757, 781 and 835) and .h (lines 99, 101, 108, 110)
+Added MASSIVEMIMO enum at PATH/src/commom/LteCommon.h (lines 286 and 298)
 
-HAD TO COMMENT line 81 from inet/src/inet/transportlayer/tcp/TCPConnectionRcvSegment.cc to simulations work
-	For some reason, some simulations send a packet without ACK bit setted and a new packet is produced, creating a problem
-	to CAIN
+Modified PATH/src/stack/phy/LtePhy.ned line 40 and included "MASSIVEMIMO" as default (original was OMNI)
+
+Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
+
+
 
 ========================== CAIN msg =========================
 ---------------------------------------------
@@ -175,14 +165,13 @@ HAD TO COMMENT line 81 from inet/src/inet/transportlayer/tcp/TCPConnectionRcvSeg
 
 ========================== SO FAR ==========================
 
-Array list with more relays working
+Array list working with one relay
 
 ========================== NEXT ============================
 
-Fix cid bug on simulation #10
+Test array list with more relay
 
-========================== LAST UPDATE =====================
+========================== LAST UPDATE======================
 
-07/04/2019 - Septenber 18th
-
+Oct 16th 2019
 

@@ -10,7 +10,7 @@
 #ifndef _LTE_AIRPHYENB_H_
 #define _LTE_AIRPHYENB_H_
 
-#include "stack/phy/layer/LtePhyBase.h"
+#include "LtePhyBase.h"
 
 class DasFilter;
 class LteFeedbackPkt;
@@ -41,7 +41,6 @@ class LtePhyEnb : public LtePhyBase
     virtual void handleAirFrame(cMessage* msg);
     bool handleControlPkt(UserControlInfo* lteinfo, LteAirFrame* frame);
     void handleFeedbackPkt(UserControlInfo* lteinfo, LteAirFrame* frame);
-    void handleCainInfoPkt(UserControlInfo* lteinfo, LteAirFrame *frame);
     virtual void requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame, LteFeedbackPkt* pkt);
     /**
      * Getter for the Das Filter

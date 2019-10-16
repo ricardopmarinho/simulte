@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "corenetwork/nodes/UnUuMux.h"
+#include "UnUuMux.h"
 
 Define_Module(UnUuMux);
 
@@ -43,8 +43,6 @@ void UnUuMux::initialize()
 
 void UnUuMux::handleMessage(cMessage *msg)
 {
-
-
     cGate* incoming = msg->getArrivalGate();
     if (incoming == down_[IN])
     {

@@ -7,8 +7,8 @@
 // and cannot be removed from it.
 //
 
-#include "stack/phy/layer/LtePhyBase.h"
-#include "common/LteCommon.h"
+#include "LtePhyBase.h"
+#include "LteCommon.h"
 
 short LtePhyBase::airFramePriority_ = 10;
 
@@ -73,7 +73,6 @@ void LtePhyBase::initialize(int stage)
 void LtePhyBase::handleMessage(cMessage* msg)
 {
     EV << " LtePhyBase::handleMessage - new message received" << endl;
-    EV << "EITA 2\n";
 
     if (msg->isSelfMessage())
     {
@@ -101,7 +100,6 @@ void LtePhyBase::handleMessage(cMessage* msg)
 void LtePhyBase::handleControlMsg(LteAirFrame *frame,
     UserControlInfo *userInfo)
 {
-    EV << "LtePhyBase::handleControlMsg" << endl;
     cPacket *pkt = frame->decapsulate();
     delete frame;
     pkt->setControlInfo(userInfo);
@@ -292,13 +290,11 @@ LteAmc *LtePhyBase::getAmcModule(MacNodeId id)
 
 void LtePhyBase::sendUnicast(LteAirFrame *frame)
 {
-
     UserControlInfo *ci = check_and_cast<UserControlInfo *>(
         frame->getControlInfo());
     // dest MacNodeId from control info
     MacNodeId dest = ci->getDestId();
     // destination node (UE, RELAY or ENODEB) omnet id
-
     try {
         binder_->getOmnetId(dest);
     } catch (std::out_of_range& e) {

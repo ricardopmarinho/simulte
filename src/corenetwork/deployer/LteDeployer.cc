@@ -7,10 +7,10 @@
 // and cannot be removed from it.
 //
 
-#include "corenetwork/deployer/LteDeployer.h"
+#include "LteDeployer.h"
 #include "world/radio/ChannelControl.h"
 #include "world/radio/ChannelAccess.h"
-#include "inet/mobility/static/StationaryMobility.h"
+#include "StationaryMobility.h"
 
 Define_Module(LteDeployer);
 

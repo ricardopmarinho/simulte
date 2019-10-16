@@ -10,8 +10,8 @@
 #ifndef _LTE_LTESCHEDULER_H_
 #define _LTE_LTESCHEDULER_H_
 
-#include "common/LteCommon.h"
-#include "stack/mac/layer/LteMacEnb.h"
+#include "LteCommon.h"
+#include "LteMacEnb.h"
 
 /// forward declarations
 class LteSchedulerEnb;
