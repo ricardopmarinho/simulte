@@ -16,8 +16,8 @@
 
 
 // cplusplus {{
-    #include "LteRlcPdu.h"
-    #include "LteRlcDefs.h"
+#include "stack/rlc/packet/LteRlcPdu.h"
+#include "stack/rlc/LteRlcDefs.h"
 // }}
 
 /**

@@ -7,19 +7,19 @@
 // and cannot be removed from it.
 //
 
-#include "LteMacUe.h"
-#include "LteHarqBufferRx.h"
-#include "LteMacQueue.h"
-#include "LteSchedulingGrant.h"
-#include "LteSchedulerUeUl.h"
-#include "LteRac_m.h"
-#include "LteMacBuffer.h"
-#include "UserTxParams.h"
-#include "InterfaceEntry.h"
-#include "ModuleAccess.h"
-#include "IPv4InterfaceData.h"
-#include "LteBinder.h"
-#include "LtePhyBase.h"
+#include "stack/mac/layer/LteMacUe.h"
+#include "stack/mac/buffer/harq/LteHarqBufferRx.h"
+#include "stack/mac/buffer/LteMacQueue.h"
+#include "stack/mac/packet/LteSchedulingGrant.h"
+#include "stack/mac/scheduler/LteSchedulerUeUl.h"
+#include "stack/mac/packet/LteRac_m.h"
+#include "stack/mac/buffer/LteMacBuffer.h"
+#include "stack/mac/amc/UserTxParams.h"
+#include "inet/networklayer/common/InterfaceEntry.h"
+#include "inet/common/ModuleAccess.h"
+#include "inet/networklayer/ipv4/IPv4InterfaceData.h"
+#include "corenetwork/binder/LteBinder.h"
+#include "stack/phy/layer/LtePhyBase.h"
 
 Define_Module(LteMacUe);
 
@@ -74,10 +74,27 @@ void LteMacUe::initialize(int stage)
         info->init = false;            // flag for phy initialization
         info->ue = this->getParentModule()->getParentModule();  // reference to the UE module
 
+        ///////////
+        info->rList = new std::map<MacNodeId,double>();
+        info->repList = new std::vector<MacNodeId>();
+        ///////////
+
         // Get the Physical Channel reference of the node
         info->phy = check_and_cast<LtePhyBase*>(info->ue->getSubmodule("nic")->getSubmodule("phy"));
-
         binder_->addUeInfo(info);
+
+        /*
+         * This line changes the local address value given at .ini file
+         * so we can add more devices.
+         * This value is static and defined at the .ini file, therefore
+         * to add more devices on the network, we would have to set this
+         * value to every single device.
+         * */
+        info->ue->getSubmodule("tcpApp",0)->getAncestorPar("localAddress") = info->ue->getFullName();
+        if(!std::strcmp(info->ue->getFullName(),info->ue->getSubmodule("tcpApp",0)->par("connectAddress"))){
+            info->ue->getSubmodule("tcpApp",0)->getAncestorPar("connectAddress")="ueD2DTx[1]";
+        }
+
     }
     else if (stage == INITSTAGE_NETWORK_LAYER_3)
     {

@@ -16,11 +16,11 @@
 
 
 // cplusplus {{
-    #include "LteCommon.h"
+    #include "common/LteCommon.h"
 // }}
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:49</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:50</tt> by nedtool.
  * <pre>
  * //
  * // @class LteControlInfo
@@ -113,7 +113,7 @@ inline void doParsimPacking(omnetpp::cCommBuffer *b, const LteControlInfo& obj) 
 inline void doParsimUnpacking(omnetpp::cCommBuffer *b, LteControlInfo& obj) {obj.parsimUnpack(b);}
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:86</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:87</tt> by nedtool.
  * <pre>
  * //
  * // @class FlowControlInfo
@@ -182,7 +182,7 @@ inline void doParsimPacking(omnetpp::cCommBuffer *b, const FlowControlInfo& obj)
 inline void doParsimUnpacking(omnetpp::cCommBuffer *b, FlowControlInfo& obj) {obj.parsimUnpack(b);}
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:106</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:108</tt> by nedtool.
  * <pre>
  * //
  * // @class UserControlInfo
@@ -224,6 +224,13 @@ inline void doParsimUnpacking(omnetpp::cCommBuffer *b, FlowControlInfo& obj) {ob
  *     //#
  *     //# RemoteSet ru;                                // Remote Antenna Set
  *     //# RbMap grantedBlocks;                        // Blocks allocated per Remote, per Band.
+ * 
+ *      ///////////////////////////
+ *     unsigned short CAINDirection @enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
+ *     bool CAINEnable = false;							// False if the message is not a CAIN, true otherwise
+ *     uint16 eNBId;
+ *     double CAINuePwr;									// Relay's power value
+ *     /////////////////////////
  * }
  * </pre>
  *
@@ -268,6 +275,10 @@ class UserControlInfo_Base : public ::LteControlInfo
     double txPower;
     double d2dTxPower;
     unsigned int totalGrantedBlocks;
+    unsigned short CAINDirection;
+    bool CAINEnable;
+    uint16_t eNBId;
+    double CAINuePwr;
 
   private:
     void copy(const UserControlInfo_Base& other);
@@ -316,6 +327,142 @@ class UserControlInfo_Base : public ::LteControlInfo
     virtual void setD2dTxPower(double d2dTxPower);
     virtual unsigned int getTotalGrantedBlocks() const;
     virtual void setTotalGrantedBlocks(unsigned int totalGrantedBlocks);
+    virtual unsigned short getCAINDirection() const;
+    virtual void setCAINDirection(unsigned short CAINDirection);
+    virtual bool getCAINEnable() const;
+    virtual void setCAINEnable(bool CAINEnable);
+    virtual uint16_t getENBId() const;
+    virtual void setENBId(uint16_t eNBId);
+    virtual double getCAINuePwr() const;
+    virtual void setCAINuePwr(double CAINuePwr);
+};
+
+/**
+ * Class generated from <tt>common/LteControlInfo.msg:147</tt> by nedtool.
+ * <pre>
+ * class CAINControlInfo extends LteControlInfo
+ * {
+ *     @customize(true);
+ * 
+ * //# H-ARQ Control Information
+ * 
+ *     unsigned char acid;                // H-ARQ process identifier
+ *     unsigned char cw;                // H-ARQ codeword identifier
+ *     unsigned char txNumber = 0;            // number of (re)transmissions for the same pdu (1, 2, 3, 4)
+ *     bool ndi = true;                    // new data indicator (new data overwrites a process content if present)
+ * 
+ *     //# PHY Control Informations
+ * 
+ *     bool isCorruptible;                                // Frame is corruptible
+ *     bool isBroadcast = false;                        // Broadcast packet
+ *     bool deciderResult;                                // Decider result
+ *     double blerTh;                                    // Calculated BLER threshold for this transmission
+ *     double blerValue;                                // Extracted BLER for this transmission (blerValue > blerTh ==> corrupted)
+ *     unsigned short txMode @enum(TxMode);                // Traffic Type
+ *     unsigned int frameType @enum(LtePhyFrameType);    // Frame Type
+ *     double txPower;                                    //Transmission Power
+ *     double d2dTxPower;                                 //D2D Transmission Power (used for feedback reporting of D2D links
+ *     // blocks granted on all Remotes, all Bands
+ *     unsigned int totalGrantedBlocks;
+ * 
+ *     ///////////////////////////
+ *     unsigned short CAINDirection @enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
+ *     /////////////////////////
+ * }
+ * </pre>
+ *
+ * CAINControlInfo_Base is only useful if it gets subclassed, and CAINControlInfo is derived from it.
+ * The minimum code to be written for CAINControlInfo is the following:
+ *
+ * <pre>
+ * class CAINControlInfo : public CAINControlInfo_Base
+ * {
+ *   private:
+ *     void copy(const CAINControlInfo& other) { ... }
+
+ *   public:
+ *     CAINControlInfo() : CAINControlInfo_Base() {}
+ *     CAINControlInfo(const CAINControlInfo& other) : CAINControlInfo_Base(other) {copy(other);}
+ *     CAINControlInfo& operator=(const CAINControlInfo& other) {if (this==&other) return *this; CAINControlInfo_Base::operator=(other); copy(other); return *this;}
+ *     virtual CAINControlInfo *dup() const {return new CAINControlInfo(*this);}
+ *     // ADD CODE HERE to redefine and implement pure virtual functions from CAINControlInfo_Base
+ * };
+ * </pre>
+ *
+ * The following should go into a .cc (.cpp) file:
+ *
+ * <pre>
+ * Register_Class(CAINControlInfo);
+ * </pre>
+ */
+class CAINControlInfo_Base : public ::LteControlInfo
+{
+  protected:
+    unsigned char acid;
+    unsigned char cw;
+    unsigned char txNumber;
+    bool ndi;
+    bool isCorruptible;
+    bool isBroadcast;
+    bool deciderResult;
+    double blerTh;
+    double blerValue;
+    unsigned short txMode;
+    unsigned int frameType;
+    double txPower;
+    double d2dTxPower;
+    unsigned int totalGrantedBlocks;
+    unsigned short CAINDirection;
+
+  private:
+    void copy(const CAINControlInfo_Base& other);
+
+  protected:
+    // protected and unimplemented operator==(), to prevent accidental usage
+    bool operator==(const CAINControlInfo_Base&);
+    // make constructors protected to avoid instantiation
+    CAINControlInfo_Base();
+    CAINControlInfo_Base(const CAINControlInfo_Base& other);
+    // make assignment operator protected to force the user override it
+    CAINControlInfo_Base& operator=(const CAINControlInfo_Base& other);
+
+  public:
+    virtual ~CAINControlInfo_Base();
+    virtual CAINControlInfo_Base *dup() const {throw omnetpp::cRuntimeError("You forgot to manually add a dup() function to class CAINControlInfo");}
+    virtual void parsimPack(omnetpp::cCommBuffer *b) const;
+    virtual void parsimUnpack(omnetpp::cCommBuffer *b);
+
+    // field getter/setter methods
+    virtual unsigned char getAcid() const;
+    virtual void setAcid(unsigned char acid);
+    virtual unsigned char getCw() const;
+    virtual void setCw(unsigned char cw);
+    virtual unsigned char getTxNumber() const;
+    virtual void setTxNumber(unsigned char txNumber);
+    virtual bool getNdi() const;
+    virtual void setNdi(bool ndi);
+    virtual bool getIsCorruptible() const;
+    virtual void setIsCorruptible(bool isCorruptible);
+    virtual bool getIsBroadcast() const;
+    virtual void setIsBroadcast(bool isBroadcast);
+    virtual bool getDeciderResult() const;
+    virtual void setDeciderResult(bool deciderResult);
+    virtual double getBlerTh() const;
+    virtual void setBlerTh(double blerTh);
+    virtual double getBlerValue() const;
+    virtual void setBlerValue(double blerValue);
+    virtual unsigned short getTxMode() const;
+    virtual void setTxMode(unsigned short txMode);
+    virtual unsigned int getFrameType() const;
+    virtual void setFrameType(unsigned int frameType);
+    virtual double getTxPower() const;
+    virtual void setTxPower(double txPower);
+    virtual double getD2dTxPower() const;
+    virtual void setD2dTxPower(double d2dTxPower);
+    virtual unsigned int getTotalGrantedBlocks() const;
+    virtual void setTotalGrantedBlocks(unsigned int totalGrantedBlocks);
+    virtual unsigned short getCAINDirection() const;
+    virtual void setCAINDirection(unsigned short CAINDirection);
 };
 
 

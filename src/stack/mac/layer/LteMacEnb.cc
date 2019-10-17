@@ -7,19 +7,19 @@
 // and cannot be removed from it.
 //
 
-#include "LteMacEnb.h"
-#include "LteHarqBufferRx.h"
-#include "LteMacBuffer.h"
-#include "LteMacQueue.h"
-#include "LteFeedbackPkt.h"
-#include "LteSchedulerEnbDl.h"
-#include "LteSchedulerEnbUl.h"
-#include "LteSchedulingGrant.h"
-#include "LteAllocationModule.h"
-#include "LteAmc.h"
-#include "UserTxParams.h"
-#include "LteRac_m.h"
-#include "LteCommon.h"
+#include "stack/mac/layer/LteMacEnb.h"
+#include "stack/mac/buffer/harq/LteHarqBufferRx.h"
+#include "stack/mac/buffer/LteMacBuffer.h"
+#include "stack/mac/buffer/LteMacQueue.h"
+#include "stack/phy/packet/LteFeedbackPkt.h"
+#include "stack/mac/scheduler/LteSchedulerEnbDl.h"
+#include "stack/mac/scheduler/LteSchedulerEnbUl.h"
+#include "stack/mac/packet/LteSchedulingGrant.h"
+#include "stack/mac/allocator/LteAllocationModule.h"
+#include "stack/mac/amc/LteAmc.h"
+#include "stack/mac/amc/UserTxParams.h"
+#include "stack/mac/packet/LteRac_m.h"
+#include "common/LteCommon.h"
 
 Define_Module( LteMacEnb);
 
@@ -220,6 +220,9 @@ void LteMacEnb::initialize(int stage)
     LteMacBase::initialize(stage);
     if (stage == inet::INITSTAGE_LOCAL)
     {
+
+        cainMessageSignal = registerSignal("CainMessage");
+
         // TODO: read NED parameters, when will be present
         deployer_ = getDeployer();
         /* Get num RB Dl */
@@ -292,6 +295,11 @@ void LteMacEnb::initialize(int stage)
         info->type = MACRO_ENB;        // eNb Type
         info->init = false;            // flag for phy initialization
         info->eNodeB = this->getParentModule()->getParentModule();  // reference to the eNodeB module
+        /////
+        info->Bmap = new std::map<MacNodeId,double>();
+        info->Wmap = new std::map<MacNodeId,double>();
+        info->pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
+        //////
         binder_->addEnbInfo(info);
 
         // register the pair <id,name> to the binder
@@ -340,6 +348,7 @@ void LteMacEnb::bufferizeBsr(MacBsr* bsr, MacCid cid)
 
 void LteMacEnb::sendGrants(LteMacScheduleList* scheduleList)
 {
+
     EV << NOW << "LteMacEnb::sendGrants " << endl;
 
     while (!scheduleList->empty())
@@ -458,6 +467,15 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*> (
         racPkt->getControlInfo());
 
+
+    if(uinfo->getCAINEnable() && uinfo->getCAINDirection()==FWD){
+        EV << "ENB receiving a CAIN FWD message!" << endl;
+        EV << "Options: " << uinfo->getCAINOptions() << endl;
+        CainMessage++;
+        emit(cainMessageSignal,CainMessage);
+        delete pkt;
+        return;
+    }
     enbSchedulerUl_->signalRac(uinfo->getSourceId());
 
     // TODO all RACs are marked are successful
@@ -467,6 +485,76 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     uinfo->setSourceId(nodeId_);
     uinfo->setDirection(DL);
 
+    EV << "Message arriving!" << endl;
+
+    std::vector<EnbInfo*>* vect = binder_->getEnbList();
+    for(unsigned int i=0;i< vect->size();i++){
+        if(1 == vect->at(i)->id){
+            sinrMapW* WsMap = vect->operator [](i)->Wmap;
+            sinrMapB* BsMap = vect->operator [](i)->Bmap;
+            std::ostringstream stream;
+            if(WsMap->size() > 0 && BsMap->size() > 0){
+                EV << "=============== SETTING CAIN MESSAGE ===============\n";
+                EV << "BsMap size: " << BsMap->size() << endl;
+                EV << "WsMap size: " << WsMap->size() << endl;
+                //reset any previous option
+                uinfo->setCAINOption("");
+                std::map<MacNodeId,double>::iterator it;
+                for(it = WsMap->begin(); it != WsMap->end(); it++){
+                    MacNodeId node = it->first;
+                    EV << "\nNode " << it->first << " with power " << it->second << " needs find a relay! \n";
+                    /*
+                     * setting options field with the id of the node that needs a relay
+                     * and it's sinr
+                     * */
+                    stream << node << "/" << it->second;
+                    uinfo->appendOption(stream.str());
+                    stream.str("");
+                    stream.clear();
+                }
+
+                /*
+                 * end of options setting
+                 * */
+
+                //sinrMapB* BsMap = vect->operator [](i)->Bmap;
+                MacNodeId relay;
+                uinfo->setCAINEnable(true);
+                uinfo->setCAINDirection(NOTIFY);
+                uinfo->setENBId(nodeId_);
+                //if(BsMap->size() >= 2){
+                int j;
+                for(j = 0, it = BsMap->begin(); j < BsMap->size()-1;it++, j++){
+                    relay = it->first;
+                    EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
+                    UserControlInfo* uinfoDup = uinfo->dup();
+                    uinfoDup->setDestId(relay);
+                    uinfoDup->setCAINuePwr(it->second);
+                    uinfoDup->setCAINOption(uinfo->getCAINOptions());
+                    LteRac* racDup = racPkt->dup();
+                    racDup->setControlInfo(uinfoDup);
+                    EV << "Options: " << uinfoDup->getCAINOptions() << endl;
+                    sendLowerPackets(racDup);
+                }
+                //}
+                relay = it->first;
+                EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
+                uinfo->setDestId(relay);
+                uinfo->setCAINuePwr(it->second);
+                EV << "=============== END OF SETTINGS ===============\n";
+            }
+        }
+    }
+
+    double freq = getModuleByPath("CAIN.channelControl")->par("carrierFrequency");
+    EV << "Carrier frequency: " << freq << "Hz" << endl;
+
+
+    UserControlInfo* info = check_and_cast<UserControlInfo*>(racPkt->getControlInfo());
+
+    EV << "Source: " << info->getSourceId() << " dest: " << info->getDestId() << endl;
+
+    EV << "Options: " << uinfo->getCAINOptions() << endl;
     sendLowerPackets(racPkt);
 }
 
@@ -674,6 +762,7 @@ void LteMacEnb::handleSelfMessage()
 
     EV << "-----" << ((nodeType==MACRO_ENB)?"MACRO":"MICRO") << " ENB MAIN LOOP -----" << endl;
 
+    EV << "EM LTEMACENB\n";
     /*************
      * END DEBUG
      *************/
@@ -742,6 +831,8 @@ void LteMacEnb::handleSelfMessage()
 
 void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
 {
+
+    EV << "At LteMacEnb::macHandleFeedbackPkt\n";
     LteFeedbackPkt* fb = check_and_cast<LteFeedbackPkt*>(pkt);
     LteFeedbackDoubleVector fbMapDl = fb->getLteFeedbackDoubleVectorDl();
     LteFeedbackDoubleVector fbMapUl = fb->getLteFeedbackDoubleVectorUl();

@@ -28,9 +28,9 @@
 #include <queue>
 #include <map>
 #include <list>
-#include "Coord.h"
+#include "inet/common/geometry/common/Coord.h"
 #include <algorithm>
-#include "lterecorder.h"
+#include "common/lterecorder.h"
 
 using namespace omnetpp;
 
@@ -111,6 +111,20 @@ typedef unsigned short Codeword;
 enum Direction
 {
     DL, UL, D2D, D2D_MULTI, UNKNOWN_DIRECTION
+};
+
+/// CAIN link directions
+/**
+ * REL -> message to search for a relay
+ * REQ -> message to responde to a relay request
+ * NOTFY -> message form ENodeB to notify a node that it'll need help
+ */
+enum CAINDirection
+{
+    NOTIFY,
+    REL,
+    REP,
+    FWD
 };
 
 /// Modulations
@@ -461,7 +475,8 @@ enum LtePhyFrameType
     GRANTPKT,
     RACPKT,
     D2DMODESWITCHPKT,
-    UNKNOWN_TYPE
+    UNKNOWN_TYPE,
+    CAIN_INFOPKT
 };
 
 struct LtePhyFrameTable
@@ -753,6 +768,31 @@ typedef std::list<Codeword> CwList;
 /// Pair of acid, list of unit ids
 typedef std::pair<unsigned char, CwList> UnitList;
 
+/**
+ * Included by Ricardo Pagoto Marinho
+ * Map for store UE id and it's sinr value
+ * key: UE id
+ * value: sinr
+ */
+
+/*
+ * stores sinr that are better than the threshold
+ */
+typedef std::map<MacNodeId,double> sinrMapB;
+/*
+ * stores sinr that are worse than the threshold
+ * */
+typedef std::map<MacNodeId,double> sinrMapW;
+/*
+ * stores the list of possible relays for a UE
+ * */
+typedef std::map<MacNodeId,double> relayList;
+
+/*
+ * stores the list of nodes that did not send a REP message to relay
+ * */
+typedef std::vector<MacNodeId> rep_list;
+
 /*********************
  * Incell Interference Support
  *********************/
@@ -775,6 +815,11 @@ struct EnbInfo
     LteMacEnb * mac;
     LteRealisticChannelModel * realChan;
     cModule * eNodeB;
+//////
+    sinrMapB* Bmap;
+    sinrMapW* Wmap;
+    int pwrThresh;
+//////
     int x2;
 };
 
@@ -787,6 +832,10 @@ struct UeInfo
     LteRealisticChannelModel * realChan;
     cModule * ue;
     LtePhyBase* phy;
+///////
+    relayList* rList;
+    rep_list* repList;
+///////
 };
 
 typedef std::vector<ExtCell*> ExtCellList;
@@ -868,6 +917,12 @@ const std::string SubFrameTypeToA(const LteSubFrameType r);
 const std::string DeploymentScenarioToA(DeploymentScenario type);
 DeploymentScenario aToDeploymentScenario(std::string s);
 bool isMulticastConnection(LteControlInfo* lteInfo);
+
+/**
+ * Functions for sinr map
+ */
+
+
 
 /**
  * Utility function that reads the parameters of an XML element

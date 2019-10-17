@@ -7,14 +7,15 @@
 // and cannot be removed from it.
 //
 
-#include "LteRealisticChannelModel.h"
-#include "LteAirFrame.h"
-#include "LteBinder.h"
-#include "LteDeployer.h"
-#include "UserTxParams.h"
-#include "LteCommon.h"
-#include "ExtCell.h"
-#include "LtePhyUe.h"
+#include "stack/phy/ChannelModel/LteRealisticChannelModel.h"
+#include "stack/phy/packet/LteAirFrame.h"
+#include "corenetwork/binder/LteBinder.h"
+#include "corenetwork/deployer/LteDeployer.h"
+#include "stack/mac/amc/UserTxParams.h"
+#include "common/LteCommon.h"
+#include "corenetwork/nodes/ExtCell.h"
+#include "stack/phy/layer/LtePhyUe.h"
+//#include "common/CAINControInfo.h"
 
 // attenuation value to be returned if max. distance of a scenario has been violated
 // and tolerating the maximum distance violation is enabled
@@ -888,6 +889,42 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
            << " speed " << speed << " thermal noise " << thermalNoise_
            << " fading attenuation " << fadingAttenuation << endl;
 
+        std::vector<EnbInfo*>* vect = binder_->getEnbList();
+        int pwrThresh = 0;
+        sinrMapB* BsMap = NULL;
+        sinrMapW* WsMap = NULL;
+
+        EV << "Creating map" << endl;
+        for(unsigned int j = 0; j < vect->size();j++){
+            if(eNbId == vect->at(j)->id){
+                pwrThresh = vect->operator [](j)->pwrThresh;
+                BsMap = vect->operator [](j)->Bmap;
+                WsMap = vect->operator [](j)->Wmap;
+                if(recvPower >= pwrThresh){
+                    /*
+                     * If a previous record from a node is recorded on the
+                     * other map, we must erase it to keep the integrity
+                     * */
+                    EV << "Storing a good power device: " << ueId << endl;
+                    if(WsMap->count(ueId)==1)
+                        WsMap->erase(ueId);
+                    BsMap->operator [](ueId)=recvPower;
+                }else{
+                    EV << "Storing a bad power device: " << ueId << endl;
+                    if(BsMap->count(ueId)==1)
+                        BsMap->erase(ueId);
+                    WsMap->operator [](ueId)=recvPower;
+                }
+            }
+        }
+
+        std::vector<UeInfo*> * ueinfo = binder_->getUeList();
+        for(int i=0;i<ueinfo->size();i++){
+            UeInfo* info = ueinfo->at(i);
+            MacNodeId ueNodeId = info->id;
+            const char* name = info->ue->getFullName();
+            binder_->addNodeIdName(ueNodeId,name);
+        }
         snrVector.push_back(finalRecvPower);
     }
     //============ END PATH LOSS + SHADOWING + FADING ===============
@@ -944,6 +981,7 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
 
             // compute final SINR
             snrVector[i] -= den;
+
         }
     }
     // compute snr with no intercell interference

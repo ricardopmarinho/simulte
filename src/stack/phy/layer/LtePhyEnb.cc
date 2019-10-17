@@ -7,10 +7,10 @@
 // and cannot be removed from it.
 //
 
-#include "LtePhyEnb.h"
-#include "LteFeedbackPkt.h"
-#include "DasFilter.h"
-#include "LteCommon.h"
+#include "stack/phy/layer/LtePhyEnb.h"
+#include "stack/phy/packet/LteFeedbackPkt.h"
+#include "stack/phy/das/DasFilter.h"
+#include "common/LteCommon.h"
 
 Define_Module(LtePhyEnb);
 
@@ -68,14 +68,18 @@ void LtePhyEnb::initialize(int stage)
         {
             txDirection_ = OMNI;
         }
-        else if(txDir.compare(txDirections[ANISOTROPIC].txDirectionName)==0)   // ANISOTROPIC
+        else if(txDir.compare(txDirections[ANISOTROPIC].txDirectionName)==0)  // ANISOTROPIC
         {
             txDirection_ = ANISOTROPIC;
 
             // set TX angle
             txAngle_ = par("txAngle");
-        }else{
+        } else{
             txDirection_ = MASSIVEMIMO;
+
+
+            EulerAngles angle = new EulerAngles(43.5949,0);
+
         }
 
         bdcUpdateInterval_ = deployer_->par("broadcastMessageInterval");
@@ -136,6 +140,14 @@ bool LtePhyEnb::handleControlPkt(UserControlInfo* lteinfo, LteAirFrame* frame)
         delete frame;
         return true;
     }
+
+    //handle feedback pkt
+    if (lteinfo->getFrameType() == CAIN_INFOPKT)
+    {
+        handleCainInfoPkt(lteinfo, frame);
+        delete frame;
+        return true;
+    }
     return false;
 }
 
@@ -148,7 +160,6 @@ void LtePhyEnb::handleAirFrame(cMessage* msg)
     }
 
     LteAirFrame* frame = static_cast<LteAirFrame*>(msg);
-
     EV << "LtePhy: received new LteAirFrame with ID " << frame->getId() << " from channel" << endl;
 
     // handle broadcast packet sent by another eNB
@@ -332,6 +343,7 @@ void LtePhyEnb::handleFeedbackPkt(UserControlInfo* lteinfo,
     LteAirFrame *frame)
 {
     EV << "Handled Feedback Packet with ID " << frame->getId() << endl;
+
     LteFeedbackPkt* pkt = check_and_cast<LteFeedbackPkt*>(frame->decapsulate());
     // here frame has to be destroyed since it is no more useful
     pkt->setControlInfo(lteinfo);
@@ -380,6 +392,12 @@ void LtePhyEnb::handleFeedbackPkt(UserControlInfo* lteinfo,
     }
     // send decapsulated message along with result control info to upperGateOut_
     send(pkt, upperGateOut_);
+}
+
+void LtePhyEnb::handleCainInfoPkt(UserControlInfo* lteinfo,
+        LteAirFrame *frame){
+    EV << "Handled CAIN Info Packet with ID " << frame->getId() << endl;
+    endSimulation();
 }
 
 // TODO adjust default value

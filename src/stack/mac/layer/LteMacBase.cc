@@ -8,17 +8,17 @@
 //
 
 
-#include "LteMacBase.h"
-#include "LteHarqBufferTx.h"
-#include "LteHarqBufferRxD2D.h"
-#include "LteHarqBufferRx.h"
-#include "LteMacPdu.h"
-#include "LteMacQueue.h"
-#include "LteControlInfo.h"
-#include "LteBinder.h"
-#include "LteDeployer.h"
-#include "LteHarqFeedback_m.h"
-#include "LteMacBuffer.h"
+#include "stack/mac/layer/LteMacBase.h"
+#include "stack/mac/buffer/harq/LteHarqBufferTx.h"
+#include "stack/mac/buffer/harq_d2d/LteHarqBufferRxD2D.h"
+#include "stack/mac/buffer/harq/LteHarqBufferRx.h"
+#include "stack/mac/packet/LteMacPdu.h"
+#include "stack/mac/buffer/LteMacQueue.h"
+#include "common/LteControlInfo.h"
+#include "corenetwork/binder/LteBinder.h"
+#include "corenetwork/deployer/LteDeployer.h"
+#include "stack/mac/packet/LteHarqFeedback_m.h"
+#include "stack/mac/buffer/LteMacBuffer.h"
 #include "assert.h"
 
 LteMacBase::LteMacBase()
@@ -63,6 +63,7 @@ void LteMacBase::sendLowerPackets(cPacket* pkt)
     EV << "LteMacBase : Sending packet " << pkt->getName() << " on port MAC_to_PHY\n";
     // Send message
     updateUserTxParam(pkt);
+    EV << "EITA 1\n";
     send(pkt,down_[OUT]);
     emit(sentPacketToLowerLayer, pkt);
 }
@@ -86,70 +87,79 @@ void LteMacBase::fromPhy(cPacket *pkt)
     UserControlInfo *userInfo = check_and_cast<UserControlInfo *>(pkt->getControlInfo());
     MacNodeId src = userInfo->getSourceId();
 
-    if (userInfo->getFrameType() == HARQPKT)
-    {
-        // H-ARQ feedback, send it to TX buffer of source
-        HarqTxBuffers::iterator htit = harqTxBuffers_.find(src);
-        EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received HARQ Feedback pkt" << endl;
-        if (htit == harqTxBuffers_.end())
+
+    if(userInfo->getCAINEnable() && userInfo->getCAINDirection()==FWD){
+        EV << "Receiving relay message: " << userInfo->getCAINOptions() << ", from relay: " << userInfo->getSourceId() << endl;
+        macHandleRac(pkt);
+    }else{
+
+        if (userInfo->getFrameType() == HARQPKT)
         {
-            // if a feedback arrives, a tx buffer must exists (unless it is an handover scenario
-            // where the harq buffer was deleted but a feedback was in transit)
-            // this case must be taken care of
+            // H-ARQ feedback, send it to TX buffer of source
+            HarqTxBuffers::iterator htit = harqTxBuffers_.find(src);
+            EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received HARQ Feedback pkt" << endl;
+            if (htit == harqTxBuffers_.end())
+            {
+                // if a feedback arrives, a tx buffer must exists (unless it is an handover scenario
+                // where the harq buffer was deleted but a feedback was in transit)
+                // this case must be taken care of
 
-            if (binder_->hasUeHandoverTriggered(nodeId_) || binder_->hasUeHandoverTriggered(src))
-                return;
+                if (binder_->hasUeHandoverTriggered(nodeId_) || binder_->hasUeHandoverTriggered(src))
+                    return;
 
-            throw cRuntimeError("Mac::fromPhy(): Received feedback for an unexisting H-ARQ tx buffer");
+                throw cRuntimeError("Mac::fromPhy(): Received feedback for an unexisting H-ARQ tx buffer");
+            }
+            LteHarqFeedback *hfbpkt = check_and_cast<LteHarqFeedback *>(pkt);
+            htit->second->receiveHarqFeedback(hfbpkt);
         }
-        LteHarqFeedback *hfbpkt = check_and_cast<LteHarqFeedback *>(pkt);
-        htit->second->receiveHarqFeedback(hfbpkt);
-    }
-    else if (userInfo->getFrameType() == FEEDBACKPKT)
-    {
-        //Feedback pkt
-        EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received feedback pkt" << endl;
-        macHandleFeedbackPkt(pkt);
-    }
-    else if (userInfo->getFrameType()==GRANTPKT)
-    {
-        //Scheduling Grant
-        EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received Scheduling Grant pkt" << endl;
-        macHandleGrant(pkt);
-    }
-    else if(userInfo->getFrameType() == DATAPKT)
-    {
-        // data packet: insert in proper rx buffer
-        EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received DATA packet" << endl;
-
-        LteMacPdu *pdu = check_and_cast<LteMacPdu *>(pkt);
-        Codeword cw = userInfo->getCw();
-        HarqRxBuffers::iterator hrit = harqRxBuffers_.find(src);
-        if (hrit != harqRxBuffers_.end())
+        else if (userInfo->getFrameType() == FEEDBACKPKT)
         {
-            hrit->second->insertPdu(cw,pdu);
+            //Feedback pkt
+            EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received feedback pkt" << endl;
+            macHandleFeedbackPkt(pkt);
+        }
+        else if (userInfo->getFrameType()==GRANTPKT)
+        {
+            //Scheduling Grant
+            EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received Scheduling Grant pkt" << endl;
+            macHandleGrant(pkt);
+        }
+        else if(userInfo->getFrameType() == DATAPKT)
+        {
+            // data packet: insert in proper rx buffer
+            EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received DATA packet" << endl;
+
+            LteMacPdu *pdu = check_and_cast<LteMacPdu *>(pkt);
+            Codeword cw = userInfo->getCw();
+            HarqRxBuffers::iterator hrit = harqRxBuffers_.find(src);
+            if (hrit != harqRxBuffers_.end())
+            {
+                hrit->second->insertPdu(cw,pdu);
+            }
+            else
+            {
+                // FIXME: possible memory leak
+                LteHarqBufferRx *hrb;
+                if (userInfo->getDirection() == DL || userInfo->getDirection() == UL)
+                    hrb = new LteHarqBufferRx(ENB_RX_HARQ_PROCESSES, this,src);
+                else // D2D
+                    hrb = new LteHarqBufferRxD2D(ENB_RX_HARQ_PROCESSES, this,src);
+
+                harqRxBuffers_[src] = hrb;
+                hrb->insertPdu(cw,pdu);
+            }
+        }
+        else if (userInfo->getFrameType() == RACPKT)
+        {
+            EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received RAC packet" << endl;
+
+            EV << "LteMacBase.cc::fromPhy" << endl;
+            macHandleRac(pkt);
         }
         else
         {
-            // FIXME: possible memory leak
-            LteHarqBufferRx *hrb;
-            if (userInfo->getDirection() == DL || userInfo->getDirection() == UL)
-                hrb = new LteHarqBufferRx(ENB_RX_HARQ_PROCESSES, this,src);
-            else // D2D
-                hrb = new LteHarqBufferRxD2D(ENB_RX_HARQ_PROCESSES, this,src);
-
-            harqRxBuffers_[src] = hrb;
-            hrb->insertPdu(cw,pdu);
+            throw cRuntimeError("Unknown packet type %d", (int)userInfo->getFrameType());
         }
-    }
-    else if (userInfo->getFrameType() == RACPKT)
-    {
-        EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received RAC packet" << endl;
-        macHandleRac(pkt);
-    }
-    else
-    {
-        throw cRuntimeError("Unknown packet type %d", (int)userInfo->getFrameType());
     }
 }
 
@@ -302,6 +312,8 @@ void LteMacBase::initialize(int stage)
 {
     if (stage == inet::INITSTAGE_LOCAL)
     {
+
+
         /* Gates initialization */
         up_[IN] = gate("RLC_to_MAC");
         up_[OUT] = gate("MAC_to_RLC");
@@ -351,6 +363,7 @@ void LteMacBase::initialize(int stage)
 
 void LteMacBase::handleMessage(cMessage* msg)
 {
+    EV << "LteMacBase.cc::handleMessage" << endl;
     if (msg->isSelfMessage())
     {
         handleSelfMessage();
@@ -361,6 +374,7 @@ void LteMacBase::handleMessage(cMessage* msg)
     cPacket* pkt = check_and_cast<cPacket *>(msg);
     EV << "LteMacBase : Received packet " << pkt->getName() <<
     " from port " << pkt->getArrivalGate()->getName() << endl;
+
 
     cGate* incoming = pkt->getArrivalGate();
 
