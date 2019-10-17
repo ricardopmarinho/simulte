@@ -7,7 +7,7 @@
 // and cannot be removed from it.
 //
 
-#include "ExtCell.h"
+#include "corenetwork/nodes/ExtCell.h"
 
 Define_Module(ExtCell);
 
@@ -96,6 +96,7 @@ void ExtCell::initialize()
 
 void ExtCell::handleMessage(cMessage *msg)
 {
+
     if (msg->isSelfMessage())
     {
         updateBandStatus();

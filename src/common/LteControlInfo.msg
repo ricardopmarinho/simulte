@@ -9,7 +9,7 @@
 
 
 cplusplus {{
-    #include "LteCommon.h"
+    #include "common/LteCommon.h"
 }}
 
 enum LtePhyFrameType;
@@ -19,6 +19,7 @@ enum Direction;
 enum ApplicationType;
 enum LteTrafficClass;
 
+enum CAINDirection;
 //
 // Control info usage in Lte simulator
 //
@@ -94,6 +95,7 @@ class FlowControlInfo extends LteControlInfo {
     int headerSize;                                       // IP + Transport header size (used by pdcp ROHC)
 }
 
+
 //
 // @class UserControlInfo
 // @brief contains information flowing from Mac to Phy
@@ -133,6 +135,43 @@ class UserControlInfo extends LteControlInfo {
     //#
     //# RemoteSet ru;                                // Remote Antenna Set
     //# RbMap grantedBlocks;                        // Blocks allocated per Remote, per Band.
+    
+     ///////////////////////////
+    unsigned short CAINDirection enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
+    bool CAINEnable = false;							// False if the message is not a CAIN, true otherwise
+    uint16 eNBId;
+    double CAINuePwr;									// Relay's power value
+    /////////////////////////
 }
+
+class CAINControlInfo extends LteControlInfo{
+   @customize(true);
+
+//# H-ARQ Control Information
+
+    unsigned char acid;                // H-ARQ process identifier
+    unsigned char cw;                // H-ARQ codeword identifier
+    unsigned char txNumber = 0;            // number of (re)transmissions for the same pdu (1, 2, 3, 4)
+    bool ndi = true;                    // new data indicator (new data overwrites a process content if present)
+
+    //# PHY Control Informations
+
+    bool isCorruptible;                                // Frame is corruptible
+    bool isBroadcast = false;                        // Broadcast packet
+    bool deciderResult;                                // Decider result
+    double blerTh;                                    // Calculated BLER threshold for this transmission
+    double blerValue;                                // Extracted BLER for this transmission (blerValue > blerTh ==> corrupted)
+    unsigned short txMode enum(TxMode);                // Traffic Type
+    unsigned int frameType enum(LtePhyFrameType);    // Frame Type
+    double txPower;                                    //Transmission Power
+    double d2dTxPower;                                 //D2D Transmission Power (used for feedback reporting of D2D links
+    // blocks granted on all Remotes, all Bands
+    unsigned int totalGrantedBlocks;
+    
+    ///////////////////////////
+    unsigned short CAINDirection enum(CAINDirection); 	// Traffic Direction (INF, REL, REP)
+    /////////////////////////
+}
+
 
 

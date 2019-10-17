@@ -10,9 +10,9 @@
 #ifndef _LTE_LTEMACUEREALISTICD2D_H_
 #define _LTE_LTEMACUEREALISTICD2D_H_
 
-#include "LteMacUeRealistic.h"
-#include "LteMacEnbRealisticD2D.h"
-#include "LteHarqBufferTxD2D.h"
+#include "stack/mac/layer/LteMacUeRealistic.h"
+#include "stack/mac/layer/LteMacEnbRealisticD2D.h"
+#include "stack/mac/buffer/harq_d2d/LteHarqBufferTxD2D.h"
 
 class LteSchedulingGrant;
 class LteSchedulerUeUl;
@@ -53,6 +53,31 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
 
     virtual void macHandleGrant(cPacket* pkt);
 
+    /*
+     * Checks RAC status
+     */
+    virtual void checkRAC();
+
+    /*
+     * Receives and handles RAC responses
+     */
+    virtual void macHandleRac(cPacket* pkt);
+
+    /*
+     * Handles CAIN message on UE
+     * */
+    virtual void handleCainMsg(cPacket* pkt);
+
+    /*
+     * Returns the chosen relay for the message
+     * */
+    virtual MacNodeId getRelay(std::vector<std::string> relayVect);
+
+    /*
+     * Returns the node that needs a relay
+     * */
+    virtual std::vector<MacNodeId> getNode(std::string nodeSinr);
+
     void macHandleD2DModeSwitch(cPacket* pkt);
 
     virtual LteMacPdu* makeBsr(int size);
@@ -67,8 +92,23 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
      * containing the size of its buffer (for that CID)
      */
     virtual void macPduMake();
+    /*
+     * Check the repList, if the list contains
+     * nodeId return true, otherwise, false
+     * */
+    bool checkRepList(MacNodeId nodeId);
 
-    virtual void updateUserTxParam(cPacket* pkt);
+    void removeNodeRepList(MacNodeId nodeId);
+
+    /*
+     * Method to update relay list, therefore the UE that
+     * calls this method needs a relay.
+     * We must search for 'relayId' at the sinrMapB
+     * */
+    bool updateRelayList(MacNodeId relayId);
+
+    void printRelayList(MacNodeId nodeId);
+
 
   public:
     LteMacUeRealisticD2D();

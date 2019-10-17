@@ -10,10 +10,10 @@
 #ifndef _LTE_LTEMACENB_H_
 #define _LTE_LTEMACENB_H_
 
-#include "LteMacBase.h"
-#include "LteDeployer.h"
-#include "LteAmc.h"
-#include "LteCommon.h"
+#include "stack/mac/layer/LteMacBase.h"
+#include "corenetwork/deployer/LteDeployer.h"
+#include "stack/mac/amc/LteAmc.h"
+#include "common/LteCommon.h"
 
 class MacBsr;
 class LteSchedulerEnbDl;
@@ -57,6 +57,11 @@ class LteMacEnb : public LteMacBase
     simsignal_t cqiDlSiso3_;
     simsignal_t cqiDlSiso4_;
     TaggedSample* tSample_;
+
+    //////////////////
+    simsignal_t cainMessageSignal;
+    long CainMessage = 0;
+    //////////////////
 
     /**
      * Variable used for Downlink energy consumption computation

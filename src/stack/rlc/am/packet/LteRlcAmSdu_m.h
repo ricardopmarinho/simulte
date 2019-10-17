@@ -16,7 +16,7 @@
 
 
 // cplusplus {{
-    #include "LteRlcSdu.h"
+#include "stack/rlc/packet/LteRlcSdu.h"
 // }}
 
 /**
