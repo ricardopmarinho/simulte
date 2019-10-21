@@ -32,7 +32,7 @@ network CAIN
         int numUeD2DTx = default(0);
         int numUeD2DRx = default(0);
         //////////////////////////////////
-        int pwrThresh = default(-40); //when ready, use -90 for power threshold
+        int pwrThresh = default(-70); //when ready, use -90 for power threshold
         //////////////////////////////////
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
         
