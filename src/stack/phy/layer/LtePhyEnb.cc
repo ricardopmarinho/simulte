@@ -78,7 +78,7 @@ void LtePhyEnb::initialize(int stage)
             txDirection_ = MASSIVEMIMO;
 
 
-            EulerAngles angle = new EulerAngles(43.5949,0);
+            //EulerAngles angle = new EulerAngles(43.5949,0);
 
         }
 

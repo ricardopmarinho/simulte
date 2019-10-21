@@ -37,7 +37,7 @@ simple LtePhyBase like LtePhy {
         double eNodeBTxPower =default(46);
         double relayTxPower =default(20);
         double microTxPower =default(30);
-        string txDirection = default("MASSIVEMIMO"); //original was OMNI
+        string txDirection = default("OMNI"); //original was OMNI
         double txAngle = default(0);       
         
         // switch for handover messages handling on UEs
