@@ -793,6 +793,11 @@ typedef std::map<MacNodeId,double> relayList;
  * */
 typedef std::vector<MacNodeId> rep_list;
 
+/*
+ * Stores the coord from ue
+ * */
+typedef std::map<MacNodeId, inet::Coord> coordList;
+
 /*********************
  * Incell Interference Support
  *********************/
@@ -819,6 +824,7 @@ struct EnbInfo
     sinrMapB* Bmap;
     sinrMapW* Wmap;
     int pwrThresh;
+    coordList* Clist;
 //////
     int x2;
 };

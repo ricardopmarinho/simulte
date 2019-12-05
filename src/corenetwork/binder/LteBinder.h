@@ -55,6 +55,8 @@ class LteBinder : public cSimpleModule
 
     ///////////////////
     std::map<MacNodeId, const char*> UesIdToName_;//maps the nodeId to it's name
+    Coord enbCoord;
+    std::vector<bool> servedDevs;
     ///////////////////
 
     // list of static external cells. Used for intercell interference evaluation
@@ -167,6 +169,16 @@ class LteBinder : public cSimpleModule
     double getPacketDelayBudget(int);
     double getPacketErrorLossRate(int);
 
+    ////////////////////////////////////////////////////////////////////////
+
+    void setEnbCoord(const Coord& coord){enbCoord = coord;}
+    Coord getEnbCoord() const{return enbCoord;}
+    void setServedDev(int index, bool b){servedDevs[index]=b;}
+    bool getServedDevByIndex(int index){return servedDevs[index];}
+    int countServedDevs();
+    void printServedDevs();
+
+    ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.
      *

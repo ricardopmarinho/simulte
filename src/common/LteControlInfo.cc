@@ -82,6 +82,20 @@ std::string UserControlInfo::getCAINOptions(){
     return this->CAINoptions;
 }
 
+
+void UserControlInfo::setEnbCoord(const Coord& coord){
+    enbCoord = coord;
+}
+Coord UserControlInfo::getEnbCoord() const{
+    return enbCoord;
+}
+void UserControlInfo::setCAINCoord(const Coord& coord){
+    CAINCoord = coord;
+}
+Coord UserControlInfo::getCAINCoord() const{
+    return CAINCoord;
+}
+
 CAINControlInfo::~CAINControlInfo()
 {
     if (userTxParams != NULL)

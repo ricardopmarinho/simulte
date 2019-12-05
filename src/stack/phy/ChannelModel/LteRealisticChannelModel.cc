@@ -15,7 +15,8 @@
 #include "common/LteCommon.h"
 #include "corenetwork/nodes/ExtCell.h"
 #include "stack/phy/layer/LtePhyUe.h"
-//#include "common/CAINControInfo.h"
+
+#include "inet/physicallayer/antenna/MassiveMIMOURPA.h"
 
 // attenuation value to be returned if max. distance of a scenario has been violated
 // and tolerating the maximum distance violation is enabled
@@ -182,6 +183,10 @@ LteRealisticChannelModel::LteRealisticChannelModel(ParameterMap& params,
     else
         antennaGainUe_ = 0;
 
+//    for(it=params.begin(); it != params.end(); it++)
+//        EV << "Params first: " << it->first << ", params second: " << it->second.doubleValue() << endl;
+
+
     //get Antenna Gain EnB
     it = params.find("antennGainEnB");
     if (it != params.end())
@@ -191,6 +196,12 @@ LteRealisticChannelModel::LteRealisticChannelModel(ParameterMap& params,
     else
         antennaGainEnB_ = 18;
 
+    it=params.find("MassiveMimo-enable");
+    if(it->second.boolValue()){
+        antennaGainEnB_ = params.find("MassiveMimo-gain")->second.doubleValue();
+//        EV << "Mimo gain: " << params.find("MassiveMimo-gain")->second.doubleValue() << endl;
+
+    }
     //get Antenna Gain EnB
     it = params.find("antennGainMicro");
     if (it != params.end())
@@ -893,6 +904,11 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
         int pwrThresh = 0;
         sinrMapB* BsMap = NULL;
         sinrMapW* WsMap = NULL;
+        coordList* csList = NULL;
+
+        if(dir == UL){
+            binder_->setEnbCoord(enbCoord);
+        }
 
         EV << "Creating map" << endl;
         for(unsigned int j = 0; j < vect->size();j++){
@@ -906,15 +922,19 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
                      * other map, we must erase it to keep the integrity
                      * */
                     EV << "Storing a good power device: " << ueId << endl;
-                    if(WsMap->count(ueId)==1)
+                    if(WsMap->count(ueId)>=1)
                         WsMap->erase(ueId);
                     BsMap->operator [](ueId)=recvPower;
                 }else{
                     EV << "Storing a bad power device: " << ueId << endl;
-                    if(BsMap->count(ueId)==1)
+                    if(BsMap->count(ueId)>=1)
                         BsMap->erase(ueId);
                     WsMap->operator [](ueId)=recvPower;
                 }
+                csList = vect->operator [](j)->Clist;
+                if(csList->count(ueId)>=1)
+                    csList->erase(ueId);
+                csList->operator [](ueId)=ueCoord;
             }
         }
 

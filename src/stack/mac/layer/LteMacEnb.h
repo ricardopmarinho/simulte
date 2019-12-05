@@ -60,7 +60,11 @@ class LteMacEnb : public LteMacBase
 
     //////////////////
     simsignal_t cainMessageSignal;
+    simsignal_t DistanceSignal;
+    simsignal_t servedDevs;
     long CainMessage = 0;
+    long distance = 0;
+    long servDevs = 0;
     //////////////////
 
     /**
