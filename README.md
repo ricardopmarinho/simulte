@@ -165,13 +165,13 @@ Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 ========================== SO FAR ==========================
 
-Array list working with one relay
+Setting the hop transmission
 
 ========================== NEXT ============================
 
-Test array list with more relay
+Find a way to sort the closer list
 
 ========================== LAST UPDATE======================
 
-Oct 16th 2019
+Dec 5th 2019
 

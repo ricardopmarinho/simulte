@@ -230,6 +230,7 @@ inline void doParsimUnpacking(omnetpp::cCommBuffer *b, FlowControlInfo& obj) {ob
  *     bool CAINEnable = false;							// False if the message is not a CAIN, true otherwise
  *     uint16 eNBId;
  *     double CAINuePwr;									// Relay's power value
+ *     uint16 CAINdest;
  *     /////////////////////////
  * }
  * </pre>
@@ -279,6 +280,7 @@ class UserControlInfo_Base : public ::LteControlInfo
     bool CAINEnable;
     uint16_t eNBId;
     double CAINuePwr;
+    uint16_t CAINdest;
 
   private:
     void copy(const UserControlInfo_Base& other);
@@ -335,10 +337,12 @@ class UserControlInfo_Base : public ::LteControlInfo
     virtual void setENBId(uint16_t eNBId);
     virtual double getCAINuePwr() const;
     virtual void setCAINuePwr(double CAINuePwr);
+    virtual uint16_t getCAINdest() const;
+    virtual void setCAINdest(uint16_t CAINdest);
 };
 
 /**
- * Class generated from <tt>common/LteControlInfo.msg:147</tt> by nedtool.
+ * Class generated from <tt>common/LteControlInfo.msg:148</tt> by nedtool.
  * <pre>
  * class CAINControlInfo extends LteControlInfo
  * {

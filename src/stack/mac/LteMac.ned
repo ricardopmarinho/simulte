@@ -137,6 +137,11 @@ simple LteMacBase like LteMac {
         ///////////////////////////
         @signal[CainMessage](type=long);
         @statistic[CainMessage](title="eNB received CAIN message";record=vector,count;interpolationmode=none);
+        @signal[DistanceSignal](type=long);
+        @statistic[DistanceSignal](title="Distance to enb";record=vector,count;interpolationmode=none);
+        @signal[ServedDevs](type=long);
+        @statistic[ServedDevs](title="# of devices served";record=vector,count,max,last;interpolationmode=none);
+        ///////////////////////////
     gates:
         //# 
         //# Gates connecting RLC and MAC Layers

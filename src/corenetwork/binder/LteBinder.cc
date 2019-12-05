@@ -716,6 +716,9 @@ void LteBinder::initialize(int stage)
         stringa = par("packetErrorLossRate");
         applossrate = cStringTokenizer(stringa).asDoubleVector();
 
+        int numUe=this->getParentModule()->par("numUeD2DTx");
+        this->servedDevs = std::vector<bool>(numUe,false);
+
         for (int i = 0; i < LTE_QCI_CLASSES; i++)
         {
             QCIParam_[i].priority = apppriority[i];
@@ -955,3 +958,25 @@ void LteBinder::removeUeHandoverTriggered(MacNodeId nodeId)
 {
     ueHandoverTriggered_.erase(nodeId);
 }
+
+/////////////////////////////////////////////
+int LteBinder::countServedDevs(){
+    int count=0;
+    for(int i=0;i<this->servedDevs.size();i++){
+        if(servedDevs[i]) count++;
+    }
+
+    return count;
+}
+
+void LteBinder::printServedDevs(){
+    for(int i=0;i<this->servedDevs.size();i++){
+        EV << "[index = " << i << " value= " << this->servedDevs[i] << "]" << endl;
+    }
+}
+
+
+/////////////////////////////////////////////
+
+
+

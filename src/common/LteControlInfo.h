@@ -35,7 +35,11 @@ class UserControlInfo : public UserControlInfo_Base
     //Move senderMovement;
     /** @brief The playground position of the sending host.*/
     Coord senderCoord;
+    //////////////////////////////
     std::string CAINoptions;
+    Coord enbCoord;
+    Coord CAINCoord;
+    /////////////////////////////
 
   public:
 
@@ -110,6 +114,10 @@ class UserControlInfo : public UserControlInfo_Base
     void appendOption(std::string newOpt);
     void setCAINOption(std::string newOpt);
     std::string getCAINOptions();
+    void setEnbCoord(const Coord& coord);
+    Coord getEnbCoord() const;
+    void setCAINCoord(const Coord& coord);
+    Coord getCAINCoord() const;
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 };

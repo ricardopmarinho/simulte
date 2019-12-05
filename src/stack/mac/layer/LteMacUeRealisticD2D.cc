@@ -628,6 +628,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                     //pack->encapsulate(pkt->decapsulate());
                     UserControlInfo* uinfoDup = uinfo->dup();
                     uinfoDup->setDestId(node[i]);
+                    uinfoDup->setCAINdest(node[i]);
                     uinfoDup->setSourceId(nodeId_);
                     uinfoDup->setDirection(D2D);
                     uinfoDup->setCAINDirection(REL);
@@ -648,6 +649,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                 this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
                         ->getAncestorPar("connectAddress") = connectUe;
                 uinfo->setDestId(node[i]);
+                uinfo->setCAINdest(node[i]);
                 uinfo->setSourceId(nodeId_);
                 uinfo->setDirection(D2D);
                 uinfo->setCAINDirection(REL);
@@ -771,7 +773,7 @@ void LteMacUeRealisticD2D::removeNodeRepList(MacNodeId nodeId){
                 repList->erase(it);
                 return;
             }else{
-                EV << "Node not found on repList, doing nothing" << endl;
+                EV << "Node not found on repList, can not remove it" << endl;
                 return;
             }
         }
