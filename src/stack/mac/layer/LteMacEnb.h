@@ -15,6 +15,9 @@
 #include "stack/mac/amc/LteAmc.h"
 #include "common/LteCommon.h"
 
+#include <set>
+#include <functional>
+
 class MacBsr;
 class LteSchedulerEnbDl;
 class LteSchedulerEnbUl;
@@ -65,6 +68,14 @@ class LteMacEnb : public LteMacBase
     long CainMessage = 0;
     long distance = 0;
     long servDevs = 0;
+
+    typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
+
+    Comparator compFunctor =
+        [](std::pair<MacNodeId, double> elem1 ,std::pair<MacNodeId, double> elem2)
+        {
+            return elem1.second < elem2.second;
+        };
     //////////////////
 
     /**

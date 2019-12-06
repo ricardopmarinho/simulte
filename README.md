@@ -165,13 +165,13 @@ Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 ========================== SO FAR ==========================
 
-Setting the hop transmission
+Sending HOP_FWD message
 
 ========================== NEXT ============================
 
-Find a way to sort the closer list
+When eNB receives the HOP_FWD message, the simulation crashes
 
 ========================== LAST UPDATE======================
 
-Dec 5th 2019
+Dec 6th 2019
 
