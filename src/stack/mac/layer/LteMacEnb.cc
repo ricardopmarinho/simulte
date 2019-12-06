@@ -476,7 +476,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
         racPkt->getControlInfo());
 
 
-    if(uinfo->getCAINEnable() && uinfo->getCAINDirection()==FWD){
+    if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD)){
         EV << "ENB receiving a CAIN FWD message!" << endl;
         EV << "Options: " << uinfo->getCAINOptions() << endl;
         Coord ueCoord = uinfo->getCoord();
@@ -558,7 +558,6 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 //sinrMapB* BsMap = vect->operator [](i)->Bmap;
                 MacNodeId relay;
                 uinfo->setCAINEnable(true);
-                uinfo->setCAINDirection(NOTIFY);
                 uinfo->setENBId(nodeId_);
 //                uinfo->setEnbCoord(MYc)
                 //if(BsMap->size() >= 2){
@@ -589,6 +588,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                     relay = it->first;
                     EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
                     UserControlInfo* uinfoDup = uinfo->dup();
+                    uinfoDup->setCAINDirection(NOTIFY);
                     uinfoDup->setDestId(relay);
                     uinfoDup->setCAINuePwr(it->second);
                     uinfoDup->setCAINOption(uinfo->getCAINOptions());
@@ -605,7 +605,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 std::map<MacNodeId,double>::iterator closerNodes;
                 std::map<MacNodeId,std::map<MacNodeId,double>>::iterator closerListIt;
 //                closerListIt =
-                int qtdThresh = 1;
+                int qtdThresh = 2;
                 for(closerNodes = nodes.begin(); closerNodes != nodes.end(); closerNodes++){
 //                    if(closerList[it->first].size() < qtdThresh){
                         EV << endl << "Relay id and coord: " << it->first << " " << csList->operator [](it->first) << endl;
@@ -621,23 +621,58 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                                 closeNode = closerList[it->first];
                             }
                             closeNode->operator [](closerNodes->first) = distance;//nodes[closerNodes->first];
-                            closerList[it->first] = closeNode;
+                            closerList[relay] = closeNode;
+
 //                        }
-                        EV << "Closer list to relay " << it->first << ": " << endl;
-                        for(std::map<MacNodeId,double>::iterator clIt = closerList[it->first]->begin(); clIt != closerList[it->first]->end(); clIt++)
-                            EV << "Node: " << clIt->first << " - power: " << clIt->second << endl;
+
 //                    }else{
 //                        EV << "No more space for closer nodes on the list!" << endl;
 //                        break;
 //                    }
                 }
-                for(closerNodes = closerList[relay]->begin(); closerNodes != closerList[relay]->end(); closerNodes++){
-                    MacNodeId node = closerNodes->first;
-                    double pwr = closerNodes->second;
-                    stream << node << "/" << pwr;
-                    uinfo->appendOption(stream.str());
-                    stream.str("");
-                    stream.clear();
+
+                std::set<std::pair<MacNodeId,double>, Comparator> sortedList(
+                        closerList[relay]->begin(), closerList[relay]->end(), compFunctor);
+                closerList[relay]->clear();
+                std::map<MacNodeId,double>* closeNode=new std::map<MacNodeId,double>();
+                EV << "Closer list to relay " << relay << ": " << endl;
+                int k = 0;
+                for (std::pair<MacNodeId,double> element : sortedList){
+                    if(k < qtdThresh){
+                        EV << element.first << " :: " << element.second << endl;
+    //                for(closerNodes = closerList[relay]->begin(); closerNodes != closerList[relay]->end(); closerNodes++){
+                        MacNodeId node = element.first;
+                        double pwr = element.second;
+                        stream << node << "/" << pwr;
+                        uinfo->appendOption(stream.str());
+                        stream.str("");
+                        stream.clear();
+                        k++;
+
+                        uinfo->setCAINDirection(NOTIFY);
+                        closeNode->operator [](element.first) = element.second;
+                        closerList[relay] = closeNode;
+                    }else{
+                        closeNode=closerList[relay];
+                        std::map<MacNodeId,double>::iterator itClose = closeNode->begin();
+                        EV << "Relay ID: " << relay << ", Hop ID: " << itClose->first << ", UE ID: " << element.first  << endl;
+                        MacNodeId hop = itClose->first;
+                        MacNodeId ue = element.first;
+                        UserControlInfo* uinfoDup = uinfo->dup();
+                        uinfoDup->setDestId(relay);
+                        uinfoDup->setCAINDirection(HOP_NTF);
+                        uinfoDup->setCAINuePwr(it->second);
+                        stream << hop << "/" << ue;
+                        uinfoDup->appendOption(stream.str());
+                        stream.str("");
+                        stream.clear();
+                        LteRac* racDup = racPkt->dup();
+                        racDup->setControlInfo(uinfoDup);
+
+                        EV << "Options: " << uinfoDup->getCAINOptions() << endl;
+                        sendLowerPackets(racDup);
+                    }
+
                 }
 
                 EV << "=============== END OF SETTINGS ===============\n";

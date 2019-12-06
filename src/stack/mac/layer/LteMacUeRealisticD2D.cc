@@ -729,6 +729,179 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             }
             break;
         }
+        case HOP_NTF:
+        {
+            /*
+             * Message from eNB to relay
+             *
+             * Begin:
+             * Source: eNB
+             * Destination: relay
+             *
+             */
+            EV << "Receiving a HOP_NTF message from ID: " << uinfo->getSourceId() << " to destination: " << uinfo->getDestId() << endl;
+            std::vector<MacNodeId> node = getHopNodes(cainOpt);
+            EV << "The hop node id is: " << node[0] << " and the UE ID is: " << node[1] << endl;
+            uinfo->setDestId(node[0]);
+            uinfo->setSourceId(nodeId_);
+            uinfo->setCAINDirection(HOP_REL);
+            std::ostringstream stream;
+            stream << nodeId_ << "/" << node[1];
+            uinfo->setCAINOption(stream.str());
+            stream.str("");
+            stream.clear();
+            uinfo->setCAINEnable(true);
+            EV << "Source: " << uinfo->getSourceId() << endl;
+            EV << "Dest: " << uinfo->getDestId() << endl;
+            EV << "Options: " << uinfo->getCAINOptions() << endl;
+            sendLowerPackets(pkt);
+            /*
+             * Message is being sent by the relay
+             * Ends:
+             * Source: relay
+             * Destination: Hop node
+             * */
+            break;
+        }
+        case HOP_REL:
+        {
+
+            /*
+             * Message from relay to Hop node
+             *
+             * Begin:
+             * Source: relay
+             * Destination: Hop node
+             *
+             */
+            EV << "Receiving a HOP_REL message" << endl;
+            cainOpt = uinfo->getCAINOptions();
+            std::vector<MacNodeId> node = getHopNodes(cainOpt);
+            EV << "Relay id: " << node[0] << endl;
+
+            uinfo->setSourceId(uinfo->getDestId());
+            uinfo->setDestId(node[1]);
+            uinfo->setCAINDirection(HOP_REQ);
+            std::ostringstream stream;
+            stream << node[0];
+            uinfo->setCAINOption(stream.str());
+            stream.str("");
+            stream.clear();
+            uinfo->setCAINEnable(true);
+            EV << "Source: " << uinfo->getSourceId() << endl;
+            EV << "Dest: " << uinfo->getDestId() << endl;
+            EV << "Options: " << uinfo->getCAINOptions() << endl;
+            sendLowerPackets(pkt);
+            /*
+             * Message is being sent by the hop node
+             * Ends:
+             * Source: Hop node
+             * Destination: UE node
+             * */
+            break;
+        }
+        case HOP_REQ:
+        {
+
+            /*
+             * Message from Hop node to UE node
+             *
+             * Begin:
+             * Source: Hop node
+             * Destination: UE node
+             *
+             */
+            EV << "Receiving a HOP_REQ message" << endl;
+
+            MacNodeId hopId = uinfo->getSourceId();
+
+            uinfo->setSourceId(nodeId_);
+            uinfo->setDestId(hopId);
+            uinfo->setCAINDirection(HOP_RES);
+            std::ostringstream stream;
+            stream << uinfo->getCAINOptions() << "/" << "HOP Message";
+            uinfo->setCAINOption(stream.str());
+            stream.str("");
+            stream.clear();
+            uinfo->setCAINEnable(true);
+            EV << "Source: " << uinfo->getSourceId() << endl;
+            EV << "Dest: " << uinfo->getDestId() << endl;
+            EV << "Options: " << uinfo->getCAINOptions() << endl;
+            sendLowerPackets(pkt);
+            /*
+             * Message is being sent by the UE node
+             * Ends:
+             * Source: UE node
+             * Destination: Hop node
+             * */
+            break;
+        }
+        case HOP_RES:
+        {
+            /*
+             * Message from UE node to Hop node
+             *
+             * Begin:
+             * Source: UE node
+             * Destination: Hop Node
+             *
+             */
+            EV << "Receiving a HOP_RES message" << endl;
+
+
+            std::vector<std::string> node;
+            std::string token;
+            std::istringstream tokenStream(cainOpt);
+            while (std::getline(tokenStream, token, '/'))
+            {
+                node.push_back(token);
+            }
+
+            uinfo->setSourceId(uinfo->getDestId());
+            uinfo->setDestId(stoi(node[0]));
+            uinfo->setCAINDirection(HOP_REP);
+            uinfo->setCAINOption(node[1]);
+            uinfo->setCAINEnable(true);
+            EV << "Source: " << uinfo->getSourceId() << endl;
+            EV << "Dest: " << uinfo->getDestId() << endl;
+            EV << "Options: " << uinfo->getCAINOptions() << endl;
+            sendLowerPackets(pkt);
+            /*
+             * Message is being sent by Hop node to relay
+             * Ends:
+             * Source: Hop node
+             * Destination: relay
+             * */
+            break;
+        }
+        case HOP_REP:
+        {
+            /*
+             * Message from Hop node to relay
+             *
+             * Begin:
+             * Source: Hop node
+             * Destination: relay
+             *
+             */
+            EV << "Receiving a HOP_REP message" << endl;
+
+            uinfo->setSourceId(uinfo->getDestId());
+            uinfo->setDestId(uinfo->getENBId());
+            uinfo->setCAINDirection(HOP_FWD);
+            uinfo->setCAINEnable(true);
+            EV << "Source: " << uinfo->getSourceId() << endl;
+            EV << "Dest: " << uinfo->getDestId() << endl;
+            EV << "Options: " << uinfo->getCAINOptions() << endl;
+            sendLowerPackets(pkt);
+            /*
+             * Message is being sent by relay node to eNB
+             * Ends:
+             * Source: relay
+             * Destination: eNB
+             * */
+            break;
+        }
         default:
             EV << "Unknow CAIN message" << endl;
             break;
@@ -922,6 +1095,25 @@ std::vector<MacNodeId> LteMacUeRealisticD2D::getNode(std::string nodeSinr){
         metric=stoi(dest[i+1]);
     }
     return node;
+}
+
+std::vector<MacNodeId> LteMacUeRealisticD2D::getHopNodes(std::string nodeSinr){
+    /*
+        * nodeSinr division:
+        * --------
+        * |Hop/UE|
+        * --------
+        * */
+
+        std::vector<MacNodeId> node;
+        std::string token;
+        std::istringstream tokenStream(nodeSinr);
+        while (std::getline(tokenStream, token, '/'))
+        {
+            node.push_back(stoi(token));
+        }
+        return node;
+
 }
 
 void LteMacUeRealisticD2D::handleSelfMessage()

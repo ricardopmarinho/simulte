@@ -124,7 +124,13 @@ enum CAINDirection
     NOTIFY,
     REL,
     REP,
-    FWD
+    FWD,
+    HOP_NTF,
+    HOP_REL,
+    HOP_REQ,
+    HOP_RES,
+    HOP_REP,
+    HOP_FWD
 };
 
 /// Modulations
