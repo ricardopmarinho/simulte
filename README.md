@@ -165,13 +165,13 @@ Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 ========================== SO FAR ==========================
 
-Sending HOP_FWD message
+Hop message working for static scenario with 4 devices
 
 ========================== NEXT ============================
 
-When eNB receives the HOP_FWD message, the simulation crashes
+Not working for the simulation with mobile nodes
 
 ========================== LAST UPDATE======================
 
-Dec 6th 2019
+Dec 10th 2019
 

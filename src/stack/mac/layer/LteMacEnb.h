@@ -174,6 +174,8 @@ class LteMacEnb : public LteMacBase
      */
     virtual void handleUpperMessage(cPacket* pkt);
 
+    std::map<MacNodeId,std::map<MacNodeId,double>*> generateCloserList(MacNodeId relay, std::map<MacNodeId,double> nodes,coordList* csList);
+
     /**
      * Main loop
      */

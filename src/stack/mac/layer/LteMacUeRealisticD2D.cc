@@ -743,6 +743,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             std::vector<MacNodeId> node = getHopNodes(cainOpt);
             EV << "The hop node id is: " << node[0] << " and the UE ID is: " << node[1] << endl;
             uinfo->setDestId(node[0]);
+            uinfo->setCAINdest(node[1]);
             uinfo->setSourceId(nodeId_);
             uinfo->setCAINDirection(HOP_REL);
             std::ostringstream stream;
