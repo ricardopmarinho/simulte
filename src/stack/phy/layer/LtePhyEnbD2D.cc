@@ -151,6 +151,9 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
 
     if(lteInfo->getCAINEnable()){
         EV << "CAIN message!"<< endl;
+        EV << "Options: " << lteInfo->getCAINOptions() << endl;
+        EV << "CAIN direction: " << lteInfo->getCAINDirection() << endl;
+        EV << "Coord: " << lteInfo->getCAINCoord() << endl;
     }
 
     EV << "LtePhyEnbD2D::handleAirFrame - received new LteAirFrame with ID " << frame->getId() << " from channel" << endl;

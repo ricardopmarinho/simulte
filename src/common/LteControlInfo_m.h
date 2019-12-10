@@ -230,7 +230,7 @@ inline void doParsimUnpacking(omnetpp::cCommBuffer *b, FlowControlInfo& obj) {ob
  *     bool CAINEnable = false;							// False if the message is not a CAIN, true otherwise
  *     uint16 eNBId;
  *     double CAINuePwr;									// Relay's power value
- *     uint16 CAINdest;
+ *     uint16 CAINdest;									// CAIN Served node 
  *     /////////////////////////
  * }
  * </pre>

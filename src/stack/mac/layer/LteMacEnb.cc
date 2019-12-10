@@ -477,23 +477,38 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
 
     if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD)){
-        EV << "ENB receiving a CAIN FWD message!" << endl;
-        EV << "Options: " << uinfo->getCAINOptions() << endl;
         Coord ueCoord = uinfo->getCoord();
         //Coord enbCoord = myCoord_;
+
+        switch (uinfo->getCAINDirection()) {
+            case FWD:
+                EV << "ENB receiving a CAIN FWD message!" << endl;
+                break;
+            case HOP_FWD:
+                EV << "ENB receiving a CAIN HOP_FWD message!" << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
+                EV << "CAIN Dest: " << uinfo->getCAINdest() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+
+
+                break;
+            default:
+                break;
+        }
+        EV << "Options: " << uinfo->getCAINOptions() << endl;
 
         binder_->printServedDevs();
         if(!binder_->getServedDevByIndex(uinfo->getCAINdest()-1025)){
             binder_->setServedDev(uinfo->getCAINdest()-1025,true);
         }
-
-
+//
+//
         binder_->printServedDevs();
-
+//
         servDevs = binder_->countServedDevs();
         EV << "Served devices #: " << servDevs<< endl;
-
-
+//
+//
         emit(servedDevs,servDevs);
 //        endSimulation();
         distance = ueCoord.distance(binder_->getEnbCoord());
@@ -521,6 +536,9 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
             sinrMapW* WsMap = vect->operator [](i)->Wmap;
             sinrMapB* BsMap = vect->operator [](i)->Bmap;
             coordList* csList = vect->operator [](i)->Clist;
+
+
+            int qtdThresh = 2;
 
             std::map<MacNodeId,Coord>::iterator Cit;
             for(Cit = csList->begin(); Cit != csList->end(); Cit++){
@@ -555,12 +573,9 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                  * end of options setting
                  * */
 
-                //sinrMapB* BsMap = vect->operator [](i)->Bmap;
                 MacNodeId relay;
                 uinfo->setCAINEnable(true);
                 uinfo->setENBId(nodeId_);
-//                uinfo->setEnbCoord(MYc)
-                //if(BsMap->size() >= 2){
                 int j;
                 std::map<MacNodeId,std::map<MacNodeId,double>*> closerList;
                 for(j = 0, it = BsMap->begin(); j < BsMap->size()-1;it++, j++){
@@ -584,7 +599,6 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                      * */
 
 
-
                     relay = it->first;
                     EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
                     UserControlInfo* uinfoDup = uinfo->dup();
@@ -601,46 +615,35 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "\nNode " << it->first << " with power " << it->second << " can be a relay! \n";
                 uinfo->setDestId(relay);
                 uinfo->setCAINuePwr(it->second);
-                //}
-                std::map<MacNodeId,double>::iterator closerNodes;
-                std::map<MacNodeId,std::map<MacNodeId,double>>::iterator closerListIt;
-//                closerListIt =
-                int qtdThresh = 2;
-                for(closerNodes = nodes.begin(); closerNodes != nodes.end(); closerNodes++){
-//                    if(closerList[it->first].size() < qtdThresh){
-                        EV << endl << "Relay id and coord: " << it->first << " " << csList->operator [](it->first) << endl;
-                        EV << "Node id and coord: " << closerNodes->first << " " << csList->operator [](closerNodes->first) << endl;
-                        double distance = csList->operator [](it->first).distance(csList->operator [](closerNodes->first));
-                        EV << "Distance: " << distance << endl;
-//                        if(closerNodes->first != it->first && distance < 160){
-                            EV << "Node " << closerNodes->first << " is close enough" << endl;
-                            std::map<MacNodeId,double>* closeNode=NULL;
-                            if(closerList[relay]==NULL){
-                                closeNode = new std::map<MacNodeId,double>();
-                            }else{
-                                closeNode = closerList[it->first];
-                            }
-                            closeNode->operator [](closerNodes->first) = distance;//nodes[closerNodes->first];
-                            closerList[relay] = closeNode;
 
-//                        }
+                closerList = generateCloserList(relay,nodes,csList);
 
-//                    }else{
-//                        EV << "No more space for closer nodes on the list!" << endl;
-//                        break;
-//                    }
-                }
-
+                /*
+                 * Sorting the list for the relay
+                 *
+                 * */
                 std::set<std::pair<MacNodeId,double>, Comparator> sortedList(
                         closerList[relay]->begin(), closerList[relay]->end(), compFunctor);
+
+                /*
+                 * Start to recreate the closer list
+                 * necessary to find which node will
+                 * be a hop node
+                 * */
                 closerList[relay]->clear();
                 std::map<MacNodeId,double>* closeNode=new std::map<MacNodeId,double>();
                 EV << "Closer list to relay " << relay << ": " << endl;
                 int k = 0;
+                /*
+                 * Iterates over the relay list
+                 * */
                 for (std::pair<MacNodeId,double> element : sortedList){
                     if(k < qtdThresh){
+                        /*
+                         * If there is nodes close enough to the relay
+                         * send the CAIN message directly
+                         * */
                         EV << element.first << " :: " << element.second << endl;
-    //                for(closerNodes = closerList[relay]->begin(); closerNodes != closerList[relay]->end(); closerNodes++){
                         MacNodeId node = element.first;
                         double pwr = element.second;
                         stream << node << "/" << pwr;
@@ -651,8 +654,13 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
                         uinfo->setCAINDirection(NOTIFY);
                         closeNode->operator [](element.first) = element.second;
+                        /*Inserts the closest nodes on the list*/
                         closerList[relay] = closeNode;
                     }else{
+                        /*
+                         * When the nodes are far from the relay,
+                         * initiates a hop forwarding
+                         * */
                         closeNode=closerList[relay];
                         std::map<MacNodeId,double>::iterator itClose = closeNode->begin();
                         EV << "Relay ID: " << relay << ", Hop ID: " << itClose->first << ", UE ID: " << element.first  << endl;
@@ -690,6 +698,43 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
     EV << "Options: " << uinfo->getCAINOptions() << endl;
     sendLowerPackets(racPkt);
+}
+
+std::map<MacNodeId,std::map<MacNodeId,double>*> LteMacEnb::generateCloserList(MacNodeId relay, std::map<MacNodeId,double> nodes,
+        coordList* csList){
+
+
+    /*
+     * Creating the closer nodes map
+     *
+     * ----------------------------------------------------
+     * | BL_ue1 | <WL_ue1;dist/WL_ue2;dist/WL_ue2;dist...>|
+     * | BL_ue2 | <WL_ue1;dist/WL_ue2;dist/WL_ue2;dist...>|
+     * | BL_ue3 | <WL_ue1;dist/WL_ue2;dist/WL_ue2;dist...>|
+     * ----------------------------------------------------
+     *
+     * */
+
+
+    std::map<MacNodeId,double>::iterator closerNodes;
+    std::map<MacNodeId,std::map<MacNodeId,double>*> closerList;
+
+    for(closerNodes = nodes.begin(); closerNodes != nodes.end(); closerNodes++){
+        EV << endl << "Relay id and coord: " << relay << " " << csList->operator [](relay) << endl;
+        EV << "Node id and coord: " << closerNodes->first << " " << csList->operator [](closerNodes->first) << endl;
+        double distance = csList->operator [](relay).distance(csList->operator [](closerNodes->first));
+        EV << "Distance: " << distance << endl;
+        EV << "Node " << closerNodes->first << " is close enough" << endl;
+        std::map<MacNodeId,double>* closeNode=NULL;
+        if(closerList[relay]==NULL){
+            closeNode = new std::map<MacNodeId,double>();
+        }else{
+            closeNode = closerList[relay];
+        }
+        closeNode->operator [](closerNodes->first) = distance;
+        closerList[relay] = closeNode;
+    }
+    return closerList;
 }
 
 void LteMacEnb::macPduMake(LteMacScheduleList* scheduleList)
