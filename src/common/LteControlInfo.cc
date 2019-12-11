@@ -96,6 +96,22 @@ Coord UserControlInfo::getCAINCoord() const{
     return CAINCoord;
 }
 
+void UserControlInfo::setCAINHopCoord(const Coord& coord){
+    CAINHopCoord = coord;
+}
+
+Coord UserControlInfo::getCAINHopCoord() const{
+    return CAINHopCoord;
+}
+
+void UserControlInfo::setMapCoord(const coordList& nodes){
+    nodesCoord = nodes;
+}
+
+coordList UserControlInfo::getMapCoord(){
+    return nodesCoord;
+}
+
 CAINControlInfo::~CAINControlInfo()
 {
     if (userTxParams != NULL)

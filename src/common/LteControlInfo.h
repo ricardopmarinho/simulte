@@ -39,6 +39,8 @@ class UserControlInfo : public UserControlInfo_Base
     std::string CAINoptions;
     Coord enbCoord;
     Coord CAINCoord;
+    Coord CAINHopCoord;
+    coordList nodesCoord;
     /////////////////////////////
 
   public:
@@ -118,6 +120,10 @@ class UserControlInfo : public UserControlInfo_Base
     Coord getEnbCoord() const;
     void setCAINCoord(const Coord& coord);
     Coord getCAINCoord() const;
+    void setCAINHopCoord(const Coord& coord);
+    Coord getCAINHopCoord() const;
+    void setMapCoord(const coordList& nodes);
+    coordList getMapCoord();
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 };

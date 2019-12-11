@@ -165,13 +165,13 @@ Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 ========================== SO FAR ==========================
 
-Hop message working for static scenario with 4 devices
+Hop message with more devices working
 
 ========================== NEXT ============================
 
-Not working for the simulation with mobile nodes
+Test to mobile devices
 
 ========================== LAST UPDATE======================
 
-Dec 10th 2019
+Dec 11th 2019
 

@@ -33,6 +33,7 @@ network CAIN
         int numUeD2DRx = default(0);
         //////////////////////////////////
         int pwrThresh = default(-30); //when ready, use -90 for power threshold
+        bool cainNetwork = default(true);
         //////////////////////////////////
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
         
