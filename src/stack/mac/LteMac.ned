@@ -141,6 +141,16 @@ simple LteMacBase like LteMac {
         @statistic[DistanceSignal](title="Distance to enb";record=vector,count;interpolationmode=none);
         @signal[ServedDevs](type=long);
         @statistic[ServedDevs](title="# of devices served";record=vector,count,max,last;interpolationmode=none);
+        
+        @signal[CainHopMessage](type=long);
+        @statistic[CainHopMessage](title="eNB received CAIN hop message";record=vector,count;interpolationmode=none);
+        @signal[HopDistanceSignal](type=long);
+        @statistic[HopDistanceSignal](title="Distance to enb with hop forwarding";record=vector,count;interpolationmode=none);
+        
+        @signal[racpkt](type=long);
+        @statistic[racpkt](title="eNB received racpkt message";record=vector,count;interpolationmode=none);
+        @signal[racDistanceSignal](type=long);
+        @statistic[racDistanceSignal](title="Rac distance to enb";record=vector,count;interpolationmode=none);
         ///////////////////////////
     gates:
         //# 

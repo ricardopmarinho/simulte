@@ -63,7 +63,6 @@ void LteMacBase::sendLowerPackets(cPacket* pkt)
     EV << "LteMacBase : Sending packet " << pkt->getName() << " on port MAC_to_PHY\n";
     // Send message
     updateUserTxParam(pkt);
-    EV << "EITA 1\n";
     send(pkt,down_[OUT]);
     emit(sentPacketToLowerLayer, pkt);
 }
@@ -154,6 +153,15 @@ void LteMacBase::fromPhy(cPacket *pkt)
             EV << NOW << "Mac::fromPhy: node " << nodeId_ << " Received RAC packet" << endl;
 
             EV << "LteMacBase.cc::fromPhy" << endl;
+
+
+            racpkt++;
+            emit(racpktSignal,racpkt);
+
+            Coord ueCoord = userInfo->getCoord();
+            racDistance = ueCoord.distance(binder_->getEnbCoord());
+            emit(racDistanceSignal,racDistance);
+
             macHandleRac(pkt);
         }
         else
@@ -313,6 +321,9 @@ void LteMacBase::initialize(int stage)
     if (stage == inet::INITSTAGE_LOCAL)
     {
 
+
+        racpktSignal = registerSignal("racpkt");
+        racDistanceSignal = registerSignal("racDistanceSignal");
 
         /* Gates initialization */
         up_[IN] = gate("RLC_to_MAC");

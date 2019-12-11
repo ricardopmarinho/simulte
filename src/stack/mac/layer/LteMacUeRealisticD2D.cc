@@ -694,6 +694,17 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                uinfo->setCAINDirection(REP);
                uinfo->setCAINOption("message");
                uinfo->setCAINEnable(true);
+
+               EV << "Node id: " << nodeId_ << endl;
+               coordList cList = uinfo->getMapCoord();
+               std::map<MacNodeId,Coord>::iterator Cit;
+               for(Cit = cList.begin(); Cit != cList.end(); Cit++){
+                   EV << "UE id: " << Cit->first << ", coordinate: " << Cit->second << endl;
+               }
+               Coord nodeCoord = uinfo->getMapCoord()[nodeId_];
+
+               uinfo->setCAINCoord(nodeCoord);
+
                sendLowerPackets(pkt);
             }
             break;

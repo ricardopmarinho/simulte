@@ -269,10 +269,7 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
     lteInfo->setDeciderResult(result);
     pkt->setControlInfo(lteInfo);
 
-    /*if(find_relay){
-        lteInfo->setFrameType(CAIN_INFOPKT);
-        send(pkt, upperGateOut_);
-    }else*/
+
     // send decapsulated message along with result control info to upperGateOut_
     send(pkt, upperGateOut_);
 
