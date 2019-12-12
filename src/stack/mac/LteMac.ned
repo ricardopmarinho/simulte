@@ -137,15 +137,20 @@ simple LteMacBase like LteMac {
         ///////////////////////////
         @signal[CainMessage](type=long);
         @statistic[CainMessage](title="eNB received CAIN message";record=vector,count;interpolationmode=none);
-        @signal[DistanceSignal](type=long);
-        @statistic[DistanceSignal](title="Distance to enb";record=vector,count;interpolationmode=none);
-        @signal[ServedDevs](type=long);
-        @statistic[ServedDevs](title="# of devices served";record=vector,count,max,last;interpolationmode=none);
-        
         @signal[CainHopMessage](type=long);
         @statistic[CainHopMessage](title="eNB received CAIN hop message";record=vector,count;interpolationmode=none);
+        
+        @signal[DistanceSignal](type=long);
+        @statistic[DistanceSignal](title="Distance to enb";record=vector,count;interpolationmode=none);
         @signal[HopDistanceSignal](type=long);
         @statistic[HopDistanceSignal](title="Distance to enb with hop forwarding";record=vector,count;interpolationmode=none);
+        
+        @signal[ServedDevs](type=long);
+        @statistic[ServedDevs](title="# of devices served on cain forwarding";record=vector,count,max,last;interpolationmode=none);
+        @signal[ServedHopDevs](type=long);
+        @statistic[ServedHopDevs](title="# of devices served on hop forwarding";record=vector,count,max,last;interpolationmode=none);
+        @signal[TotalServedDevs](type=long);
+        @statistic[TotalServedDevs](title="# of total devices served";record=vector,count,max,last;interpolationmode=none);
         
         @signal[racpkt](type=long);
         @statistic[racpkt](title="eNB received racpkt message";record=vector,count;interpolationmode=none);

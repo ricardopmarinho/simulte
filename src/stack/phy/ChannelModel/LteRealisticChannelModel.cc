@@ -183,10 +183,6 @@ LteRealisticChannelModel::LteRealisticChannelModel(ParameterMap& params,
     else
         antennaGainUe_ = 0;
 
-//    for(it=params.begin(); it != params.end(); it++)
-//        EV << "Params first: " << it->first << ", params second: " << it->second.doubleValue() << endl;
-
-
     //get Antenna Gain EnB
     it = params.find("antennGainEnB");
     if (it != params.end())

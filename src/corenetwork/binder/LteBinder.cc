@@ -718,6 +718,8 @@ void LteBinder::initialize(int stage)
 
         int numUe=this->getParentModule()->par("numUeD2DTx");
         this->servedDevs = std::vector<bool>(numUe,false);
+        this->servedHopDevs = std::vector<bool>(numUe,false);
+        this->totalServedDevs = std::vector<bool>(numUe,false);
 
         for (int i = 0; i < LTE_QCI_CLASSES; i++)
         {
@@ -975,7 +977,32 @@ void LteBinder::printServedDevs(){
     }
 }
 
+int LteBinder::countServedHopDevs(){
+    int count=0;
+    for(int i=0;i<this->servedHopDevs.size();i++){
+        if(servedHopDevs[i]) count++;
+    }
 
+    return count;
+}
+void LteBinder::printServedHopDevs(){
+    for(int i=0;i<this->servedHopDevs.size();i++){
+        EV << "[index = " << i << " value= " << this->servedHopDevs[i] << "]" << endl;
+    }
+}
+int LteBinder::countTotalServedDevs(){
+    int count=0;
+    for(int i=0;i<this->totalServedDevs.size();i++){
+        if(totalServedDevs[i]) count++;
+    }
+
+    return count;
+}
+void LteBinder::printTotalServedDevs(){
+    for(int i=0;i<this->totalServedDevs.size();i++){
+        EV << "[index = " << i << " value= " << this->totalServedDevs[i] << "]" << endl;
+    }
+}
 /////////////////////////////////////////////
 
 

@@ -222,10 +222,12 @@ void LteMacEnb::initialize(int stage)
     {
 
         cainMessageSignal = registerSignal("CainMessage");
-        DistanceSignal = registerSignal("DistanceSignal");
-        servedDevs = registerSignal("ServedDevs");
         cainHopMessageSignal = registerSignal("CainHopMessage");
+        DistanceSignal = registerSignal("DistanceSignal");
         hopDistanceSignal = registerSignal("HopDistanceSignal");
+        servedDevs = registerSignal("ServedDevs");
+        servedHopDevsSignal = registerSignal("ServedHopDevs");
+        totalServedDevsSignal = registerSignal("TotalServedDevs");
 
         // TODO: read NED parameters, when will be present
         deployer_ = getDeployer();
@@ -488,24 +490,35 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "ENB receiving a CAIN FWD message!" << endl;
                 EV << "UE id: " << uinfo->getCAINdest() << " Coord: " << ueCoord << endl;
 
+                EV << endl;
                 binder_->printServedDevs();
                 if(!binder_->getServedDevByIndex(uinfo->getCAINdest()-1025)){
                     binder_->setServedDev(uinfo->getCAINdest()-1025,true);
                 }
                 binder_->printServedDevs();
+                EV << endl;
                 servDevs = binder_->countServedDevs();
                 EV << "Served devices #: " << servDevs<< endl;
                 emit(servedDevs,servDevs);
 
                 distance = ueCoord.distance(binder_->getEnbCoord());
                 emit(DistanceSignal,distance);
-                EV << "Distance: " << distance;
+                EV << "Distance: " << distance << endl;
+
                 break;
             case HOP_FWD:
                 EV << "ENB receiving a CAIN HOP_FWD message!" << endl;
                 EV << "Options: " << uinfo->getCAINOptions() << endl;
                 EV << "CAIN Dest: " << uinfo->getCAINdest() << endl;
                 EV << "Dest: " << uinfo->getDestId() << endl;
+
+                EV << endl;
+                binder_->printServedHopDevs();
+                if(!binder_->getServedhopDevByIndex(uinfo->getCAINdest()-1025)){
+                    binder_->setServedHopDev(uinfo->getCAINdest()-1025,true);
+                }
+                binder_->printServedHopDevs();
+                EV << endl;
 
 
                 ueCoord = uinfo->getCAINHopCoord();
@@ -520,7 +533,13 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 break;
         }
 
-
+        EV << endl;
+        binder_->printTotalServedDevs();
+        if(!binder_->getTotalServedDevByIndex(uinfo->getCAINdest()-1025)){
+            binder_->setTotalServedDev(uinfo->getCAINdest()-1025,true);
+        }
+        binder_->printTotalServedDevs();
+        EV << endl;
 
 
 

@@ -165,13 +165,13 @@ Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 ========================== SO FAR ==========================
 
-Hop message with more devices working
+Mobile test works
 
 ========================== NEXT ============================
 
-Test to mobile devices
+See which tests to make
 
 ========================== LAST UPDATE======================
 
-Dec 11th 2019
+Dec 12th 2019
 
