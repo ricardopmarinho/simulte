@@ -63,15 +63,19 @@ class LteMacEnb : public LteMacBase
 
     //////////////////
     simsignal_t cainMessageSignal;
-    simsignal_t DistanceSignal;
-    simsignal_t servedDevs;
     simsignal_t cainHopMessageSignal;
+    simsignal_t DistanceSignal;
     simsignal_t hopDistanceSignal;
+    simsignal_t servedDevs;
+    simsignal_t servedHopDevsSignal;
+    simsignal_t totalServedDevsSignal;
     long CainMessage = 0;
-    long distance = 0;
-    long servDevs = 0;
     long cainHopMessage = 0;
+    long distance = 0;
     long hopDistance = 0;
+    long servDevs = 0;
+    long servHopDevs = 0;
+    long totalServDevs = 0;
 
     typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
 

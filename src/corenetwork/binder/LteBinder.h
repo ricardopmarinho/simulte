@@ -56,7 +56,9 @@ class LteBinder : public cSimpleModule
     ///////////////////
     std::map<MacNodeId, const char*> UesIdToName_;//maps the nodeId to it's name
     Coord enbCoord;
-    std::vector<bool> servedDevs;
+    std::vector<bool> servedDevs;                   //devices served by cain direct message
+    std::vector<bool> servedHopDevs;                //devices served by cain hop message
+    std::vector<bool> totalServedDevs;               //devices served by cain direct and hop message
     ///////////////////
 
     // list of static external cells. Used for intercell interference evaluation
@@ -177,6 +179,14 @@ class LteBinder : public cSimpleModule
     bool getServedDevByIndex(int index){return servedDevs[index];}
     int countServedDevs();
     void printServedDevs();
+    void setServedHopDev(int index, bool b){servedHopDevs[index]=b;}
+    bool getServedhopDevByIndex(int index){return servedHopDevs[index];}
+    int countServedHopDevs();
+    void printServedHopDevs();
+    void setTotalServedDev(int index, bool b){totalServedDevs[index]=b;}
+    bool getTotalServedDevByIndex(int index){return totalServedDevs[index];}
+    int countTotalServedDevs();
+    void printTotalServedDevs();
 
     ////////////////////////////////////////////////////////////////////////
     /**
