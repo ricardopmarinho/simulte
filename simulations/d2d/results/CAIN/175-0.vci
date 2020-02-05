@@ -1,0 +1,479 @@
+file 400868 1580828872                                          
+version 2
+run CAIN-175-20200204-12:07:10-10649
+attr configname CAIN
+attr datetime 20200204-12:07:10
+attr dist 220
+attr experiment CAIN
+attr inifile omnetpp.ini
+attr iterationvars "$dist=220, $mob=\"./movements/RWPRPGM-0.5.movements\""
+attr iterationvars2 "$dist=220, $mob=\"./movements/RWPRPGM-0.5.movements\", $repetition=0"
+attr measurement "$dist=220, $mob=\"./movements/RWPRPGM-0.5.movements\""
+attr mob "\"./movements/RWPRPGM-0.5.movements\""
+attr network lte.simulations.networks.CAIN
+attr processid 10649
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 175
+attr seedset 0
+param **.**.amcMode "\"AUTO\""
+param **.amcMode "\"D2D\""
+param **.cainNetwork true
+param **.channelControl.alpha 1.0
+param **.channelControl.carrierFrequency 2100e+6Hz
+param **.channelControl.pMax 10W
+param **.d2dCqi 7
+param **.deployer.numRbDl 50
+param **.deployer.numRbUl 50
+param **.distThresh "${dist=200..260 step 10}"
+param **.fbDelay 1
+param **.feedbackComputation "xmldoc(\"config_channel.xml\")"
+param **.mobility.constraintAreaMaxX 1000m
+param **.mobility.constraintAreaMaxY 1000m
+param **.mobility.constraintAreaMaxZ 0m
+param **.mobility.constraintAreaMinX 0m
+param **.mobility.constraintAreaMinY 0m
+param **.mobility.constraintAreaMinZ 0m
+param **.nic.phy.channelModel "xmldoc(\"config_channel.xml\")"
+param **.numBands 50
+param **.pwrThresh -10
+param **.qtdThresh 3
+param **.rbAllocationType "\"localized\""
+param **.routingRecorder.enabled false
+param **.tcpApp[*].tClose -1s
+param **.ueD2DTx[*].mobility.changeAngleBy "normal(0deg, 30deg)"
+param **.ueD2DTx[*].mobility.changeInterval "normal(5s, 0.1s)"
+param **.ueD2DTx[*].mobility.nodeId -1
+param **.ueD2DTx[*].mobility.speed "normal(2mps, 0.01mps)"
+param **.ueD2DTx[*].mobility.traceFile "${mob=\"./movements/RWPRPGM-0.0.movements\",\"./movements/RWPRPGM-0.5.movements\"}"
+param **.ueD2DTx[*].mobilityType "\"BonnMotionMobility\""
+param **.usePreconfiguredTxParams false
+param *.eNodeB.d2dCapable false
+param *.eNodeB.mobility.initFromDisplayString false
+param *.eNodeB.mobility.initialX 300m
+param *.eNodeB.mobility.initialY 300m
+param *.eNodeB.nic.phy.enableD2DCqiReporting true
+param *.eNodeB.txPower 19952.62315mw
+param *.numUeCell 0
+param *.numUeD2DRx 1
+param *.numUeD2DTx 1
+param *.ue*.macCellId 1
+param *.ue*.masterId 1
+param *.ue*.mobility.initFromDisplayString false
+param *.ue*[0].macCellId 1
+param *.ue*[0].masterId 1
+param *.ue*[0].mobility.initFromDisplayString false
+param *.ueD2D*.numTcpApps 1
+param *.ueD2D*[*].d2dCapable true
+param *.ueD2D*[0].d2dCapable false
+param *.ueD2D*[0].numTcpApps 1
+param *.ueD2DRx[0].mobility.initialX 310m
+param *.ueD2DRx[0].mobility.initialY 350m
+param *.ueD2DRx[0].tcpApp[*].localPort 1000
+param *.ueD2DRx[0].tcpApp[*].typename "\"TCPSinkApp\""
+param *.ueD2DTx*.tcpApp[*].connectAddress "\"ueD2DTx[0]\""
+param *.ueD2DTx*.tcpApp[*].localAddress "\"ueD2DTx\""
+param *.ueD2DTx*.tcpApp[*].localPort 1000
+param *.ueD2DTx*.tcpApp[*].sendBytes 1GiB
+param *.ueD2DTx*.tcpApp[*].typename "\"TCPSessionApp\""
+param *.ueD2DTx*.tcpApp[0].active true
+param *.ueD2DTx*.tcpApp[0].connectPort 1000
+param *.ueD2DTx*.tcpApp[0].tOpen uniform(0.010s,0.1s)
+param *.ueD2DTx*.tcpApp[0].tSend uniform(0.15s,0.5s)
+param *.ueD2DTx[0].mobility.initialX 290m
+param *.ueD2DTx[0].mobility.initialY 350m
+param *.ueD2DTx[0].nic.d2dPeerAddresses "\"ueD2DTx[1]\""
+param *.ueD2DTx[0].tcpApp[*].localPort 1000
+param *.ueD2DTx[0].tcpApp[*].sendBytes 1GiB
+param *.ueD2DTx[0].tcpApp[*].typename "\"TCPSessionApp\""
+param *.ueD2DTx[0].tcpApp[0].active true
+param *.ueD2DTx[0].tcpApp[0].connectAddress "\"ueD2DRx[0]\""
+param *.ueD2DTx[0].tcpApp[0].connectPort 1000
+param *.ueD2DTx[0].tcpApp[0].localAddress "\"ueD2DTx[0]\""
+param *.ueD2DTx[0].tcpApp[0].tOpen uniform(0.010s,0.1s)
+param *.ueD2DTx[0].tcpApp[0].tSend uniform(0.15s,0.5s)
+param *.ueD2DTx[1].nic.d2dPeerAddresses "\"ueD2DTx[0]\""
+
+vector 8  CAIN.server.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 9  CAIN.server.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 24  CAIN.router.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 25  CAIN.router.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 35  CAIN.router.ppp[1].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 36  CAIN.router.ppp[1].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 56  CAIN.pgw.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 57  CAIN.pgw.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 67  CAIN.pgw.pppInterface.queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 68  CAIN.pgw.pppInterface.ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 104  CAIN.eNodeB.pppIf.queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 105  CAIN.eNodeB.pppIf.ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 138  CAIN.ueD2DTx[0].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 165  CAIN.ueD2DTx[1].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 192  CAIN.ueD2DTx[2].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 219  CAIN.ueD2DTx[3].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 246  CAIN.ueD2DTx[4].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 85  CAIN.eNodeB.nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 264  CAIN.ueD2DTx[4].tcp  tcpRcvQueueBytes  ETV
+vector 251  CAIN.ueD2DTx[4].tcp  "advertised window"  ETV
+vector 250  CAIN.ueD2DTx[4].tcp  "receive window"  ETV
+vector 253  CAIN.ueD2DTx[4].tcp  "sent ack"  ETV
+vector 225  CAIN.ueD2DTx[4].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 228  CAIN.ueD2DTx[4].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 229  CAIN.ueD2DTx[4].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 232  CAIN.ueD2DTx[4].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 96  CAIN.eNodeB.nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 97  CAIN.eNodeB.nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 87  CAIN.eNodeB.nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 149  CAIN.ueD2DTx[1].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 160  CAIN.ueD2DTx[1].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 161  CAIN.ueD2DTx[1].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 151  CAIN.ueD2DTx[1].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 176  CAIN.ueD2DTx[2].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 187  CAIN.ueD2DTx[2].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 188  CAIN.ueD2DTx[2].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 178  CAIN.ueD2DTx[2].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 203  CAIN.ueD2DTx[3].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 214  CAIN.ueD2DTx[3].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 215  CAIN.ueD2DTx[3].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 205  CAIN.ueD2DTx[3].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 230  CAIN.ueD2DTx[4].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 122  CAIN.ueD2DTx[0].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 133  CAIN.ueD2DTx[0].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 134  CAIN.ueD2DTx[0].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 124  CAIN.ueD2DTx[0].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 241  CAIN.ueD2DTx[4].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 242  CAIN.ueD2DTx[4].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 231  CAIN.ueD2DTx[4].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 93  CAIN.eNodeB.nic.mac  ServedDevs:vector  ETV
+attr interpolationmode  none
+attr title  "# of devices served on cain forwarding, vector"
+vector 91  CAIN.eNodeB.nic.mac  DistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Distance to enb, vector"
+vector 89  CAIN.eNodeB.nic.mac  CainMessage:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received CAIN message, vector"
+vector 92  CAIN.eNodeB.nic.mac  HopDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Distance to enb with hop forwarding, vector"
+vector 90  CAIN.eNodeB.nic.mac  CainHopMessage:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received CAIN hop message, vector"
+vector 288  CAIN.ueD2DTx[0].tcp  tcpRcvQueueBytes  ETV
+vector 275  CAIN.ueD2DTx[0].tcp  "advertised window"  ETV
+vector 274  CAIN.ueD2DTx[0].tcp  "receive window"  ETV
+vector 277  CAIN.ueD2DTx[0].tcp  "sent ack"  ETV
+vector 117  CAIN.ueD2DTx[0].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 120  CAIN.ueD2DTx[0].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 121  CAIN.ueD2DTx[0].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 312  CAIN.ueD2DTx[2].tcp  tcpRcvQueueBytes  ETV
+vector 299  CAIN.ueD2DTx[2].tcp  "advertised window"  ETV
+vector 298  CAIN.ueD2DTx[2].tcp  "receive window"  ETV
+vector 301  CAIN.ueD2DTx[2].tcp  "sent ack"  ETV
+vector 171  CAIN.ueD2DTx[2].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 174  CAIN.ueD2DTx[2].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 175  CAIN.ueD2DTx[2].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 123  CAIN.ueD2DTx[0].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 177  CAIN.ueD2DTx[2].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 99  CAIN.eNodeB.nic.phy  averageCqiUlvect:vector  ETV
+attr source  averageCqiUlvect
+attr title  "Average Cqi reported in UL, vector"
+attr unit  cqi
+vector 86  CAIN.eNodeB.nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 81  CAIN.eNodeB.nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 82  CAIN.eNodeB.nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 80  CAIN.eNodeB.nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 83  CAIN.eNodeB.nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 84  CAIN.eNodeB.nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 88  CAIN.eNodeB.nic.mac  measuredItbs:vector  ETV
+attr source  measuredItbs
+attr title  "TBS index, vector"
+attr unit  ""
+vector 189  CAIN.ueD2DTx[2].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 243  CAIN.ueD2DTx[4].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 172  CAIN.ueD2DTx[2].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 173  CAIN.ueD2DTx[2].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 226  CAIN.ueD2DTx[4].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 227  CAIN.ueD2DTx[4].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 336  CAIN.ueD2DTx[3].tcp  tcpRcvQueueBytes  ETV
+vector 323  CAIN.ueD2DTx[3].tcp  "advertised window"  ETV
+vector 322  CAIN.ueD2DTx[3].tcp  "receive window"  ETV
+vector 325  CAIN.ueD2DTx[3].tcp  "sent ack"  ETV
+vector 198  CAIN.ueD2DTx[3].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 201  CAIN.ueD2DTx[3].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 202  CAIN.ueD2DTx[3].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 360  CAIN.ueD2DTx[1].tcp  tcpRcvQueueBytes  ETV
+vector 347  CAIN.ueD2DTx[1].tcp  "advertised window"  ETV
+vector 346  CAIN.ueD2DTx[1].tcp  "receive window"  ETV
+vector 349  CAIN.ueD2DTx[1].tcp  "sent ack"  ETV
+vector 144  CAIN.ueD2DTx[1].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 147  CAIN.ueD2DTx[1].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 148  CAIN.ueD2DTx[1].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 204  CAIN.ueD2DTx[3].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 150  CAIN.ueD2DTx[1].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 135  CAIN.ueD2DTx[0].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 118  CAIN.ueD2DTx[0].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 119  CAIN.ueD2DTx[0].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+8	17259 8 0 0 0 0 1 0 0 0 0
+9	17267 8 0 0 0 0 1 0 0 0 0
+24	17275 9 0 0 0 0 1 0 0 0 0
+25	17284 9 0 0 0 0 1 0 0 0 0
+35	17293 9 0 0 0 0 1 0 0 0 0
+36	17302 9 0 0 0 0 1 0 0 0 0
+56	17311 9 0 0 0 0 1 0 0 0 0
+57	17320 9 0 0 0 0 1 0 0 0 0
+67	17329 9 0 0 0 0 1 0 0 0 0
+68	17338 9 0 0 0 0 1 0 0 0 0
+80	17347 270 1341 104826 0.051 9.103 15 44 44 660 29040
+81	17617 270 1331 104819 0.051 9.103 15 45 45 675 30375
+82	17887 270 1331 104819 0.051 9.103 15 44 44 660 29040
+83	18157 270 1341 104826 0.051 9.103 15 45 45 675 30375
+84	18427 539 1347 104843 0.051 9.104 30 45 47 1380 63510
+85	18966 154790 60 114162 0.002 9.998 9202 0 0 0 0
+86	173756 718 1324 104839 0.051 9.104 41 0 47 727 29923
+87	174474 10009 224 104849 0.017 9.104 601 0 0 0 0
+88	184483 269 1369 104839 0.052 9.104 15 26 26 390 10140
+89	184752 13098 337 104776 0.021 9.1 708 1 708 250986 118549054
+90	197850 1798 388 43485 0.023 3.308 103 1 103 5356 369564
+91	199648 11300 337 104776 0.021 9.1 605 221 424 187940 64482558
+92	210948 1906 388 43485 0.023 3.308 103 168 169 17346 2921226
+93	212854 10090 337 104776 0.021 9.1 605 1 3 1709 4917
+96	222944 4002 224 104589 0.017 9.096 221 1 221 24531 3622411
+97	226946 4104 224 104589 0.017 9.096 221 44 223 40343 7722319
+99	231050 456 1196 104763 0.048 9.1 26 4 15 251 3109
+104	231506 10 0 0 0 0 1 0 0 0 0
+105	231516 10 0 0 0 0 1 0 0 0 0
+117	231526 83 906 103449 0.042121352858 9.042121352858 3 44 44 132 5808
+118	231609 57 6077 104282 0.219 9.069 3 45 45 135 6075
+119	231666 57 6077 104282 0.219 9.069 3 44 44 132 5808
+120	231723 83 906 103449 0.042121352858 9.042121352858 3 45 45 135 6075
+121	231806 140 909 103655 0.042121352858 9.047 6 45 47 276 12702
+122	231946 6091 271 104680 0.019 9.098 348 0 0 0 0
+123	238037 111 1120 104278 0.047 9.069 6 0 47 141 6627
+124	238148 6090 271 104680 0.019 9.098 348 0 0 0 0
+133	244238 6499 271 104680 0.019 9.098 339 1 339 57630 13043590
+134	250737 6371 271 104680 0.019 9.098 339 44 222 38147 6148725
+135	257108 57 6041 104246 0.216 9.066 3 15 15 45 675
+138	257165 10 0 0 0 0 1 1 1 1 1
+144	257175 84 2569 104559 0.094045599147 9.094045599147 3 44 44 132 5808
+147	257259 84 2569 104559 0.094045599147 9.094045599147 3 45 45 135 6075
+148	257343 141 2572 104712 0.094045599147 9.099 6 45 47 276 12702
+149	257484 6533 243 104862 0.018 9.104 375 0 0 0 0
+150	264017 54 2793 104708 0.099 9.099 3 0 0 0 0
+151	264071 8903 243 104728 0.018 9.099 508 0 0 0 0
+160	272974 7055 243 104728 0.018 9.099 369 1 369 68265 16815945
+161	280029 6927 243 104728 0.018 9.099 369 0 223 48310 9492434
+165	286956 10 0 0 0 0 1 1 1 1 1
+171	286966 83 914 103456 0.042969444403 9.042969444403 3 44 44 132 5808
+172	287049 57 1501 104011 0.056 9.056 3 45 45 135 6075
+173	287106 57 1501 104011 0.056 9.056 3 44 44 132 5808
+174	287163 83 914 103456 0.042969444403 9.042969444403 3 45 45 135 6075
+175	287246 140 917 103661 0.042969444403 9.047 6 45 47 276 12702
+176	287386 6587 247 104737 0.018 9.099 378 0 0 0 0
+177	293973 111 1126 104007 0.047 9.056 6 0 47 141 6627
+178	294084 8956 247 104737 0.018 9.099 511 0 0 0 0
+187	303040 7055 247 104737 0.018 9.099 369 1 369 68265 16815945
+188	310095 6927 247 104737 0.018 9.099 369 0 223 48310 9492434
+189	317022 57 1407 103917 0.053 9.053 3 15 15 45 675
+192	317079 10 0 0 0 0 1 1 1 1 1
+198	317089 84 2533 104544 0.093352724272 9.093352724272 3 44 44 132 5808
+201	317173 84 2533 104544 0.093352724272 9.093352724272 3 45 45 135 6075
+202	317257 141 2536 104653 0.093352724272 9.098 6 45 47 276 12702
+203	317398 7840 251 104838 0.018 9.103 448 0 0 0 0
+204	325238 54 2718 104649 0.098 9.098 3 0 0 0 0
+205	325292 7840 251 104683 0.018 9.098 448 0 0 0 0
+214	333132 8508 251 104683 0.018 9.098 442 1 442 97903 28881385
+215	341640 8174 251 104683 0.018 9.098 442 0 222 47623 10257359
+219	349814 10 0 0 0 0 1 1 1 1 1
+225	349824 83 204 102773 0.015271066679 9.015271066679 3 44 44 132 5808
+226	349907 171 1511 104909 0.056 9.108 9 45 45 405 18225
+227	350078 171 1511 104909 0.056 9.108 9 44 44 396 17424
+228	350249 83 204 102773 0.015271066679 9.015271066679 3 45 45 135 6075
+229	350332 1900 207 104127 0.015271066679 9.06 109 0 45 298 9490
+230	352232 11878 269 104873 0.019 9.105 674 0 0 0 0
+231	364110 1985 293 104905 0.02 9.108 115 0 47 423 19881
+232	366095 11876 213 104905 0.016 9.108 674 0 0 0 0
+241	377971 10573 274 104686 0.019 9.098 545 1 545 148785 54108145
+242	388544 10445 274 104686 0.019 9.098 545 44 169 63649 8671469
+243	398989 171 1409 104872 0.053 9.105 9 15 15 135 2025
+246	399160 10 0 0 0 0 1 1 1 1 1
+250	399170 89 201 102770 0.015271066679 9.015271066679 3 7504 7504 22512 168930048
+251	399259 89 201 102770 0.015271066679 9.015271066679 3 7504 7504 22512 168930048
+253	399348 80 201 102770 0.015271066679 9.015271066679 3 0 0 0 0
+264	399428 80 201 102770 0.015271066679 9.015271066679 3 0 0 0 0
+274	399508 89 903 103446 0.042121352858 9.042121352858 3 7504 7504 22512 168930048
+275	399597 89 903 103446 0.042121352858 9.042121352858 3 7504 7504 22512 168930048
+277	399686 80 903 103446 0.042121352858 9.042121352858 3 0 0 0 0
+288	399766 80 903 103446 0.042121352858 9.042121352858 3 0 0 0 0
+298	399846 89 911 103453 0.042969444403 9.042969444403 3 7504 7504 22512 168930048
+299	399935 89 911 103453 0.042969444403 9.042969444403 3 7504 7504 22512 168930048
+301	400024 80 911 103453 0.042969444403 9.042969444403 3 0 0 0 0
+312	400104 80 911 103453 0.042969444403 9.042969444403 3 0 0 0 0
+322	400184 90 2530 104541 0.093352724272 9.093352724272 3 7504 7504 22512 168930048
+323	400274 90 2530 104541 0.093352724272 9.093352724272 3 7504 7504 22512 168930048
+325	400364 81 2530 104541 0.093352724272 9.093352724272 3 0 0 0 0
+336	400445 81 2530 104541 0.093352724272 9.093352724272 3 0 0 0 0
+346	400526 90 2566 104556 0.094045599147 9.094045599147 3 7504 7504 22512 168930048
+347	400616 90 2566 104556 0.094045599147 9.094045599147 3 7504 7504 22512 168930048
+349	400706 81 2566 104556 0.094045599147 9.094045599147 3 0 0 0 0
+360	400787 81 2566 104556 0.094045599147 9.094045599147 3 0 0 0 0

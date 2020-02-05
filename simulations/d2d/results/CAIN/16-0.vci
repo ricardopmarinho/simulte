@@ -1,0 +1,1986 @@
+file 76398806 1580844075                                        
+version 2
+run CAIN-16-20200204-16:19:35-20305
+attr configname CAIN
+attr datetime 20200204-16:19:35
+attr dist 200
+attr experiment CAIN
+attr inifile omnetpp.ini
+attr iterationvars "$dist=200, $numUe=20, $mob=\"./movements/RWPRPGM-0.0.movements\""
+attr iterationvars2 "$dist=200, $numUe=20, $mob=\"./movements/RWPRPGM-0.0.movements\", $repetition=0"
+attr measurement "$dist=200, $numUe=20, $mob=\"./movements/RWPRPGM-0.0.movements\""
+attr mob "\"./movements/RWPRPGM-0.0.movements\""
+attr network lte.simulations.networks.CAIN
+attr numUe 20
+attr processid 20305
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 16
+attr seedset 0
+param **.**.amcMode "\"AUTO\""
+param **.amcMode "\"D2D\""
+param **.cainNetwork true
+param **.channelControl.alpha 1.0
+param **.channelControl.carrierFrequency 2100e+6Hz
+param **.channelControl.pMax 10W
+param **.d2dCqi 7
+param **.deployer.numRbDl 50
+param **.deployer.numRbUl 50
+param **.distThresh "${dist=200..260 step 10}"
+param **.fbDelay 1
+param **.feedbackComputation "xmldoc(\"config_channel.xml\")"
+param **.mobility.constraintAreaMaxX 1000m
+param **.mobility.constraintAreaMaxY 1000m
+param **.mobility.constraintAreaMaxZ 0m
+param **.mobility.constraintAreaMinX 0m
+param **.mobility.constraintAreaMinY 0m
+param **.mobility.constraintAreaMinZ 0m
+param **.nic.phy.channelModel "xmldoc(\"config_channel.xml\")"
+param **.numBands 50
+param **.pwrThresh -10
+param **.qtdThresh 3
+param **.rbAllocationType "\"localized\""
+param **.routingRecorder.enabled false
+param **.tcpApp[*].tClose -1s
+param **.ueD2DTx[*].mobility.changeAngleBy "normal(0deg, 30deg)"
+param **.ueD2DTx[*].mobility.changeInterval "normal(5s, 0.1s)"
+param **.ueD2DTx[*].mobility.nodeId -1
+param **.ueD2DTx[*].mobility.speed "normal(2mps, 0.01mps)"
+param **.ueD2DTx[*].mobility.traceFile "${mob=\"./movements/RWP-0.0.movements\",\"./movements/RWP-0.5.movements\",\"./movements/RPGM-0.0.movements\",\"./movements/RPGM-0.5.movements\",\"./movements/RWPRPGM-0.0.movements\",\"./movements/RWPRPGM-0.5.movements\"}"
+param **.ueD2DTx[*].mobilityType "\"BonnMotionMobility\""
+param **.usePreconfiguredTxParams false
+param *.eNodeB.d2dCapable false
+param *.eNodeB.mobility.initFromDisplayString false
+param *.eNodeB.mobility.initialX 300m
+param *.eNodeB.mobility.initialY 300m
+param *.eNodeB.nic.phy.enableD2DCqiReporting true
+param *.eNodeB.txPower 19952.62315mw
+param *.numUeCell 0
+param *.numUeD2DRx 1
+param *.numUeD2DTx 1
+param *.ue*.macCellId 1
+param *.ue*.masterId 1
+param *.ue*.mobility.initFromDisplayString false
+param *.ue*[0].macCellId 1
+param *.ue*[0].masterId 1
+param *.ue*[0].mobility.initFromDisplayString false
+param *.ueD2D*.numTcpApps 1
+param *.ueD2D*[*].d2dCapable true
+param *.ueD2D*[0].d2dCapable false
+param *.ueD2D*[0].numTcpApps 1
+param *.ueD2DRx[0].mobility.initialX 310m
+param *.ueD2DRx[0].mobility.initialY 350m
+param *.ueD2DRx[0].tcpApp[*].localPort 1000
+param *.ueD2DRx[0].tcpApp[*].typename "\"TCPSinkApp\""
+param *.ueD2DTx*.tcpApp[*].connectAddress "\"ueD2DTx[0]\""
+param *.ueD2DTx*.tcpApp[*].localAddress "\"ueD2DTx\""
+param *.ueD2DTx*.tcpApp[*].localPort 1000
+param *.ueD2DTx*.tcpApp[*].sendBytes 1GiB
+param *.ueD2DTx*.tcpApp[*].typename "\"TCPSessionApp\""
+param *.ueD2DTx*.tcpApp[0].active true
+param *.ueD2DTx*.tcpApp[0].connectPort 1000
+param *.ueD2DTx*.tcpApp[0].tOpen uniform(0.010s,0.1s)
+param *.ueD2DTx*.tcpApp[0].tSend uniform(0.15s,0.5s)
+param *.ueD2DTx[0].mobility.initialX 290m
+param *.ueD2DTx[0].mobility.initialY 350m
+param *.ueD2DTx[0].nic.d2dPeerAddresses "\"ueD2DTx[1]\""
+param *.ueD2DTx[0].tcpApp[*].localPort 1000
+param *.ueD2DTx[0].tcpApp[*].sendBytes 1GiB
+param *.ueD2DTx[0].tcpApp[*].typename "\"TCPSessionApp\""
+param *.ueD2DTx[0].tcpApp[0].active true
+param *.ueD2DTx[0].tcpApp[0].connectAddress "\"ueD2DRx[0]\""
+param *.ueD2DTx[0].tcpApp[0].connectPort 1000
+param *.ueD2DTx[0].tcpApp[0].localAddress "\"ueD2DTx[0]\""
+param *.ueD2DTx[0].tcpApp[0].tOpen uniform(0.010s,0.1s)
+param *.ueD2DTx[0].tcpApp[0].tSend uniform(0.15s,0.5s)
+param *.ueD2DTx[1].nic.d2dPeerAddresses "\"ueD2DTx[0]\""
+
+vector 8  CAIN.server.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 9  CAIN.server.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 24  CAIN.router.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 25  CAIN.router.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 35  CAIN.router.ppp[1].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 36  CAIN.router.ppp[1].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 56  CAIN.pgw.ppp[0].queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 57  CAIN.pgw.ppp[0].ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 67  CAIN.pgw.pppInterface.queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 68  CAIN.pgw.pppInterface.ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 104  CAIN.eNodeB.pppIf.queue  queueLength:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "queue length, vector"
+vector 105  CAIN.eNodeB.pppIf.ppp  txState:vector  ETV
+attr interpolationmode  sample-hold
+attr title  "tx state, vector"
+vector 138  CAIN.ueD2DTx[0].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 165  CAIN.ueD2DTx[1].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 192  CAIN.ueD2DTx[2].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 219  CAIN.ueD2DTx[3].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 246  CAIN.ueD2DTx[4].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 273  CAIN.ueD2DTx[5].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 300  CAIN.ueD2DTx[6].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 327  CAIN.ueD2DTx[7].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 354  CAIN.ueD2DTx[8].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 381  CAIN.ueD2DTx[9].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 408  CAIN.ueD2DTx[10].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 435  CAIN.ueD2DTx[11].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 462  CAIN.ueD2DTx[12].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 489  CAIN.ueD2DTx[13].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 516  CAIN.ueD2DTx[14].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 543  CAIN.ueD2DTx[15].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 570  CAIN.ueD2DTx[16].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 597  CAIN.ueD2DTx[17].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 624  CAIN.ueD2DTx[18].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 651  CAIN.ueD2DTx[19].nic.phy  servingCell:vector  ETV
+attr source  servingCell
+attr title  "ID of the serving eNodeB for the UE, vector"
+attr unit  ""
+vector 85  CAIN.eNodeB.nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 669  CAIN.ueD2DTx[4].tcp  tcpRcvQueueBytes  ETV
+vector 656  CAIN.ueD2DTx[4].tcp  "advertised window"  ETV
+vector 655  CAIN.ueD2DTx[4].tcp  "receive window"  ETV
+vector 658  CAIN.ueD2DTx[4].tcp  "sent ack"  ETV
+vector 225  CAIN.ueD2DTx[4].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 228  CAIN.ueD2DTx[4].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 229  CAIN.ueD2DTx[4].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 232  CAIN.ueD2DTx[4].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 96  CAIN.eNodeB.nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 97  CAIN.eNodeB.nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 87  CAIN.eNodeB.nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 284  CAIN.ueD2DTx[6].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 295  CAIN.ueD2DTx[6].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 296  CAIN.ueD2DTx[6].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 286  CAIN.ueD2DTx[6].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 338  CAIN.ueD2DTx[8].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 349  CAIN.ueD2DTx[8].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 350  CAIN.ueD2DTx[8].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 340  CAIN.ueD2DTx[8].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 230  CAIN.ueD2DTx[4].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 365  CAIN.ueD2DTx[9].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 376  CAIN.ueD2DTx[9].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 377  CAIN.ueD2DTx[9].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 367  CAIN.ueD2DTx[9].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 527  CAIN.ueD2DTx[15].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 538  CAIN.ueD2DTx[15].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 539  CAIN.ueD2DTx[15].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 529  CAIN.ueD2DTx[15].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 392  CAIN.ueD2DTx[10].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 403  CAIN.ueD2DTx[10].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 404  CAIN.ueD2DTx[10].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 394  CAIN.ueD2DTx[10].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 176  CAIN.ueD2DTx[2].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 187  CAIN.ueD2DTx[2].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 188  CAIN.ueD2DTx[2].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 178  CAIN.ueD2DTx[2].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 500  CAIN.ueD2DTx[14].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 511  CAIN.ueD2DTx[14].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 512  CAIN.ueD2DTx[14].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 502  CAIN.ueD2DTx[14].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 241  CAIN.ueD2DTx[4].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 242  CAIN.ueD2DTx[4].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 231  CAIN.ueD2DTx[4].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 122  CAIN.ueD2DTx[0].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 133  CAIN.ueD2DTx[0].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 134  CAIN.ueD2DTx[0].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 124  CAIN.ueD2DTx[0].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 257  CAIN.ueD2DTx[5].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 268  CAIN.ueD2DTx[5].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 269  CAIN.ueD2DTx[5].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 259  CAIN.ueD2DTx[5].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 203  CAIN.ueD2DTx[3].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 214  CAIN.ueD2DTx[3].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 215  CAIN.ueD2DTx[3].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 205  CAIN.ueD2DTx[3].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 419  CAIN.ueD2DTx[11].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 430  CAIN.ueD2DTx[11].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 431  CAIN.ueD2DTx[11].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 421  CAIN.ueD2DTx[11].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 581  CAIN.ueD2DTx[17].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 592  CAIN.ueD2DTx[17].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 593  CAIN.ueD2DTx[17].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 583  CAIN.ueD2DTx[17].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 635  CAIN.ueD2DTx[19].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 646  CAIN.ueD2DTx[19].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 647  CAIN.ueD2DTx[19].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 637  CAIN.ueD2DTx[19].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 311  CAIN.ueD2DTx[7].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 322  CAIN.ueD2DTx[7].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 323  CAIN.ueD2DTx[7].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 313  CAIN.ueD2DTx[7].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 608  CAIN.ueD2DTx[18].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 619  CAIN.ueD2DTx[18].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 620  CAIN.ueD2DTx[18].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 610  CAIN.ueD2DTx[18].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 554  CAIN.ueD2DTx[16].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 565  CAIN.ueD2DTx[16].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 566  CAIN.ueD2DTx[16].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 556  CAIN.ueD2DTx[16].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 473  CAIN.ueD2DTx[13].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 484  CAIN.ueD2DTx[13].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 485  CAIN.ueD2DTx[13].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 475  CAIN.ueD2DTx[13].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 149  CAIN.ueD2DTx[1].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 160  CAIN.ueD2DTx[1].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 161  CAIN.ueD2DTx[1].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 151  CAIN.ueD2DTx[1].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 446  CAIN.ueD2DTx[12].nic.mac  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 457  CAIN.ueD2DTx[12].nic.mac  racpkt:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received racpkt message, vector"
+vector 458  CAIN.ueD2DTx[12].nic.mac  racDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Rac distance to enb, vector"
+vector 448  CAIN.ueD2DTx[12].nic.mac  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 99  CAIN.eNodeB.nic.phy  averageCqiUlvect:vector  ETV
+attr source  averageCqiUlvect
+attr title  "Average Cqi reported in UL, vector"
+attr unit  cqi
+vector 93  CAIN.eNodeB.nic.mac  ServedDevs:vector  ETV
+attr interpolationmode  none
+attr title  "# of devices served on cain forwarding, vector"
+vector 91  CAIN.eNodeB.nic.mac  DistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Distance to enb, vector"
+vector 89  CAIN.eNodeB.nic.mac  CainMessage:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received CAIN message, vector"
+vector 92  CAIN.eNodeB.nic.mac  HopDistanceSignal:vector  ETV
+attr interpolationmode  none
+attr title  "Distance to enb with hop forwarding, vector"
+vector 90  CAIN.eNodeB.nic.mac  CainHopMessage:vector  ETV
+attr interpolationmode  none
+attr title  "eNB received CAIN hop message, vector"
+vector 86  CAIN.eNodeB.nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 81  CAIN.eNodeB.nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 82  CAIN.eNodeB.nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 80  CAIN.eNodeB.nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 83  CAIN.eNodeB.nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 84  CAIN.eNodeB.nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 693  CAIN.ueD2DTx[7].tcp  tcpRcvQueueBytes  ETV
+vector 680  CAIN.ueD2DTx[7].tcp  "advertised window"  ETV
+vector 679  CAIN.ueD2DTx[7].tcp  "receive window"  ETV
+vector 682  CAIN.ueD2DTx[7].tcp  "sent ack"  ETV
+vector 306  CAIN.ueD2DTx[7].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 309  CAIN.ueD2DTx[7].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 310  CAIN.ueD2DTx[7].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 88  CAIN.eNodeB.nic.mac  measuredItbs:vector  ETV
+attr source  measuredItbs
+attr title  "TBS index, vector"
+attr unit  ""
+vector 135  CAIN.ueD2DTx[0].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 717  CAIN.ueD2DTx[17].tcp  tcpRcvQueueBytes  ETV
+vector 704  CAIN.ueD2DTx[17].tcp  "advertised window"  ETV
+vector 703  CAIN.ueD2DTx[17].tcp  "receive window"  ETV
+vector 706  CAIN.ueD2DTx[17].tcp  "sent ack"  ETV
+vector 576  CAIN.ueD2DTx[17].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 579  CAIN.ueD2DTx[17].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 580  CAIN.ueD2DTx[17].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 123  CAIN.ueD2DTx[0].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 118  CAIN.ueD2DTx[0].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 119  CAIN.ueD2DTx[0].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 312  CAIN.ueD2DTx[7].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 741  CAIN.ueD2DTx[5].tcp  tcpRcvQueueBytes  ETV
+vector 728  CAIN.ueD2DTx[5].tcp  "advertised window"  ETV
+vector 727  CAIN.ueD2DTx[5].tcp  "receive window"  ETV
+vector 730  CAIN.ueD2DTx[5].tcp  "sent ack"  ETV
+vector 252  CAIN.ueD2DTx[5].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 255  CAIN.ueD2DTx[5].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 256  CAIN.ueD2DTx[5].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 582  CAIN.ueD2DTx[17].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 765  CAIN.ueD2DTx[8].tcp  tcpRcvQueueBytes  ETV
+vector 752  CAIN.ueD2DTx[8].tcp  "advertised window"  ETV
+vector 751  CAIN.ueD2DTx[8].tcp  "receive window"  ETV
+vector 754  CAIN.ueD2DTx[8].tcp  "sent ack"  ETV
+vector 333  CAIN.ueD2DTx[8].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 336  CAIN.ueD2DTx[8].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 337  CAIN.ueD2DTx[8].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 258  CAIN.ueD2DTx[5].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 789  CAIN.ueD2DTx[12].tcp  tcpRcvQueueBytes  ETV
+vector 776  CAIN.ueD2DTx[12].tcp  "advertised window"  ETV
+vector 775  CAIN.ueD2DTx[12].tcp  "receive window"  ETV
+vector 778  CAIN.ueD2DTx[12].tcp  "sent ack"  ETV
+vector 441  CAIN.ueD2DTx[12].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 444  CAIN.ueD2DTx[12].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 445  CAIN.ueD2DTx[12].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 339  CAIN.ueD2DTx[8].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 447  CAIN.ueD2DTx[12].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 813  CAIN.ueD2DTx[0].tcp  tcpRcvQueueBytes  ETV
+vector 800  CAIN.ueD2DTx[0].tcp  "advertised window"  ETV
+vector 799  CAIN.ueD2DTx[0].tcp  "receive window"  ETV
+vector 802  CAIN.ueD2DTx[0].tcp  "sent ack"  ETV
+vector 117  CAIN.ueD2DTx[0].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 120  CAIN.ueD2DTx[0].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 121  CAIN.ueD2DTx[0].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 837  CAIN.ueD2DTx[2].tcp  tcpRcvQueueBytes  ETV
+vector 824  CAIN.ueD2DTx[2].tcp  "advertised window"  ETV
+vector 823  CAIN.ueD2DTx[2].tcp  "receive window"  ETV
+vector 826  CAIN.ueD2DTx[2].tcp  "sent ack"  ETV
+vector 171  CAIN.ueD2DTx[2].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 174  CAIN.ueD2DTx[2].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 175  CAIN.ueD2DTx[2].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 861  CAIN.ueD2DTx[9].tcp  tcpRcvQueueBytes  ETV
+vector 848  CAIN.ueD2DTx[9].tcp  "advertised window"  ETV
+vector 847  CAIN.ueD2DTx[9].tcp  "receive window"  ETV
+vector 850  CAIN.ueD2DTx[9].tcp  "sent ack"  ETV
+vector 360  CAIN.ueD2DTx[9].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 363  CAIN.ueD2DTx[9].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 364  CAIN.ueD2DTx[9].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 243  CAIN.ueD2DTx[4].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 885  CAIN.ueD2DTx[11].tcp  tcpRcvQueueBytes  ETV
+vector 872  CAIN.ueD2DTx[11].tcp  "advertised window"  ETV
+vector 871  CAIN.ueD2DTx[11].tcp  "receive window"  ETV
+vector 874  CAIN.ueD2DTx[11].tcp  "sent ack"  ETV
+vector 414  CAIN.ueD2DTx[11].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 417  CAIN.ueD2DTx[11].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 418  CAIN.ueD2DTx[11].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 177  CAIN.ueD2DTx[2].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 226  CAIN.ueD2DTx[4].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 227  CAIN.ueD2DTx[4].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 366  CAIN.ueD2DTx[9].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 420  CAIN.ueD2DTx[11].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 351  CAIN.ueD2DTx[8].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 909  CAIN.ueD2DTx[13].tcp  tcpRcvQueueBytes  ETV
+vector 896  CAIN.ueD2DTx[13].tcp  "advertised window"  ETV
+vector 895  CAIN.ueD2DTx[13].tcp  "receive window"  ETV
+vector 898  CAIN.ueD2DTx[13].tcp  "sent ack"  ETV
+vector 468  CAIN.ueD2DTx[13].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 471  CAIN.ueD2DTx[13].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 472  CAIN.ueD2DTx[13].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 297  CAIN.ueD2DTx[6].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 334  CAIN.ueD2DTx[8].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 335  CAIN.ueD2DTx[8].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 285  CAIN.ueD2DTx[6].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 280  CAIN.ueD2DTx[6].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 281  CAIN.ueD2DTx[6].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 933  CAIN.ueD2DTx[14].tcp  tcpRcvQueueBytes  ETV
+vector 920  CAIN.ueD2DTx[14].tcp  "advertised window"  ETV
+vector 919  CAIN.ueD2DTx[14].tcp  "receive window"  ETV
+vector 922  CAIN.ueD2DTx[14].tcp  "sent ack"  ETV
+vector 495  CAIN.ueD2DTx[14].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 498  CAIN.ueD2DTx[14].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 499  CAIN.ueD2DTx[14].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 474  CAIN.ueD2DTx[13].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 501  CAIN.ueD2DTx[14].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 957  CAIN.ueD2DTx[10].tcp  tcpRcvQueueBytes  ETV
+vector 944  CAIN.ueD2DTx[10].tcp  "advertised window"  ETV
+vector 943  CAIN.ueD2DTx[10].tcp  "receive window"  ETV
+vector 946  CAIN.ueD2DTx[10].tcp  "sent ack"  ETV
+vector 387  CAIN.ueD2DTx[10].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 390  CAIN.ueD2DTx[10].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 391  CAIN.ueD2DTx[10].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 393  CAIN.ueD2DTx[10].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 981  CAIN.ueD2DTx[16].tcp  tcpRcvQueueBytes  ETV
+vector 968  CAIN.ueD2DTx[16].tcp  "advertised window"  ETV
+vector 967  CAIN.ueD2DTx[16].tcp  "receive window"  ETV
+vector 970  CAIN.ueD2DTx[16].tcp  "sent ack"  ETV
+vector 549  CAIN.ueD2DTx[16].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 552  CAIN.ueD2DTx[16].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 553  CAIN.ueD2DTx[16].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 555  CAIN.ueD2DTx[16].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 1005  CAIN.ueD2DTx[18].tcp  tcpRcvQueueBytes  ETV
+vector 992  CAIN.ueD2DTx[18].tcp  "advertised window"  ETV
+vector 991  CAIN.ueD2DTx[18].tcp  "receive window"  ETV
+vector 994  CAIN.ueD2DTx[18].tcp  "sent ack"  ETV
+vector 603  CAIN.ueD2DTx[18].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 606  CAIN.ueD2DTx[18].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 607  CAIN.ueD2DTx[18].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 609  CAIN.ueD2DTx[18].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 1029  CAIN.ueD2DTx[6].tcp  tcpRcvQueueBytes  ETV
+vector 1016  CAIN.ueD2DTx[6].tcp  "advertised window"  ETV
+vector 1015  CAIN.ueD2DTx[6].tcp  "receive window"  ETV
+vector 1018  CAIN.ueD2DTx[6].tcp  "sent ack"  ETV
+vector 279  CAIN.ueD2DTx[6].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 282  CAIN.ueD2DTx[6].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 283  CAIN.ueD2DTx[6].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 1053  CAIN.ueD2DTx[3].tcp  tcpRcvQueueBytes  ETV
+vector 1040  CAIN.ueD2DTx[3].tcp  "advertised window"  ETV
+vector 1039  CAIN.ueD2DTx[3].tcp  "receive window"  ETV
+vector 1042  CAIN.ueD2DTx[3].tcp  "sent ack"  ETV
+vector 198  CAIN.ueD2DTx[3].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 201  CAIN.ueD2DTx[3].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 202  CAIN.ueD2DTx[3].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 1077  CAIN.ueD2DTx[1].tcp  tcpRcvQueueBytes  ETV
+vector 1064  CAIN.ueD2DTx[1].tcp  "advertised window"  ETV
+vector 1063  CAIN.ueD2DTx[1].tcp  "receive window"  ETV
+vector 1066  CAIN.ueD2DTx[1].tcp  "sent ack"  ETV
+vector 144  CAIN.ueD2DTx[1].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 147  CAIN.ueD2DTx[1].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 148  CAIN.ueD2DTx[1].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 405  CAIN.ueD2DTx[10].nic.phy  averageCqiDlvect:vector  ETV
+attr source  averageCqiDlvect
+attr title  "Average Cqi reported in DL, vector"
+attr unit  cqi
+vector 1101  CAIN.ueD2DTx[15].tcp  tcpRcvQueueBytes  ETV
+vector 1088  CAIN.ueD2DTx[15].tcp  "advertised window"  ETV
+vector 1087  CAIN.ueD2DTx[15].tcp  "receive window"  ETV
+vector 1090  CAIN.ueD2DTx[15].tcp  "sent ack"  ETV
+vector 522  CAIN.ueD2DTx[15].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 525  CAIN.ueD2DTx[15].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 526  CAIN.ueD2DTx[15].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 204  CAIN.ueD2DTx[3].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 1125  CAIN.ueD2DTx[19].tcp  tcpRcvQueueBytes  ETV
+vector 1112  CAIN.ueD2DTx[19].tcp  "advertised window"  ETV
+vector 1111  CAIN.ueD2DTx[19].tcp  "receive window"  ETV
+vector 1114  CAIN.ueD2DTx[19].tcp  "sent ack"  ETV
+vector 630  CAIN.ueD2DTx[19].nic.pdcpRrc  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 633  CAIN.ueD2DTx[19].nic.pdcpRrc  sentPacketToLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToLowerLayer
+vector 634  CAIN.ueD2DTx[19].nic.mac  receivedPacketFromUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromUpperLayer
+vector 388  CAIN.ueD2DTx[10].nic.pdcpRrc  receivedPacketFromLowerLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  receivedPacketFromLowerLayer
+vector 389  CAIN.ueD2DTx[10].nic.pdcpRrc  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 528  CAIN.ueD2DTx[15].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+vector 636  CAIN.ueD2DTx[19].nic.mac  sentPacketToUpperLayer:vector(packetBytes)  ETV
+attr interpolationmode  none
+attr source  sentPacketToUpperLayer
+8	42286 8 0 0 0 0 1 0 0 0 0
+9	42294 8 0 0 0 0 1 0 0 0 0
+24	42302 9 0 0 0 0 1 0 0 0 0
+25	42311 9 0 0 0 0 1 0 0 0 0
+35	42320 9 0 0 0 0 1 0 0 0 0
+36	42329 9 0 0 0 0 1 0 0 0 0
+56	42338 9 0 0 0 0 1 0 0 0 0
+57	42347 9 0 0 0 0 1 0 0 0 0
+67	42356 9 0 0 0 0 1 0 0 0 0
+68	42365 9 0 0 0 0 1 0 0 0 0
+80	42374 317 1572 30833 0.024 0.107 18 44 44 792 34848
+81	42691 317 1567 30823 0.024 0.107 18 45 45 810 36450
+82	43008 317 1567 30823 0.024 0.107 18 44 44 792 34848
+83	43325 317 1572 30833 0.024 0.107 18 45 45 810 36450
+84	43642 634 1575 31420 0.024 0.109 36 45 47 1656 76212
+85	44276 610294 180 534958 0.002 1.917 34798 0 0 0 0
+86	654570 801 1563 31416 0.024 0.109 47 0 47 868 35998
+87	655371 451646 719 534693 0.017 1.917 25409 0 0 0 0
+88	1107017 335 1625 31416 0.025 0.109 19 26 26 494 12844
+89	1107352 582666 1293 534956 0.021 1.917 27581 1 27581 380369571 6994108881691
+90	1690018 483666 1484 534956 0.023 1.917 22982 1 22982 264097653 4046416206715
+91	2173684 89802 1293 534336 0.021 1.915 4599 128 424 1522252 583862648
+92	2263486 448040 1484 534956 0.023 1.917 22982 67 335 5199854 1312206362
+93	2711526 80604 1293 534336 0.021 1.915 4599 1 6 27579 165439
+96	2792130 500440 719 534958 0.017 1.917 23752 1 23752 282090628 4466905094380
+97	3292570 441037 719 534956 0.017 1.917 23751 64 335 1657358 129135312
+99	3733607 490 1245 29489 0.021 0.104 29 4 15 291 3605
+104	3734097 10 0 0 0 0 1 0 0 0 0
+105	3734107 10 0 0 0 0 1 0 0 0 0
+117	3734117 27 6130 6130 0.042121352858 0.042121352858 1 44 44 44 1936
+118	3734144 205 2022 32576 0.029 0.113 11 45 45 495 22275
+119	3734349 205 2022 32576 0.029 0.113 11 44 44 484 21296
+120	3734554 27 6130 6130 0.042121352858 0.042121352858 1 45 45 45 2025
+121	3734581 27 6133 6133 0.042121352858 0.042121352858 1 45 45 45 2025
+122	3734608 36102 1116 534890 0.02 1.917 1921 0 0 0 0
+123	3770710 205 2018 32571 0.029 0.113 11 47 47 517 24299
+124	3770915 36103 1116 534890 0.02 1.917 1921 0 0 0 0
+133	3807018 32347 1116 534890 0.02 1.917 1535 1 1535 1178880 1206780160
+134	3839365 31152 1116 534890 0.02 1.917 1535 78 114 147378 14647356
+135	3870517 203 1751 31749 0.026 0.11 11 15 15 165 2475
+138	3870720 10 0 0 0 0 1 1 1 1 1
+144	3870730 28 24999 24999 0.094045599147 0.094045599147 1 44 44 44 1936
+147	3870758 28 24999 24999 0.094045599147 0.094045599147 1 45 45 45 2025
+148	3870786 28 25002 25002 0.094045599147 0.094045599147 1 45 45 45 2025
+149	3870814 35713 1155 534872 0.02 1.917 1899 0 0 0 0
+151	3906527 35528 1155 534872 0.02 1.917 1900 0 0 0 0
+160	3942055 32347 1155 534872 0.02 1.917 1535 1 1535 1178880 1206780160
+161	3974402 31152 1155 534872 0.02 1.917 1535 78 114 147378 14647356
+165	4005554 10 0 0 0 0 1 1 1 1 1
+171	4005564 27 6138 6138 0.042969444403 0.042969444403 1 44 44 44 1936
+174	4005591 27 6138 6138 0.042969444403 0.042969444403 1 45 45 45 2025
+175	4005618 45 6141 7239 0.042969444403 0.047 2 45 47 92 4234
+176	4005663 458002 994 534824 0.019 1.917 24532 0 0 0 0
+177	4463665 17 7235 7235 0.047 0.047 1 0 0 0 0
+178	4463682 458001 994 534824 0.019 1.917 24532 0 0 0 0
+187	4921683 544981 994 534824 0.019 1.917 24530 1 24530 300872715 4920372090205
+188	5466664 494755 994 534824 0.019 1.917 24530 67 335 3523368 723224796
+192	5961419 10 0 0 0 0 1 1 1 1 1
+198	5961429 28 24728 24728 0.093352724272 0.093352724272 1 44 44 44 1936
+201	5961457 28 24728 24728 0.093352724272 0.093352724272 1 45 45 45 2025
+202	5961485 66 24731 28842 0.093352724272 0.103 3 19 45 94 3286
+203	5961551 28921 1128 534893 0.02 1.917 1539 0 0 0 0
+204	5990472 36 26059 28838 0.098 0.103 2 0 0 0 0
+205	5990508 28921 1128 534893 0.02 1.917 1539 0 0 0 0
+214	6019429 32347 1128 534893 0.02 1.917 1535 1 1535 1178880 1206780160
+215	6051776 31152 1128 534893 0.02 1.917 1535 78 114 147378 14647356
+219	6082928 10 0 0 0 0 1 1 1 1 1
+225	6082938 26 669 669 0.015271066679 0.015271066679 1 44 44 44 1936
+226	6082964 18 7245 7245 0.047 0.047 1 45 45 45 2025
+227	6082982 18 7245 7245 0.047 0.047 1 44 44 44 1936
+228	6083000 26 669 669 0.015271066679 0.015271066679 1 45 45 45 2025
+229	6083026 43 672 1056 0.015271066679 0.02 2 45 47 92 4234
+230	6083069 28899 938 534836 0.019 1.917 1538 0 0 0 0
+231	6111968 34 1052 7241 0.02 0.047 2 0 47 47 2209
+232	6112002 28898 678 534836 0.016 1.917 1538 0 0 0 0
+241	6140900 32347 1045 534836 0.019 1.917 1535 1 1535 1178880 1206780160
+242	6173247 31152 1045 534836 0.019 1.917 1535 67 114 138941 13423991
+243	6204399 18 6421 6421 0.044 0.044 1 15 15 15 225
+246	6204417 10 0 0 0 0 1 1 1 1 1
+252	6204427 27 2198 2198 0.029794597295 0.029794597295 1 44 44 44 1936
+255	6204454 27 2198 2198 0.029794597295 0.029794597295 1 45 45 45 2025
+256	6204481 185 2201 18441 0.029794597295 0.074 10 7 45 108 2466
+257	6204666 29166 1125 534878 0.02 1.917 1553 0 0 0 0
+258	6233832 158 3331 18437 0.034 0.074 9 0 0 0 0
+259	6233990 29159 1125 534878 0.02 1.917 1553 0 0 0 0
+268	6263149 32347 1125 534878 0.02 1.917 1535 1 1535 1178880 1206780160
+269	6295496 31152 1125 534878 0.02 1.917 1535 78 114 147378 14647356
+273	6326648 10 0 0 0 0 1 1 1 1 1
+279	6326658 28 21872 21872 0.085841021361 0.085841021361 1 44 44 44 1936
+280	6326686 56 11738 31691 0.057 0.11 3 45 45 135 6075
+281	6326742 56 11738 31691 0.057 0.11 3 44 44 132 5808
+282	6326798 28 21872 21872 0.085841021361 0.085841021361 1 45 45 45 2025
+283	6326826 46 21875 23223 0.085841021361 0.09 2 45 47 92 4234
+284	6326872 487490 796 534869 0.018 1.917 26120 0 0 0 0
+285	6814362 73 11734 31687 0.057 0.11 4 0 47 141 6627
+286	6814435 515972 796 534869 0.018 1.917 27658 0 0 0 0
+295	7330407 580754 796 534869 0.018 1.917 26115 1 26115 341009670 5937092024590
+296	7911161 515020 796 534869 0.018 1.917 26115 0 140 1605060 187148616
+297	8426181 57 10771 30862 0.054 0.107 3 15 15 45 675
+300	8426238 10 0 0 0 0 1 1 1 1 1
+306	8426248 27 1601 1601 0.024730577224 0.024730577224 1 44 44 44 1936
+309	8426275 27 1601 1601 0.024730577224 0.024730577224 1 45 45 45 2025
+310	8426302 45 1604 2036 0.024730577224 0.029 2 45 47 92 4234
+311	8426347 28883 1143 534908 0.02 1.917 1537 0 0 0 0
+312	8455230 17 2032 2032 0.029 0.029 1 0 0 0 0
+313	8455247 28883 1143 534908 0.02 1.917 1537 0 0 0 0
+322	8484130 32347 1143 534908 0.02 1.917 1535 1 1535 1178880 1206780160
+323	8516477 31152 1143 534908 0.02 1.917 1535 78 114 147378 14647356
+327	8547629 10 0 0 0 0 1 1 1 1 1
+333	8547639 27 3317 3317 0.033422728663 0.033422728663 1 44 44 44 1936
+334	8547666 38 11334 17464 0.056 0.071 2 45 45 90 4050
+335	8547704 38 11334 17464 0.056 0.071 2 44 44 88 3872
+336	8547742 27 3317 3317 0.033422728663 0.033422728663 1 45 45 45 2025
+337	8547769 45 3320 4544 0.033422728663 0.038 2 45 47 92 4234
+338	8547814 486883 846 534923 0.018 1.917 26084 0 0 0 0
+339	9034697 55 4540 17460 0.038 0.071 3 0 47 94 4418
+340	9034752 515335 846 534923 0.018 1.917 27620 0 0 0 0
+349	9550087 580027 846 534923 0.018 1.917 26080 1 26080 340096240 5913253324880
+350	10130114 502140 846 534923 0.018 1.917 26080 0 162 1161716 103331744
+351	10632254 38 10394 16415 0.053 0.068 2 15 15 30 450
+354	10632292 10 0 0 0 0 1 1 1 1 1
+360	10632302 27 6271 6271 0.043409565084 0.043409565084 1 44 44 44 1936
+363	10632329 27 6271 6271 0.043409565084 0.043409565084 1 45 45 45 2025
+364	10632356 45 6274 7806 0.043409565084 0.048 2 45 47 92 4234
+365	10632401 458532 940 534881 0.019 1.917 24564 0 0 0 0
+366	11090933 17 7802 7802 0.048 0.048 1 0 0 0 0
+367	11090950 458531 940 534881 0.019 1.917 24564 0 0 0 0
+376	11549481 545639 940 534881 0.019 1.917 24562 1 24562 301658203 4939653074125
+377	12095120 493797 940 534881 0.019 1.917 24562 64 335 3435781 709866659
+381	12588917 10 0 0 0 0 1 1 1 1 1
+387	12588927 28 14316 14316 0.062577862614 0.062577862614 1 44 44 44 1936
+388	12588955 19 26505 26505 0.099 0.099 1 45 45 45 2025
+389	12588974 19 26505 26505 0.099 0.099 1 44 44 44 1936
+390	12588993 28 14316 14316 0.062577862614 0.062577862614 1 45 45 45 2025
+391	12589021 47 14319 15952 0.062577862614 0.067 2 45 47 92 4234
+392	12589068 28902 991 534884 0.019 1.917 1538 0 0 0 0
+393	12617970 37 15948 26501 0.067 0.099 2 0 47 47 2209
+394	12618007 28902 991 534884 0.019 1.917 1538 0 0 0 0
+403	12646909 32346 991 534884 0.019 1.917 1535 1 1535 1178880 1206780160
+404	12679255 30383 991 534884 0.019 1.917 1535 64 78 108978 7812156
+405	12709638 19 25397 25397 0.096 0.096 1 15 15 15 225
+408	12709657 10 0 0 0 0 1 1 1 1 1
+414	12709667 27 6801 6801 0.045308000082 0.045308000082 1 44 44 44 1936
+417	12709694 27 6801 6801 0.045308000082 0.045308000082 1 45 45 45 2025
+418	12709721 44 6804 8952 0.045308000082 0.05 2 45 47 92 4234
+419	12709765 28884 1131 534899 0.02 1.917 1537 0 0 0 0
+420	12738649 16 8948 8948 0.05 0.05 1 0 0 0 0
+421	12738665 28882 1131 534899 0.02 1.917 1537 0 0 0 0
+430	12767547 32347 1131 534899 0.02 1.917 1535 1 1535 1178880 1206780160
+431	12799894 31152 1131 534899 0.02 1.917 1535 78 114 147378 14647356
+435	12831046 10 0 0 0 0 1 1 1 1 1
+441	12831056 27 3559 3559 0.034135579374 0.034135579374 1 44 44 44 1936
+444	12831083 27 3559 3559 0.034135579374 0.034135579374 1 45 45 45 2025
+445	12831110 45 3562 4950 0.034135579374 0.039 2 45 47 92 4234
+446	12831155 28883 1158 534902 0.02 1.917 1537 0 0 0 0
+447	12860038 17 4946 4946 0.039 0.039 1 0 0 0 0
+448	12860055 28883 1158 534902 0.02 1.917 1537 0 0 0 0
+457	12888938 32347 1158 534902 0.02 1.917 1535 1 1535 1178880 1206780160
+458	12921285 31152 1158 534902 0.02 1.917 1535 78 114 147378 14647356
+462	12952437 10 0 0 0 0 1 1 1 1 1
+468	12952447 28 10670 10670 0.053824975863 0.053824975863 1 44 44 44 1936
+471	12952475 28 10670 10670 0.053824975863 0.053824975863 1 45 45 45 2025
+472	12952503 47 10673 12167 0.053824975863 0.058 2 45 47 92 4234
+473	12952550 28885 1152 534914 0.02 1.917 1537 0 0 0 0
+474	12981435 18 12163 12163 0.058 0.058 1 0 0 0 0
+475	12981453 28885 1152 534914 0.02 1.917 1537 0 0 0 0
+484	13010338 32347 1152 534914 0.02 1.917 1535 1 1535 1178880 1206780160
+485	13042685 31152 1152 534914 0.02 1.917 1535 78 114 147378 14647356
+489	13073837 10 0 0 0 0 1 1 1 1 1
+495	13073847 28 12141 12141 0.057867318192 0.057867318192 1 44 44 44 1936
+498	13073875 28 12141 12141 0.057867318192 0.057867318192 1 45 45 45 2025
+499	13073903 47 12144 13886 0.057867318192 0.062 2 45 47 92 4234
+500	13073950 28885 1042 534821 0.019 1.917 1537 0 0 0 0
+501	13102835 18 13882 13882 0.062 0.062 1 0 0 0 0
+502	13102853 28885 1042 534821 0.019 1.917 1537 0 0 0 0
+511	13131738 32347 1042 534821 0.019 1.917 1535 1 1535 1178880 1206780160
+512	13164085 31152 1042 534821 0.019 1.917 1535 67 114 138941 13423991
+516	13195237 10 0 0 0 0 1 1 1 1 1
+522	13195247 27 25671 25671 0.09661692474 0.09661692474 1 44 44 44 1936
+525	13195274 27 25671 25671 0.09661692474 0.09661692474 1 45 45 45 2025
+526	13195301 46 25674 27557 0.09661692474 0.101 2 45 47 92 4234
+527	13195347 28882 988 534887 0.019 1.917 1537 0 0 0 0
+528	13224229 18 27553 27553 0.101 0.101 1 0 0 0 0
+529	13224247 28884 988 534887 0.019 1.917 1537 0 0 0 0
+538	13253131 32346 988 534887 0.019 1.917 1535 1 1535 1178880 1206780160
+539	13285477 30383 988 534887 0.019 1.917 1535 64 78 108978 7812156
+543	13315860 10 0 0 0 0 1 1 1 1 1
+549	13315870 28 17435 17435 0.070835915371 0.070835915371 1 44 44 44 1936
+552	13315898 28 17435 17435 0.070835915371 0.070835915371 1 45 45 45 2025
+553	13315926 47 17438 18865 0.070835915371 0.075 2 45 47 92 4234
+554	13315973 28884 1149 534911 0.02 1.917 1537 0 0 0 0
+555	13344857 18 18861 18861 0.075 0.075 1 0 0 0 0
+556	13344875 28885 1149 534911 0.02 1.917 1537 0 0 0 0
+565	13373760 32347 1149 534911 0.02 1.917 1535 1 1535 1178880 1206780160
+566	13406107 31152 1149 534911 0.02 1.917 1535 78 114 147378 14647356
+570	13437259 10 0 0 0 0 1 1 1 1 1
+576	13437269 27 1880 1880 0.027295592418 0.027295592418 1 44 44 44 1936
+579	13437296 27 1880 1880 0.027295592418 0.027295592418 1 45 45 45 2025
+580	13437323 45 1883 2751 0.027295592418 0.032 2 45 47 92 4234
+581	13437368 28883 1137 534896 0.02 1.917 1537 0 0 0 0
+582	13466251 17 2747 2747 0.032 0.032 1 0 0 0 0
+583	13466268 28883 1137 534896 0.02 1.917 1537 0 0 0 0
+592	13495151 32347 1137 534896 0.02 1.917 1535 1 1535 1178880 1206780160
+593	13527498 31152 1137 534896 0.02 1.917 1535 78 114 147378 14647356
+597	13558650 10 0 0 0 0 1 1 1 1 1
+603	13558660 28 20081 20081 0.078519724591 0.078519724591 1 44 44 44 1936
+606	13558688 28 20081 20081 0.078519724591 0.078519724591 1 45 45 45 2025
+607	13558716 84 20084 24447 0.078519724591 0.093 4 3 45 96 3186
+608	13558800 28957 1146 534905 0.02 1.917 1541 0 0 0 0
+609	13587757 54 21040 24443 0.083 0.093 3 0 0 0 0
+610	13587811 28957 1146 534905 0.02 1.917 1541 0 0 0 0
+619	13616768 32347 1146 534905 0.02 1.917 1535 1 1535 1178880 1206780160
+620	13649115 31152 1146 534905 0.02 1.917 1535 78 114 147378 14647356
+624	13680267 10 0 0 0 0 1 1 1 1 1
+630	13680277 27 26484 26484 0.09830275926 0.09830275926 1 44 44 44 1936
+633	13680304 27 26484 26484 0.09830275926 0.09830275926 1 45 45 45 2025
+634	13680331 46 26487 28862 0.09830275926 0.103 2 45 47 92 4234
+635	13680377 28885 1140 534875 0.02 1.917 1537 0 0 0 0
+636	13709262 18 28858 28858 0.103 0.103 1 0 0 0 0
+637	13709280 28885 1140 534875 0.02 1.917 1537 0 0 0 0
+646	13738165 32347 1140 534875 0.02 1.917 1535 1 1535 1178880 1206780160
+647	13770512 31152 1140 534875 0.02 1.917 1535 78 114 147378 14647356
+651	13801664 10 0 0 0 0 1 1 1 1 1
+655	13801674 28 666 666 0.015271066679 0.015271066679 1 7504 7504 7504 56310016
+656	13801702 28 666 666 0.015271066679 0.015271066679 1 7504 7504 7504 56310016
+658	13801730 25 666 666 0.015271066679 0.015271066679 1 0 0 0 0
+669	13801755 25 666 666 0.015271066679 0.015271066679 1 0 0 0 0
+679	13801780 29 1598 1598 0.024730577224 0.024730577224 1 7504 7504 7504 56310016
+680	13801809 29 1598 1598 0.024730577224 0.024730577224 1 7504 7504 7504 56310016
+682	13801838 26 1598 1598 0.024730577224 0.024730577224 1 0 0 0 0
+693	13801864 26 1598 1598 0.024730577224 0.024730577224 1 0 0 0 0
+703	13801890 29 1877 1877 0.027295592418 0.027295592418 1 7504 7504 7504 56310016
+704	13801919 29 1877 1877 0.027295592418 0.027295592418 1 7504 7504 7504 56310016
+706	13801948 26 1877 1877 0.027295592418 0.027295592418 1 0 0 0 0
+717	13801974 26 1877 1877 0.027295592418 0.027295592418 1 0 0 0 0
+727	13802000 29 2195 2195 0.029794597295 0.029794597295 1 7504 7504 7504 56310016
+728	13802029 29 2195 2195 0.029794597295 0.029794597295 1 7504 7504 7504 56310016
+730	13802058 26 2195 2195 0.029794597295 0.029794597295 1 0 0 0 0
+741	13802084 26 2195 2195 0.029794597295 0.029794597295 1 0 0 0 0
+751	13802110 29 3314 3314 0.033422728663 0.033422728663 1 7504 7504 7504 56310016
+752	13802139 29 3314 3314 0.033422728663 0.033422728663 1 7504 7504 7504 56310016
+754	13802168 26 3314 3314 0.033422728663 0.033422728663 1 0 0 0 0
+765	13802194 26 3314 3314 0.033422728663 0.033422728663 1 0 0 0 0
+775	13802220 29 3556 3556 0.034135579374 0.034135579374 1 7504 7504 7504 56310016
+776	13802249 29 3556 3556 0.034135579374 0.034135579374 1 7504 7504 7504 56310016
+778	13802278 26 3556 3556 0.034135579374 0.034135579374 1 0 0 0 0
+789	13802304 26 3556 3556 0.034135579374 0.034135579374 1 0 0 0 0
+799	13802330 29 6127 6127 0.042121352858 0.042121352858 1 7504 7504 7504 56310016
+800	13802359 29 6127 6127 0.042121352858 0.042121352858 1 7504 7504 7504 56310016
+802	13802388 26 6127 6127 0.042121352858 0.042121352858 1 0 0 0 0
+813	13802414 26 6127 6127 0.042121352858 0.042121352858 1 0 0 0 0
+823	13802440 29 6135 6135 0.042969444403 0.042969444403 1 7504 7504 7504 56310016
+824	13802469 29 6135 6135 0.042969444403 0.042969444403 1 7504 7504 7504 56310016
+826	13802498 26 6135 6135 0.042969444403 0.042969444403 1 0 0 0 0
+837	13802524 26 6135 6135 0.042969444403 0.042969444403 1 0 0 0 0
+847	13802550 29 6268 6268 0.043409565084 0.043409565084 1 7504 7504 7504 56310016
+848	13802579 29 6268 6268 0.043409565084 0.043409565084 1 7504 7504 7504 56310016
+850	13802608 26 6268 6268 0.043409565084 0.043409565084 1 0 0 0 0
+861	13802634 26 6268 6268 0.043409565084 0.043409565084 1 0 0 0 0
+871	13802660 29 6798 6798 0.045308000082 0.045308000082 1 7504 7504 7504 56310016
+872	13802689 29 6798 6798 0.045308000082 0.045308000082 1 7504 7504 7504 56310016
+874	13802718 26 6798 6798 0.045308000082 0.045308000082 1 0 0 0 0
+885	13802744 26 6798 6798 0.045308000082 0.045308000082 1 0 0 0 0
+895	13802770 30 10667 10667 0.053824975863 0.053824975863 1 7504 7504 7504 56310016
+896	13802800 30 10667 10667 0.053824975863 0.053824975863 1 7504 7504 7504 56310016
+898	13802830 27 10667 10667 0.053824975863 0.053824975863 1 0 0 0 0
+909	13802857 27 10667 10667 0.053824975863 0.053824975863 1 0 0 0 0
+919	13802884 30 12138 12138 0.057867318192 0.057867318192 1 7504 7504 7504 56310016
+920	13802914 30 12138 12138 0.057867318192 0.057867318192 1 7504 7504 7504 56310016
+922	13802944 27 12138 12138 0.057867318192 0.057867318192 1 0 0 0 0
+933	13802971 27 12138 12138 0.057867318192 0.057867318192 1 0 0 0 0
+943	13802998 30 14313 14313 0.062577862614 0.062577862614 1 7504 7504 7504 56310016
+944	13803028 30 14313 14313 0.062577862614 0.062577862614 1 7504 7504 7504 56310016
+946	13803058 27 14313 14313 0.062577862614 0.062577862614 1 0 0 0 0
+957	13803085 27 14313 14313 0.062577862614 0.062577862614 1 0 0 0 0
+967	13803112 30 17432 17432 0.070835915371 0.070835915371 1 7504 7504 7504 56310016
+968	13803142 30 17432 17432 0.070835915371 0.070835915371 1 7504 7504 7504 56310016
+970	13803172 27 17432 17432 0.070835915371 0.070835915371 1 0 0 0 0
+981	13803199 27 17432 17432 0.070835915371 0.070835915371 1 0 0 0 0
+991	13803226 30 20078 20078 0.078519724591 0.078519724591 1 7504 7504 7504 56310016
+992	13803256 30 20078 20078 0.078519724591 0.078519724591 1 7504 7504 7504 56310016
+994	13803286 27 20078 20078 0.078519724591 0.078519724591 1 0 0 0 0
+1005	13803313 28 20078 20078 0.078519724591 0.078519724591 1 0 0 0 0
+1015	13803341 31 21869 21869 0.085841021361 0.085841021361 1 7504 7504 7504 56310016
+1016	13803372 31 21869 21869 0.085841021361 0.085841021361 1 7504 7504 7504 56310016
+1018	13803403 28 21869 21869 0.085841021361 0.085841021361 1 0 0 0 0
+1029	13803431 28 21869 21869 0.085841021361 0.085841021361 1 0 0 0 0
+1039	13803459 31 24725 24725 0.093352724272 0.093352724272 1 7504 7504 7504 56310016
+1040	13803490 31 24725 24725 0.093352724272 0.093352724272 1 7504 7504 7504 56310016
+1042	13803521 28 24725 24725 0.093352724272 0.093352724272 1 0 0 0 0
+1053	13803549 28 24725 24725 0.093352724272 0.093352724272 1 0 0 0 0
+1063	13803577 31 24996 24996 0.094045599147 0.094045599147 1 7504 7504 7504 56310016
+1064	13803608 31 24996 24996 0.094045599147 0.094045599147 1 7504 7504 7504 56310016
+1066	13803639 28 24996 24996 0.094045599147 0.094045599147 1 0 0 0 0
+1077	13803667 28 24996 24996 0.094045599147 0.094045599147 1 0 0 0 0
+1087	13803695 30 25668 25668 0.09661692474 0.09661692474 1 7504 7504 7504 56310016
+1088	13803725 30 25668 25668 0.09661692474 0.09661692474 1 7504 7504 7504 56310016
+1090	13803755 27 25668 25668 0.09661692474 0.09661692474 1 0 0 0 0
+1101	13803782 27 25668 25668 0.09661692474 0.09661692474 1 0 0 0 0
+1111	13803809 30 26481 26481 0.09830275926 0.09830275926 1 7504 7504 7504 56310016
+1112	13803839 30 26481 26481 0.09830275926 0.09830275926 1 7504 7504 7504 56310016
+1114	13803869 27 26481 26481 0.09830275926 0.09830275926 1 0 0 0 0
+1125	13803896 27 26481 26481 0.09830275926 0.09830275926 1 0 0 0 0
+80	13803923 342 843414 883810 3.024 3.107 18 44 44 792 34848
+81	13804265 342 843409 883800 3.024 3.107 18 45 45 810 36450
+82	13804607 342 843409 883800 3.024 3.107 18 44 44 792 34848
+83	13804949 342 843414 883810 3.024 3.107 18 45 45 810 36450
+84	13805291 683 843417 884397 3.024 3.109 36 45 47 1656 76212
+85	13805974 618407 534960 1067319 1.917 3.766 34609 0 0 0 0
+86	14424381 864 843405 884393 3.024 3.109 47 0 47 868 35998
+87	14425245 459873 535244 1067319 1.919 3.766 25393 0 0 0 0
+88	14885118 360 843699 884393 3.025 3.109 19 26 26 494 12844
+89	14885478 603892 534958 1067293 1.917 3.765 27634 27582 55215 1144006149 49118669496749
+90	15489370 503212 534958 1067293 1.917 3.765 23026 22983 46008 794293383 28416906446489
+91	15992582 91464 535164 1067233 1.918 3.765 4608 128 424 1525214 585000316
+92	16084046 456390 534958 1067293 1.917 3.765 23026 67 335 5209691 1314690615
+93	16540436 82248 535164 1067233 1.918 3.765 4608 6 6 27648 165888
+96	16622684 520199 534960 1067319 1.917 3.766 23794 23753 47546 848244203 31362071600381
+97	17142883 449602 534958 1067319 1.917 3.766 23795 64 335 1660423 129392045
+99	17592485 531 842406 882466 3.021 3.104 29 4 15 291 3605
+117	17593016 29 852547 852547 3.042121352858 3.042121352858 1 44 44 44 1936
+118	17593045 220 845076 885553 3.029 3.113 11 45 45 495 22275
+119	17593265 220 845076 885553 3.029 3.113 11 44 44 484 21296
+120	17593485 29 852547 852547 3.042121352858 3.042121352858 1 45 45 45 2025
+121	17593514 29 852550 852550 3.042121352858 3.042121352858 1 45 45 45 2025
+122	17593543 36620 535278 1067317 1.919 3.766 1915 0 0 0 0
+123	17630163 220 845072 885548 3.029 3.113 11 47 47 517 24299
+124	17630383 36621 534986 1066883 1.918 3.764 1915 0 0 0 0
+133	17667004 33936 535278 1066883 1.919 3.764 1534 1536 3069 3532035 8433322235
+134	17700940 31636 535278 1066883 1.919 3.764 1534 78 114 147300 14641272
+135	17732576 218 844125 884726 3.026 3.11 11 15 15 165 2475
+144	17732794 29 877726 877726 3.094045599147 3.094045599147 1 44 44 44 1936
+147	17732823 29 877726 877726 3.094045599147 3.094045599147 1 45 45 45 2025
+148	17732852 29 877729 877729 3.094045599147 3.094045599147 1 45 45 45 2025
+149	17732881 36412 535009 1066865 1.918 3.764 1904 0 0 0 0
+151	17769293 36206 535317 1067011 1.919 3.765 1904 0 0 0 0
+160	17805499 33936 535317 1066865 1.919 3.764 1534 1536 3069 3532035 8433322235
+161	17839435 31636 535317 1066865 1.919 3.764 1534 78 114 147300 14641272
+171	17871071 29 852554 852554 3.042969444403 3.042969444403 1 44 44 44 1936
+174	17871100 29 852554 852554 3.042969444403 3.042969444403 1 45 45 45 2025
+175	17871129 49 852557 854160 3.042969444403 3.047 2 45 47 92 4234
+176	17871178 465967 535065 1067407 1.918 3.766 24532 0 0 0 0
+177	18337145 19 854156 854156 3.047 3.047 1 0 0 0 0
+178	18337164 465947 535065 1067226 1.918 3.765 24531 0 0 0 0
+187	18803111 564025 535065 1067226 1.918 3.765 24529 24531 49059 902544555 34438994281505
+188	19367136 502711 535065 1067226 1.918 3.765 24529 67 335 3525708 724012182
+198	19869847 29 877347 877347 3.093352724272 3.093352724272 1 44 44 44 1936
+201	19869876 29 877347 877347 3.093352724272 3.093352724272 1 45 45 45 2025
+202	19869905 69 877350 881819 3.093352724272 3.103 3 19 45 94 3286
+203	19869974 29410 535290 1066886 1.919 3.764 1538 0 0 0 0
+204	19899384 38 879037 881815 3.098 3.103 2 0 0 0 0
+205	19899422 29410 535290 1066886 1.919 3.764 1538 0 0 0 0
+214	19928832 33936 535290 1066886 1.919 3.764 1534 1536 3069 3532035 8433322235
+215	19962768 31636 535290 1066886 1.919 3.764 1534 78 114 147300 14641272
+225	19994404 29 840580 840580 3.015271066679 3.015271066679 1 44 44 44 1936
+226	19994433 20 854166 854166 3.047 3.047 1 45 45 45 2025
+227	19994453 20 854166 854166 3.047 3.047 1 44 44 44 1936
+228	19994473 29 840580 840580 3.015271066679 3.015271066679 1 45 45 45 2025
+229	19994502 48 840583 841919 3.015271066679 3.02 2 45 47 92 4234
+230	19994550 29391 535116 1066829 1.918 3.764 1537 0 0 0 0
+231	20023941 38 841915 854162 3.02 3.047 2 0 47 47 2209
+232	20023979 29390 535116 1066829 1.918 3.764 1537 0 0 0 0
+241	20053369 33936 535116 1066829 1.918 3.764 1534 1536 3069 3532035 8433322235
+242	20087305 31636 535116 1066829 1.918 3.764 1534 67 114 138874 13419502
+243	20118941 20 852998 852998 3.044 3.044 1 15 15 15 225
+252	20118961 29 845484 845484 3.029794597295 3.029794597295 1 44 44 44 1936
+255	20118990 29 845484 845484 3.029794597295 3.029794597295 1 45 45 45 2025
+256	20119019 200 845487 868635 3.029794597295 3.074 10 7 45 108 2466
+257	20119219 29676 535287 1066871 1.919 3.764 1552 0 0 0 0
+258	20148895 171 847597 868631 3.034 3.074 9 0 0 0 0
+259	20149066 29671 535287 1066871 1.919 3.764 1552 0 0 0 0
+268	20178737 33936 535287 1066871 1.919 3.764 1534 1536 3069 3532035 8433322235
+269	20212673 31636 535287 1066871 1.919 3.764 1534 78 114 147300 14641272
+279	20244309 29 873490 873490 3.085841021361 3.085841021361 1 44 44 44 1936
+280	20244338 59 859844 884668 3.057 3.11 3 45 45 135 6075
+281	20244397 59 859844 884668 3.057 3.11 3 44 44 132 5808
+282	20244456 29 873490 873490 3.085841021361 3.085841021361 1 45 45 45 2025
+283	20244485 48 873493 875346 3.085841021361 3.09 2 45 47 92 4234
+284	20244533 496154 535323 1067078 1.919 3.765 26121 0 0 0 0
+285	20740687 77 859840 884664 3.057 3.11 4 0 47 141 6627
+286	20740764 525112 535323 1067078 1.919 3.765 27657 0 0 0 0
+295	21265876 600523 535323 1067078 1.919 3.765 26116 26116 52231 1023055126 41561008236926
+296	21866399 523711 535323 1067078 1.919 3.765 26116 0 140 1606884 187356552
+297	22390110 60 858541 883839 3.054 3.107 3 15 15 45 675
+306	22390170 29 843675 843675 3.024730577224 3.024730577224 1 44 44 44 1936
+309	22390199 29 843675 843675 3.024730577224 3.024730577224 1 45 45 45 2025
+310	22390228 49 843678 845090 3.024730577224 3.029 2 45 47 92 4234
+311	22390277 29372 535305 1066901 1.919 3.764 1536 0 0 0 0
+312	22419649 19 845086 845086 3.029 3.029 1 0 0 0 0
+313	22419668 29372 535305 1066901 1.919 3.764 1536 0 0 0 0
+322	22449040 33936 535305 1066901 1.919 3.764 1534 1536 3069 3532035 8433322235
+323	22482976 31636 535305 1066901 1.919 3.764 1534 78 114 147300 14641272
+333	22514612 29 847583 847583 3.033422728663 3.033422728663 1 44 44 44 1936
+334	22514641 40 859315 867263 3.056 3.071 2 45 45 90 4050
+335	22514681 40 859315 867263 3.056 3.071 2 44 44 88 3872
+336	22514721 29 847583 847583 3.033422728663 3.033422728663 1 45 45 45 2025
+337	22514750 49 847586 849811 3.033422728663 3.038 2 45 47 92 4234
+338	22514799 494805 535377 1067128 1.919 3.765 26050 0 0 0 0
+339	23009604 59 849807 867259 3.038 3.071 3 0 47 94 4418
+340	23009663 523689 535377 1067128 1.919 3.765 27582 0 0 0 0
+349	23533352 598913 535377 1067128 1.919 3.765 26046 26081 52126 1018489761 41298968795871
+350	24132265 510053 535377 1067128 1.919 3.765 26046 0 162 1161484 103301176
+351	24642318 40 858056 865895 3.053 3.068 2 15 15 30 450
+360	24642358 29 852847 852847 3.043409565084 3.043409565084 1 44 44 44 1936
+363	24642387 29 852847 852847 3.043409565084 3.043409565084 1 45 45 45 2025
+364	24642416 49 852850 854859 3.043409565084 3.048 2 45 47 92 4234
+365	24642465 467483 535011 1067398 1.918 3.766 24611 0 0 0 0
+366	25109948 19 854855 854855 3.048 3.048 1 0 0 0 0
+367	25109967 467483 535011 1067398 1.918 3.766 24611 0 0 0 0
+376	25577450 565881 535011 1067398 1.918 3.766 24609 24563 49171 907260003 34689894636761
+377	26143331 502820 535011 1067398 1.918 3.766 24609 64 335 3443610 711642284
+387	26646151 29 863187 863187 3.062577862614 3.062577862614 1 44 44 44 1936
+388	26646180 20 879482 879482 3.099 3.099 1 45 45 45 2025
+389	26646200 20 879482 879482 3.099 3.099 1 44 44 44 1936
+390	26646220 29 863187 863187 3.062577862614 3.062577862614 1 45 45 45 2025
+391	26646249 49 863190 865270 3.062577862614 3.067 2 45 47 92 4234
+392	26646298 29411 535062 1067404 1.918 3.766 1538 0 0 0 0
+393	26675709 39 865266 879478 3.067 3.099 2 0 47 47 2209
+394	26675748 29411 535062 1067404 1.918 3.766 1538 0 0 0 0
+403	26705159 33959 535062 1067404 1.918 3.766 1535 1536 3070 3535105 8442747135
+404	26739118 30889 535062 1067404 1.918 3.766 1535 64 78 108964 7810168
+405	26770007 20 878226 878226 3.096 3.096 1 15 15 15 225
+414	26770027 29 853639 853639 3.045308000082 3.045308000082 1 44 44 44 1936
+417	26770056 29 853639 853639 3.045308000082 3.045308000082 1 45 45 45 2025
+418	26770085 48 853642 856225 3.045308000082 3.05 2 45 47 92 4234
+419	26770133 29372 535293 1066892 1.919 3.764 1536 0 0 0 0
+420	26799505 18 856221 856221 3.05 3.05 1 0 0 0 0
+421	26799523 29371 535293 1066892 1.919 3.764 1536 0 0 0 0
+430	26828894 33936 535293 1066892 1.919 3.764 1534 1536 3069 3532035 8433322235
+431	26862830 31636 535293 1066892 1.919 3.764 1534 78 114 147300 14641272
+441	26894466 29 848057 848057 3.034135579374 3.034135579374 1 44 44 44 1936
+444	26894495 29 848057 848057 3.034135579374 3.034135579374 1 45 45 45 2025
+445	26894524 49 848060 850429 3.034135579374 3.039 2 45 47 92 4234
+446	26894573 29372 535320 1066895 1.919 3.764 1536 0 0 0 0
+447	26923945 19 850425 850425 3.039 3.039 1 0 0 0 0
+448	26923964 29372 535320 1066895 1.919 3.764 1536 0 0 0 0
+457	26953336 33936 535320 1066895 1.919 3.764 1534 1536 3069 3532035 8433322235
+458	26987272 31636 535320 1066895 1.919 3.764 1534 78 114 147300 14641272
+468	27018908 29 858439 858439 3.053824975863 3.053824975863 1 44 44 44 1936
+471	27018937 29 858439 858439 3.053824975863 3.053824975863 1 45 45 45 2025
+472	27018966 49 858442 860432 3.053824975863 3.058 2 45 47 92 4234
+473	27019015 29372 535314 1066907 1.919 3.764 1536 0 0 0 0
+474	27048387 19 860428 860428 3.058 3.058 1 0 0 0 0
+475	27048406 29372 535314 1066907 1.919 3.764 1536 0 0 0 0
+484	27077778 33936 535314 1066907 1.919 3.764 1534 1536 3069 3532035 8433322235
+485	27111714 31636 535314 1066907 1.919 3.764 1534 78 114 147300 14641272
+495	27143350 29 860406 860406 3.057867318192 3.057867318192 1 44 44 44 1936
+498	27143379 29 860406 860406 3.057867318192 3.057867318192 1 45 45 45 2025
+499	27143408 49 860409 862598 3.057867318192 3.062 2 45 47 92 4234
+500	27143457 29372 535113 1066814 1.918 3.764 1536 0 0 0 0
+501	27172829 19 862594 862594 3.062 3.062 1 0 0 0 0
+502	27172848 29372 535113 1066814 1.918 3.764 1536 0 0 0 0
+511	27202220 33936 535113 1066814 1.918 3.764 1534 1536 3069 3532035 8433322235
+512	27236156 31636 535113 1066814 1.918 3.764 1534 67 114 138874 13419502
+522	27267792 28 878589 878589 3.09661692474 3.09661692474 1 44 44 44 1936
+525	27267820 28 878589 878589 3.09661692474 3.09661692474 1 45 45 45 2025
+526	27267848 48 878592 880534 3.09661692474 3.101 2 45 47 92 4234
+527	27267896 29390 535059 1067401 1.918 3.766 1537 0 0 0 0
+528	27297286 19 880530 880530 3.101 3.101 1 0 0 0 0
+529	27297305 29392 535059 1067401 1.918 3.766 1537 0 0 0 0
+538	27326697 33959 535059 1067401 1.918 3.766 1535 1536 3070 3535105 8442747135
+539	27360656 30889 535059 1067401 1.918 3.766 1535 64 78 108964 7810168
+549	27391545 29 867234 867234 3.070835915371 3.070835915371 1 44 44 44 1936
+552	27391574 29 867234 867234 3.070835915371 3.070835915371 1 45 45 45 2025
+553	27391603 49 867237 869169 3.070835915371 3.075 2 45 47 92 4234
+554	27391652 29371 535311 1066904 1.919 3.764 1536 0 0 0 0
+555	27421023 19 869165 869165 3.075 3.075 1 0 0 0 0
+556	27421042 29372 535311 1066904 1.919 3.764 1536 0 0 0 0
+565	27450414 33936 535311 1066904 1.919 3.764 1534 1536 3069 3532035 8433322235
+566	27484350 31636 535311 1066904 1.919 3.764 1534 78 114 147300 14641272
+576	27515986 29 844721 844721 3.027295592418 3.027295592418 1 44 44 44 1936
+579	27516015 29 844721 844721 3.027295592418 3.027295592418 1 45 45 45 2025
+580	27516044 49 844724 846536 3.027295592418 3.032 2 45 47 92 4234
+581	27516093 29372 535299 1066889 1.919 3.764 1536 0 0 0 0
+582	27545465 19 846532 846532 3.032 3.032 1 0 0 0 0
+583	27545484 29372 535299 1066889 1.919 3.764 1536 0 0 0 0
+592	27574856 33936 535299 1066889 1.919 3.764 1534 1536 3069 3532035 8433322235
+593	27608792 31636 535299 1066889 1.919 3.764 1534 78 114 147300 14641272
+603	27640428 29 870881 870881 3.078519724591 3.078519724591 1 44 44 44 1936
+606	27640457 29 870881 870881 3.078519724591 3.078519724591 1 45 45 45 2025
+607	27640486 88 870884 876957 3.078519724591 3.093 4 3 45 96 3186
+608	27640574 29448 535308 1066898 1.919 3.764 1540 0 0 0 0
+609	27670022 57 872337 876953 3.083 3.093 3 0 0 0 0
+610	27670079 29448 535308 1066898 1.919 3.764 1540 0 0 0 0
+619	27699527 33936 535308 1066898 1.919 3.764 1534 1536 3069 3532035 8433322235
+620	27733463 31636 535308 1066898 1.919 3.764 1534 78 114 147300 14641272
+630	27765099 28 879461 879461 3.09830275926 3.09830275926 1 44 44 44 1936
+633	27765127 28 879461 879461 3.09830275926 3.09830275926 1 45 45 45 2025
+634	27765155 48 879464 881839 3.09830275926 3.103 2 45 47 92 4234
+635	27765203 29372 535302 1066868 1.919 3.764 1536 0 0 0 0
+636	27794575 19 881835 881835 3.103 3.103 1 0 0 0 0
+637	27794594 29372 535302 1066868 1.919 3.764 1536 0 0 0 0
+646	27823966 33936 535302 1066868 1.919 3.764 1534 1536 3069 3532035 8433322235
+647	27857902 31636 535302 1066868 1.919 3.764 1534 78 114 147300 14641272
+655	27889538 31 840577 840577 3.015271066679 3.015271066679 1 7504 7504 7504 56310016
+656	27889569 31 840577 840577 3.015271066679 3.015271066679 1 7504 7504 7504 56310016
+658	27889600 28 840577 840577 3.015271066679 3.015271066679 1 0 0 0 0
+669	27889628 28 840577 840577 3.015271066679 3.015271066679 1 0 0 0 0
+679	27889656 31 843672 843672 3.024730577224 3.024730577224 1 7504 7504 7504 56310016
+680	27889687 31 843672 843672 3.024730577224 3.024730577224 1 7504 7504 7504 56310016
+682	27889718 28 843672 843672 3.024730577224 3.024730577224 1 0 0 0 0
+693	27889746 28 843672 843672 3.024730577224 3.024730577224 1 0 0 0 0
+703	27889774 31 844718 844718 3.027295592418 3.027295592418 1 7504 7504 7504 56310016
+704	27889805 31 844718 844718 3.027295592418 3.027295592418 1 7504 7504 7504 56310016
+706	27889836 28 844718 844718 3.027295592418 3.027295592418 1 0 0 0 0
+717	27889864 28 844718 844718 3.027295592418 3.027295592418 1 0 0 0 0
+727	27889892 31 845481 845481 3.029794597295 3.029794597295 1 7504 7504 7504 56310016
+728	27889923 31 845481 845481 3.029794597295 3.029794597295 1 7504 7504 7504 56310016
+730	27889954 28 845481 845481 3.029794597295 3.029794597295 1 0 0 0 0
+741	27889982 28 845481 845481 3.029794597295 3.029794597295 1 0 0 0 0
+751	27890010 31 847580 847580 3.033422728663 3.033422728663 1 7504 7504 7504 56310016
+752	27890041 31 847580 847580 3.033422728663 3.033422728663 1 7504 7504 7504 56310016
+754	27890072 28 847580 847580 3.033422728663 3.033422728663 1 0 0 0 0
+765	27890100 28 847580 847580 3.033422728663 3.033422728663 1 0 0 0 0
+775	27890128 31 848054 848054 3.034135579374 3.034135579374 1 7504 7504 7504 56310016
+776	27890159 31 848054 848054 3.034135579374 3.034135579374 1 7504 7504 7504 56310016
+778	27890190 28 848054 848054 3.034135579374 3.034135579374 1 0 0 0 0
+789	27890218 28 848054 848054 3.034135579374 3.034135579374 1 0 0 0 0
+799	27890246 31 852544 852544 3.042121352858 3.042121352858 1 7504 7504 7504 56310016
+800	27890277 31 852544 852544 3.042121352858 3.042121352858 1 7504 7504 7504 56310016
+802	27890308 28 852544 852544 3.042121352858 3.042121352858 1 0 0 0 0
+813	27890336 28 852544 852544 3.042121352858 3.042121352858 1 0 0 0 0
+823	27890364 31 852551 852551 3.042969444403 3.042969444403 1 7504 7504 7504 56310016
+824	27890395 31 852551 852551 3.042969444403 3.042969444403 1 7504 7504 7504 56310016
+826	27890426 28 852551 852551 3.042969444403 3.042969444403 1 0 0 0 0
+837	27890454 28 852551 852551 3.042969444403 3.042969444403 1 0 0 0 0
+847	27890482 31 852844 852844 3.043409565084 3.043409565084 1 7504 7504 7504 56310016
+848	27890513 31 852844 852844 3.043409565084 3.043409565084 1 7504 7504 7504 56310016
+850	27890544 28 852844 852844 3.043409565084 3.043409565084 1 0 0 0 0
+861	27890572 28 852844 852844 3.043409565084 3.043409565084 1 0 0 0 0
+871	27890600 31 853636 853636 3.045308000082 3.045308000082 1 7504 7504 7504 56310016
+872	27890631 31 853636 853636 3.045308000082 3.045308000082 1 7504 7504 7504 56310016
+874	27890662 28 853636 853636 3.045308000082 3.045308000082 1 0 0 0 0
+885	27890690 28 853636 853636 3.045308000082 3.045308000082 1 0 0 0 0
+895	27890718 31 858436 858436 3.053824975863 3.053824975863 1 7504 7504 7504 56310016
+896	27890749 31 858436 858436 3.053824975863 3.053824975863 1 7504 7504 7504 56310016
+898	27890780 28 858436 858436 3.053824975863 3.053824975863 1 0 0 0 0
+909	27890808 28 858436 858436 3.053824975863 3.053824975863 1 0 0 0 0
+919	27890836 31 860403 860403 3.057867318192 3.057867318192 1 7504 7504 7504 56310016
+920	27890867 31 860403 860403 3.057867318192 3.057867318192 1 7504 7504 7504 56310016
+922	27890898 28 860403 860403 3.057867318192 3.057867318192 1 0 0 0 0
+933	27890926 28 860403 860403 3.057867318192 3.057867318192 1 0 0 0 0
+943	27890954 31 863184 863184 3.062577862614 3.062577862614 1 7504 7504 7504 56310016
+944	27890985 31 863184 863184 3.062577862614 3.062577862614 1 7504 7504 7504 56310016
+946	27891016 28 863184 863184 3.062577862614 3.062577862614 1 0 0 0 0
+957	27891044 28 863184 863184 3.062577862614 3.062577862614 1 0 0 0 0
+967	27891072 31 867231 867231 3.070835915371 3.070835915371 1 7504 7504 7504 56310016
+968	27891103 31 867231 867231 3.070835915371 3.070835915371 1 7504 7504 7504 56310016
+970	27891134 28 867231 867231 3.070835915371 3.070835915371 1 0 0 0 0
+981	27891162 28 867231 867231 3.070835915371 3.070835915371 1 0 0 0 0
+991	27891190 31 870878 870878 3.078519724591 3.078519724591 1 7504 7504 7504 56310016
+992	27891221 31 870878 870878 3.078519724591 3.078519724591 1 7504 7504 7504 56310016
+994	27891252 28 870878 870878 3.078519724591 3.078519724591 1 0 0 0 0
+1005	27891280 29 870878 870878 3.078519724591 3.078519724591 1 0 0 0 0
+1015	27891309 32 873487 873487 3.085841021361 3.085841021361 1 7504 7504 7504 56310016
+1016	27891341 32 873487 873487 3.085841021361 3.085841021361 1 7504 7504 7504 56310016
+1018	27891373 29 873487 873487 3.085841021361 3.085841021361 1 0 0 0 0
+1029	27891402 29 873487 873487 3.085841021361 3.085841021361 1 0 0 0 0
+1039	27891431 32 877344 877344 3.093352724272 3.093352724272 1 7504 7504 7504 56310016
+1040	27891463 32 877344 877344 3.093352724272 3.093352724272 1 7504 7504 7504 56310016
+1042	27891495 29 877344 877344 3.093352724272 3.093352724272 1 0 0 0 0
+1053	27891524 29 877344 877344 3.093352724272 3.093352724272 1 0 0 0 0
+1063	27891553 32 877723 877723 3.094045599147 3.094045599147 1 7504 7504 7504 56310016
+1064	27891585 32 877723 877723 3.094045599147 3.094045599147 1 7504 7504 7504 56310016
+1066	27891617 29 877723 877723 3.094045599147 3.094045599147 1 0 0 0 0
+1077	27891646 29 877723 877723 3.094045599147 3.094045599147 1 0 0 0 0
+1087	27891675 31 878586 878586 3.09661692474 3.09661692474 1 7504 7504 7504 56310016
+1088	27891706 31 878586 878586 3.09661692474 3.09661692474 1 7504 7504 7504 56310016
+1090	27891737 28 878586 878586 3.09661692474 3.09661692474 1 0 0 0 0
+1101	27891765 28 878586 878586 3.09661692474 3.09661692474 1 0 0 0 0
+1111	27891793 31 879458 879458 3.09830275926 3.09830275926 1 7504 7504 7504 56310016
+1112	27891824 31 879458 879458 3.09830275926 3.09830275926 1 7504 7504 7504 56310016
+1114	27891855 28 879458 879458 3.09830275926 3.09830275926 1 0 0 0 0
+1125	27891883 28 879458 879458 3.09830275926 3.09830275926 1 0 0 0 0
+85	27891911 652304 1067783 1601715 3.767 5.686 34816 0 0 0 0
+87	28544215 481093 1067550 1601715 3.767 5.686 25332 0 0 0 0
+89	29025308 628164 1067783 1601689 3.767 5.685 27648 55216 82863 1908804096 1.335440854103e+14
+90	29653472 523470 1067783 1601689 3.767 5.685 23040 46009 69048 1325456640 77270748184320
+91	30176942 95478 1068041 1601629 3.768 5.685 4608 128 424 1525248 585010176
+92	30272420 476622 1067783 1601689 3.767 5.685 23040 78 335 5213184 1315587072
+93	30749042 86262 1068041 1601629 3.768 5.685 4608 6 6 27648 165888
+96	30835304 541134 1067783 1601715 3.767 5.686 23808 47547 71354 1415397504 85270661903744
+97	31376438 470478 1067783 1601715 3.767 5.686 23808 64 215 1661568 129369216
+122	31846916 38400 1067675 1601713 3.767 5.686 1920 0 0 0 0
+124	31885316 38400 1067675 1601279 3.767 5.684 1920 0 0 0 0
+133	31923716 35328 1067675 1601279 3.767 5.684 1536 3070 4605 5894400 22921749760
+134	31959044 33024 1067675 1601279 3.767 5.684 1536 78 114 147456 14653440
+149	31992068 38400 1067714 1601261 3.767 5.684 1920 0 0 0 0
+151	32030468 38185 1067714 1601407 3.767 5.685 1920 0 0 0 0
+160	32068653 35328 1067714 1601261 3.767 5.684 1536 3070 4605 5894400 22921749760
+161	32103981 33024 1067714 1601261 3.767 5.684 1536 78 114 147456 14653440
+176	32137005 488275 1067410 1601622 3.766 5.685 24575 0 0 0 0
+178	32625280 488295 1067407 1601622 3.766 5.685 24576 0 0 0 0
+187	33113575 586599 1067407 1601622 3.766 5.685 24576 49060 73635 1507676160 93729113804800
+188	33700174 525159 1067407 1601622 3.766 5.685 24576 67 335 3531264 725015040
+203	34225333 30720 1067687 1601282 3.767 5.684 1536 0 0 0 0
+205	34256053 30720 1067687 1601282 3.767 5.684 1536 0 0 0 0
+214	34286773 35328 1067687 1601282 3.767 5.684 1536 3070 4605 5894400 22921749760
+215	34322101 33024 1067687 1601282 3.767 5.684 1536 78 114 147456 14653440
+230	34355125 30720 1067458 1601225 3.766 5.684 1536 0 0 0 0
+232	34385845 30720 1067458 1601225 3.766 5.684 1536 0 0 0 0
+241	34416565 35328 1067458 1601225 3.766 5.684 1536 3070 4605 5894400 22921749760
+242	34451893 33024 1067458 1601225 3.766 5.684 1536 67 114 139008 13428480
+257	34484917 30720 1067684 1601267 3.767 5.684 1536 0 0 0 0
+259	34515637 30720 1067684 1601267 3.767 5.684 1536 0 0 0 0
+268	34546357 35328 1067684 1601267 3.767 5.684 1536 3070 4605 5894400 22921749760
+269	34581685 33024 1067684 1601267 3.767 5.684 1536 78 114 147456 14653440
+284	34614709 518800 1067461 1601474 3.766 5.685 26112 0 0 0 0
+286	35133509 549090 1067461 1601474 3.766 5.685 27648 0 0 0 0
+295	35682599 623248 1067461 1601474 3.766 5.685 26112 52232 78343 1704787200 1.1278497063757e+14
+296	36305847 546448 1067461 1601474 3.766 5.685 26112 0 140 1606656 187330560
+311	36852295 30720 1067702 1601297 3.767 5.684 1536 0 0 0 0
+313	36883015 30720 1067702 1601297 3.767 5.684 1536 0 0 0 0
+322	36913735 35328 1067702 1601297 3.767 5.684 1536 3070 4605 5894400 22921749760
+323	36949063 33024 1067702 1601297 3.767 5.684 1536 78 114 147456 14653440
+338	36982087 518800 1067506 1601524 3.766 5.685 26112 0 0 0 0
+340	37500887 549090 1067506 1601524 3.766 5.685 27648 0 0 0 0
+349	38049977 623248 1067506 1601524 3.766 5.685 26112 52127 78238 1702045440 1.1242725321037e+14
+350	38673225 534160 1067506 1601524 3.766 5.685 26112 0 162 1164288 103544832
+365	39207385 487975 1067738 1601571 3.767 5.685 24560 0 0 0 0
+367	39695360 487975 1067738 1601571 3.767 5.685 24560 0 0 0 0
+376	40183335 586215 1067738 1601571 3.767 5.685 24560 49172 73731 1509248840 93980141323880
+377	40769550 523287 1067738 1601571 3.767 5.685 24560 64 335 3438080 710652416
+392	41292837 30700 1067741 1601273 3.767 5.684 1535 0 0 0 0
+394	41323537 30700 1067741 1601273 3.767 5.684 1535 0 0 0 0
+403	41354237 35305 1067741 1601273 3.767 5.684 1535 3071 4605 5891330 22912324860
+404	41389542 32235 1067741 1601273 3.767 5.684 1535 64 78 108992 7814144
+419	41421777 30720 1067690 1601288 3.767 5.684 1536 0 0 0 0
+421	41452497 30720 1067690 1601288 3.767 5.684 1536 0 0 0 0
+430	41483217 35328 1067690 1601288 3.767 5.684 1536 3070 4605 5894400 22921749760
+431	41518545 33024 1067690 1601288 3.767 5.684 1536 78 114 147456 14653440
+446	41551569 30720 1067717 1601291 3.767 5.684 1536 0 0 0 0
+448	41582289 30720 1067717 1601291 3.767 5.684 1536 0 0 0 0
+457	41613009 35328 1067717 1601291 3.767 5.684 1536 3070 4605 5894400 22921749760
+458	41648337 33024 1067717 1601291 3.767 5.684 1536 78 114 147456 14653440
+473	41681361 30720 1067711 1601303 3.767 5.684 1536 0 0 0 0
+475	41712081 30720 1067711 1601303 3.767 5.684 1536 0 0 0 0
+484	41742801 35328 1067711 1601303 3.767 5.684 1536 3070 4605 5894400 22921749760
+485	41778129 33024 1067711 1601303 3.767 5.684 1536 78 114 147456 14653440
+500	41811153 30720 1067455 1601210 3.766 5.684 1536 0 0 0 0
+502	41841873 30720 1067455 1601210 3.766 5.684 1536 0 0 0 0
+511	41872593 35328 1067455 1601210 3.766 5.684 1536 3070 4605 5894400 22921749760
+512	41907921 33024 1067455 1601210 3.766 5.684 1536 67 114 139008 13428480
+527	41940945 30700 1067744 1601276 3.767 5.684 1535 0 0 0 0
+529	41971645 30700 1067744 1601276 3.767 5.684 1535 0 0 0 0
+538	42002345 35305 1067744 1601276 3.767 5.684 1535 3071 4605 5891330 22912324860
+539	42037650 32235 1067744 1601276 3.767 5.684 1535 64 78 108992 7814144
+554	42069885 30720 1067708 1601300 3.767 5.684 1536 0 0 0 0
+556	42100605 30720 1067708 1601300 3.767 5.684 1536 0 0 0 0
+565	42131325 35328 1067708 1601300 3.767 5.684 1536 3070 4605 5894400 22921749760
+566	42166653 33024 1067708 1601300 3.767 5.684 1536 78 114 147456 14653440
+581	42199677 30720 1067696 1601285 3.767 5.684 1536 0 0 0 0
+583	42230397 30720 1067696 1601285 3.767 5.684 1536 0 0 0 0
+592	42261117 35328 1067696 1601285 3.767 5.684 1536 3070 4605 5894400 22921749760
+593	42296445 33024 1067696 1601285 3.767 5.684 1536 78 114 147456 14653440
+608	42329469 30720 1067705 1601294 3.767 5.684 1536 0 0 0 0
+610	42360189 30720 1067705 1601294 3.767 5.684 1536 0 0 0 0
+619	42390909 35328 1067705 1601294 3.767 5.684 1536 3070 4605 5894400 22921749760
+620	42426237 33024 1067705 1601294 3.767 5.684 1536 78 114 147456 14653440
+635	42459261 30720 1067699 1601264 3.767 5.684 1536 0 0 0 0
+637	42489981 30720 1067699 1601264 3.767 5.684 1536 0 0 0 0
+646	42520701 35328 1067699 1601264 3.767 5.684 1536 3070 4605 5894400 22921749760
+647	42556029 33024 1067699 1601264 3.767 5.684 1536 78 114 147456 14653440
+85	42589053 652119 1602179 2136085 5.687 7.605 34805 0 0 0 0
+87	43241172 480940 1601715 2135820 5.686 7.605 25324 0 0 0 0
+89	43722112 638376 1602179 2136083 5.687 7.605 27637 82864 110500 2672000434 2.6009344968801e+14
+90	44360488 523210 1602179 2136085 5.687 7.605 23030 69049 92078 1855377405 1.5049358690972e+14
+91	44883698 95472 1602437 2136045 5.688 7.605 4608 128 424 1525248 585010176
+92	44979170 476382 1602179 2136085 5.687 7.605 23030 78 335 5210538 1314852508
+93	45455552 86256 1602437 2136045 5.688 7.605 4608 6 6 27648 165888
+96	45541808 540851 1602179 2136085 5.687 7.605 23797 71355 95151 1981171641 1.6606149718307e+14
+97	46082659 470227 1602179 2136085 5.687 7.605 23797 64 215 1660683 129278101
+122	46552886 38380 1602071 2135695 5.687 7.604 1919 0 0 0 0
+124	46591266 38400 1602071 2135695 5.687 7.604 1920 0 0 0 0
+133	46629666 35328 1602071 2135695 5.687 7.604 1536 4606 6141 8253696 44653225216
+134	46664994 33024 1602071 2135695 5.687 7.604 1536 78 114 147456 14653440
+149	46698018 38400 1602110 2135677 5.687 7.604 1920 0 0 0 0
+151	46736418 38184 1602110 2135823 5.687 7.605 1920 0 0 0 0
+160	46774602 35328 1602110 2135677 5.687 7.604 1536 4606 6141 8253696 44653225216
+161	46809930 33024 1602110 2135677 5.687 7.604 1536 78 114 147456 14653440
+176	46842954 488280 1601803 2136038 5.686 7.605 24576 0 0 0 0
+178	47331234 488280 1601803 2136038 5.686 7.605 24576 0 0 0 0
+187	47819514 586584 1601803 2136038 5.686 7.605 24576 73636 98211 2111655936 1.826778193961e+14
+188	48406098 525144 1601803 2136038 5.686 7.605 24576 67 335 3531264 725015040
+203	48931242 30720 1602083 2135698 5.687 7.604 1536 0 0 0 0
+205	48961962 30720 1602083 2135698 5.687 7.604 1536 0 0 0 0
+214	48992682 35328 1602083 2135698 5.687 7.604 1536 4606 6141 8253696 44653225216
+215	49028010 33024 1602083 2135698 5.687 7.604 1536 78 114 147456 14653440
+230	49061034 30720 1601854 2135641 5.686 7.604 1536 0 0 0 0
+232	49091754 30720 1601854 2135641 5.686 7.604 1536 0 0 0 0
+241	49122474 35328 1601854 2135641 5.686 7.604 1536 4606 6141 8253696 44653225216
+242	49157802 33024 1601854 2135641 5.686 7.604 1536 67 114 139008 13428480
+257	49190826 30720 1602080 2135683 5.687 7.604 1536 0 0 0 0
+259	49221546 30720 1602080 2135683 5.687 7.604 1536 0 0 0 0
+268	49252266 35328 1602080 2135683 5.687 7.604 1536 4606 6141 8253696 44653225216
+269	49287594 33024 1602080 2135683 5.687 7.604 1536 78 114 147456 14653440
+284	49320618 518784 1601857 2135890 5.686 7.605 26112 0 0 0 0
+286	49839402 549072 1601857 2135890 5.686 7.605 27648 0 0 0 0
+295	50388474 627688 1601857 2135890 5.686 7.605 26112 78344 104455 2386623744 2.196198932073e+14
+296	51016162 546432 1601857 2135890 5.686 7.605 26112 0 140 1606656 187330560
+311	51562594 30720 1602098 2135713 5.687 7.604 1536 0 0 0 0
+313	51593314 30720 1602098 2135713 5.687 7.604 1536 0 0 0 0
+322	51624034 35328 1602098 2135713 5.687 7.604 1536 4606 6141 8253696 44653225216
+323	51659362 33024 1602098 2135713 5.687 7.604 1536 78 114 147456 14653440
+338	51692386 518784 1601902 2135940 5.686 7.605 26112 0 0 0 0
+340	52211170 549072 1601902 2135940 5.686 7.605 27648 0 0 0 0
+349	52760242 627583 1601902 2135940 5.686 7.605 26112 78239 104350 2383881984 2.1911899010586e+14
+350	53387825 534144 1601902 2135940 5.686 7.605 26112 0 162 1164288 103544832
+365	53921969 488280 1601749 2135987 5.686 7.605 24576 0 0 0 0
+367	54410249 488280 1601749 2135987 5.686 7.605 24576 0 0 0 0
+376	54898529 586584 1601749 2135987 5.686 7.605 24576 73732 98307 2114015232 1.8308348382822e+14
+377	55485113 523608 1601749 2135987 5.686 7.605 24576 64 335 3439104 710717952
+392	56008721 30720 1601800 2135689 5.686 7.604 1536 0 0 0 0
+394	56039441 30720 1601800 2135689 5.686 7.604 1536 0 0 0 0
+403	56070161 35328 1601800 2135689 5.686 7.604 1536 4606 6141 8253696 44653225216
+404	56105489 32256 1601800 2135689 5.686 7.604 1536 64 78 109056 7818240
+419	56137745 30720 1602086 2135704 5.687 7.604 1536 0 0 0 0
+421	56168465 30720 1602086 2135704 5.687 7.604 1536 0 0 0 0
+430	56199185 35328 1602086 2135704 5.687 7.604 1536 4606 6141 8253696 44653225216
+431	56234513 33024 1602086 2135704 5.687 7.604 1536 78 114 147456 14653440
+446	56267537 30720 1602113 2135707 5.687 7.604 1536 0 0 0 0
+448	56298257 30720 1602113 2135707 5.687 7.604 1536 0 0 0 0
+457	56328977 35328 1602113 2135707 5.687 7.604 1536 4606 6141 8253696 44653225216
+458	56364305 33024 1602113 2135707 5.687 7.604 1536 78 114 147456 14653440
+473	56397329 30720 1602107 2135719 5.687 7.604 1536 0 0 0 0
+475	56428049 30720 1602107 2135719 5.687 7.604 1536 0 0 0 0
+484	56458769 35328 1602107 2135719 5.687 7.604 1536 4606 6141 8253696 44653225216
+485	56494097 33024 1602107 2135719 5.687 7.604 1536 78 114 147456 14653440
+500	56527121 30720 1601851 2135626 5.686 7.604 1536 0 0 0 0
+502	56557841 30720 1601851 2135626 5.686 7.604 1536 0 0 0 0
+511	56588561 35328 1601851 2135626 5.686 7.604 1536 4606 6141 8253696 44653225216
+512	56623889 33024 1601851 2135626 5.686 7.604 1536 67 114 139008 13428480
+527	56656913 30720 1601797 2135692 5.686 7.604 1536 0 0 0 0
+529	56687633 30720 1601797 2135692 5.686 7.604 1536 0 0 0 0
+538	56718353 35328 1601797 2135692 5.686 7.604 1536 4606 6141 8253696 44653225216
+539	56753681 32256 1601797 2135692 5.686 7.604 1536 64 78 109056 7818240
+554	56785937 30720 1602104 2135716 5.687 7.604 1536 0 0 0 0
+556	56816657 30720 1602104 2135716 5.687 7.604 1536 0 0 0 0
+565	56847377 35328 1602104 2135716 5.687 7.604 1536 4606 6141 8253696 44653225216
+566	56882705 33024 1602104 2135716 5.687 7.604 1536 78 114 147456 14653440
+581	56915729 30720 1602092 2135701 5.687 7.604 1536 0 0 0 0
+583	56946449 30720 1602092 2135701 5.687 7.604 1536 0 0 0 0
+592	56977169 35328 1602092 2135701 5.687 7.604 1536 4606 6141 8253696 44653225216
+593	57012497 33024 1602092 2135701 5.687 7.604 1536 78 114 147456 14653440
+608	57045521 30720 1602101 2135710 5.687 7.604 1536 0 0 0 0
+610	57076241 30720 1602101 2135710 5.687 7.604 1536 0 0 0 0
+619	57106961 35328 1602101 2135710 5.687 7.604 1536 4606 6141 8253696 44653225216
+620	57142289 33024 1602101 2135710 5.687 7.604 1536 78 114 147456 14653440
+635	57175313 30720 1602095 2135680 5.687 7.604 1536 0 0 0 0
+637	57206033 30720 1602095 2135680 5.687 7.604 1536 0 0 0 0
+646	57236753 35328 1602095 2135680 5.687 7.604 1536 4606 6141 8253696 44653225216
+647	57272081 33024 1602095 2135680 5.687 7.604 1536 78 114 147456 14653440
+80	57305105 360 2531391 2571787 9.024 9.107 18 44 44 792 34848
+81	57305465 360 2531386 2571777 9.024 9.107 18 45 45 810 36450
+82	57305825 360 2531386 2571777 9.024 9.107 18 44 44 792 34848
+83	57306185 360 2531391 2571787 9.024 9.107 18 45 45 810 36450
+84	57306545 719 2531394 2572374 9.024 9.109 36 45 47 1656 76212
+85	57307264 648436 2136087 2668446 7.605 9.454 34600 0 0 0 0
+86	57955700 911 2531382 2572370 9.024 9.109 47 0 47 868 35998
+87	57956611 482065 2136131 2668446 7.606 9.454 25393 0 0 0 0
+88	58438676 379 2531676 2572370 9.025 9.109 19 26 26 494 12844
+89	58439055 655452 2136085 2668421 7.605 9.453 27625 110501 138125 3434146625 4.2866588270512e+14
+90	59094507 538337 2136087 2668186 7.605 9.452 23022 92079 115100 2384837469 2.4806094994361e+14
+91	59632844 95364 2136853 2668421 7.608 9.453 4602 128 424 1523228 584238584
+92	59728208 476422 2136087 2668186 7.605 9.452 23022 67 335 5209140 1314612194
+93	60204630 86160 2136853 2668421 7.608 9.453 4602 6 6 27612 165672
+96	60290790 559860 2136087 2668446 7.605 9.454 23791 95152 118942 2546755177 2.7374466675556e+14
+97	60850650 470310 2136087 2668446 7.605 9.454 23791 64 335 1660155 129374089
+99	61320960 560 2530383 2570443 9.021 9.104 29 4 15 291 3605
+117	61321520 30 2540524 2540524 9.042121352858 9.042121352858 1 44 44 44 1936
+118	61321550 231 2533053 2573530 9.029 9.113 11 45 45 495 22275
+119	61321781 231 2533053 2573530 9.029 9.113 11 44 44 484 21296
+120	61322012 30 2540524 2540524 9.042121352858 9.042121352858 1 45 45 45 2025
+121	61322042 30 2540527 2540527 9.042121352858 9.042121352858 1 45 45 45 2025
+122	61322072 38312 2136129 2668480 7.606 9.454 1916 0 0 0 0
+123	61360384 231 2533049 2573525 9.029 9.113 11 47 47 517 24299
+124	61360615 38314 2136487 2668480 7.607 9.454 1916 0 0 0 0
+133	61398929 35299 2136487 2668480 7.607 9.454 1535 6142 7676 10605315 73573521655
+134	61434228 32998 2136487 2668480 7.607 9.454 1535 78 114 147414 14654268
+135	61467226 229 2532102 2572703 9.026 9.11 11 15 15 165 2475
+144	61467455 30 2565703 2565703 9.094045599147 9.094045599147 1 44 44 44 1936
+147	61467485 30 2565703 2565703 9.094045599147 9.094045599147 1 45 45 45 2025
+148	61467515 30 2565706 2565706 9.094045599147 9.094045599147 1 45 45 45 2025
+149	61467545 38114 2136526 2668534 7.607 9.454 1906 0 0 0 0
+151	61505659 37887 2136526 2668534 7.607 9.454 1905 0 0 0 0
+160	61543546 35322 2136526 2668534 7.607 9.454 1536 6142 7677 10612992 73632457984
+161	61578868 33019 2136526 2668534 7.607 9.454 1536 78 114 147492 14660352
+171	61611887 30 2540531 2540531 9.042969444403 9.042969444403 1 44 44 44 1936
+174	61611917 30 2540531 2540531 9.042969444403 9.042969444403 1 45 45 45 2025
+175	61611947 51 2540534 2542137 9.042969444403 9.047 2 45 47 92 4234
+176	61611998 487430 2136219 2668486 7.606 9.454 24533 0 0 0 0
+177	62099428 20 2542133 2542133 9.047 9.047 1 0 0 0 0
+178	62099448 487430 2136219 2668486 7.606 9.454 24533 0 0 0 0
+187	62586878 608257 2136219 2668486 7.606 9.454 24531 98212 122742 2710111287 3.0063513289463e+14
+188	63195135 524180 2136219 2668486 7.606 9.454 24531 67 335 3523482 723237792
+198	63719315 30 2565324 2565324 9.093352724272 9.093352724272 1 44 44 44 1936
+201	63719345 30 2565324 2565324 9.093352724272 9.093352724272 1 45 45 45 2025
+202	63719375 72 2565327 2569796 9.093352724272 9.103 3 19 45 94 3286
+203	63719447 30774 2136499 2668492 7.607 9.454 1539 0 0 0 0
+204	63750221 40 2567014 2569792 9.098 9.103 2 0 0 0 0
+205	63750261 30774 2136499 2668492 7.607 9.454 1539 0 0 0 0
+214	63781035 35299 2136499 2668492 7.607 9.454 1535 6142 7676 10605315 73573521655
+215	63816334 32998 2136499 2668492 7.607 9.454 1535 78 114 147414 14654268
+225	63849332 30 2528557 2528557 9.015271066679 9.015271066679 1 44 44 44 1936
+226	63849362 21 2542143 2542143 9.047 9.047 1 45 45 45 2025
+227	63849383 21 2542143 2542143 9.047 9.047 1 44 44 44 1936
+228	63849404 30 2528557 2528557 9.015271066679 9.015271066679 1 45 45 45 2025
+229	63849434 50 2528560 2529896 9.015271066679 9.02 2 45 47 92 4234
+230	63849484 30775 2136270 2668498 7.606 9.454 1539 0 0 0 0
+231	63880259 40 2529892 2542139 9.02 9.047 2 0 47 47 2209
+232	63880299 30774 2136270 2668498 7.606 9.454 1539 0 0 0 0
+241	63911073 35323 2136270 2668498 7.606 9.454 1536 6142 7677 10612992 73632457984
+242	63946396 33020 2136270 2668498 7.606 9.454 1536 67 114 139055 13436987
+243	63979416 21 2540975 2540975 9.044 9.044 1 15 15 15 225
+252	63979437 30 2533461 2533461 9.029794597295 9.029794597295 1 44 44 44 1936
+255	63979467 30 2533461 2533461 9.029794597295 9.029794597295 1 45 45 45 2025
+256	63979497 210 2533464 2556612 9.029794597295 9.074 10 7 45 108 2466
+257	63979707 31074 2136496 2668540 7.607 9.454 1554 0 0 0 0
+258	64010781 180 2535574 2556608 9.034 9.074 9 0 0 0 0
+259	64010961 31069 2136496 2668540 7.607 9.454 1554 0 0 0 0
+268	64042030 35322 2136496 2668540 7.607 9.454 1536 6142 7677 10612992 73632457984
+269	64077352 33019 2136496 2668540 7.607 9.454 1536 78 114 147492 14660352
+279	64110371 30 2561467 2561467 9.085841021361 9.085841021361 1 44 44 44 1936
+280	64110401 62 2547821 2572645 9.057 9.11 3 45 45 135 6075
+281	64110463 62 2547821 2572645 9.057 9.11 3 44 44 132 5808
+282	64110525 30 2561467 2561467 9.085841021361 9.085841021361 1 45 45 45 2025
+283	64110555 50 2561470 2563323 9.085841021361 9.09 2 45 47 92 4234
+284	64110605 519037 2136273 2668531 7.606 9.454 26124 0 0 0 0
+285	64629642 81 2547817 2572641 9.057 9.11 4 0 47 141 6627
+286	64629723 549337 2136273 2668531 7.606 9.454 27660 0 0 0 0
+295	65179060 649532 2136273 2668531 7.606 9.454 26119 104456 130574 3069374285 3.621823889532e+14
+296	65828592 546595 2136273 2668531 7.606 9.454 26119 0 140 1607266 187405532
+297	66375187 63 2546518 2571816 9.054 9.107 3 15 15 45 675
+306	66375250 30 2531652 2531652 9.024730577224 9.024730577224 1 44 44 44 1936
+309	66375280 30 2531652 2531652 9.024730577224 9.024730577224 1 45 45 45 2025
+310	66375310 51 2531655 2533067 9.024730577224 9.029 2 45 47 92 4234
+311	66375361 30734 2136514 2668507 7.607 9.454 1537 0 0 0 0
+312	66406095 20 2533063 2533063 9.029 9.029 1 0 0 0 0
+313	66406115 30734 2136514 2668507 7.607 9.454 1537 0 0 0 0
+322	66436849 35299 2136514 2668507 7.607 9.454 1535 6142 7676 10605315 73573521655
+323	66472148 32998 2136514 2668507 7.607 9.454 1535 78 114 147414 14654268
+333	66505146 30 2535560 2535560 9.033422728663 9.033422728663 1 44 44 44 1936
+334	66505176 42 2547292 2555240 9.056 9.071 2 45 45 90 4050
+335	66505218 42 2547292 2555240 9.056 9.071 2 44 44 88 3872
+336	66505260 30 2535560 2535560 9.033422728663 9.033422728663 1 45 45 45 2025
+337	66505290 51 2535563 2537788 9.033422728663 9.038 2 45 47 92 4234
+338	66505341 517557 2136318 2668125 7.606 9.452 26050 0 0 0 0
+339	67022898 62 2537784 2555236 9.038 9.071 3 0 47 94 4418
+340	67022960 547779 2136318 2668125 7.606 9.452 27582 0 0 0 0
+349	67570739 647707 2136318 2668125 7.606 9.452 26046 104351 130396 3057110181 3.6029617625621e+14
+350	68218446 532801 2136318 2668125 7.606 9.452 26046 0 162 1161484 103301176
+351	68751247 42 2546033 2553872 9.053 9.068 2 15 15 30 450
+360	68751289 30 2540824 2540824 9.043409565084 9.043409565084 1 44 44 44 1936
+363	68751319 30 2540824 2540824 9.043409565084 9.043409565084 1 45 45 45 2025
+364	68751349 51 2540827 2542836 9.043409565084 9.048 2 45 47 92 4234
+365	68751400 488710 2136165 2668543 7.606 9.454 24597 0 0 0 0
+366	69240110 20 2542832 2542832 9.048 9.048 1 0 0 0 0
+367	69240130 488710 2136165 2668543 7.606 9.454 24597 0 0 0 0
+376	69728840 609953 2136165 2668543 7.606 9.454 24595 98308 122902 2720329975 3.0212191858656e+14
+377	70338793 524017 2136165 2668543 7.606 9.454 24595 64 335 3440312 710794574
+387	70862810 30 2551164 2551164 9.062577862614 9.062577862614 1 44 44 44 1936
+388	70862840 21 2567459 2567459 9.099 9.099 1 45 45 45 2025
+389	70862861 21 2567459 2567459 9.099 9.099 1 44 44 44 1936
+390	70862882 30 2551164 2551164 9.062577862614 9.062577862614 1 45 45 45 2025
+391	70862912 51 2551167 2553247 9.062577862614 9.067 2 45 47 92 4234
+392	70862963 30775 2136216 2668546 7.606 9.454 1539 0 0 0 0
+393	70893738 41 2553243 2567455 9.067 9.099 2 0 47 47 2209
+394	70893779 30775 2136216 2668546 7.606 9.454 1539 0 0 0 0
+403	70924554 35323 2136216 2668546 7.606 9.454 1536 6142 7677 10612992 73632457984
+404	70959877 32251 2136216 2668546 7.606 9.454 1536 64 78 109042 7816252
+405	70992128 21 2566203 2566203 9.096 9.096 1 15 15 15 225
+414	70992149 30 2541616 2541616 9.045308000082 9.045308000082 1 44 44 44 1936
+417	70992179 30 2541616 2541616 9.045308000082 9.045308000082 1 45 45 45 2025
+418	70992209 50 2541619 2544202 9.045308000082 9.05 2 45 47 92 4234
+419	70992259 30734 2136502 2668495 7.607 9.454 1537 0 0 0 0
+420	71022993 19 2544198 2544198 9.05 9.05 1 0 0 0 0
+421	71023012 30733 2136502 2668495 7.607 9.454 1537 0 0 0 0
+430	71053745 35299 2136502 2668495 7.607 9.454 1535 6142 7676 10605315 73573521655
+431	71089044 32998 2136502 2668495 7.607 9.454 1535 78 114 147414 14654268
+441	71122042 30 2536034 2536034 9.034135579374 9.034135579374 1 44 44 44 1936
+444	71122072 30 2536034 2536034 9.034135579374 9.034135579374 1 45 45 45 2025
+445	71122102 51 2536037 2538406 9.034135579374 9.039 2 45 47 92 4234
+446	71122153 30734 2136529 2668522 7.607 9.454 1537 0 0 0 0
+447	71152887 20 2538402 2538402 9.039 9.039 1 0 0 0 0
+448	71152907 30734 2136529 2668522 7.607 9.454 1537 0 0 0 0
+457	71183641 35299 2136529 2668522 7.607 9.454 1535 6142 7676 10605315 73573521655
+458	71218940 32998 2136529 2668522 7.607 9.454 1535 78 114 147414 14654268
+468	71251938 30 2546416 2546416 9.053824975863 9.053824975863 1 44 44 44 1936
+471	71251968 30 2546416 2546416 9.053824975863 9.053824975863 1 45 45 45 2025
+472	71251998 51 2546419 2548409 9.053824975863 9.058 2 45 47 92 4234
+473	71252049 30734 2136523 2668516 7.607 9.454 1537 0 0 0 0
+474	71282783 20 2548405 2548405 9.058 9.058 1 0 0 0 0
+475	71282803 30734 2136523 2668516 7.607 9.454 1537 0 0 0 0
+484	71313537 35299 2136523 2668516 7.607 9.454 1535 6142 7676 10605315 73573521655
+485	71348836 32998 2136523 2668516 7.607 9.454 1535 78 114 147414 14654268
+495	71381834 30 2548383 2548383 9.057867318192 9.057867318192 1 44 44 44 1936
+498	71381864 30 2548383 2548383 9.057867318192 9.057867318192 1 45 45 45 2025
+499	71381894 51 2548386 2550575 9.057867318192 9.062 2 45 47 92 4234
+500	71381945 30755 2136267 2668483 7.606 9.454 1538 0 0 0 0
+501	71412700 20 2550571 2550571 9.062 9.062 1 0 0 0 0
+502	71412720 30755 2136267 2668483 7.606 9.454 1538 0 0 0 0
+511	71443475 35323 2136267 2668483 7.606 9.454 1536 6142 7677 10612992 73632457984
+512	71478798 33020 2136267 2668483 7.606 9.454 1536 67 114 139055 13436987
+522	71511818 29 2566566 2566566 9.09661692474 9.09661692474 1 44 44 44 1936
+525	71511847 29 2566566 2566566 9.09661692474 9.09661692474 1 45 45 45 2025
+526	71511876 50 2566569 2568511 9.09661692474 9.101 2 45 47 92 4234
+527	71511926 30753 2136213 2668549 7.606 9.454 1538 0 0 0 0
+528	71542679 20 2568507 2568507 9.101 9.101 1 0 0 0 0
+529	71542699 30735 2136213 2668261 7.606 9.453 1537 0 0 0 0
+538	71573434 35323 2136213 2668549 7.606 9.454 1536 6142 7677 10612992 73632457984
+539	71608757 32251 2136213 2668549 7.606 9.454 1536 64 78 109042 7816252
+549	71641008 30 2555211 2555211 9.070835915371 9.070835915371 1 44 44 44 1936
+552	71641038 30 2555211 2555211 9.070835915371 9.070835915371 1 45 45 45 2025
+553	71641068 51 2555214 2557146 9.070835915371 9.075 2 45 47 92 4234
+554	71641119 30733 2136520 2668513 7.607 9.454 1537 0 0 0 0
+555	71671852 20 2557142 2557142 9.075 9.075 1 0 0 0 0
+556	71671872 30734 2136520 2668513 7.607 9.454 1537 0 0 0 0
+565	71702606 35299 2136520 2668513 7.607 9.454 1535 6142 7676 10605315 73573521655
+566	71737905 32998 2136520 2668513 7.607 9.454 1535 78 114 147414 14654268
+576	71770903 30 2532698 2532698 9.027295592418 9.027295592418 1 44 44 44 1936
+579	71770933 30 2532698 2532698 9.027295592418 9.027295592418 1 45 45 45 2025
+580	71770963 51 2532701 2534513 9.027295592418 9.032 2 45 47 92 4234
+581	71771014 30734 2136508 2668501 7.607 9.454 1537 0 0 0 0
+582	71801748 20 2534509 2534509 9.032 9.032 1 0 0 0 0
+583	71801768 30734 2136508 2668501 7.607 9.454 1537 0 0 0 0
+592	71832502 35299 2136508 2668501 7.607 9.454 1535 6142 7676 10605315 73573521655
+593	71867801 32998 2136508 2668501 7.607 9.454 1535 78 114 147414 14654268
+603	71900799 30 2558858 2558858 9.078519724591 9.078519724591 1 44 44 44 1936
+606	71900829 30 2558858 2558858 9.078519724591 9.078519724591 1 45 45 45 2025
+607	71900859 92 2558861 2564934 9.078519724591 9.093 4 3 45 96 3186
+608	71900951 30814 2136517 2668510 7.607 9.454 1541 0 0 0 0
+609	71931765 60 2560314 2564930 9.083 9.093 3 0 0 0 0
+610	71931825 30814 2136517 2668510 7.607 9.454 1541 0 0 0 0
+619	71962639 35299 2136517 2668510 7.607 9.454 1535 6142 7676 10605315 73573521655
+620	71997938 32998 2136517 2668510 7.607 9.454 1535 78 114 147414 14654268
+630	72030936 29 2567438 2567438 9.09830275926 9.09830275926 1 44 44 44 1936
+633	72030965 29 2567438 2567438 9.09830275926 9.09830275926 1 45 45 45 2025
+634	72030994 50 2567441 2569816 9.09830275926 9.103 2 45 47 92 4234
+635	72031044 30754 2136511 2668537 7.607 9.454 1538 0 0 0 0
+636	72061798 20 2569812 2569812 9.103 9.103 1 0 0 0 0
+637	72061818 30754 2136511 2668537 7.607 9.454 1538 0 0 0 0
+646	72092572 35322 2136511 2668537 7.607 9.454 1536 6142 7677 10612992 73632457984
+647	72127894 33019 2136511 2668537 7.607 9.454 1536 78 114 147492 14660352
+655	72160913 32 2528554 2528554 9.015271066679 9.015271066679 1 7504 7504 7504 56310016
+656	72160945 32 2528554 2528554 9.015271066679 9.015271066679 1 7504 7504 7504 56310016
+658	72160977 29 2528554 2528554 9.015271066679 9.015271066679 1 0 0 0 0
+669	72161006 29 2528554 2528554 9.015271066679 9.015271066679 1 0 0 0 0
+679	72161035 32 2531649 2531649 9.024730577224 9.024730577224 1 7504 7504 7504 56310016
+680	72161067 32 2531649 2531649 9.024730577224 9.024730577224 1 7504 7504 7504 56310016
+682	72161099 29 2531649 2531649 9.024730577224 9.024730577224 1 0 0 0 0
+693	72161128 29 2531649 2531649 9.024730577224 9.024730577224 1 0 0 0 0
+703	72161157 32 2532695 2532695 9.027295592418 9.027295592418 1 7504 7504 7504 56310016
+704	72161189 32 2532695 2532695 9.027295592418 9.027295592418 1 7504 7504 7504 56310016
+706	72161221 29 2532695 2532695 9.027295592418 9.027295592418 1 0 0 0 0
+717	72161250 29 2532695 2532695 9.027295592418 9.027295592418 1 0 0 0 0
+727	72161279 32 2533458 2533458 9.029794597295 9.029794597295 1 7504 7504 7504 56310016
+728	72161311 32 2533458 2533458 9.029794597295 9.029794597295 1 7504 7504 7504 56310016
+730	72161343 29 2533458 2533458 9.029794597295 9.029794597295 1 0 0 0 0
+741	72161372 29 2533458 2533458 9.029794597295 9.029794597295 1 0 0 0 0
+751	72161401 32 2535557 2535557 9.033422728663 9.033422728663 1 7504 7504 7504 56310016
+752	72161433 32 2535557 2535557 9.033422728663 9.033422728663 1 7504 7504 7504 56310016
+754	72161465 29 2535557 2535557 9.033422728663 9.033422728663 1 0 0 0 0
+765	72161494 29 2535557 2535557 9.033422728663 9.033422728663 1 0 0 0 0
+775	72161523 32 2536031 2536031 9.034135579374 9.034135579374 1 7504 7504 7504 56310016
+776	72161555 32 2536031 2536031 9.034135579374 9.034135579374 1 7504 7504 7504 56310016
+778	72161587 29 2536031 2536031 9.034135579374 9.034135579374 1 0 0 0 0
+789	72161616 29 2536031 2536031 9.034135579374 9.034135579374 1 0 0 0 0
+799	72161645 32 2540521 2540521 9.042121352858 9.042121352858 1 7504 7504 7504 56310016
+800	72161677 32 2540521 2540521 9.042121352858 9.042121352858 1 7504 7504 7504 56310016
+802	72161709 29 2540521 2540521 9.042121352858 9.042121352858 1 0 0 0 0
+813	72161738 29 2540521 2540521 9.042121352858 9.042121352858 1 0 0 0 0
+823	72161767 32 2540528 2540528 9.042969444403 9.042969444403 1 7504 7504 7504 56310016
+824	72161799 32 2540528 2540528 9.042969444403 9.042969444403 1 7504 7504 7504 56310016
+826	72161831 29 2540528 2540528 9.042969444403 9.042969444403 1 0 0 0 0
+837	72161860 29 2540528 2540528 9.042969444403 9.042969444403 1 0 0 0 0
+847	72161889 32 2540821 2540821 9.043409565084 9.043409565084 1 7504 7504 7504 56310016
+848	72161921 32 2540821 2540821 9.043409565084 9.043409565084 1 7504 7504 7504 56310016
+850	72161953 29 2540821 2540821 9.043409565084 9.043409565084 1 0 0 0 0
+861	72161982 29 2540821 2540821 9.043409565084 9.043409565084 1 0 0 0 0
+871	72162011 32 2541613 2541613 9.045308000082 9.045308000082 1 7504 7504 7504 56310016
+872	72162043 32 2541613 2541613 9.045308000082 9.045308000082 1 7504 7504 7504 56310016
+874	72162075 29 2541613 2541613 9.045308000082 9.045308000082 1 0 0 0 0
+885	72162104 29 2541613 2541613 9.045308000082 9.045308000082 1 0 0 0 0
+895	72162133 32 2546413 2546413 9.053824975863 9.053824975863 1 7504 7504 7504 56310016
+896	72162165 32 2546413 2546413 9.053824975863 9.053824975863 1 7504 7504 7504 56310016
+898	72162197 29 2546413 2546413 9.053824975863 9.053824975863 1 0 0 0 0
+909	72162226 29 2546413 2546413 9.053824975863 9.053824975863 1 0 0 0 0
+919	72162255 32 2548380 2548380 9.057867318192 9.057867318192 1 7504 7504 7504 56310016
+920	72162287 32 2548380 2548380 9.057867318192 9.057867318192 1 7504 7504 7504 56310016
+922	72162319 29 2548380 2548380 9.057867318192 9.057867318192 1 0 0 0 0
+933	72162348 29 2548380 2548380 9.057867318192 9.057867318192 1 0 0 0 0
+943	72162377 32 2551161 2551161 9.062577862614 9.062577862614 1 7504 7504 7504 56310016
+944	72162409 32 2551161 2551161 9.062577862614 9.062577862614 1 7504 7504 7504 56310016
+946	72162441 29 2551161 2551161 9.062577862614 9.062577862614 1 0 0 0 0
+957	72162470 29 2551161 2551161 9.062577862614 9.062577862614 1 0 0 0 0
+967	72162499 32 2555208 2555208 9.070835915371 9.070835915371 1 7504 7504 7504 56310016
+968	72162531 32 2555208 2555208 9.070835915371 9.070835915371 1 7504 7504 7504 56310016
+970	72162563 29 2555208 2555208 9.070835915371 9.070835915371 1 0 0 0 0
+981	72162592 29 2555208 2555208 9.070835915371 9.070835915371 1 0 0 0 0
+991	72162621 32 2558855 2558855 9.078519724591 9.078519724591 1 7504 7504 7504 56310016
+992	72162653 32 2558855 2558855 9.078519724591 9.078519724591 1 7504 7504 7504 56310016
+994	72162685 29 2558855 2558855 9.078519724591 9.078519724591 1 0 0 0 0
+1005	72162714 30 2558855 2558855 9.078519724591 9.078519724591 1 0 0 0 0
+1015	72162744 33 2561464 2561464 9.085841021361 9.085841021361 1 7504 7504 7504 56310016
+1016	72162777 33 2561464 2561464 9.085841021361 9.085841021361 1 7504 7504 7504 56310016
+1018	72162810 30 2561464 2561464 9.085841021361 9.085841021361 1 0 0 0 0
+1029	72162840 30 2561464 2561464 9.085841021361 9.085841021361 1 0 0 0 0
+1039	72162870 33 2565321 2565321 9.093352724272 9.093352724272 1 7504 7504 7504 56310016
+1040	72162903 33 2565321 2565321 9.093352724272 9.093352724272 1 7504 7504 7504 56310016
+1042	72162936 30 2565321 2565321 9.093352724272 9.093352724272 1 0 0 0 0
+1053	72162966 30 2565321 2565321 9.093352724272 9.093352724272 1 0 0 0 0
+1063	72162996 33 2565700 2565700 9.094045599147 9.094045599147 1 7504 7504 7504 56310016
+1064	72163029 33 2565700 2565700 9.094045599147 9.094045599147 1 7504 7504 7504 56310016
+1066	72163062 30 2565700 2565700 9.094045599147 9.094045599147 1 0 0 0 0
+1077	72163092 30 2565700 2565700 9.094045599147 9.094045599147 1 0 0 0 0
+1087	72163122 32 2566563 2566563 9.09661692474 9.09661692474 1 7504 7504 7504 56310016
+1088	72163154 32 2566563 2566563 9.09661692474 9.09661692474 1 7504 7504 7504 56310016
+1090	72163186 29 2566563 2566563 9.09661692474 9.09661692474 1 0 0 0 0
+1101	72163215 29 2566563 2566563 9.09661692474 9.09661692474 1 0 0 0 0
+1111	72163244 32 2567435 2567435 9.09830275926 9.09830275926 1 7504 7504 7504 56310016
+1112	72163276 32 2567435 2567435 9.09830275926 9.09830275926 1 7504 7504 7504 56310016
+1114	72163308 29 2567435 2567435 9.09830275926 9.09830275926 1 0 0 0 0
+1125	72163337 29 2567435 2567435 9.09830275926 9.09830275926 1 0 0 0 0
+85	72163366 185886 2668847 2820678 9.455 10 9922 0 0 0 0
+87	72349252 136643 2668677 2820393 9.455 10 7195 0 0 0 0
+89	72485895 186984 2668847 2820678 9.455 10 7884 138126 146009 1120060170 1.5916498564941e+14
+90	72672879 155820 2668904 2820678 9.455 10 6570 115101 121670 777792735 92103014611545
+91	72828699 27222 2668847 2820618 9.455 10 1314 128 424 434934 166819308
+92	72855921 135891 2668904 2820678 9.455 10 6570 78 335 1486572 375147876
+93	72991812 24594 2668847 2820618 9.455 10 1314 6 6 7884 47304
+96	73016406 161052 2668904 2820678 9.455 10 6788 118943 125730 830420162 1.0161676033927e+14
+97	73177458 134118 2668904 2820678 9.455 10 6788 64 215 473608 36850766
+122	73311576 10920 2668552 2820248 9.454 9.999 546 0 0 0 0
+124	73322496 10920 2668552 2820248 9.454 9.999 546 0 0 0 0
+133	73333416 10051 2668552 2820248 9.454 9.999 437 7677 8113 3450115 27245612343
+134	73343467 9395 2668552 2820248 9.454 9.999 437 78 114 41934 4165524
+149	73352862 10900 2669423 2820230 9.457 9.999 545 0 0 0 0
+151	73363762 10858 2668680 2820396 9.455 10 546 0 0 0 0
+160	73374620 10028 2669423 2820230 9.457 9.999 436 7678 8113 3442438 27186676014
+161	73384648 9374 2669423 2820230 9.457 9.999 436 78 114 41856 4159440
+176	73394022 138890 2668853 2820611 9.455 10 6991 0 0 0 0
+178	73532912 138890 2668853 2820611 9.455 10 6991 0 0 0 0
+187	73671802 173845 2668853 2820611 9.455 10 6991 122743 129733 882529858 1.1143727743864e+14
+188	73845647 149384 2668853 2820611 9.455 10 6991 67 335 1005776 206657750
+203	73995031 8740 2668555 2820251 9.454 9.999 437 0 0 0 0
+205	74003771 8740 2668555 2820251 9.454 9.999 437 0 0 0 0
+214	74012511 10051 2668555 2820251 9.454 9.999 437 7677 8113 3450115 27245612343
+215	74022562 9395 2668555 2820251 9.454 9.999 437 78 114 41934 4165524
+230	74031957 8720 2669147 2820194 9.456 9.999 436 0 0 0 0
+232	74040677 8720 2669147 2820194 9.456 9.999 436 0 0 0 0
+241	74049397 10028 2669147 2820194 9.456 9.999 436 7678 8113 3442438 27186676014
+242	74059425 9374 2669147 2820194 9.456 9.999 436 67 114 39458 3811730
+257	74068799 8720 2669393 2820236 9.457 9.999 436 0 0 0 0
+259	74077519 8720 2669393 2820236 9.457 9.999 436 0 0 0 0
+268	74086239 10028 2669393 2820236 9.457 9.999 436 7678 8113 3442438 27186676014
+269	74096267 9374 2669393 2820236 9.457 9.999 436 78 114 41856 4159440
+284	74105641 147868 2668588 2820463 9.454 10 7443 0 0 0 0
+286	74253509 156504 2668588 2820463 9.454 10 7881 0 0 0 0
+295	74410013 185083 2668588 2820463 9.454 10 7443 130575 138017 999565128 1.3427195919321e+14
+296	74595096 155746 2668588 2820463 9.454 10 7443 0 140 457766 53369500
+311	74750842 8740 2668570 2820266 9.454 9.999 437 0 0 0 0
+313	74759582 8740 2668570 2820266 9.454 9.999 437 0 0 0 0
+322	74768322 10051 2668570 2820266 9.454 9.999 437 7677 8113 3450115 27245612343
+323	74778373 9395 2668570 2820266 9.454 9.999 437 78 114 41934 4165524
+338	74787768 147928 2668579 2820513 9.454 10 7446 0 0 0 0
+340	74935696 156564 2668579 2820513 9.454 10 7884 0 0 0 0
+349	75092260 185158 2668579 2820513 9.454 10 7446 130397 137842 998653797 1.339733502555e+14
+350	75277418 152308 2668579 2820513 9.454 10 7446 0 162 332004 29526456
+365	75429726 138890 2668802 2820560 9.455 10 6991 0 0 0 0
+367	75568616 138890 2668802 2820560 9.455 10 6991 0 0 0 0
+376	75707506 173845 2668802 2820560 9.455 10 6991 122903 129893 883648418 1.117198659628e+14
+377	75881351 148947 2668802 2820560 9.455 10 6991 64 335 979580 202594046
+392	76030298 8720 2669093 2820242 9.456 9.999 436 0 0 0 0
+394	76039018 8720 2669093 2820242 9.456 9.999 436 0 0 0 0
+403	76047738 10028 2669093 2820242 9.456 9.999 436 7678 8113 3442438 27186676014
+404	76057766 9156 2669093 2820242 9.456 9.999 436 64 78 30956 2219240
+419	76066922 8740 2668561 2820257 9.454 9.999 437 0 0 0 0
+421	76075662 8740 2668561 2820257 9.454 9.999 437 0 0 0 0
+430	76084402 10051 2668561 2820257 9.454 9.999 437 7677 8113 3450115 27245612343
+431	76094453 9395 2668561 2820257 9.454 9.999 437 78 114 41934 4165524
+446	76103848 8740 2668564 2820260 9.454 9.999 437 0 0 0 0
+448	76112588 8740 2668564 2820260 9.454 9.999 437 0 0 0 0
+457	76121328 10051 2668564 2820260 9.454 9.999 437 7677 8113 3450115 27245612343
+458	76131379 9395 2668564 2820260 9.454 9.999 437 78 114 41934 4165524
+473	76140774 8740 2668576 2820272 9.454 9.999 437 0 0 0 0
+475	76149514 8740 2668576 2820272 9.454 9.999 437 0 0 0 0
+484	76158254 10051 2668576 2820272 9.454 9.999 437 7677 8113 3450115 27245612343
+485	76168305 9395 2668576 2820272 9.454 9.999 437 78 114 41934 4165524
+500	76177700 8720 2669144 2820179 9.456 9.999 436 0 0 0 0
+502	76186420 8720 2669144 2820179 9.456 9.999 436 0 0 0 0
+511	76195140 10028 2669144 2820179 9.456 9.999 436 7678 8113 3442438 27186676014
+512	76205168 9374 2669144 2820179 9.456 9.999 436 67 114 39458 3811730
+527	76214542 8720 2669090 2820245 9.456 9.999 436 0 0 0 0
+529	76223262 8740 2668549 2820245 9.454 9.999 437 0 0 0 0
+538	76232002 10028 2669090 2820245 9.456 9.999 436 7678 8113 3442438 27186676014
+539	76242030 9156 2669090 2820245 9.456 9.999 436 64 78 30956 2219240
+554	76251186 8740 2668573 2820269 9.454 9.999 437 0 0 0 0
+556	76259926 8740 2668573 2820269 9.454 9.999 437 0 0 0 0
+565	76268666 10051 2668573 2820269 9.454 9.999 437 7677 8113 3450115 27245612343
+566	76278717 9395 2668573 2820269 9.454 9.999 437 78 114 41934 4165524
+581	76288112 8740 2668558 2820254 9.454 9.999 437 0 0 0 0
+583	76296852 8740 2668558 2820254 9.454 9.999 437 0 0 0 0
+592	76305592 10051 2668558 2820254 9.454 9.999 437 7677 8113 3450115 27245612343
+593	76315643 9395 2668558 2820254 9.454 9.999 437 78 114 41934 4165524
+608	76325038 8740 2668567 2820263 9.454 9.999 437 0 0 0 0
+610	76333778 8740 2668567 2820263 9.454 9.999 437 0 0 0 0
+619	76342518 10051 2668567 2820263 9.454 9.999 437 7677 8113 3450115 27245612343
+620	76352569 9395 2668567 2820263 9.454 9.999 437 78 114 41934 4165524
+635	76361964 8720 2669408 2820233 9.457 9.999 436 0 0 0 0
+637	76370684 8720 2669408 2820233 9.457 9.999 436 0 0 0 0
+646	76379404 10028 2669408 2820233 9.457 9.999 436 7678 8113 3442438 27186676014
+647	76389432 9374 2669408 2820233 9.457 9.999 436 78 114 41856 4159440

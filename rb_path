@@ -1,0 +1,33 @@
+PATH=/home/ricardo/omnetpp-5.0/samples/simulte
+
+On PATH/src/stack/mac/scheduler/LteSchedulerEnb.cc
+	method LteSchedulerEnb::scheduleGrant (line 162)
+	unsigned int uBlocks = mac_->getAmc()->computeReqRbs(nodeId,u, cw, uBytes, dir); (line 511)
+	if(allocatedCws == 0) (lines 538~544)
+	{
+		// mark here allocation
+		allocator_->addBlocks(antenna,u,nodeId,uBlocks,uBytes);
+		cwAllocatedBlocks += uBlocks;
+		totalAllocatedBlocks += uBlocks;
+	}
+	call for addBlocks
+
+On PATH/src/stack/mac/allocator/LteAllocationModule.cc
+	method LteAllocationModule::addBlocks (line 260)
+	set of allocated RB: allocatedRbsPerBand_[plane][antenna][band].ueAllocatedRbsMap_[nodeId] += blocks; (line 290)
+
+On PATH/src/stack/mac/allocator/LteAllocationModule.h
+	method unsigned int getBlocks(const Remote antenna, const Band band, const MacNodeId nodeId) (line 228)
+	return allocatedRbsPerBand_[plane][antenna][band].ueAllocatedRbsMap_[nodeId];
+
+On PATH/src/stack/mac/allocator/LteAllocationModule.cc
+	method unsigned int LteAllocationModule::rbOccupation(const MacNodeId nodeId, RbMap& rbMap) (line 351)
+	sets the rbMap at blocks += (rbMap[*it][b] = getBlocks(*it, b, nodeId)); (line 364)
+
+On PATH/src/stack/mac/scheduler/LteSchedulerEnb.cc
+	method unsigned int LteSchedulerEnb::readRbOccupation(const MacNodeId id, RbMap& rbMap) (line 777)
+	return allocator_->rbOccupation(id, rbMap); (line 779)
+
+On PATH/src/stack/mac/layer/LteMacEnb.cc
+	method void LteMacEnb::macPduMake(LteMacScheduleList* scheduleList) (line 865)
+	grantedBlocks = enbSchedulerDl_->readRbOccupation(destId, rbMap); (line 917)

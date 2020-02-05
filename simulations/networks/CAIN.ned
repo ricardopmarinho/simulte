@@ -33,7 +33,9 @@ network CAIN
         int numUeD2DRx = default(0);
         //////////////////////////////////
         int pwrThresh = default(-30); //when ready, use -90 for power threshold
-        bool cainNetwork = default(true);
+        bool cainNetwork = default(true);	//if the simulation will use CAIN
+        int qtdThresh = default(2);			//The number of devices on closer list
+        int distThresh = default(130);		//The distance a device must be to enter the closer list
         //////////////////////////////////
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
         

@@ -38,6 +38,8 @@ unsigned int LteSchedulerEnbDlRealistic::scheduleGrant(MacCid cid, unsigned int 
     //get the number of codewords
     unsigned int numCodewords = txParams.getLayers().size();
 
+    EV << "Codewords number: " << numCodewords << endl;
+
     // TEST: check the number of codewords
     numCodewords = 1;
 
