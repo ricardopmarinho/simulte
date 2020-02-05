@@ -184,6 +184,10 @@ class LteMacEnb : public LteMacBase
 
     std::map<MacNodeId,std::map<MacNodeId,double>*> generateCloserList(MacNodeId relay, std::map<MacNodeId,double> nodes,coordList* csList);
 
+    void updateAssistedList(MacNodeId relay, MacNodeId assistedNode,assistedDevices* assDev);
+
+    void printAssistedList(assistedDevices* assDev);
+
     /**
      * Main loop
      */
