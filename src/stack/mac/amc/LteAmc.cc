@@ -783,6 +783,15 @@ unsigned int LteAmc::computeBytesOnNRbs(MacNodeId id, Band b, Codeword cw, unsig
     unsigned int bits = computeBitsOnNRbs(id, b, cw, blocks, dir);
     unsigned int bytes = bits/8;
 
+    std::list<MacNodeId>* assDev = NULL;
+    std::vector<UeInfo*>* vect = binder_->getUeList();
+    for(unsigned int i = 0; i < vect->size(); i++){
+       if(vect->at(i)->id==id)
+           assDev = vect->operator [](i)->assList;
+    }
+
+    EV << "Relay: " << id << endl << "List size: " << assDev->size() << endl;
+
     // DEBUG
     EV << NOW << " LteAmc::blocks2bytes Resource Blocks: " << blocks << "\n";
     EV << NOW << " LteAmc::blocks2bytes Available space: " << bits << "\n";

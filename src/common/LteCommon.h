@@ -810,7 +810,7 @@ typedef std::map<MacNodeId, inet::Coord> coordList;
  * |R_id|<d_1;d_2;d_3...> |
  *
  * */
-typedef std::map<MacNodeId, std::list<MacNodeId>*> assistedDevices;
+typedef std::list<MacNodeId> assistedDevices;
 
 /*********************
  * Incell Interference Support
@@ -839,7 +839,6 @@ struct EnbInfo
     sinrMapW* Wmap;
     int pwrThresh;
     coordList* Clist;
-    assistedDevices* assList;
 //////
     int x2;
 };
@@ -854,6 +853,7 @@ struct UeInfo
     cModule * ue;
     LtePhyBase* phy;
 ///////
+    assistedDevices* assList;
     relayList* rList;
     rep_list* repList;
 ///////
