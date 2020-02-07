@@ -306,7 +306,6 @@ void LteMacEnb::initialize(int stage)
         info->Wmap = new std::map<MacNodeId,double>();
         info->pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
         info->Clist = new std::map<MacNodeId,Coord>();
-        info->assList = new std::map<MacNodeId,std::list<MacNodeId>*>();
         //////
         binder_->addEnbInfo(info);
 
@@ -568,7 +567,6 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 sinrMapW* WsMap = vect->operator [](i)->Wmap;
                 sinrMapB* BsMap = vect->operator [](i)->Bmap;
                 coordList* csList = vect->operator [](i)->Clist;
-                assistedDevices* assDev = vect->operator [](i)->assList;
 
                 int qtdThresh = getModuleByPath("CAIN")->par("qtdThresh");
                 int distThresh = getModuleByPath("CAIN")->par("distThresh");
@@ -657,12 +655,19 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                         std::map<MacNodeId,double>* closeNode=new std::map<MacNodeId,double>();
                         EV << "Closer list to relay " << relay << ": " << endl;
                         int k = 0;
+                        std::list<MacNodeId>* assDev = NULL;
+                        std::vector<UeInfo*>* ueVect = binder_->getUeList();
+                        for(unsigned int ii = 0; ii < ueVect->size(); ii++){
+                            if(ueVect->at(ii)->id == relay)
+                                assDev = ueVect->operator [](ii)->assList;
+                        }
                         /*
                          * Iterates over the relay list
                          * */
                         for (std::pair<MacNodeId,double> element : sortedListP){
 
-                            updateAssistedList(relay,element.first,assDev);
+                            updateAssistedList(element.first,assDev);
+                            printAssistedList(relay,assDev);
 
                             if(k < qtdThresh && element.second < distThresh){
                                 /*
@@ -753,12 +758,20 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                     std::map<MacNodeId,double>* closeNode=new std::map<MacNodeId,double>();
                     EV << "Closer list to relay " << relay << ": " << endl;
                     int k = 0;
+
+                    std::vector<UeInfo*>* ueVect = binder_->getUeList();
+                    std::list<MacNodeId>* assDev = NULL;
+                    for(unsigned int ii = 0; ii < ueVect->size(); ii++){
+                        if(ueVect->at(ii)->id == relay)
+                            assDev = ueVect->operator [](ii)->assList;
+                    }
                     /*
                      * Iterates over the relay list
                      * */
                     for (std::pair<MacNodeId,double> element : sortedList){
 
-                        updateAssistedList(relay,element.first,assDev);
+                        updateAssistedList(element.first,assDev);
+                        printAssistedList(relay,assDev);
 
                         if(k < qtdThresh && element.second < distThresh){
                             /*
@@ -870,44 +883,28 @@ std::map<MacNodeId,std::map<MacNodeId,double>*> LteMacEnb::generateCloserList(Ma
     return closerList;
 }
 
-void LteMacEnb::updateAssistedList(MacNodeId relay, MacNodeId assistedNode, assistedDevices* assDev){
-
-    std::list<MacNodeId>* listId;
+void LteMacEnb::updateAssistedList(MacNodeId assistedNode, assistedDevices* assDev){
 
     if(assDev == NULL)
-        assDev = new std::map<MacNodeId,std::list<MacNodeId>*>();
+        assDev = new std::list<MacNodeId>();
 
-    listId = assDev->operator [](relay);
+    assDev->push_back(assistedNode);
 
-
-    if(listId==NULL)
-        listId = new std::list<MacNodeId>();
-    listId->push_back(assistedNode);
-    assDev->operator [](relay) = listId;
-
-    printAssistedList(assDev);
 }
 
-void LteMacEnb::printAssistedList(assistedDevices* assDev){
-    std::map<MacNodeId,std::list<MacNodeId>*>::iterator it_begin;
-    std::map<MacNodeId,std::list<MacNodeId>*>::iterator it_end;
-    std::map<MacNodeId,std::list<MacNodeId>*>::iterator it;
+void LteMacEnb::printAssistedList(MacNodeId relay, assistedDevices* assDev){
 
     std::list<MacNodeId>::iterator lIt_begin;
     std::list<MacNodeId>::iterator lIt_end;
     std::list<MacNodeId>::iterator lIt;
 
-    it_begin = assDev->begin();
-    it_end = assDev->end();
-    for(it = it_begin; it != it_end;it++){
-        EV << "Relay: " << it->first << " - list: ";
-        lIt_begin = it->second->begin();
-        lIt_end = it->second->end();
-        for(lIt = lIt_begin; lIt != lIt_end; lIt++)
-            EV << *lIt << " - ";
-        EV << endl;
-        EV << "List size: " << it->second->size() << endl;
-    }
+    EV << "Relay: " << relay << " - list: ";
+    lIt_begin = assDev->begin();
+    lIt_end = assDev->end();
+    for(lIt = lIt_begin; lIt != lIt_end; lIt++)
+        EV << *lIt << " - ";
+    EV << endl;
+    EV << "List size: " << assDev->size() << endl;
 
 }
 

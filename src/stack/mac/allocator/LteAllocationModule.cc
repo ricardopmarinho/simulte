@@ -260,6 +260,7 @@ bool LteAllocationModule::addBlocks(const Band band, const MacNodeId nodeId, con
 bool LteAllocationModule::addBlocks(const Remote antenna, const Band band, const MacNodeId nodeId,
     const unsigned int blocks, const unsigned int bytes)
 {
+    EV << "LteAllocationModule::addBlocks" << endl;
     // Check if the band exists
     if (band >= bands_)
         throw cRuntimeError("LteAllocator::addBlocks(): Invalid band %d", (int) band);

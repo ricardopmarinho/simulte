@@ -1,7 +1,20 @@
 PATH=/home/ricardo/omnetpp-5.0/samples/simulte
 
+On PATH/src/stack/mac/scheduler/LteSchedulerEnbDlRealistic.cc
+	method LteSchedulerEnbDlRealistic::scheduleGrant (line 28)
+	unsigned int numCodewords = txParams.getLayers().size(); (line 39)
+        bandAvailableBytes = availableBytes(nodeId, antenna, b, cw, direction_,(limitBl) ? limit : -1); (line 268)
+
 On PATH/src/stack/mac/scheduler/LteSchedulerEnb.cc
-	method LteSchedulerEnb::scheduleGrant (line 162)
+	method unsigned int LteSchedulerEnb::availableBytes(const MacNodeId id, Remote antenna, Band b, Codeword cw, Direction dir, int limit) (line 793)
+	int blocks = allocator_->availableBlocks(id,antenna,b); (line 798)
+
+On PATH/src/stack/mac/allocator/LteAllocationModule.cc
+	method unsigned int LteAllocationModule::availableBlocks(const MacNodeId nodeId, const Remote antenna, const Band band) (line 190)
+	at unsigned int blocksPerBand = (totalRbsMatrix_[plane][antenna]) / bands_; (line 194) and
+	unsigned int allocatedBlocks = allocatedRbsPerBand_[plane][antenna][band].allocated_; (line 196)
+	is defined the number of blocks available
+
 	unsigned int uBlocks = mac_->getAmc()->computeReqRbs(nodeId,u, cw, uBytes, dir); (line 511)
 	if(allocatedCws == 0) (lines 538~544)
 	{

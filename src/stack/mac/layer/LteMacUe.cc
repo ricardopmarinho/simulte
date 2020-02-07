@@ -77,6 +77,7 @@ void LteMacUe::initialize(int stage)
         ///////////
         info->rList = new std::map<MacNodeId,double>();
         info->repList = new std::vector<MacNodeId>();
+        info->assList = new std::list<MacNodeId>();
         ///////////
 
         // Get the Physical Channel reference of the node
