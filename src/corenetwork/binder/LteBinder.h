@@ -18,6 +18,10 @@
 #include "corenetwork/binder/PhyPisaData.h"
 #include "corenetwork/nodes/ExtCell.h"
 
+
+#include <set>
+#include <functional>
+
 using namespace inet;
 
 /**
@@ -173,6 +177,14 @@ class LteBinder : public cSimpleModule
 
     ////////////////////////////////////////////////////////////////////////
 
+    typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
+
+    Comparator compFunctor =
+        [](std::pair<MacNodeId, double> elem1 ,std::pair<MacNodeId, double> elem2)
+        {
+            return elem1.second < elem2.second;
+        };
+
     void setEnbCoord(const Coord& coord){enbCoord = coord;}
     Coord getEnbCoord() const{return enbCoord;}
     void setServedDev(int index, bool b){servedDevs[index]=b;}
@@ -187,6 +199,10 @@ class LteBinder : public cSimpleModule
     bool getTotalServedDevByIndex(int index){return totalServedDevs[index];}
     int countTotalServedDevs();
     void printTotalServedDevs();
+
+    std::string checkCAINType(MacNodeId nodeId);
+    std::pair<MacNodeId,double> findCloserRelay(MacNodeId ueId);
+    MacNodeId findCloserHop(MacNodeId ueId, MacNodeId relayId);
 
     ////////////////////////////////////////////////////////////////////////
     /**

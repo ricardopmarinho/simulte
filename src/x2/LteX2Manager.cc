@@ -98,11 +98,13 @@ void LteX2Manager::handleMessage(cMessage *msg)
 
 void LteX2Manager::fromStack(cPacket* pkt)
 {
+    EV << "LteX2Manager::fromStack" << endl;
     LteX2Message* x2msg = check_and_cast<LteX2Message*>(pkt);
     X2ControlInfo* x2Info = check_and_cast<X2ControlInfo*>(x2msg->removeControlInfo());
 
     if (x2Info->getInit())
     {
+        EV << "LteX2Manager::fromStack getInit" << endl;
         // gate initialization
         LteX2MessageType msgType = x2msg->getType();
         int gateIndex = x2msg->getArrivalGate()->getIndex();
@@ -116,6 +118,7 @@ void LteX2Manager::fromStack(cPacket* pkt)
     // If the message is a HandoverDataMsg, send to the GTPUserX2 module
     if (x2msg->getType() == X2_HANDOVER_DATA_MSG)
     {
+        EV << "LteX2Manager::fromStack handover" << endl;
         // GTPUserX2 module will tunnel this datagram towards the target eNB
         DestinationIdList destList = x2Info->getDestIdList();
         DestinationIdList::iterator it = destList.begin();
@@ -133,6 +136,7 @@ void LteX2Manager::fromStack(cPacket* pkt)
     }
     else  // X2 control messages
     {
+        EV << "LteX2Manager::fromStack control" << endl;
         DestinationIdList destList = x2Info->getDestIdList();
         DestinationIdList::iterator it = destList.begin();
         for (; it != destList.end(); ++it)

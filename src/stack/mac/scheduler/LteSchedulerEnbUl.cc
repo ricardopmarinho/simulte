@@ -89,6 +89,8 @@ bool LteSchedulerEnbUl::racschedule()
         const unsigned int cw =0;
         const unsigned int blocks =1;
 
+        getBinder()->getUeList();
+
         bool allocation=false;
 
         for (Band b=0;b<numBands;++b)
