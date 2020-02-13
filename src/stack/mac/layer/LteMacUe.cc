@@ -85,7 +85,7 @@ void LteMacUe::initialize(int stage)
         binder_->addUeInfo(info);
 
         /*
-         * This line changes the local address value given at .ini file
+         * This lines change the local address value given at .ini file
          * so we can add more devices.
          * This value is static and defined at the .ini file, therefore
          * to add more devices on the network, we would have to set this
@@ -629,6 +629,9 @@ LteMacUe::checkRAC()
             break;
         }
     }
+
+    if(nodeId_==1026)
+        trigger = true;
 
     if (!trigger)
     EV << NOW << "Ue " << nodeId_ << ",RAC aborted, no data in queues " << endl;

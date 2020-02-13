@@ -13,6 +13,8 @@
 #include <cctype>
 #include "corenetwork/nodes/InternetMux.h"
 
+#include <math.h>
+
 using namespace std;
 
 Define_Module(LteBinder);
@@ -1002,6 +1004,113 @@ void LteBinder::printTotalServedDevs(){
     for(int i=0;i<this->totalServedDevs.size();i++){
         EV << "[index = " << i << " value= " << this->totalServedDevs[i] << "]" << endl;
     }
+}
+
+std::string LteBinder::checkCAINType(MacNodeId nodeId){
+    int distThresh = getModuleByPath("CAIN")->par("distThresh");
+    std::ostringstream str;
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(1 == vect->at(i)->id){
+            UeAreaMap* ueMap = vect->operator [](i)->mapUe;
+            int area = ueMap->operator [](nodeId);
+            EV << "The area is: " << area << endl;
+            if(area == 1){
+                str << "DIR|Ok";
+            }
+            else{//area = 2
+
+                std::pair<MacNodeId, double> closerRelay = findCloserRelay(nodeId);
+                if(closerRelay.first == 0){
+                    EV << "There is no device on area 1!" << endl;
+                    str << "DIR|Ok";
+                }
+                else{
+                    EV << "The closest relay is: " << closerRelay.first << endl;
+                    if(closerRelay.second <= distThresh){
+                        EV << "Node " << nodeId << " is close enough!" << endl;
+                        str << "FWD|" << closerRelay.first;
+                    }else{
+                        MacNodeId hopId = findCloserHop(nodeId,closerRelay.first);
+                        if(hopId == 0){
+                            EV << "There is no closer hop" << endl;
+                            str << "FWD|" << closerRelay.first;
+                        }else{
+                            EV << "The closer hop is:" << hopId << endl;
+                            str << "HOP_FWD|" << closerRelay.first << ";" << hopId;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return str.str();
+}
+
+std::pair<MacNodeId,double> LteBinder::findCloserRelay(MacNodeId ueId){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId closerNode = 0;
+    double minDist = INFINITY;
+    std::pair<MacNodeId, double> p;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(1 == vect->at(i)->id){
+            UeAreaMap* ueMap = vect->operator [](i)->mapUe;
+            UeAreaMap::iterator mapIt = ueMap->begin();
+            /*
+             * iterate over the ue and find the area it is
+             * */
+            for(; mapIt != ueMap->end(); mapIt++){
+                if(mapIt->first != ueId && mapIt->second == 1){//if the ue is a relay (area 1) and is not the current ue
+                    Coord ue = vect->operator [](i)->Clist->operator [](ueId);
+                    Coord relay = vect->operator [](i)->Clist->operator [](mapIt->first);
+                    double distance = ue.distance(relay);//calculates the distance
+                    if(distance < minDist){
+                        minDist = distance;
+                        closerNode = mapIt->first;
+                    }
+                }
+            }
+        }
+    }
+    p.first = closerNode;
+    p.second = minDist;
+    return p;
+}
+
+MacNodeId LteBinder::findCloserHop(MacNodeId ueId, MacNodeId relayId){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId closerHop = 0;
+    double minDist = INFINITY;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(1 == vect->at(i)->id){
+            UeAreaMap* ueMap = vect->operator [](i)->mapUe;
+            UeAreaMap::iterator mapIt = ueMap->begin();
+            /*
+             * iterate over the ue and find the area it is
+             * */
+            for(; mapIt != ueMap->end(); mapIt++){
+                if((mapIt->first != ueId && mapIt->first != relayId) && mapIt->second == 2){
+                    /*
+                     * if the ue is a possible hop (area 2) and is not the current ue
+                     * or the relay
+                     */
+                    Coord relay = vect->operator [](i)->Clist->operator [](relayId);
+                    Coord hop = vect->operator [](i)->Clist->operator [](mapIt->first);
+                    /*
+                     * calculate the distance between the possible hop and the
+                     * relay
+                     */
+                    double distance = hop.distance(relay);
+                    if(distance < minDist){
+                        minDist = distance;
+                        closerHop = mapIt->first;
+                    }
+                }
+
+            }
+        }
+    }
+    return closerHop;
 }
 /////////////////////////////////////////////
 

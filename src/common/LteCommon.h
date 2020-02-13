@@ -800,6 +800,23 @@ typedef std::map<MacNodeId,double> relayList;
 typedef std::vector<MacNodeId> rep_list;
 
 /*
+ * Stores in which area (1 or 2) the ue is
+ * */
+typedef std::map<MacNodeId,int> UeAreaMap;
+
+/*
+ * Stores the distance between the relays (area 1) to
+ * UEs on area 2
+ * */
+typedef std::map<MacNodeId, std::map<MacNodeId,double>*> relayDist;
+
+/*
+ * Stores a list of possible relays for UEs on
+ * area 2
+ * */
+typedef std::map<MacNodeId, std::list<MacNodeId>*> ueRelay;
+
+/*
  * Stores the coord from ue
  * */
 typedef std::map<MacNodeId, inet::Coord> coordList;
@@ -838,6 +855,9 @@ struct EnbInfo
     sinrMapB* Bmap;
     sinrMapW* Wmap;
     int pwrThresh;
+    UeAreaMap* mapUe;
+    relayDist* distMap;
+    ueRelay* relayMap;
     coordList* Clist;
 //////
     int x2;

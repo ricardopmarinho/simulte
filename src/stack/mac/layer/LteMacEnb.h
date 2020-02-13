@@ -77,13 +77,13 @@ class LteMacEnb : public LteMacBase
     long servHopDevs = 0;
     long totalServDevs = 0;
 
-    typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
-
-    Comparator compFunctor =
-        [](std::pair<MacNodeId, double> elem1 ,std::pair<MacNodeId, double> elem2)
-        {
-            return elem1.second < elem2.second;
-        };
+//    typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
+//
+//    Comparator compFunctor =
+//        [](std::pair<MacNodeId, double> elem1 ,std::pair<MacNodeId, double> elem2)
+//        {
+//            return elem1.second < elem2.second;
+//        };
     //////////////////
 
     /**

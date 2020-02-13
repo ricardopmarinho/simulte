@@ -330,6 +330,9 @@ class LteRealisticChannelModel : public LteChannelModel
      * @param id mac id of the user
      */
     JakesFadingMap * obtainUeJakesMap(MacNodeId id);
+
+    int createAreaMap(MacNodeId ueId, double recvPower);
+    void createDistMaps(MacNodeId ueId, int area, Coord ueCoord);
 };
 
 #endif

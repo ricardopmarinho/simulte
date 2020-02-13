@@ -604,59 +604,63 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             EV << "The nodes that need a relay are: " << endl;
             EV << "Node list size: " << node.size() << endl;
             int i = 0;
-            for(i = 0; i < node.size()-1; i++){
-                EV << node[i] << endl;
-
-                /*
-                 * Changing the connect address online
-                 * */
-                const char* connectUe = binder_->getUeNodeNameById(node[i]);
-                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
-                        ->getAncestorPar("connectAddress") = connectUe;
-
-
-                EV << "This node: " << nodeId_ << endl;
-
-                /*
-                 * if returns true, the relay is waiting for another relay response from that node
-                 * otherwise, the relay did not send any relay request to that node and can send one now
-                 * */
-                if(checkRepList(node[i])){
-                    EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
-                }else{
-                    LteRac* pack = racPkt->dup();
-                    //pack->encapsulate(pkt->decapsulate());
-                    UserControlInfo* uinfoDup = uinfo->dup();
-                    uinfoDup->setDestId(node[i]);
-                    uinfoDup->setCAINdest(node[i]);
-                    uinfoDup->setSourceId(nodeId_);
-                    uinfoDup->setDirection(D2D);
-                    uinfoDup->setCAINDirection(REL);
-                    uinfoDup->setCAINEnable(true);
-                    uinfoDup->setCAINOption("OK");
-                    //if(pack->getControlInfo() == NULL)
-                    pack->setControlInfo(uinfoDup);
-                    sendLowerPackets(pack);
-                }
-            }
-
-            EV << node[i] << endl;
-            if(checkRepList(node[i])){
-                EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
-                delete racPkt;
-            }else{
-                const char* connectUe = binder_->getUeNodeNameById(node[i]);
-                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
-                        ->getAncestorPar("connectAddress") = connectUe;
-                uinfo->setDestId(node[i]);
-                uinfo->setCAINdest(node[i]);
-                uinfo->setSourceId(nodeId_);
-                uinfo->setDirection(D2D);
-                uinfo->setCAINDirection(REL);
-                uinfo->setCAINEnable(true);
-                uinfo->setCAINOption("OK");
-                sendLowerPackets(racPkt);
-            }
+            uinfo->setDestId(1);
+            uinfo->setCAINDirection(FWD);
+//            racPkt->setControlInfo(uinfo);
+            sendLowerPackets(racPkt);
+//            for(i = 0; i < node.size()-1; i++){
+//                EV << node[i] << endl;
+//
+//                /*
+//                 * Changing the connect address online
+//                 * */
+//                const char* connectUe = binder_->getUeNodeNameById(node[i]);
+//                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
+//                        ->getAncestorPar("connectAddress") = connectUe;
+//
+//
+//                EV << "This node: " << nodeId_ << endl;
+//
+//                /*
+//                 * if returns true, the relay is waiting for another relay response from that node
+//                 * otherwise, the relay did not send any relay request to that node and can send one now
+//                 * */
+//                if(checkRepList(node[i])){
+//                    EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
+//                }else{
+//                    LteRac* pack = racPkt->dup();
+//                    //pack->encapsulate(pkt->decapsulate());
+//                    UserControlInfo* uinfoDup = uinfo->dup();
+//                    uinfoDup->setDestId(node[i]);
+//                    uinfoDup->setCAINdest(node[i]);
+//                    uinfoDup->setSourceId(nodeId_);
+//                    uinfoDup->setDirection(D2D);
+//                    uinfoDup->setCAINDirection(REL);
+//                    uinfoDup->setCAINEnable(true);
+//                    uinfoDup->setCAINOption("OK");
+//                    //if(pack->getControlInfo() == NULL)
+//                    pack->setControlInfo(uinfoDup);
+//                    sendLowerPackets(pack);
+//                }
+//            }
+//
+//            EV << node[i] << endl;
+//            if(checkRepList(node[i])){
+//                EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
+//                delete racPkt;
+//            }else{
+//                const char* connectUe = binder_->getUeNodeNameById(node[i]);
+//                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
+//                        ->getAncestorPar("connectAddress") = connectUe;
+//                uinfo->setDestId(node[i]);
+//                uinfo->setCAINdest(node[i]);
+//                uinfo->setSourceId(nodeId_);
+//                uinfo->setDirection(D2D);
+//                uinfo->setCAINDirection(REL);
+//                uinfo->setCAINEnable(true);
+//                uinfo->setCAINOption("OK");
+//                sendLowerPackets(racPkt);
+//            }
                 break;
         }
         case REL:

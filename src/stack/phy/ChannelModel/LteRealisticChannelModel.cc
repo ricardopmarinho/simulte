@@ -906,6 +906,9 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             binder_->setEnbCoord(enbCoord);
         }
 
+        int area = createAreaMap(ueId, recvPower);
+//        createDistMaps(ueId, area,ueCoord);
+
         EV << "Creating map" << endl;
         for(unsigned int j = 0; j < vect->size();j++){
             if(eNbId == vect->at(j)->id){
@@ -2580,3 +2583,130 @@ bool LteRealisticChannelModel::computeInCellD2DInterference(MacNodeId eNbId, Mac
     return true;
 }
 
+int LteRealisticChannelModel::createAreaMap(MacNodeId ueId, double recvPower){
+    std::vector<EnbInfo*>* vect = binder_->getEnbList();
+    UeAreaMap* mapUe = NULL;
+
+    for(unsigned int j = 0; j < vect->size();j++){
+        if(1 == vect->at(j)->id){
+            int pwrThresh = vect->operator [](j)->pwrThresh;
+            mapUe = vect->operator [](j)->mapUe;
+            if(recvPower >= pwrThresh){
+                EV << "Storing a good power device: " << ueId << endl;
+                if(mapUe->count(ueId)>=1)
+                    mapUe->erase(ueId);
+                mapUe->operator [](ueId) = 1;
+                return 1;
+            }else{
+                EV << "Storing a poor power device: " << ueId << endl;
+                if(mapUe->count(ueId)>=1)
+                    mapUe->erase(ueId);
+                mapUe->operator [](ueId) = 2;
+                return 2;
+            }
+        }
+    }
+    return 0;
+}
+
+void LteRealisticChannelModel::createDistMaps(MacNodeId ueId, int area, Coord ueCoord){
+    std::vector<EnbInfo*>* vect = binder_->getEnbList();
+
+    EV << "Device: " << ueId << " at area " << area << endl;
+
+    /*
+     * Finding the enb
+     * */
+    unsigned int i;
+    for(i = 0; i < vect->size();i++){
+        if(1 == vect->at(i)->id)
+            break;
+    }
+    /*
+     * Getting the structures
+     * */
+    relayDist* distMap = vect->operator [](i)->distMap;
+    coordList* cList= vect->operator [](i)->Clist;
+    ueRelay* relayMap = vect->operator [](i)->relayMap;
+
+    /*
+     * inserting the coordinate for this UE
+     * */
+    if(cList->count(ueId)>=1)
+        cList->erase(ueId);
+    cList->operator [](ueId)=ueCoord;
+
+    switch(area){
+    case 1:
+    {
+        /*
+         * just create the map field (| UE | ... |)
+         * */
+        if(distMap->operator [](ueId)==NULL)
+            distMap->operator [](ueId) = new std::map<MacNodeId,double>();
+
+        if(relayMap->count(ueId)>=1)
+            relayMap->erase(ueId);
+        break;
+    }
+    case 2:
+    {
+        /*
+         * create the relay list for that UE
+         * */
+        if(relayMap->operator [](ueId)==NULL)
+            relayMap->operator [](ueId) = new std::list<MacNodeId>();
+
+        /*
+         * find a relay -> insert it to the relay list
+         *              -> calculate the distance for this area 2 UE
+         * */
+        if(distMap->count(ueId)>=1)
+            distMap->erase(ueId);
+
+        relayDist::iterator it = distMap->begin();
+        for(; it != distMap->end(); it++){
+            bool contains = false;
+            std::list<MacNodeId>::iterator relIt = relayMap->operator [](ueId)->begin();
+            for(; relIt != relayMap->operator [](ueId)->end(); relIt++){
+                if(it->first == *relIt){
+                    contains = true;
+                }
+            }
+            if(!contains)
+                relayMap->operator [](ueId)->push_front(it->first);
+
+            EV << "Dist map from " << it->first << endl;
+
+            std::list<MacNodeId>::iterator itbeg = relayMap->operator [](ueId)->begin();
+            std::list<MacNodeId>::iterator itend = relayMap->operator [](ueId)->end();
+            EV << "Relays for node " << ueId <<  " "<< endl;
+            for(; itbeg != itend; itbeg++)
+                EV << " " << *itbeg;
+            EV << endl;
+
+            if(it->first != ueId){
+                double distance = cList->operator [](it->first).distance(cList->operator [](ueId));
+                std::map<MacNodeId,double>* closeNode=NULL;
+                if(it->second==NULL){
+                    closeNode = new std::map<MacNodeId,double>();
+                }else{
+                    closeNode = it->second;
+                }
+                closeNode->operator [](ueId) = distance;
+                it->second = closeNode;
+            }
+        }
+        for(it = distMap->begin();it != distMap->end(); it++){
+            EV << "Relay: " << it->first << endl;
+            std::map<MacNodeId, double>::iterator distIt = it->second->begin();
+            for(; distIt != it->second->end(); distIt++)
+                EV << "UE: " << distIt->first << " distance " << distIt->second << endl;
+        }
+        break;
+    }
+    default:
+        EV << "Unknown area!" << endl;
+        break;
+    }
+}
