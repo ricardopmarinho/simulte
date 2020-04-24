@@ -720,12 +720,17 @@ void LteBinder::initialize(int stage)
 
         int numUe=this->getParentModule()->par("numUeD2DTx");
         this->servedDevs = std::vector<bool>(numUe,false);
+<<<<<<< HEAD
         this->racServedDevs = std::vector<bool>(numUe,false);
         this->servedHopDevs = std::vector<bool>(numUe,false);
         this->totalServedDevs = std::vector<bool>(numUe,false);
         this->allocatedRbs = new std::map<MacNodeId,bool>();
         this->numRbUl = 50;
         this->qtdRbAllocated = 0;
+=======
+        this->servedHopDevs = std::vector<bool>(numUe,false);
+        this->totalServedDevs = std::vector<bool>(numUe,false);
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 
         for (int i = 0; i < LTE_QCI_CLASSES; i++)
         {
@@ -977,6 +982,7 @@ int LteBinder::countServedDevs(){
     return count;
 }
 
+<<<<<<< HEAD
 int LteBinder::racServedDevscount(){
     int count=0;
     for(int i=0;i<this->racServedDevs.size();i++){
@@ -986,6 +992,8 @@ int LteBinder::racServedDevscount(){
     return count;
 }
 
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 void LteBinder::printServedDevs(){
     for(int i=0;i<this->servedDevs.size();i++){
         EV << "[index = " << i << " value= " << this->servedDevs[i] << "]" << endl;
@@ -1018,6 +1026,7 @@ void LteBinder::printTotalServedDevs(){
         EV << "[index = " << i << " value= " << this->totalServedDevs[i] << "]" << endl;
     }
 }
+<<<<<<< HEAD
 
 std::string LteBinder::checkCAINType(MacNodeId nodeId){
     int distThresh = getModuleByPath("CAIN")->par("distThresh");
@@ -1186,6 +1195,8 @@ void LteBinder::setAllocatedRb(MacNodeId nodeId, bool setted){
 bool LteBinder::getAllocatedRb(MacNodeId nodeId){
     return allocatedRbs->operator [](nodeId);
 }
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 /////////////////////////////////////////////
 
 

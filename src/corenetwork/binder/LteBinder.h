@@ -62,11 +62,15 @@ class LteBinder : public cSimpleModule
     Coord enbCoord;
     std::vector<bool> servedDevs;                   //devices served by cain direct message
     std::vector<bool> servedHopDevs;                //devices served by cain hop message
+<<<<<<< HEAD
     std::vector<bool> totalServedDevs;              //devices served by cain direct and hop message
     std::map<MacNodeId, bool> *allocatedRbs;         //the rbs could be allocated?
     std::vector<bool> racServedDevs;
     int numRbUl;
     int qtdRbAllocated;
+=======
+    std::vector<bool> totalServedDevs;               //devices served by cain direct and hop message
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     ///////////////////
 
     // list of static external cells. Used for intercell interference evaluation
@@ -181,6 +185,7 @@ class LteBinder : public cSimpleModule
 
     ////////////////////////////////////////////////////////////////////////
 
+<<<<<<< HEAD
     typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
 
     Comparator compFunctor =
@@ -194,6 +199,11 @@ class LteBinder : public cSimpleModule
     void setServedDev(int index, bool b){servedDevs[index]=b;}
     void setRacSevedDev(int index, bool b){racServedDevs[index]=b;}
     int racServedDevscount();
+=======
+    void setEnbCoord(const Coord& coord){enbCoord = coord;}
+    Coord getEnbCoord() const{return enbCoord;}
+    void setServedDev(int index, bool b){servedDevs[index]=b;}
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     bool getServedDevByIndex(int index){return servedDevs[index];}
     int countServedDevs();
     void printServedDevs();
@@ -206,6 +216,7 @@ class LteBinder : public cSimpleModule
     int countTotalServedDevs();
     void printTotalServedDevs();
 
+<<<<<<< HEAD
     std::string checkCAINType(MacNodeId nodeId);
     std::pair<MacNodeId,double> findCloserRelay(MacNodeId ueId);
     MacNodeId findCloserHop(MacNodeId ueId, MacNodeId relayId);
@@ -215,6 +226,8 @@ class LteBinder : public cSimpleModule
     void setAllocatedRb(MacNodeId nodeId, bool setted);
     bool getAllocatedRb(MacNodeId nodeId);
 
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.

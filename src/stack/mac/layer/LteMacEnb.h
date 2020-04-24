@@ -66,12 +66,18 @@ class LteMacEnb : public LteMacBase
     simsignal_t cainHopMessageSignal;
     simsignal_t DistanceSignal;
     simsignal_t hopDistanceSignal;
+<<<<<<< HEAD
     simsignal_t servedDevsSignal;
     simsignal_t servedHopDevsSignal;
     simsignal_t totalServedDevsSignal;
     simsignal_t racpktSignal;
     simsignal_t racDistanceSignal;
     simsignal_t racServedDevsSignal;
+=======
+    simsignal_t servedDevs;
+    simsignal_t servedHopDevsSignal;
+    simsignal_t totalServedDevsSignal;
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     long CainMessage = 0;
     long cainHopMessage = 0;
     long distance = 0;
@@ -79,6 +85,7 @@ class LteMacEnb : public LteMacBase
     long servDevs = 0;
     long servHopDevs = 0;
     long totalServDevs = 0;
+<<<<<<< HEAD
     long racpkt = 0;
     long racDistance = 0;
     long racServedDevscount = 0;
@@ -92,6 +99,16 @@ class LteMacEnb : public LteMacBase
 //        {
 //            return elem1.second < elem2.second;
 //        };
+=======
+
+    typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
+
+    Comparator compFunctor =
+        [](std::pair<MacNodeId, double> elem1 ,std::pair<MacNodeId, double> elem2)
+        {
+            return elem1.second < elem2.second;
+        };
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     //////////////////
 
     /**
@@ -192,10 +209,13 @@ class LteMacEnb : public LteMacBase
 
     std::map<MacNodeId,std::map<MacNodeId,double>*> generateCloserList(MacNodeId relay, std::map<MacNodeId,double> nodes,coordList* csList);
 
+<<<<<<< HEAD
     void updateAssistedList(MacNodeId assistedNode,assistedDevices* assDev);
 
     void printAssistedList(MacNodeId relay,assistedDevices* assDev);
 
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     /**
      * Main loop
      */

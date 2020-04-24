@@ -530,6 +530,7 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
        << nodeId_ << " sending feedback to the air channel" << endl;
     sendUnicast(frame);
 
+<<<<<<< HEAD
 
     LteFeedbackPkt* fbPktDup = fbPkt->dup();
     UserControlInfo* uinfoDup = uinfo->dup();
@@ -543,5 +544,7 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
 
     sendUnicast(frameDup);
 
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 }
 

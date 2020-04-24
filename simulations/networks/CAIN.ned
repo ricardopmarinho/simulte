@@ -32,6 +32,7 @@ network CAIN
         int numUeD2DTx = default(0);
         int numUeD2DRx = default(0);
         //////////////////////////////////
+<<<<<<< HEAD
         int pwrThresh = default(13); //when ready, use -90 for power threshold
         bool cainNetwork = default(true);	//if the simulation will use CAIN
         int qtdThresh = default(2);			//The number of devices on closer list
@@ -40,6 +41,13 @@ network CAIN
         //////////////////////////////////
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
 
+=======
+        int pwrThresh = default(-30); //when ready, use -90 for power threshold
+        bool cainNetwork = default(true);
+        //////////////////////////////////
+        @display("i=block/network2;bgb=991,558;bgi=background/budapest");
+        
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     submodules:
         channelControl: LteChannelControl {
             @display("p=50,25;is=s");

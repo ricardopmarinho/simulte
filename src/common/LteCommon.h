@@ -130,9 +130,13 @@ enum CAINDirection
     HOP_REQ,
     HOP_RES,
     HOP_REP,
+<<<<<<< HEAD
     HOP_FWD,
     ANSW,
     HOP_ANSW
+=======
+    HOP_FWD
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 };
 
 /// Modulations
@@ -802,6 +806,7 @@ typedef std::map<MacNodeId,double> relayList;
 typedef std::vector<MacNodeId> rep_list;
 
 /*
+<<<<<<< HEAD
  * Stores in which area (1 or 2) the ue is
  * */
 typedef std::map<MacNodeId,int> UeAreaMap;
@@ -836,6 +841,11 @@ typedef std::map<MacNodeId, inet::Coord> coordList;
  *
  * */
 typedef std::list<MacNodeId> assistedDevices;
+=======
+ * Stores the coord from ue
+ * */
+typedef std::map<MacNodeId, inet::Coord> coordList;
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 
 /*********************
  * Incell Interference Support
@@ -863,11 +873,15 @@ struct EnbInfo
     sinrMapB* Bmap;
     sinrMapW* Wmap;
     int pwrThresh;
+<<<<<<< HEAD
     UeAreaMap* mapUe;
     relayDist* distMap;
     ueRelay* relayMap;
     coordList* Clist;
     rbIncrease* moreRb;
+=======
+    coordList* Clist;
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 //////
     int x2;
 };
@@ -882,7 +896,10 @@ struct UeInfo
     cModule * ue;
     LtePhyBase* phy;
 ///////
+<<<<<<< HEAD
     assistedDevices* assList;
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
     relayList* rList;
     rep_list* repList;
 ///////

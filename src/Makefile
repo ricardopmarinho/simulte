@@ -2155,6 +2155,10 @@ $O/stack/mac/layer/LteMacUeRealisticD2D.o: stack/mac/layer/LteMacUeRealisticD2D.
 	$(INET_PROJ)/src/inet/networklayer/common/ModulePathAddress.h \
 	$(INET_PROJ)/src/inet/networklayer/contract/ipv4/IPv4Address.h \
 	$(INET_PROJ)/src/inet/networklayer/contract/ipv6/IPv6Address.h \
+<<<<<<< HEAD
+=======
+	common/CAINInfo_m.h \
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 	common/LteCommon.h \
 	common/LteControlInfo.h \
 	common/LteControlInfo_m.h \
@@ -3000,14 +3004,31 @@ $O/stack/phy/ChannelModel/LteRealisticChannelModel.o: stack/phy/ChannelModel/Lte
 	$(INET_PROJ)/src/inet/common/INETDefs.h \
 	$(INET_PROJ)/src/inet/common/INETMath.h \
 	$(INET_PROJ)/src/inet/common/InitStages.h \
+<<<<<<< HEAD
 	$(INET_PROJ)/src/inet/common/geometry/common/Coord.h \
 	$(INET_PROJ)/src/inet/features.h \
 	$(INET_PROJ)/src/inet/linklayer/common/MACAddress.h \
+=======
+	$(INET_PROJ)/src/inet/common/Units.h \
+	$(INET_PROJ)/src/inet/common/geometry/common/Coord.h \
+	$(INET_PROJ)/src/inet/common/geometry/common/EulerAngles.h \
+	$(INET_PROJ)/src/inet/features.h \
+	$(INET_PROJ)/src/inet/linklayer/common/MACAddress.h \
+	$(INET_PROJ)/src/inet/mobility/contract/IMobility.h \
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 	$(INET_PROJ)/src/inet/networklayer/common/L3Address.h \
 	$(INET_PROJ)/src/inet/networklayer/common/ModuleIdAddress.h \
 	$(INET_PROJ)/src/inet/networklayer/common/ModulePathAddress.h \
 	$(INET_PROJ)/src/inet/networklayer/contract/ipv4/IPv4Address.h \
 	$(INET_PROJ)/src/inet/networklayer/contract/ipv6/IPv6Address.h \
+<<<<<<< HEAD
+=======
+	$(INET_PROJ)/src/inet/physicallayer/antenna/MassiveMIMOURPA.h \
+	$(INET_PROJ)/src/inet/physicallayer/base/packetlevel/AntennaBase.h \
+	$(INET_PROJ)/src/inet/physicallayer/base/packetlevel/PhysicalLayerDefs.h \
+	$(INET_PROJ)/src/inet/physicallayer/contract/packetlevel/IAntenna.h \
+	$(INET_PROJ)/src/inet/physicallayer/contract/packetlevel/IPrintableObject.h \
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 	common/LteCommon.h \
 	common/LteControlInfo.h \
 	common/LteControlInfo_m.h \
