@@ -154,14 +154,6 @@ void LteMacBase::fromPhy(cPacket *pkt)
 
             EV << "LteMacBase.cc::fromPhy" << endl;
 
-
-            racpkt++;
-            emit(racpktSignal,racpkt);
-
-            Coord ueCoord = userInfo->getCoord();
-            racDistance = ueCoord.distance(binder_->getEnbCoord());
-            emit(racDistanceSignal,racDistance);
-
             macHandleRac(pkt);
         }
         else
@@ -321,9 +313,6 @@ void LteMacBase::initialize(int stage)
     if (stage == inet::INITSTAGE_LOCAL)
     {
 
-
-        racpktSignal = registerSignal("racpkt");
-        racDistanceSignal = registerSignal("racDistanceSignal");
 
         /* Gates initialization */
         up_[IN] = gate("RLC_to_MAC");

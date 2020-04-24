@@ -174,6 +174,9 @@ unsigned int LteAllocationModule::computeTotalRbs()
         }
     }
 
+
+    EV << "Resource: " << resourceBlocks << " allocated: " << allocatedBlocks << endl;
+
     int availableBlocks = resourceBlocks - allocatedBlocks;
 
     // available blocks MUST be a non negative amount
@@ -192,6 +195,8 @@ unsigned int LteAllocationModule::availableBlocks(const MacNodeId nodeId, const 
     Plane plane = getOFDMPlane(nodeId);
 
     unsigned int blocksPerBand = (totalRbsMatrix_[plane][antenna]) / bands_;
+    LteBinder* binder = getBinder();
+    blocksPerBand+=binder->getIncreaseResourceBlock(nodeId);
     // blocks allocated in the current band
     unsigned int allocatedBlocks = allocatedRbsPerBand_[plane][antenna][band].allocated_;
 
@@ -286,29 +291,33 @@ bool LteAllocationModule::addBlocks(const Remote antenna, const Band band, const
         EV << NOW << " LteAllocator::addBlocks " << dirToA(dir_) << " - Node " << nodeId << " - 0 bytes available with " << blocks << " blocks" << endl;
         return false;
     }
+    if(allocatedRbsMatrix_[plane][antenna] + blocks <= 50){
 
-        // Note the request on the allocator structures
-    allocatedRbsPerBand_[plane][antenna][band].ueAllocatedRbsMap_[nodeId] += blocks;
-    allocatedRbsPerBand_[plane][antenna][band].ueAllocatedBytesMap_[nodeId] += bytes;
-    allocatedRbsPerBand_[plane][antenna][band].allocated_ += blocks;
+            // Note the request on the allocator structures
+        allocatedRbsPerBand_[plane][antenna][band].ueAllocatedRbsMap_[nodeId] += blocks;
+        allocatedRbsPerBand_[plane][antenna][band].ueAllocatedBytesMap_[nodeId] += bytes;
+        allocatedRbsPerBand_[plane][antenna][band].allocated_ += blocks;
 
-    allocatedRbsUe_[nodeId].ueAllocatedRbsMap_[antenna][band] += blocks;
-    allocatedRbsUe_[nodeId].allocatedBlocks_ += blocks;
-    allocatedRbsUe_[nodeId].allocatedBytes_ += bytes;
-    allocatedRbsUe_[nodeId].antennaAllocatedRbs_[antenna] += blocks;
+        allocatedRbsUe_[nodeId].ueAllocatedRbsMap_[antenna][band] += blocks;
+        allocatedRbsUe_[nodeId].allocatedBlocks_ += blocks;
+        allocatedRbsUe_[nodeId].allocatedBytes_ += bytes;
+        allocatedRbsUe_[nodeId].antennaAllocatedRbs_[antenna] += blocks;
 
-    // Store the request in the allocationList
-    AllocationElem elem;
-    elem.resourceBlocks_ = blocks;
-    elem.bytes_ = bytes;
-    allocatedRbsUe_[nodeId].allocationMap_[antenna][band].push_back(elem);
+        // Store the request in the allocationList
+        AllocationElem elem;
+        elem.resourceBlocks_ = blocks;
+        elem.bytes_ = bytes;
+        allocatedRbsUe_[nodeId].allocationMap_[antenna][band].push_back(elem);
 
-    // update the allocatedBlocks counter
-    allocatedRbsMatrix_[plane][antenna] += blocks;
+        // update the allocatedBlocks counter
+        allocatedRbsMatrix_[plane][antenna] += blocks;
 
-    EV << NOW << " LteAllocator::addBlocks " << dirToA(dir_) << " - Node " << nodeId << ", the request of " << blocks << " blocks on band " << band << " satisfied" << endl;
+        EV << NOW << " LteAllocator::addBlocks " << dirToA(dir_) << " - Node " << nodeId << ", the request of " << blocks << " blocks on band " << band << " satisfied" << endl;
 
-    return true;
+        return true;
+    }else{
+        return false;
+    }
 }
 
 unsigned int LteAllocationModule::removeBlocks(const Remote antenna, const Band band, const MacNodeId nodeId)
@@ -328,6 +337,7 @@ unsigned int LteAllocationModule::removeBlocks(const Remote antenna, const Band 
     // If the number of blocks allocated by the nodeId in the band is zero, do nothing!
     if(toDrain == 0)
     return toDrain;
+
 
     // Note the removal on the allocator structures
     allocatedRbsPerBand_[plane][antenna][band].allocated_ -= toDrain;

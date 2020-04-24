@@ -50,6 +50,7 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
     std::map<Remote, int> antennaCws = deployer_->getAntennaCws();
     unsigned int numPreferredBand = deployer_->getNumPreferredBands();
     Direction dir = UL;
+//    binder_->checkCAINType(lteinfo->getSourceId());
     while (dir != UNKNOWN_DIRECTION)
     {
         //for each RU is called the computation feedback function

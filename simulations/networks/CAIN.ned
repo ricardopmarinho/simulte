@@ -32,13 +32,14 @@ network CAIN
         int numUeD2DTx = default(0);
         int numUeD2DRx = default(0);
         //////////////////////////////////
-        int pwrThresh = default(-30); //when ready, use -90 for power threshold
+        int pwrThresh = default(13); //when ready, use -90 for power threshold
         bool cainNetwork = default(true);	//if the simulation will use CAIN
         int qtdThresh = default(2);			//The number of devices on closer list
         int distThresh = default(130);		//The distance a device must be to enter the closer list
+        //        int numEnB = default(1);
         //////////////////////////////////
         @display("i=block/network2;bgb=991,558;bgi=background/budapest");
-        
+
     submodules:
         channelControl: LteChannelControl {
             @display("p=50,25;is=s");
@@ -66,6 +67,9 @@ network CAIN
         eNodeB: eNodeB {
             @display("p=391,259;is=vl");
         }
+        eNodeB1: eNodeB {
+            @display("p=671.625,242.53125;is=vl");
+        }
         ueCell[numUeCell]: CAIN_Ue {
             @display("p=292,367");
         }
@@ -79,4 +83,7 @@ network CAIN
         server.pppg++ <--> Eth10G <--> router.pppg++;
         router.pppg++ <--> Eth10G <--> pgw.filterGate;
         pgw.pppg++ <--> Eth10G <--> eNodeB.ppp;
+        pgw.pppg++ <--> Eth10G <--> eNodeB1.ppp;
+        eNodeB1.x2++ <--> Eth10G <--> eNodeB.x2++;
+
 }

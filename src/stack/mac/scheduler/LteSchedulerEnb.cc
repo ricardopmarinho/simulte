@@ -655,9 +655,9 @@ unsigned int LteSchedulerEnb::scheduleGrant(MacCid cid, unsigned int bytes,
                     {
                         totalAllocatedBlocks += blocksAdded;
                     }
-                    else
-                        throw cRuntimeError("band %d ALLOCATOR allocation overflow - allocation failed in allocator",
-                            b);
+//                    else
+//                        throw cRuntimeError("band %d ALLOCATOR allocation overflow - allocation failed in allocator",
+//                            b);
                 }
                 cwAllocatedBlocks += blocksAdded;
 

@@ -293,44 +293,6 @@ void LtePhyUeD2D::handleUpperMessage(cMessage* msg)
 
     lteInfo->setTxPower(txPower_);
 
-    if(lteInfo->getDestId() == 1){
-        std::string str = binder_->checkCAINType(nodeId_);
-//        std::vector<EnbInfo*>* vect = binder_->getEnbList();
-//        for(unsigned int i = 0; i < vect->size();i++){
-//            if(1 == vect->at(i)->id){
-//                UeAreaMap* ueMap = vect->operator [](i)->mapUe;
-//                int area = ueMap->operator [](nodeId_);
-//                EV << "The area is: " << area << endl;
-//                if(area == 2){
-//                    relayDist* relays = vect->operator [](i)->distMap;
-//                    if(relays->empty())
-//                        EV << "There is no device on area 1!" << endl;
-//                    else{
-//                        EV << "There are devices on area 1!" << endl << "They are: " << endl;
-//                        relayDist::iterator it = relays->begin();
-//                        for(; it != relays->end(); it++)
-//                            EV << it->first << " ";
-//                        EV << endl;
-//                    }
-//                }
-//            }
-//        }
-        EV << "Binder string: " << str << endl;
-    }
-
-    endSimulation();
-
-
-    if(lteInfo->getDestId() == 1 && nodeId_ == 1025){
-        EV << "Destined to enb" << endl;
-        lteInfo->setCAINEnable(true);
-        lteInfo->setCAINDirection(NOTIFY);
-        lteInfo->setCAINOption("");
-        lteInfo->setDestId(1026);
-    }
-
-
-
     frame->setControlInfo(lteInfo);
 
     EV << "Source id: " << lteInfo->getSourceId() << endl;
@@ -568,4 +530,18 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
        << nodeId_ << " sending feedback to the air channel" << endl;
     sendUnicast(frame);
 
+
+    LteFeedbackPkt* fbPktDup = fbPkt->dup();
+    UserControlInfo* uinfoDup = uinfo->dup();
+    LteAirFrame* frameDup = frame->dup();
+    frameDup->decapsulate();
+    frameDup->encapsulate(check_and_cast<cPacket*>(fbPktDup));
+    frameDup->removeControlInfo();
+    MacNodeId bsId = masterId_+1;
+    uinfoDup->setDestId(bsId);
+    frameDup->setControlInfo(uinfoDup);
+
+    sendUnicast(frameDup);
+
 }
+

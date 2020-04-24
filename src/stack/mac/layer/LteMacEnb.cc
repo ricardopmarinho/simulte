@@ -225,9 +225,12 @@ void LteMacEnb::initialize(int stage)
         cainHopMessageSignal = registerSignal("CainHopMessage");
         DistanceSignal = registerSignal("DistanceSignal");
         hopDistanceSignal = registerSignal("HopDistanceSignal");
-        servedDevs = registerSignal("ServedDevs");
+        servedDevsSignal = registerSignal("ServedDevs");
         servedHopDevsSignal = registerSignal("ServedHopDevs");
         totalServedDevsSignal = registerSignal("TotalServedDevs");
+        racpktSignal = registerSignal("racpkt");
+        racDistanceSignal = registerSignal("racDistanceSignal");
+        racServedDevsSignal = registerSignal("racServedDevsSignal");
 
         // TODO: read NED parameters, when will be present
         deployer_ = getDeployer();
@@ -309,7 +312,8 @@ void LteMacEnb::initialize(int stage)
         info->distMap = new relayDist();
         info->mapUe = new UeAreaMap();
         info->relayMap = new ueRelay();
-        //////
+        info->moreRb = new rbIncrease();
+
         binder_->addEnbInfo(info);
 
         // register the pair <id,name> to the binder
@@ -473,44 +477,64 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 {
     EV << NOW << " LteMacEnb::macHandleRac" << endl;
 
+    racpkt++;
+    emit(racpktSignal,racpkt);
 
-//    EV << "Module here " << this->getParentModule()->getFullName() << endl;
-////    cModule* module = this->getParentModule()->getParentModule();
-//    EV << "Module " << binder_->getEnbCoord() << endl;
-//    EV << "Module " << par("CAIN.eNodeB.mobility.initialX").stringValue() << endl;
     LteRac* racPkt = check_and_cast<LteRac*> (pkt);
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*> (
         racPkt->getControlInfo());
 
+    Coord ueCoord = uinfo->getCoord();
+    racDistance = ueCoord.distance(binder_->getEnbCoord());
+    emit(racDistanceSignal,racDistance);
 
-    if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD)){
+    racServedDevscount = binder_->racServedDevscount();
+    emit(racServedDevsSignal,racServedDevscount);
+    if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD || uinfo->getCAINDirection()==HOP_ANSW
+            || uinfo->getCAINDirection()==ANSW)){
         EV << "Options: " << uinfo->getCAINOptions() << endl;
-        //Coord enbCoord = myCoord_;
-        Coord ueCoord;
+        Coord enbCoord = uinfo->getEnbCoord();
+        ueCoord = uinfo->getCoord();
+        distance = enbCoord.distance(ueCoord);
+        emit(DistanceSignal,distance);
         switch (uinfo->getCAINDirection()) {
             case FWD:
             {
                 ueCoord = uinfo->getCAINCoord();
                 EV << "ENB receiving a CAIN FWD message!" << endl;
-                EV << "UE id: " << uinfo->getCAINdest() << " Coord: " << ueCoord << endl;
-                enbSchedulerUl_->signalRac(uinfo->getSourceId());
-                LteMacScheduleList* scheduleListUl = enbSchedulerUl_->schedule();
-                endSimulation();
+                EV << "Node " << uinfo->getSourceId() << " needs more " <<
+                        binder_->getIncreaseResourceBlock(uinfo->getSourceId()) << endl;
 
-                EV << endl;
-                binder_->printServedDevs();
-                if(!binder_->getServedDevByIndex(uinfo->getCAINdest()-1025)){
-                    binder_->setServedDev(uinfo->getCAINdest()-1025,true);
+
+                std::string opt = uinfo->getCAINOptions();
+
+                if(binder_->getAllocatedRb(uinfo->getSourceId()))
+                {
+                    EV << "RB allocation ok" << endl;
+                    uinfo->setDestId(uinfo->getSourceId());
+                    uinfo->setSourceId(1);
+                    uinfo->setCAINDirection(REP);
+                    uinfo->setCAINOption("");
+                    std::ostringstream stream;
+                    stream << "OK|" << opt;
+                    uinfo->appendOption(stream.str());
                 }
-                binder_->printServedDevs();
-                EV << endl;
-                servDevs = binder_->countServedDevs();
-                EV << "Served devices #: " << servDevs<< endl;
-                emit(servedDevs,servDevs);
+                else
+                {
+                    EV << "RB allocation not ok" << endl;
+                    uinfo->setDestId(uinfo->getSourceId());
+                    uinfo->setSourceId(1);
+                    uinfo->setCAINDirection(REP);
+                    uinfo->setCAINOption("");
+                    std::ostringstream stream;
+                    stream << "NOK|" << opt;
+                    uinfo->appendOption(stream.str());
+                }
 
-                distance = ueCoord.distance(binder_->getEnbCoord());
-                emit(DistanceSignal,distance);
-                EV << "Distance: " << distance << endl;
+                CainMessage++;
+                emit(cainMessageSignal,CainMessage);
+
+                sendLowerPackets(racPkt);
 
                 break;
             }
@@ -522,40 +546,103 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "Dest: " << uinfo->getDestId() << endl;
 
                 EV << endl;
-                binder_->printServedHopDevs();
-                if(!binder_->getServedhopDevByIndex(uinfo->getCAINdest()-1025)){
-                    binder_->setServedHopDev(uinfo->getCAINdest()-1025,true);
+
+                std::vector<MacNodeId> node;
+                std::string token;
+                std::istringstream tokenStream(uinfo->getCAINOptions());
+                while (std::getline(tokenStream, token, '/'))
+                {
+                    node.push_back(stoi(token));
                 }
-                binder_->printServedHopDevs();
-                EV << endl;
 
-
-                ueCoord = uinfo->getCAINHopCoord();
-                hopDistance = ueCoord.distance(binder_->getEnbCoord());
-                emit(hopDistanceSignal,hopDistance);
+                if(binder_->getAllocatedRb(uinfo->getSourceId()))
+                {
+                    EV << "RB allocation ok" << endl;
+                    uinfo->setDestId(uinfo->getSourceId());
+                    uinfo->setSourceId(1);
+                    uinfo->setCAINDirection(HOP_REP);
+                    uinfo->setCAINOption("");
+                    std::ostringstream stream;
+                    stream << "OK|" << node[1];
+                    uinfo->appendOption(stream.str());
+                }
+                else
+                {
+                    EV << "RB allocation not ok" << endl;
+                    uinfo->setDestId(uinfo->getSourceId());
+                    uinfo->setSourceId(1);
+                    uinfo->setCAINDirection(HOP_REP);
+                    uinfo->setCAINOption("");
+                    std::ostringstream stream;
+                    stream << "NOK|" << node[1];
+                    uinfo->appendOption(stream.str());
+                }
 
                 cainHopMessage++;
                 emit(cainHopMessageSignal,cainHopMessage);
 
+                sendLowerPackets(racPkt);
                 break;
+            }
+            case HOP_ANSW:
+            {
+                EV << "ENB receiving a CAIN HOP_ANSW message!" << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
+                EV << "CAIN Dest: " << uinfo->getCAINdest() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+
+                EV << endl;
+                std::vector<std::string> node;
+                std::string token;
+                std::istringstream tokenStream(uinfo->getCAINOptions());
+                while (std::getline(tokenStream, token, '|'))
+                {
+                    node.push_back(token);
+                }
+
+                EV << "Hop message from: " << stoi(node[1]) << endl;
+                servHopDevs = binder_->countServedHopDevs();
+                emit(servedHopDevsSignal, servHopDevs);
+                delete pkt;
+                return;
+            }
+            case ANSW:
+            {
+                EV << "ENB receiving a CAIN ANSW message!" << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
+                EV << "CAIN Dest: " << uinfo->getCAINdest() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+
+                EV << endl;
+                std::vector<std::string> node;
+                std::string token;
+                std::istringstream tokenStream(uinfo->getCAINOptions());
+                while (std::getline(tokenStream, token, '|'))
+                {
+                    node.push_back(token);
+                }
+
+                EV << "Message from: " << stoi(node[1]) << endl;
+                servDevs = binder_->countServedDevs();
+                emit(servedDevsSignal, servDevs);
+                delete pkt;
+                return;
             }
             default:
                 break;
         }
 
-        EV << endl;
-        binder_->printTotalServedDevs();
-        if(!binder_->getTotalServedDevByIndex(uinfo->getCAINdest()-1025)){
-            binder_->setTotalServedDev(uinfo->getCAINdest()-1025,true);
-        }
-        binder_->printTotalServedDevs();
-        EV << endl;
-
-
-
-        CainMessage++;
-        emit(cainMessageSignal,CainMessage);
-        delete pkt;
+//        EV << endl;
+//        binder_->printTotalServedDevs();
+//        if(!binder_->getTotalServedDevByIndex(uinfo->getCAINdest()-1025)){
+//            binder_->setTotalServedDev(uinfo->getCAINdest()-1025,true);
+//        }
+//        binder_->printTotalServedDevs();
+//        EV << endl;
+//
+//
+//
+//        delete pkt;
         return;
     }
     enbSchedulerUl_->signalRac(uinfo->getSourceId());

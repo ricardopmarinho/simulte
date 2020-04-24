@@ -35,6 +35,19 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
 
   protected:
 
+
+
+    //////////////////
+    simsignal_t cainMessageSentSignal;
+    simsignal_t cainHopMesasgeSentSignal;
+    simsignal_t dropedCainMessageSignal;
+    simsignal_t dropedHopMessageSignal;
+    long cainMessageSent = 0;
+    long cainHopMessageSent = 0;
+    long dropedCainMessage = 0;
+    long dropedHopMessage = 0;
+    //////////////////
+
     /**
      * Reads MAC parameters for ue and performs initialization.
      */
@@ -84,6 +97,8 @@ class LteMacUeRealisticD2D : public LteMacUeRealistic
     virtual std::vector<MacNodeId> getHopNodes(std::string nodeSinr);
 
     void macHandleD2DModeSwitch(cPacket* pkt);
+
+    std::vector<std::string> getMessageType(std::string str, char delimeter);
 
     virtual LteMacPdu* makeBsr(int size);
 

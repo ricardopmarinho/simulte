@@ -397,20 +397,15 @@ void LteMacUeRealistic::handleUpperMessage(cPacket* pkt)
     // bufferize packet
     bufferizePacket(pkt);
 
-    EV << "Aqui" << endl;
-
     if (strcmp(pkt->getName(), "lteRlcFragment") == 0)
     {
-        EV << "Aqui1" << endl;
         // new MAC SDU has been received
         if (pkt->getByteLength() == 0)
             delete pkt;
 
-        EV << "Aqui 2" << endl;
         // creates pdus from schedule list and puts them in harq buffers
         macPduMake();
 
-        EV << "Aqui 3" << endl;
         EV << NOW << " LteMacUeRealistic::handleUpperMessage - incrementing counter for HARQ processes " << (unsigned int)currentHarq_ << " --> " << (currentHarq_+1)%harqProcesses_ << endl;
         currentHarq_ = (currentHarq_+1)%harqProcesses_;
     }
