@@ -130,7 +130,9 @@ enum CAINDirection
     HOP_REQ,
     HOP_RES,
     HOP_REP,
-    HOP_FWD
+    HOP_FWD,
+    ANSW,
+    HOP_ANSW
 };
 
 /// Modulations
@@ -817,6 +819,12 @@ typedef std::map<MacNodeId, std::map<MacNodeId,double>*> relayDist;
 typedef std::map<MacNodeId, std::list<MacNodeId>*> ueRelay;
 
 /*
+ * stores for each node how many more RBs
+ * it has available
+ * */
+typedef std::map<MacNodeId, int> rbIncrease;
+
+/*
  * Stores the coord from ue
  * */
 typedef std::map<MacNodeId, inet::Coord> coordList;
@@ -859,6 +867,7 @@ struct EnbInfo
     relayDist* distMap;
     ueRelay* relayMap;
     coordList* Clist;
+    rbIncrease* moreRb;
 //////
     int x2;
 };

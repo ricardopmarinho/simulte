@@ -53,6 +53,7 @@ class LtePhyUeD2D : public LtePhyUe
             return d2dTxPower_;
         return txPower_;
     }
+//    std::vector<std::string> getMessageType(std::string str, char delimeter);
 };
 
 #endif  /* _LTE_AIRPHYUED2D_H_ */

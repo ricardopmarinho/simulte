@@ -720,8 +720,12 @@ void LteBinder::initialize(int stage)
 
         int numUe=this->getParentModule()->par("numUeD2DTx");
         this->servedDevs = std::vector<bool>(numUe,false);
+        this->racServedDevs = std::vector<bool>(numUe,false);
         this->servedHopDevs = std::vector<bool>(numUe,false);
         this->totalServedDevs = std::vector<bool>(numUe,false);
+        this->allocatedRbs = new std::map<MacNodeId,bool>();
+        this->numRbUl = 50;
+        this->qtdRbAllocated = 0;
 
         for (int i = 0; i < LTE_QCI_CLASSES; i++)
         {
@@ -973,6 +977,15 @@ int LteBinder::countServedDevs(){
     return count;
 }
 
+int LteBinder::racServedDevscount(){
+    int count=0;
+    for(int i=0;i<this->racServedDevs.size();i++){
+        if(racServedDevs[i]) count++;
+    }
+
+    return count;
+}
+
 void LteBinder::printServedDevs(){
     for(int i=0;i<this->servedDevs.size();i++){
         EV << "[index = " << i << " value= " << this->servedDevs[i] << "]" << endl;
@@ -1010,16 +1023,23 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
     int distThresh = getModuleByPath("CAIN")->par("distThresh");
     std::ostringstream str;
     std::vector<EnbInfo*>* vect = this->getEnbList();
+
+//    EV << "The closer hop is:" << 1027 << endl;
+//    str << "HOP_NTF|" << 1027 << ";" << 1026;
+//    increaseResourceBlock(1027,2);
+//    printIncreaseResourceBlock();
+//    return str.str();
+
     for(unsigned int i = 0; i < vect->size();i++){
         if(1 == vect->at(i)->id){
             UeAreaMap* ueMap = vect->operator [](i)->mapUe;
             int area = ueMap->operator [](nodeId);
             EV << "The area is: " << area << endl;
-            if(area == 1){
+            switch (area) {
+            case 1:
                 str << "DIR|Ok";
-            }
-            else{//area = 2
-
+                break;
+            case 2:
                 std::pair<MacNodeId, double> closerRelay = findCloserRelay(nodeId);
                 if(closerRelay.first == 0){
                     EV << "There is no device on area 1!" << endl;
@@ -1029,21 +1049,30 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
                     EV << "The closest relay is: " << closerRelay.first << endl;
                     if(closerRelay.second <= distThresh){
                         EV << "Node " << nodeId << " is close enough!" << endl;
-                        str << "FWD|" << closerRelay.first;
+                        str << "NOTIFY|" << closerRelay.first;
+                        increaseResourceBlock(closerRelay.first,1);
+                        setServedDev(nodeId-1025,true);
                     }else{
                         MacNodeId hopId = findCloserHop(nodeId,closerRelay.first);
                         if(hopId == 0){
                             EV << "There is no closer hop" << endl;
-                            str << "FWD|" << closerRelay.first;
+                            str << "NOTIFY|" << closerRelay.first;
+                            increaseResourceBlock(closerRelay.first,1);
+                            setServedDev(nodeId-1025,true);
                         }else{
                             EV << "The closer hop is:" << hopId << endl;
-                            str << "HOP_FWD|" << closerRelay.first << ";" << hopId;
+                            str << "HOP_NTF|" << closerRelay.first << ";" << hopId;
+                            increaseResourceBlock(closerRelay.first,2);
+                            setServedHopDev(nodeId-1025,true);
+                            setServedHopDev(hopId-1025,true);
                         }
                     }
                 }
+                break;
             }
         }
     }
+    printIncreaseResourceBlock();
     return str.str();
 }
 
@@ -1111,6 +1140,51 @@ MacNodeId LteBinder::findCloserHop(MacNodeId ueId, MacNodeId relayId){
         }
     }
     return closerHop;
+}
+
+void LteBinder::increaseResourceBlock(MacNodeId nodeId, int incr){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    if(this->qtdRbAllocated+incr > this->numRbUl)
+        return;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(1 == vect->at(i)->id){
+            rbIncrease* rb = vect->operator [](i)->moreRb;
+            rb->operator [](nodeId) = incr;
+            this->qtdRbAllocated += incr;
+            break;
+        }
+    }
+}
+
+void LteBinder::printIncreaseResourceBlock(){
+    EV << "Printing rb increase" << endl;
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(1 == vect->at(i)->id){
+            rbIncrease* rb = vect->operator [](i)->moreRb;
+            rbIncrease::iterator it = rb->begin();
+            for(; it != rb->end(); it++)
+                EV << "Node: " << it->first << " increase: " << it->second << endl;
+        }
+    }
+}
+
+int LteBinder::getIncreaseResourceBlock(MacNodeId nodeId){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(1 == vect->at(i)->id){
+            rbIncrease* rb = vect->operator [](i)->moreRb;
+            return rb->operator [](nodeId);
+        }
+    }
+}
+
+void LteBinder::setAllocatedRb(MacNodeId nodeId, bool setted){
+    allocatedRbs->operator [](nodeId)=setted;
+}
+
+bool LteBinder::getAllocatedRb(MacNodeId nodeId){
+    return allocatedRbs->operator [](nodeId);
 }
 /////////////////////////////////////////////
 

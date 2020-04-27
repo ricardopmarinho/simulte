@@ -16,7 +16,6 @@
 #include "corenetwork/nodes/ExtCell.h"
 #include "stack/phy/layer/LtePhyUe.h"
 
-#include "inet/physicallayer/antenna/MassiveMIMOURPA.h"
 
 // attenuation value to be returned if max. distance of a scenario has been violated
 // and tolerating the maximum distance violation is enabled
@@ -979,6 +978,7 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
         computeExtCellInterference(eNbId, ueId, ueCoord, (lteInfo->getFrameType() == FEEDBACKPKT), &extCellInterference); // dBm
     }
 
+    double greaterSinr = -1000;
     //===================== SINR COMPUTATION ========================
     if ((enableExtCellInterference_ || enableMultiCellInterference_) && dir == DL)
     {
@@ -1001,8 +1001,13 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             // compute final SINR
             snrVector[i] -= den;
 
+            if(snrVector[i] > greaterSinr)
+                greaterSinr = snrVector[i];
+
         }
     }
+
+
     // compute snr with no intercell interference
     else
     {
@@ -1011,9 +1016,51 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             // compute final SINR
             snrVector[i] = snrVector[i] - noiseFigure - thermalNoise_;
             EV << "LteRealisticChannelModel::getSINR - distance from eNb=" << enbCoord.distance(coord) << " - DIR=" << (( dir==DL )?"DL" : "UL") << " - snr[" << snrVector[i] << "]\n";
+            if(snrVector[i] > greaterSinr)
+                greaterSinr = snrVector[i];
         }
     }
 
+//    std::vector<EnbInfo*>* vect = binder_->getEnbList();
+//    int pwrThresh = 0;
+//    sinrMapB* BsMap = NULL;
+//    sinrMapW* WsMap = NULL;
+//    coordList* csList = NULL;
+//
+//    if(dir == UL){
+//        binder_->setEnbCoord(enbCoord);
+//    }
+
+//    int area = createAreaMap(ueId, greaterSinr);
+////        createDistMaps(ueId, area,ueCoord);
+//
+//    EV << "Creating map" << endl;
+//    for(unsigned int j = 0; j < vect->size();j++){
+//        if(eNbId == vect->at(j)->id){
+//            pwrThresh = vect->operator [](j)->pwrThresh;
+//            BsMap = vect->operator [](j)->Bmap;
+//            WsMap = vect->operator [](j)->Wmap;
+//            if(greaterSinr >= pwrThresh){
+//                /*
+//                 * If a previous record from a node is recorded on the
+//                 * other map, we must erase it to keep the integrity
+//                 * */
+//                EV << "Storing a good power device: " << ueId << endl;
+//                if(WsMap->count(ueId)>=1)
+//                    WsMap->erase(ueId);
+//                BsMap->operator [](ueId)=greaterSinr;
+//            }else{
+//                EV << "Storing a bad power device: " << ueId << endl;
+//                if(BsMap->count(ueId)>=1)
+//                    BsMap->erase(ueId);
+//                WsMap->operator [](ueId)=greaterSinr;
+//            }
+//            csList = vect->operator [](j)->Clist;
+//            if(csList->count(ueId)>=1)
+//                csList->erase(ueId);
+//            csList->operator [](ueId)=ueCoord;
+//        }
+//    }
             //if sender is an eNodeB
     if (dir == DL)
         //store the position of user

@@ -830,6 +830,7 @@ void LteMacUeD2D::checkRAC()
         uinfo->setDestId(getMacCellId());
         uinfo->setDirection(UL);
         uinfo->setFrameType(RACPKT);
+
         racReq->setControlInfo(uinfo);
 
         sendLowerPackets(racReq);
@@ -890,4 +891,3 @@ void LteMacUeD2D::doHandover(MacNodeId targetEnb)
     enb_ = check_and_cast<LteMacEnbD2D*>(getMacByMacNodeId(targetEnb));
     LteMacUe::doHandover(targetEnb);
 }
-

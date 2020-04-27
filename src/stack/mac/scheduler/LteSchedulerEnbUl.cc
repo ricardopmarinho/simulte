@@ -86,10 +86,11 @@ bool LteSchedulerEnbUl::racschedule()
         // FIXME default behavior
         //try to allocate one block to selected UE on at least one logical band of MACRO antenna, first codeword
 
+        LteBinder* binder = getBinder();
         const unsigned int cw =0;
-        const unsigned int blocks =1;
+        const unsigned int blocks = binder->getIncreaseResourceBlock(nodeId)+1;
 
-        getBinder()->getUeList();
+        EV << "Increase resource blocks for node  " << nodeId << " in " << blocks << endl;
 
         bool allocation=false;
 
@@ -100,11 +101,13 @@ bool LteSchedulerEnbUl::racschedule()
                 unsigned int bytes = mac_->getAmc()->computeBytesOnNRbs(nodeId,b,cw,blocks,UL);
                 if (bytes > 0)
                 {
-                    allocator_->addBlocks(MACRO,b,nodeId,1,bytes);
+                    allocation = allocator_->addBlocks(MACRO,b,nodeId,blocks,bytes);
+
+                    binder->setAllocatedRb(nodeId,allocation);
 
                     EV << NOW << "LteSchedulerEnbUl::racschedule UE: " << nodeId << "Handled RAC on band: " << b << endl;
 
-                    allocation=true;
+//                    allocation=true;
                     break;
                 }
             }
@@ -660,3 +663,5 @@ void LteSchedulerEnbUl::removePendingRac(MacNodeId nodeId)
 {
     racStatus_.erase(nodeId);
 }
+
+

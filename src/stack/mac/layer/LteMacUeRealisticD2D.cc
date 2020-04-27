@@ -16,10 +16,6 @@
 #include "stack/mac/buffer/harq_d2d/LteHarqBufferRxD2DMirror.h"
 #include "stack/d2dModeSelection/D2DModeSwitchNotification_m.h"
 #include "stack/mac/packet/LteRac_m.h"
-//////
-#include "common/CAINInfo_m.h"
-//////
-
 Define_Module(LteMacUeRealisticD2D);
 
 LteMacUeRealisticD2D::LteMacUeRealisticD2D() :
@@ -38,6 +34,10 @@ void LteMacUeRealisticD2D::initialize(int stage)
     LteMacUeRealistic::initialize(stage);
     if (stage == 0)
     {
+        cainMessageSentSignal = registerSignal("CainMessageSent");
+        cainHopMesasgeSentSignal = registerSignal("CainHopMessageSent");
+        dropedCainMessageSignal = registerSignal("DropedCainMessage");
+        dropedHopMessageSignal = registerSignal("DropedHopMessage");
         // check the RLC module type: if it is not "RealisticD2D", abort simulation
         std::string pdcpType = getParentModule()->par("LtePdcpRrcType").stdstringValue();
         cModule* rlc = getParentModule()->getSubmodule("rlc");
@@ -510,6 +510,44 @@ void LteMacUeRealisticD2D::checkRAC()
         uinfo->setFrameType(RACPKT);
         racReq->setControlInfo(uinfo);
 
+        bool cainEnable = getModuleByPath("CAIN")->par("cainNetwork");
+        if(cainEnable){
+            std::string str = binder_->checkCAINType(nodeId_);
+            EV << "Binder string: " << str << endl;
+            std::vector<std::string> msgType = getMessageType(str,'|');
+            EV << "Message type: " << msgType[0] << endl;
+            if(msgType[0] == "NOTIFY"){
+                MacNodeId relayId = stoi(msgType[1]);
+                EV << "The relay id is: " << relayId << endl;
+                uinfo->setCAINEnable(true);
+                uinfo->setCAINDirection(NOTIFY);
+                uinfo->setCAINOption("");
+                uinfo->setDestId(relayId);
+                uinfo->setDirection(D2D);
+                cainMessageSent++;
+                emit(cainMessageSentSignal,cainMessageSent);
+            }else if(msgType[0] == "HOP_NTF"){
+                msgType = getMessageType(msgType[1],';');
+                MacNodeId relayId = stoi(msgType[0]);
+                MacNodeId hopId = stoi(msgType[1]);
+                EV << "Hop notify message, relay->" << relayId << " hop->" << hopId << endl;
+                uinfo->setCAINEnable(true);
+                uinfo->setCAINDirection(HOP_NTF);
+                uinfo->setCAINOption("");
+                std::ostringstream stream;
+                stream << relayId << "/" << hopId;
+                uinfo->appendOption(stream.str());
+                stream.str("");
+                stream.clear();
+                uinfo->setDestId(hopId);
+                uinfo->setDirection(D2D);
+                cainHopMessageSent++;
+                emit(cainHopMesasgeSentSignal,cainHopMessageSent);
+            }
+        }else{
+            binder_->setRacSevedDev(nodeId_-1025,true);
+        }
+
         sendLowerPackets(racReq);
 
         EV << NOW << " Ue  " << nodeId_ << " cell " << cellId_ << " ,RAC request sent to PHY " << endl;
@@ -603,65 +641,17 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             std::vector<MacNodeId> node = getNode(cainOpt);
             EV << "The nodes that need a relay are: " << endl;
             EV << "Node list size: " << node.size() << endl;
-            int i = 0;
+
+            uinfo->setCAINOption("");
+            std::ostringstream stream;
+            stream << uinfo->getSourceId();
+            uinfo->appendOption(stream.str());
+            uinfo->setSourceId(uinfo->getDestId());
             uinfo->setDestId(1);
             uinfo->setCAINDirection(FWD);
-//            racPkt->setControlInfo(uinfo);
+            uinfo->setDirection(UL);
             sendLowerPackets(racPkt);
-//            for(i = 0; i < node.size()-1; i++){
-//                EV << node[i] << endl;
-//
-//                /*
-//                 * Changing the connect address online
-//                 * */
-//                const char* connectUe = binder_->getUeNodeNameById(node[i]);
-//                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
-//                        ->getAncestorPar("connectAddress") = connectUe;
-//
-//
-//                EV << "This node: " << nodeId_ << endl;
-//
-//                /*
-//                 * if returns true, the relay is waiting for another relay response from that node
-//                 * otherwise, the relay did not send any relay request to that node and can send one now
-//                 * */
-//                if(checkRepList(node[i])){
-//                    EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
-//                }else{
-//                    LteRac* pack = racPkt->dup();
-//                    //pack->encapsulate(pkt->decapsulate());
-//                    UserControlInfo* uinfoDup = uinfo->dup();
-//                    uinfoDup->setDestId(node[i]);
-//                    uinfoDup->setCAINdest(node[i]);
-//                    uinfoDup->setSourceId(nodeId_);
-//                    uinfoDup->setDirection(D2D);
-//                    uinfoDup->setCAINDirection(REL);
-//                    uinfoDup->setCAINEnable(true);
-//                    uinfoDup->setCAINOption("OK");
-//                    //if(pack->getControlInfo() == NULL)
-//                    pack->setControlInfo(uinfoDup);
-//                    sendLowerPackets(pack);
-//                }
-//            }
-//
-//            EV << node[i] << endl;
-//            if(checkRepList(node[i])){
-//                EV << "Waiting for another message from node " << node[i] << ", do not send a relay message"  << endl;
-//                delete racPkt;
-//            }else{
-//                const char* connectUe = binder_->getUeNodeNameById(node[i]);
-//                this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
-//                        ->getAncestorPar("connectAddress") = connectUe;
-//                uinfo->setDestId(node[i]);
-//                uinfo->setCAINdest(node[i]);
-//                uinfo->setSourceId(nodeId_);
-//                uinfo->setDirection(D2D);
-//                uinfo->setCAINDirection(REL);
-//                uinfo->setCAINEnable(true);
-//                uinfo->setCAINOption("OK");
-//                sendLowerPackets(racPkt);
-//            }
-                break;
+            break;
         }
         case REL:
         {
@@ -721,27 +711,36 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
              * The relay receives this message
              * */
             EV << "Receiving a REP message to node "<< uinfo->getDestId() << endl;
-            if(uinfo->getDestId()==nodeId_){
 
-                /*
-                 * Node sent a response to relay request -> remove the id from repList
-                 * */
-                removeNodeRepList(uinfo->getSourceId());
-
-                /*
-                * The connect address is just for the UEs.
-                * The message here is for eNB, therefore
-                * there is no need to change the connect address
-                * */
-                EV << "The response to relay request from node " << uinfo->getSourceId() << " is " << uinfo->getCAINOptions() << endl;
-                uinfo->setDestId(uinfo->getENBId());
-                uinfo->setSourceId(nodeId_);
-                uinfo->setDirection(UL);
-                uinfo->setCAINDirection(FWD);
-                uinfo->setCAINOption("message");
+            std::string opt = uinfo->getCAINOptions();
+            std::vector<std::string> node;
+            std::string token;
+            std::istringstream tokenStream(opt);
+            while (std::getline(tokenStream, token, '|'))
+            {
+                node.push_back(token);
+            }
+            if(node[0] == "OK")
+            {
+                EV << "Ok to relay message" << endl;
+                uinfo->setSourceId(uinfo->getDestId());
+                uinfo->setDestId(1);
+                uinfo->setCAINDirection(ANSW);
                 uinfo->setCAINEnable(true);
+                EV << "Source: " << uinfo->getSourceId() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
                 sendLowerPackets(pkt);
             }
+            else
+            {
+                EV << "Not ok to relay message" << endl;
+                dropedCainMessage++;
+                emit(dropedCainMessageSignal,dropedCainMessage);
+                delete pkt;
+                return;
+            }
+
             break;
         }
         case HOP_NTF:
@@ -750,22 +749,22 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
              * Message from eNB to relay
              *
              * Begin:
-             * Source: eNB
-             * Destination: relay
+             * Source: ue
+             * Destination: hop
              *
              */
             EV << "Receiving a HOP_NTF message from ID: " << uinfo->getSourceId() << " to destination: " << uinfo->getDestId() << endl;
             std::vector<MacNodeId> node = getHopNodes(cainOpt);
-            EV << "The hop node id is: " << node[0] << " and the UE ID is: " << node[1] << endl;
+            EV << "The relay node id is: " << node[0] << " and the Hop ID is: " << node[1] << endl;
             uinfo->setDestId(node[0]);
-            uinfo->setCAINdest(node[1]);
-            uinfo->setSourceId(nodeId_);
-            uinfo->setCAINDirection(HOP_REL);
+            uinfo->setCAINdest(uinfo->getSourceId());
             std::ostringstream stream;
-            stream << nodeId_ << "/" << node[1];
+            stream << nodeId_ << "/" << uinfo->getSourceId();
             uinfo->setCAINOption(stream.str());
             stream.str("");
             stream.clear();
+            uinfo->setSourceId(nodeId_);
+            uinfo->setCAINDirection(HOP_REL);
             uinfo->setCAINEnable(true);
             EV << "Source: " << uinfo->getSourceId() << endl;
             EV << "Dest: " << uinfo->getDestId() << endl;
@@ -793,13 +792,14 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             EV << "Receiving a HOP_REL message" << endl;
             cainOpt = uinfo->getCAINOptions();
             std::vector<MacNodeId> node = getHopNodes(cainOpt);
-            EV << "Relay id: " << node[0] << endl;
+            EV << "Hop id: " << node[0] << " ue: " << node[1] <<  endl;
 
             uinfo->setSourceId(uinfo->getDestId());
-            uinfo->setDestId(node[1]);
-            uinfo->setCAINDirection(HOP_REQ);
+            uinfo->setDestId(1);
+            uinfo->setCAINDirection(HOP_FWD);
+            uinfo->setDirection(UL);
             std::ostringstream stream;
-            stream << node[0];
+            stream << node[0] << "/" << node[1];
             uinfo->setCAINOption(stream.str());
             stream.str("");
             stream.clear();
@@ -902,14 +902,39 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
              */
             EV << "Receiving a HOP_REP message" << endl;
 
-            uinfo->setSourceId(uinfo->getDestId());
-            uinfo->setDestId(uinfo->getENBId());
-            uinfo->setCAINDirection(HOP_FWD);
-            uinfo->setCAINEnable(true);
-            EV << "Source: " << uinfo->getSourceId() << endl;
-            EV << "Dest: " << uinfo->getDestId() << endl;
-            EV << "Options: " << uinfo->getCAINOptions() << endl;
-            sendLowerPackets(pkt);
+            std::string opt = uinfo->getCAINOptions();
+            std::vector<std::string> node;
+            std::string token;
+            std::istringstream tokenStream(opt);
+            while (std::getline(tokenStream, token, '|'))
+            {
+                node.push_back(token);
+            }
+            if(node[0] == "OK")
+            {
+                EV << "Ok to relay message" << endl;
+                uinfo->setSourceId(uinfo->getDestId());
+                uinfo->setDestId(1);
+                uinfo->setCAINDirection(HOP_ANSW);
+                uinfo->setCAINEnable(true);
+                EV << "Source: " << uinfo->getSourceId() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
+                sendLowerPackets(pkt);
+            }
+            else
+            {
+                EV << "Not ok to relay message" << endl;
+                dropedHopMessage++;
+                emit(dropedHopMessageSignal,dropedHopMessage);
+                delete pkt;
+                return;
+            }
+
+//            uinfo->setSourceId(uinfo->getDestId());
+//            uinfo->setDestId(uinfo->getENBId());
+//            uinfo->setCAINDirection(HOP_FWD);
+//            uinfo->setCAINEnable(true);
             /*
              * Message is being sent by relay node to eNB
              * Ends:
@@ -1544,4 +1569,17 @@ void LteMacUeRealisticD2D::macHandleD2DModeSwitch(cPacket* pkt)
     }
     delete uInfo;
     delete pkt;
+}
+
+
+std::vector<std::string> LteMacUeRealisticD2D::getMessageType(std::string str, char delimeter){
+    std::vector<std::string> msgType;
+    std::string token;
+    std::istringstream tokenStream(str);
+    while (std::getline(tokenStream, token, delimeter))
+    {
+        msgType.push_back(token);
+    }
+
+    return msgType;
 }
