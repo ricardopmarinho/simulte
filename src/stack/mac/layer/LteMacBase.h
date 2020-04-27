@@ -67,18 +67,6 @@ class LteMacBase : public cSimpleModule
     simsignal_t measuredItbs_;
     simsignal_t measuredItbs_lte_;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-    ////////////////////////////////
-    simsignal_t racpktSignal;
-    simsignal_t racDistanceSignal;
-    long racpkt = 0;
-    long racDistance = 0;
-    ////////////////////////////////
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 
     TaggedSample* tSample_;
     /*

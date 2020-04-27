@@ -130,19 +130,9 @@ enum CAINDirection
     HOP_REQ,
     HOP_RES,
     HOP_REP,
-<<<<<<< HEAD
     HOP_FWD,
     ANSW,
     HOP_ANSW
-=======
-<<<<<<< HEAD
-    HOP_FWD,
-    ANSW,
-    HOP_ANSW
-=======
-    HOP_FWD
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 };
 
 /// Modulations
@@ -812,10 +802,6 @@ typedef std::map<MacNodeId,double> relayList;
 typedef std::vector<MacNodeId> rep_list;
 
 /*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
  * Stores in which area (1 or 2) the ue is
  * */
 typedef std::map<MacNodeId,int> UeAreaMap;
@@ -839,25 +825,9 @@ typedef std::map<MacNodeId, std::list<MacNodeId>*> ueRelay;
 typedef std::map<MacNodeId, int> rbIncrease;
 
 /*
-<<<<<<< HEAD
-=======
  * Stores the coord from ue
  * */
 typedef std::map<MacNodeId, inet::Coord> coordList;
-
-/*
- * Stores the devices assisted by a relay
- *
- * |R_id|<d_1;d_2;d_3...> |
- *
- * */
-typedef std::list<MacNodeId> assistedDevices;
-=======
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
- * Stores the coord from ue
- * */
-typedef std::map<MacNodeId, inet::Coord> coordList;
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
 
 /*
  * Stores the devices assisted by a relay
@@ -893,23 +863,11 @@ struct EnbInfo
     sinrMapB* Bmap;
     sinrMapW* Wmap;
     int pwrThresh;
-<<<<<<< HEAD
     UeAreaMap* mapUe;
     relayDist* distMap;
     ueRelay* relayMap;
     coordList* Clist;
     rbIncrease* moreRb;
-=======
-<<<<<<< HEAD
-    UeAreaMap* mapUe;
-    relayDist* distMap;
-    ueRelay* relayMap;
-    coordList* Clist;
-    rbIncrease* moreRb;
-=======
-    coordList* Clist;
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 //////
     int x2;
 };
@@ -924,14 +882,7 @@ struct UeInfo
     cModule * ue;
     LtePhyBase* phy;
 ///////
-<<<<<<< HEAD
     assistedDevices* assList;
-=======
-<<<<<<< HEAD
-    assistedDevices* assList;
-=======
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
     relayList* rList;
     rep_list* repList;
 ///////

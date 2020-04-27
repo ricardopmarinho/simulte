@@ -16,13 +16,6 @@
 #include "corenetwork/nodes/ExtCell.h"
 #include "stack/phy/layer/LtePhyUe.h"
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-#include "inet/physicallayer/antenna/MassiveMIMOURPA.h"
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 
 // attenuation value to be returned if max. distance of a scenario has been violated
 // and tolerating the maximum distance violation is enabled
@@ -912,18 +905,9 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             binder_->setEnbCoord(enbCoord);
         }
 
-<<<<<<< HEAD
         int area = createAreaMap(ueId, recvPower);
 //        createDistMaps(ueId, area,ueCoord);
 
-=======
-<<<<<<< HEAD
-        int area = createAreaMap(ueId, recvPower);
-//        createDistMaps(ueId, area,ueCoord);
-
-=======
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
         EV << "Creating map" << endl;
         for(unsigned int j = 0; j < vect->size();j++){
             if(eNbId == vect->at(j)->id){
@@ -1017,18 +1001,9 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             // compute final SINR
             snrVector[i] -= den;
 
-<<<<<<< HEAD
             if(snrVector[i] > greaterSinr)
                 greaterSinr = snrVector[i];
 
-=======
-<<<<<<< HEAD
-            if(snrVector[i] > greaterSinr)
-                greaterSinr = snrVector[i];
-
-=======
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
         }
     }
 

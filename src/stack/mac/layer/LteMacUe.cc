@@ -77,14 +77,7 @@ void LteMacUe::initialize(int stage)
         ///////////
         info->rList = new std::map<MacNodeId,double>();
         info->repList = new std::vector<MacNodeId>();
-<<<<<<< HEAD
         info->assList = new std::list<MacNodeId>();
-=======
-<<<<<<< HEAD
-        info->assList = new std::list<MacNodeId>();
-=======
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
         ///////////
 
         // Get the Physical Channel reference of the node
@@ -92,15 +85,7 @@ void LteMacUe::initialize(int stage)
         binder_->addUeInfo(info);
 
         /*
-<<<<<<< HEAD
          * This lines change the local address value given at .ini file
-=======
-<<<<<<< HEAD
-         * This lines change the local address value given at .ini file
-=======
-         * This line changes the local address value given at .ini file
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
          * so we can add more devices.
          * This value is static and defined at the .ini file, therefore
          * to add more devices on the network, we would have to set this

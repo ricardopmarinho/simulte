@@ -720,26 +720,12 @@ void LteBinder::initialize(int stage)
 
         int numUe=this->getParentModule()->par("numUeD2DTx");
         this->servedDevs = std::vector<bool>(numUe,false);
-<<<<<<< HEAD
         this->racServedDevs = std::vector<bool>(numUe,false);
         this->servedHopDevs = std::vector<bool>(numUe,false);
         this->totalServedDevs = std::vector<bool>(numUe,false);
         this->allocatedRbs = new std::map<MacNodeId,bool>();
         this->numRbUl = 50;
         this->qtdRbAllocated = 0;
-=======
-<<<<<<< HEAD
-        this->racServedDevs = std::vector<bool>(numUe,false);
-        this->servedHopDevs = std::vector<bool>(numUe,false);
-        this->totalServedDevs = std::vector<bool>(numUe,false);
-        this->allocatedRbs = new std::map<MacNodeId,bool>();
-        this->numRbUl = 50;
-        this->qtdRbAllocated = 0;
-=======
-        this->servedHopDevs = std::vector<bool>(numUe,false);
-        this->totalServedDevs = std::vector<bool>(numUe,false);
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 
         for (int i = 0; i < LTE_QCI_CLASSES; i++)
         {
@@ -991,10 +977,6 @@ int LteBinder::countServedDevs(){
     return count;
 }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 int LteBinder::racServedDevscount(){
     int count=0;
     for(int i=0;i<this->racServedDevs.size();i++){
@@ -1004,11 +986,6 @@ int LteBinder::racServedDevscount(){
     return count;
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 void LteBinder::printServedDevs(){
     for(int i=0;i<this->servedDevs.size();i++){
         EV << "[index = " << i << " value= " << this->servedDevs[i] << "]" << endl;
@@ -1041,10 +1018,6 @@ void LteBinder::printTotalServedDevs(){
         EV << "[index = " << i << " value= " << this->totalServedDevs[i] << "]" << endl;
     }
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 
 std::string LteBinder::checkCAINType(MacNodeId nodeId){
     int distThresh = getModuleByPath("CAIN")->par("distThresh");
@@ -1213,11 +1186,6 @@ void LteBinder::setAllocatedRb(MacNodeId nodeId, bool setted){
 bool LteBinder::getAllocatedRb(MacNodeId nodeId){
     return allocatedRbs->operator [](nodeId);
 }
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
->>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
 /////////////////////////////////////////////
 
 
