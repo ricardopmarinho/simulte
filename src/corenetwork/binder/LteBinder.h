@@ -62,11 +62,21 @@ class LteBinder : public cSimpleModule
     Coord enbCoord;
     std::vector<bool> servedDevs;                   //devices served by cain direct message
     std::vector<bool> servedHopDevs;                //devices served by cain hop message
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
     std::vector<bool> totalServedDevs;              //devices served by cain direct and hop message
     std::map<MacNodeId, bool> *allocatedRbs;         //the rbs could be allocated?
     std::vector<bool> racServedDevs;
     int numRbUl;
     int qtdRbAllocated;
+<<<<<<< HEAD
+=======
+=======
+    std::vector<bool> totalServedDevs;               //devices served by cain direct and hop message
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
     ///////////////////
 
     // list of static external cells. Used for intercell interference evaluation
@@ -181,6 +191,10 @@ class LteBinder : public cSimpleModule
 
     ////////////////////////////////////////////////////////////////////////
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
     typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;
 
     Comparator compFunctor =
@@ -189,11 +203,24 @@ class LteBinder : public cSimpleModule
             return elem1.second < elem2.second;
         };
 
+<<<<<<< HEAD
     void setEnbCoord(const Coord& coord){enbCoord = coord;}
     Coord getEnbCoord() const{return enbCoord;}
     void setServedDev(int index, bool b){servedDevs[index]=b;}
     void setRacSevedDev(int index, bool b){racServedDevs[index]=b;}
     int racServedDevscount();
+=======
+    void setEnbCoord(const Coord& coord){enbCoord = coord;}
+    Coord getEnbCoord() const{return enbCoord;}
+    void setServedDev(int index, bool b){servedDevs[index]=b;}
+    void setRacSevedDev(int index, bool b){racServedDevs[index]=b;}
+    int racServedDevscount();
+=======
+    void setEnbCoord(const Coord& coord){enbCoord = coord;}
+    Coord getEnbCoord() const{return enbCoord;}
+    void setServedDev(int index, bool b){servedDevs[index]=b;}
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
     bool getServedDevByIndex(int index){return servedDevs[index];}
     int countServedDevs();
     void printServedDevs();
@@ -206,6 +233,10 @@ class LteBinder : public cSimpleModule
     int countTotalServedDevs();
     void printTotalServedDevs();
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
     std::string checkCAINType(MacNodeId nodeId);
     std::pair<MacNodeId,double> findCloserRelay(MacNodeId ueId);
     MacNodeId findCloserHop(MacNodeId ueId, MacNodeId relayId);
@@ -215,6 +246,11 @@ class LteBinder : public cSimpleModule
     void setAllocatedRb(MacNodeId nodeId, bool setted);
     bool getAllocatedRb(MacNodeId nodeId);
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
     ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.

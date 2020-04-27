@@ -140,6 +140,10 @@ simple LteMacBase like LteMac {
         @signal[CainHopMessage](type=long);
         @statistic[CainHopMessage](title="eNB received CAIN hop message";record=vector,count;interpolationmode=none);
         
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
         
         @signal[DropedCainMessage](type=long);
         @statistic[DropedCainMessage](title="Droped CAIN message due to RB not available";record=vector,count;interpolationmode=none);
@@ -152,6 +156,11 @@ simple LteMacBase like LteMac {
         @signal[CainHopMessageSent](type=long);
         @statistic[CainHopMessageSent](title="# of Sent CAIN hop message";record=vector,count;interpolationmode=none);
         
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
         @signal[DistanceSignal](type=long);
         @statistic[DistanceSignal](title="Distance to enb";record=vector,count;interpolationmode=none);
         @signal[HopDistanceSignal](type=long);
@@ -168,10 +177,19 @@ simple LteMacBase like LteMac {
         @statistic[racpkt](title="eNB received racpkt message";record=vector,count;interpolationmode=none);
         @signal[racDistanceSignal](type=long);
         @statistic[racDistanceSignal](title="Rac distance to enb";record=vector,count;interpolationmode=none);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
         
         @signal[racServedDevsSignal](type=long);
         @statistic[racServedDevsSignal](title="# of devices served on rac arriavall";record=vector,count,max,last;interpolationmode=none);
         
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 5bdd6e6e24f045a4424f1e198edd7074414c0413
+>>>>>>> bf91fb2974eb8cc99ac703dad8430d7e62be7846
         ///////////////////////////
     gates:
         //# 
