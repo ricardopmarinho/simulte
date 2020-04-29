@@ -978,7 +978,7 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
         computeExtCellInterference(eNbId, ueId, ueCoord, (lteInfo->getFrameType() == FEEDBACKPKT), &extCellInterference); // dBm
     }
 
-    double greaterSinr = -1000;
+//    double greaterSinr = -1000;
     //===================== SINR COMPUTATION ========================
     if ((enableExtCellInterference_ || enableMultiCellInterference_) && dir == DL)
     {
@@ -1001,8 +1001,8 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             // compute final SINR
             snrVector[i] -= den;
 
-            if(snrVector[i] > greaterSinr)
-                greaterSinr = snrVector[i];
+//            if(snrVector[i] > greaterSinr)
+//                greaterSinr = snrVector[i];
 
         }
     }
@@ -1016,8 +1016,8 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
             // compute final SINR
             snrVector[i] = snrVector[i] - noiseFigure - thermalNoise_;
             EV << "LteRealisticChannelModel::getSINR - distance from eNb=" << enbCoord.distance(coord) << " - DIR=" << (( dir==DL )?"DL" : "UL") << " - snr[" << snrVector[i] << "]\n";
-            if(snrVector[i] > greaterSinr)
-                greaterSinr = snrVector[i];
+//            if(snrVector[i] > greaterSinr)
+//                greaterSinr = snrVector[i];
         }
     }
 

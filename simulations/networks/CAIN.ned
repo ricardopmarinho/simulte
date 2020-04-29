@@ -23,11 +23,13 @@ import lte.corenetwork.nodes.CAIN_Ue;
 import lte.corenetwork.nodes.eNodeB;
 import lte.world.radio.LteChannelControl;
 import lte.epc.PgwStandardSimplified;
+import lte.corenetwork.nodes.ExtCell;
 
 
 network CAIN
 {
     parameters:
+        int numExtCells = default(0);
         int numUeCell = default(1);
         int numUeD2DTx = default(0);
         int numUeD2DRx = default(0);
@@ -68,7 +70,7 @@ network CAIN
             @display("p=391,259;is=vl");
         }
         eNodeB1: eNodeB {
-            @display("p=671.625,242.53125;is=vl");
+            @display("p=791,259;is=vl");
         }
         ueCell[numUeCell]: CAIN_Ue {
             @display("p=292,367");
@@ -78,6 +80,9 @@ network CAIN
         }
         ueD2DRx[numUeD2DRx]: CAIN_Ue {
             @display("p=544,299");
+        }
+        extCell[numExtCells]: ExtCell {
+            @display("p=100,480;is=vl");
         }
     connections:
         server.pppg++ <--> Eth10G <--> router.pppg++;

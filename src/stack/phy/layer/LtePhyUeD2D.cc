@@ -492,6 +492,17 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
     Enter_Method("SendFeedback");
     EV << "LtePhyUeD2D: feedback from Feedback Generator" << endl;
 
+    MacNodeId enb = binder_->getCloserEnb(getRadioPosition());
+
+    EV << "The closer relay is: " << enb << endl;
+
+    if(enb!=0){
+        if(enb!=masterId_){
+            EV<<  "wrong enb, change it" << endl;
+            masterId_=enb;
+//            binder_->registerNextHop(masterId_,nodeId_);
+        }
+    }
     //Create a feedback packet
     LteFeedbackPkt* fbPkt = new LteFeedbackPkt();
     //Set the feedback
@@ -529,8 +540,6 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
     EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
        << nodeId_ << " sending feedback to the air channel" << endl;
     sendUnicast(frame);
-
-
     LteFeedbackPkt* fbPktDup = fbPkt->dup();
     UserControlInfo* uinfoDup = uinfo->dup();
     LteAirFrame* frameDup = frame->dup();
@@ -542,6 +551,10 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
     frameDup->setControlInfo(uinfoDup);
 
     sendUnicast(frameDup);
+
+
+
+
 
 }
 

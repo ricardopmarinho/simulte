@@ -868,6 +868,7 @@ struct EnbInfo
     ueRelay* relayMap;
     coordList* Clist;
     rbIncrease* moreRb;
+    inet::Coord pos;
 //////
     int x2;
 };

@@ -214,7 +214,8 @@ class LteBinder : public cSimpleModule
     int getIncreaseResourceBlock(MacNodeId nodeId);
     void setAllocatedRb(MacNodeId nodeId, bool setted);
     bool getAllocatedRb(MacNodeId nodeId);
-
+    MacNodeId getCloserEnb(Coord uePos);
+    void setEnbPos(MacNodeId nodeId, Coord pos);
     ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.

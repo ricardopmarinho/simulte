@@ -1186,6 +1186,35 @@ void LteBinder::setAllocatedRb(MacNodeId nodeId, bool setted){
 bool LteBinder::getAllocatedRb(MacNodeId nodeId){
     return allocatedRbs->operator [](nodeId);
 }
+
+MacNodeId LteBinder::getCloserEnb(Coord uePos){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    float closer = 100000;
+    MacNodeId enb = 10;
+    Coord zero = Coord(0,0,0);
+    float distto0;
+    for(unsigned int i = 0; i < vect->size();i++){
+        EV << "uePos: " << uePos << endl;
+        EV << "EnB id: " << vect->at(i)->id << endl;
+        EV << "Pos: " << vect->at(i)->pos << endl;
+        if(operator ==(zero,vect->at(i)->pos))
+            return 0;
+        if(uePos.distance(vect->at(i)->pos) < closer){
+            closer=uePos.distance(vect->at(i)->pos);
+//            EV << "distance: " << uePos.distance(vect->at(i)->pos) << endl;
+            enb=vect->at(i)->id;
+        }
+    }
+    return enb;
+}
+
+void LteBinder::setEnbPos(MacNodeId nodeId, Coord pos){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(vect->at(i)->id == nodeId)
+            vect->at(i)->pos = pos;
+    }
+}
 /////////////////////////////////////////////
 
 
