@@ -499,62 +499,114 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
     if(enb!=0){
         if(enb!=masterId_){
             EV<<  "wrong enb, change it" << endl;
-            masterId_=enb;
+            candidateMasterId_=enb;
+            LtePhyUe::triggerHandover();
 //            binder_->registerNextHop(masterId_,nodeId_);
+        }else{
+            //Create a feedback packet
+            LteFeedbackPkt* fbPkt = new LteFeedbackPkt();
+            //Set the feedback
+            fbPkt->setLteFeedbackDoubleVectorDl(fbDl);
+            fbPkt->setLteFeedbackDoubleVectorDl(fbUl);
+            fbPkt->setSourceNodeId(nodeId_);
+            UserControlInfo* uinfo = new UserControlInfo();
+            uinfo->setSourceId(nodeId_);
+            uinfo->setDestId(masterId_);
+            uinfo->setFrameType(FEEDBACKPKT);
+            uinfo->setIsCorruptible(false);
+            uinfo->setCoord(getRadioPosition());
+            // create LteAirFrame and encapsulate a feedback packet
+            LteAirFrame* frame = new LteAirFrame("feedback_pkt");
+            frame->encapsulate(check_and_cast<cPacket*>(fbPkt));
+            uinfo->feedbackReq = req;
+            uinfo->setDirection(UL);
+            simtime_t signalLength = TTI;
+            uinfo->setTxPower(txPower_);
+            uinfo->setD2dTxPower(d2dTxPower_);
+            // initialize frame fields
+
+            frame->setSchedulingPriority(airFramePriority_);
+            frame->setDuration(signalLength);
+
+            uinfo->setCoord(getRadioPosition());
+
+            frame->setControlInfo(uinfo);
+            //TODO access speed data Update channel index
+        //    if (coherenceTime(move.getSpeed())<(NOW-lastFeedback_)){
+        //        deployer_->channelIncrease(nodeId_);
+        //        deployer_->lambdaIncrease(nodeId_,1);
+        //    }
+
+            lastFeedback_ = NOW;
+            EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
+               << nodeId_ << " sending feedback to the air channel" << endl;
+            sendUnicast(frame);
+
+            LteFeedbackPkt* fbPktDup = fbPkt->dup();
+            UserControlInfo* uinfoDup = uinfo->dup();
+            LteAirFrame* frameDup = frame->dup();
+            frameDup->decapsulate();
+            frameDup->encapsulate(check_and_cast<cPacket*>(fbPktDup));
+            frameDup->removeControlInfo();
+            MacNodeId bsId = masterId_+1;
+            uinfoDup->setDestId(bsId);
+            frameDup->setControlInfo(uinfoDup);
+
+            sendUnicast(frameDup);
+            lastFeedback_ = NOW;
         }
+    }else{
+        //Create a feedback packet
+        LteFeedbackPkt* fbPkt = new LteFeedbackPkt();
+        //Set the feedback
+        fbPkt->setLteFeedbackDoubleVectorDl(fbDl);
+        fbPkt->setLteFeedbackDoubleVectorDl(fbUl);
+        fbPkt->setSourceNodeId(nodeId_);
+        UserControlInfo* uinfo = new UserControlInfo();
+        uinfo->setSourceId(nodeId_);
+        uinfo->setDestId(masterId_);
+        uinfo->setFrameType(FEEDBACKPKT);
+        uinfo->setIsCorruptible(false);
+        // create LteAirFrame and encapsulate a feedback packet
+        LteAirFrame* frame = new LteAirFrame("feedback_pkt");
+        frame->encapsulate(check_and_cast<cPacket*>(fbPkt));
+        uinfo->feedbackReq = req;
+        uinfo->setDirection(UL);
+        simtime_t signalLength = TTI;
+        uinfo->setTxPower(txPower_);
+        uinfo->setD2dTxPower(d2dTxPower_);
+        // initialize frame fields
+
+        frame->setSchedulingPriority(airFramePriority_);
+        frame->setDuration(signalLength);
+
+        uinfo->setCoord(getRadioPosition());
+
+        frame->setControlInfo(uinfo);
+        //TODO access speed data Update channel index
+    //    if (coherenceTime(move.getSpeed())<(NOW-lastFeedback_)){
+    //        deployer_->channelIncrease(nodeId_);
+    //        deployer_->lambdaIncrease(nodeId_,1);
+    //    }
+
+        lastFeedback_ = NOW;
+        EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
+           << nodeId_ << " sending feedback to the air channel" << endl;
+        sendUnicast(frame);
+
+        LteFeedbackPkt* fbPktDup = fbPkt->dup();
+        UserControlInfo* uinfoDup = uinfo->dup();
+        LteAirFrame* frameDup = frame->dup();
+        frameDup->decapsulate();
+        frameDup->encapsulate(check_and_cast<cPacket*>(fbPktDup));
+        frameDup->removeControlInfo();
+        MacNodeId bsId = masterId_+1;
+        uinfoDup->setDestId(bsId);
+        frameDup->setControlInfo(uinfoDup);
+
+        sendUnicast(frameDup);
+        lastFeedback_ = NOW;
     }
-    //Create a feedback packet
-    LteFeedbackPkt* fbPkt = new LteFeedbackPkt();
-    //Set the feedback
-    fbPkt->setLteFeedbackDoubleVectorDl(fbDl);
-    fbPkt->setLteFeedbackDoubleVectorDl(fbUl);
-    fbPkt->setSourceNodeId(nodeId_);
-    UserControlInfo* uinfo = new UserControlInfo();
-    uinfo->setSourceId(nodeId_);
-    uinfo->setDestId(masterId_);
-    uinfo->setFrameType(FEEDBACKPKT);
-    uinfo->setIsCorruptible(false);
-    // create LteAirFrame and encapsulate a feedback packet
-    LteAirFrame* frame = new LteAirFrame("feedback_pkt");
-    frame->encapsulate(check_and_cast<cPacket*>(fbPkt));
-    uinfo->feedbackReq = req;
-    uinfo->setDirection(UL);
-    simtime_t signalLength = TTI;
-    uinfo->setTxPower(txPower_);
-    uinfo->setD2dTxPower(d2dTxPower_);
-    // initialize frame fields
-
-    frame->setSchedulingPriority(airFramePriority_);
-    frame->setDuration(signalLength);
-
-    uinfo->setCoord(getRadioPosition());
-
-    frame->setControlInfo(uinfo);
-    //TODO access speed data Update channel index
-//    if (coherenceTime(move.getSpeed())<(NOW-lastFeedback_)){
-//        deployer_->channelIncrease(nodeId_);
-//        deployer_->lambdaIncrease(nodeId_,1);
-//    }
-
-    lastFeedback_ = NOW;
-    EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
-       << nodeId_ << " sending feedback to the air channel" << endl;
-    sendUnicast(frame);
-    LteFeedbackPkt* fbPktDup = fbPkt->dup();
-    UserControlInfo* uinfoDup = uinfo->dup();
-    LteAirFrame* frameDup = frame->dup();
-    frameDup->decapsulate();
-    frameDup->encapsulate(check_and_cast<cPacket*>(fbPktDup));
-    frameDup->removeControlInfo();
-    MacNodeId bsId = masterId_+1;
-    uinfoDup->setDestId(bsId);
-    frameDup->setControlInfo(uinfoDup);
-
-    sendUnicast(frameDup);
-
-
-
-
 
 }
 

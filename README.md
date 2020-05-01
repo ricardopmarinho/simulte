@@ -165,13 +165,14 @@ Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 ========================== SO FAR ==========================
 
-Mobile test works
+Handover working (apparently)
 
 ========================== NEXT ============================
 
-See which tests to make
+Find the error on PATH/src/mac/stack/amc/AmcPilotD2D.cc
+AmcPilotD2D::computeTxParams (line 38)
 
 ========================== LAST UPDATE======================
 
-Dec 12th 2019
+May 1st 2020
 

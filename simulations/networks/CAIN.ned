@@ -89,6 +89,6 @@ network CAIN
         router.pppg++ <--> Eth10G <--> pgw.filterGate;
         pgw.pppg++ <--> Eth10G <--> eNodeB.ppp;
         pgw.pppg++ <--> Eth10G <--> eNodeB1.ppp;
-        eNodeB1.x2++ <--> Eth10G <--> eNodeB.x2++;
+        eNodeB.x2++ <--> Eth10G <--> eNodeB1.x2++;
 
 }

@@ -158,6 +158,7 @@ LteFeedbackDoubleVector LteFeedbackComputationRealistic::computeFeedback(Feedbac
             unsigned int rank = 1;
             if (z == OL_SPATIAL_MULTIPLEXING){
                 EV << "FOI29" << endl;
+                EV<< "id: " << id << endl;
                 rank = computeRank(id);
             }
             if ((z == OL_SPATIAL_MULTIPLEXING && rank > 1) || z == TRANSMIT_DIVERSITY || z == SINGLE_ANTENNA_PORT0)

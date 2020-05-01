@@ -50,6 +50,8 @@ void LteX2Manager::initialize(int stage)
     }
     else if (stage == inet::INITSTAGE_NETWORK_LAYER_3+1)
     {
+        EV << "pperid3: "<< endl;
+        EV << "gate size: "<< gateSize("x2$i") << endl;
         // for each X2App, get the client submodule and set connection parameters (connectPort)
         for (int i=0; i<gateSize("x2$i"); i++)
         {
@@ -63,6 +65,8 @@ void LteX2Manager::initialize(int stage)
             // get the connectAddress for the X2App client and the corresponding X2 id
             L3Address addr = L3AddressResolver().resolve(client->par("connectAddress").stringValue());
             X2NodeId peerId = getBinder()->getX2NodeId(addr.toIPv4());
+            EV<< "l3addr: " << addr << endl;
+            EV << "pperid: " << peerId<< endl;
 
             // bind the peerId to the output gate
             x2InterfaceTable_[peerId] = i;
@@ -141,6 +145,7 @@ void LteX2Manager::fromStack(cPacket* pkt)
         DestinationIdList::iterator it = destList.begin();
         for (; it != destList.end(); ++it)
         {
+            EV << "Dest: " << *it << endl;
             // send a X2 message to each destination eNodeB
             LteX2Message* x2msg_dup = x2msg->dup();
             x2msg_dup->setSourceId(nodeId_);
@@ -148,7 +153,9 @@ void LteX2Manager::fromStack(cPacket* pkt)
 
             // select the index for the output gate (it belongs to a vector)
             int gateIndex = x2InterfaceTable_[*it];
+            EV << "gateindex: " << gateIndex << endl;
             cGate* outputGate = gate("x2$o",gateIndex);
+            EV << "aqui" << endl;
             send(x2msg_dup, outputGate);
         }
         delete x2Info;

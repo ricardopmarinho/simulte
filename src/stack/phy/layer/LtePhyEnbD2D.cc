@@ -57,6 +57,7 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
         if (req.genType == IDEAL)
         {
             EV << "FOI21" << endl;
+            EV << "Enb id: "<< lteinfo->getDestId() << endl;
             fb_ = lteFeedbackComputation_->computeFeedback(type, rbtype, txmode,
                 antennaCws, numPreferredBand, IDEAL, nRus, snr,
                 lteinfo->getSourceId());
@@ -180,15 +181,15 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
      *                     TTI x+1: packet from UE arrives at the old master
      */
     EV << "WARNING: frame from a UE that is leaving this cell (handover): deleted " << endl;
-//    if (binder_->getNextHop(lteInfo->getSourceId()) != nodeId_)
-//    {
-//        EV << "WARNING: frame from a UE that is leaving this cell (handover): deleted " << endl;
-//        EV << "Source MacNodeId: " << lteInfo->getSourceId() << endl;
-//        EV << "Master MacNodeId: " << nodeId_ << endl;
-//        delete lteInfo;
-//        delete frame;
-//        return;
-//    }
+    if (binder_->getNextHop(lteInfo->getSourceId()) != nodeId_)
+    {
+        EV << "WARNING: frame from a UE that is leaving this cell (handover): deleted " << endl;
+        EV << "Source MacNodeId: " << lteInfo->getSourceId() << endl;
+        EV << "Master MacNodeId: " << nodeId_ << endl;
+        delete lteInfo;
+        delete frame;
+        return;
+    }
 
     // Check if the frame is for us ( MacNodeId matches or - if this is a multicast communication - enrolled in multicast group)
     if (lteInfo->getDestId() != nodeId_)
