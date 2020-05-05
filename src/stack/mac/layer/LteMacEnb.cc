@@ -313,6 +313,7 @@ void LteMacEnb::initialize(int stage)
         info->mapUe = new UeAreaMap();
         info->relayMap = new ueRelay();
         info->moreRb = new rbIncrease();
+        info->fbmap = new feedbackMap();
 
         binder_->addEnbInfo(info);
 
@@ -1288,14 +1289,18 @@ void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
     LteFeedbackDoubleVector::iterator it;
     LteFeedbackVector::iterator jt;
 
+    EV << "aqui1" << endl;
     for (it = fbMapDl.begin(); it != fbMapDl.end(); ++it)
     {
+        EV << "aqui1" << endl;
         unsigned int i = 0;
         for (jt = it->begin(); jt != it->end(); ++jt)
         {
+            EV << "aqui2" << endl;
             //            TxMode rx=(TxMode)i;
             if (!jt->isEmptyFeedback())
             {
+                EV << "aqui3" << endl;
                 amc_->pushFeedback(id, DL, (*jt));
                 cqiStatistics(id, DL, (*jt));
             }
@@ -1304,10 +1309,14 @@ void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
     }
     for (it = fbMapUl.begin(); it != fbMapUl.end(); ++it)
     {
+        EV << "aqui4" << endl;
         for (jt = it->begin(); jt != it->end(); ++jt)
         {
-            if (!jt->isEmptyFeedback())
+            EV << "aqui5" << endl;
+            if (!jt->isEmptyFeedback()){
+                EV << "aqui6" << endl;
                 amc_->pushFeedback(id, UL, (*jt));
+            }
         }
     }
     delete fb;

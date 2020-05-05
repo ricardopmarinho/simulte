@@ -132,38 +132,29 @@ LteFeedbackDoubleVector LteFeedbackComputationRealistic::computeFeedback(Feedbac
     std::map<Remote, int> antennaCws, int numPreferredBands, FeedbackGeneratorType feedbackGeneratortype, int numRus,
     std::vector<double> snr, MacNodeId id)
 {
-    EV << "FOI22" << endl;
     //add enodeB to the number of antenna
     numRus++;
     // New Feedback
     LteFeedbackDoubleVector fbvv;
     fbvv.resize(numRus);
     //resize all the vectors
-    EV << "FOI23" << endl;
     for (int i = 0; i < numRus; i++)
         fbvv[i].resize(DL_NUM_TXMODE);
-    EV << "FOI24" << endl;
     //for each Remote
     for (int j = 0; j < numRus; j++)
     {
-        EV << "FOI25" << endl;
         LteFeedback fb;
         //for each txmode we generate a feedback exclude MU_MIMO because it is threated as siso
         for (int z = 0; z < DL_NUM_TXMODE - 1; z++)
         {
-            EV << "FOI26" << endl;
             //reset the feedback object
             fb.reset();
             fb.setTxMode((TxMode) z);
             unsigned int rank = 1;
-            if (z == OL_SPATIAL_MULTIPLEXING){
-                EV << "FOI29" << endl;
-                EV<< "id: " << id << endl;
+            if (z == OL_SPATIAL_MULTIPLEXING)
                 rank = computeRank(id);
-            }
             if ((z == OL_SPATIAL_MULTIPLEXING && rank > 1) || z == TRANSMIT_DIVERSITY || z == SINGLE_ANTENNA_PORT0)
             {
-                EV << "FOI210" << endl;
                 //set the rank
                 fb.setRankIndicator(rank);
                 //set the remote
@@ -178,13 +169,10 @@ LteFeedbackDoubleVector LteFeedbackComputationRealistic::computeFeedback(Feedbac
             LteFeedback fb2 = fb;
             if (z == SINGLE_ANTENNA_PORT0)
             {
-                EV << "FOI211" << endl;
                 fb2.setTxMode(MULTI_USER);
                 fbvv[j][MULTI_USER] = fb2;
             }
-            EV << "FOI27" << endl;
             fbvv[j][z] = fb;
-            EV << "FOI28" << endl;
         }
     }
     return fbvv;

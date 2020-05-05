@@ -1303,7 +1303,7 @@ void LteMacUeRealisticD2D::handleSelfMessage()
         if(!retx)
         {
             scheduleList_ = lcgScheduler_->schedule();
-            EV << "LteMacUeRealisticD2D aqui" << endl;
+            EV << "LteMacUeRealisticD2D" << endl;
             if ((bsrTriggered_ || bsrD2DMulticastTriggered_) && scheduleList_->empty())
             {
                 // no connection scheduled, but we can use this grant to send a BSR to the eNB

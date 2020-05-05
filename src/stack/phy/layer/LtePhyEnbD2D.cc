@@ -56,8 +56,6 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
         //for each RU is called the computation feedback function
         if (req.genType == IDEAL)
         {
-            EV << "FOI21" << endl;
-            EV << "Enb id: "<< lteinfo->getDestId() << endl;
             fb_ = lteFeedbackComputation_->computeFeedback(type, rbtype, txmode,
                 antennaCws, numPreferredBand, IDEAL, nRus, snr,
                 lteinfo->getSourceId());
@@ -180,7 +178,6 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
      *                     TTI x+0.1: ue changes master
      *                     TTI x+1: packet from UE arrives at the old master
      */
-    EV << "WARNING: frame from a UE that is leaving this cell (handover): deleted " << endl;
     if (binder_->getNextHop(lteInfo->getSourceId()) != nodeId_)
     {
         EV << "WARNING: frame from a UE that is leaving this cell (handover): deleted " << endl;

@@ -155,7 +155,6 @@ void LteX2Manager::fromStack(cPacket* pkt)
             int gateIndex = x2InterfaceTable_[*it];
             EV << "gateindex: " << gateIndex << endl;
             cGate* outputGate = gate("x2$o",gateIndex);
-            EV << "aqui" << endl;
             send(x2msg_dup, outputGate);
         }
         delete x2Info;

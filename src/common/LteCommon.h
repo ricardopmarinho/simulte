@@ -807,6 +807,11 @@ typedef std::vector<MacNodeId> rep_list;
 typedef std::map<MacNodeId,int> UeAreaMap;
 
 /*
+ * stores the feedback history for each enB
+ * */
+typedef std::map<MacNodeId,bool> feedbackMap;
+
+/*
  * Stores the distance between the relays (area 1) to
  * UEs on area 2
  * */
@@ -869,6 +874,7 @@ struct EnbInfo
     coordList* Clist;
     rbIncrease* moreRb;
     inet::Coord pos;
+    feedbackMap* fbmap;
 //////
     int x2;
 };

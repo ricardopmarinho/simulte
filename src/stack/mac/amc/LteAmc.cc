@@ -416,6 +416,7 @@ void LteAmc::pushFeedbackD2D(MacNodeId id, LteFeedback fb, MacNodeId peerId)
 {
     EV << "Feedback from MacNodeId " << id << " (direction D2D), peerId = " << peerId << endl;
 
+    EV << "Aqui1" << endl;
     std::map<MacNodeId, History_> *history = &d2dFeedbackHistory_;
     std::map<MacNodeId, unsigned int> *nodeIndex = &d2dNodeIndex_;
 
@@ -487,6 +488,9 @@ LteSummaryFeedback LteAmc::getFeedbackD2D(MacNodeId id, Remote antenna, TxMode t
             }
         }
     }
+    EV << "peerId: " << peerId << endl;
+    EV << "antenna: " << antenna << endl;
+    EV << "txMode: " << txMode << endl;
     return d2dFeedbackHistory_.at(peerId).at(antenna).at(d2dNodeIndex_.at(id)).at(txMode).get();
 }
 
