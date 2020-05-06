@@ -50,18 +50,20 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
     std::map<Remote, int> antennaCws = deployer_->getAntennaCws();
     unsigned int numPreferredBand = deployer_->getNumPreferredBands();
     Direction dir = UL;
-//    binder_->checkCAINType(lteinfo->getSourceId());
     while (dir != UNKNOWN_DIRECTION)
     {
+        EV << "aqui100" << endl;
         //for each RU is called the computation feedback function
         if (req.genType == IDEAL)
         {
+            EV << "aqui101" << endl;
             fb_ = lteFeedbackComputation_->computeFeedback(type, rbtype, txmode,
                 antennaCws, numPreferredBand, IDEAL, nRus, snr,
                 lteinfo->getSourceId());
         }
         else if (req.genType == REAL)
         {
+            EV << "aqui102" << endl;
             RemoteSet::iterator it;
             fb_.resize(das_->getReportingSet().size());
             for (it = das_->getReportingSet().begin();
@@ -77,6 +79,7 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
         // the reports are computed only for the antenna in the reporting set
         else if (req.genType == DAS_AWARE)
         {
+            EV << "aqui103" << endl;
             RemoteSet::iterator it;
             fb_.resize(das_->getReportingSet().size());
             for (it = das_->getReportingSet().begin();
@@ -89,6 +92,7 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
         }
         if (dir == UL)
         {
+            EV << "aqui104" << endl;
             pkt->setLteFeedbackDoubleVectorUl(fb_);
             //Prepare  parameters for next loop iteration - in order to compute SNR in DL
             lteinfo->setTxPower(txPower_);
@@ -101,18 +105,27 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
         }
         else if (dir == DL)
         {
+            EV << "aqui105" << endl;
             pkt->setLteFeedbackDoubleVectorDl(fb_);
 
             if (enableD2DCqiReporting_)
             {
+                EV << "aqui106" << endl;
                 // compute D2D feedback for all possible peering UEs
                 std::vector<UeInfo*>* ueList = binder_->getUeList();
                 std::vector<UeInfo*>::iterator it = ueList->begin();
                 for (; it != ueList->end(); ++it)
                 {
+                    EV << "aqui107" << endl;
                     MacNodeId peerId = (*it)->id;
+                    EV << "Peerid: " << peerId << endl;
+                    EV << "sourceid: "<< lteinfo->getSourceId() << endl;
+                    EV << "d2scapability: "<< binder_->checkD2DCapability(lteinfo->getSourceId(), peerId) << endl;
+                    EV << "nextHop: "<< binder_->getNextHop(peerId) << endl;
+                    EV << "nodeId: "<< nodeId_ << endl;
                     if (peerId != lteinfo->getSourceId() && binder_->checkD2DCapability(lteinfo->getSourceId(), peerId) && binder_->getNextHop(peerId) == nodeId_)
                     {
+                        EV << "aqui108" << endl;
                          // the source UE might communicate with this peer using D2D, so compute feedback
 
                          // retrieve the position of the peer
@@ -126,10 +139,12 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
                                  antennaCws, numPreferredBand, IDEAL, nRus, snr,
                                  lteinfo->getSourceId());
 
+                         EV << "aqui109" << endl;
                          pkt->setLteFeedbackDoubleVectorD2D(peerId, fb_);
                     }
                 }
             }
+            EV << "aqui110" << endl;
             dir = UNKNOWN_DIRECTION;
         }
     }

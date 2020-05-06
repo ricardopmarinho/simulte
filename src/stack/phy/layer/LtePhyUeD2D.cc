@@ -501,7 +501,6 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
             EV<<  "wrong enb, change it" << endl;
             candidateMasterId_=enb;
             LtePhyUe::triggerHandover();
-//            binder_->registerNextHop(masterId_,nodeId_);
         }else{
             //Create a feedback packet
             LteFeedbackPkt* fbPkt = new LteFeedbackPkt();
