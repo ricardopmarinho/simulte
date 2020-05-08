@@ -314,6 +314,10 @@ void LteMacEnb::initialize(int stage)
         info->relayMap = new ueRelay();
         info->moreRb = new rbIncrease();
         info->fbmap = new feedbackMap();
+        numDev = getModuleByPath("CAIN")->par("numUeD2DTx");
+
+        binder_->setD2Dcapable(numDev);
+        ///////
 
         binder_->addEnbInfo(info);
 
@@ -1279,6 +1283,9 @@ void LteMacEnb::handleSelfMessage()
 
 void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
 {
+//    if(!d2dSetted){
+//        d2dSetted = true;
+//    }
 
     EV << "At LteMacEnb::macHandleFeedbackPkt\n";
     LteFeedbackPkt* fb = check_and_cast<LteFeedbackPkt*>(pkt);
@@ -1289,18 +1296,14 @@ void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
     LteFeedbackDoubleVector::iterator it;
     LteFeedbackVector::iterator jt;
 
-    EV << "aqui1" << endl;
     for (it = fbMapDl.begin(); it != fbMapDl.end(); ++it)
     {
-        EV << "aqui1" << endl;
         unsigned int i = 0;
         for (jt = it->begin(); jt != it->end(); ++jt)
         {
-            EV << "aqui2" << endl;
             //            TxMode rx=(TxMode)i;
             if (!jt->isEmptyFeedback())
             {
-                EV << "aqui3" << endl;
                 amc_->pushFeedback(id, DL, (*jt));
                 cqiStatistics(id, DL, (*jt));
             }
@@ -1309,12 +1312,9 @@ void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
     }
     for (it = fbMapUl.begin(); it != fbMapUl.end(); ++it)
     {
-        EV << "aqui4" << endl;
         for (jt = it->begin(); jt != it->end(); ++jt)
         {
-            EV << "aqui5" << endl;
             if (!jt->isEmptyFeedback()){
-                EV << "aqui6" << endl;
                 amc_->pushFeedback(id, UL, (*jt));
             }
         }

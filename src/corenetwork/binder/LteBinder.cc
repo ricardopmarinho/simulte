@@ -1052,6 +1052,7 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
                         str << "NOTIFY|" << closerRelay.first;
                         increaseResourceBlock(closerRelay.first,1);
                         setServedDev(nodeId-1025,true);
+//                        addD2DCapability(nodeId,closerRelay.first);
                     }else{
                         MacNodeId hopId = findCloserHop(nodeId,closerRelay.first);
                         if(hopId == 0){
@@ -1059,12 +1060,16 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
                             str << "NOTIFY|" << closerRelay.first;
                             increaseResourceBlock(closerRelay.first,1);
                             setServedDev(nodeId-1025,true);
+//                            addD2DCapability(nodeId,closerRelay.first);
                         }else{
                             EV << "The closer hop is:" << hopId << endl;
                             str << "HOP_NTF|" << closerRelay.first << ";" << hopId;
                             increaseResourceBlock(closerRelay.first,2);
                             setServedHopDev(nodeId-1025,true);
                             setServedHopDev(hopId-1025,true);
+//                            addD2DCapability(nodeId,closerRelay.first);
+//                            addD2DCapability(nodeId,hopId);
+//                            addD2DCapability(closerRelay.first,hopId);
                         }
                     }
                 }
@@ -1213,6 +1218,15 @@ void LteBinder::setEnbPos(MacNodeId nodeId, Coord pos){
     for(unsigned int i = 0; i < vect->size();i++){
         if(vect->at(i)->id == nodeId)
             vect->at(i)->pos = pos;
+    }
+}
+
+void LteBinder::setD2Dcapable(int numDevs){
+    for(int i = 1025; i<1025+numDevs; i++){
+        if(i != 1025+numDevs-1)
+            addD2DCapability(i,i+1);
+        else
+            addD2DCapability(i,1025);
     }
 }
 /////////////////////////////////////////////

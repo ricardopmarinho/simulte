@@ -83,6 +83,8 @@ class LteMacEnb : public LteMacBase
     long racDistance = 0;
     long racServedDevscount = 0;
     std::vector<bool> racServedDevs;
+    bool d2dSetted = false;
+    int numDev = 0;
     ////////////////////////////////
 
 //    typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;

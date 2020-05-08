@@ -216,6 +216,7 @@ class LteBinder : public cSimpleModule
     bool getAllocatedRb(MacNodeId nodeId);
     MacNodeId getCloserEnb(Coord uePos);
     void setEnbPos(MacNodeId nodeId, Coord pos);
+    void setD2Dcapable(int numDevs);
     ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.

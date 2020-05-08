@@ -169,12 +169,10 @@ Handover working (apparently)
 
 ========================== NEXT ============================
 
-Check if method requestFeedback from PATH/src/mac/stack/phy/layer/LtePhyEnbD2D.cc (line 32)
-is called to see if arrives at pkt->setLteFeedbackDoubleVectorD2D(peerId, fb_); (line 129)
-Find the error on PATH/src/mac/stack/amc/AmcPilotD2D.cc
-AmcPilotD2D::computeTxParams (line 38)
+Find how to not enter 'if (htit == harqTxBuffers_.end())' at
+PATH/scr/stack/mac/layer/LteMacBase.cc line 100
 
 ========================== LAST UPDATE======================
 
-May 4th 2020
+May 8th 2020
 
