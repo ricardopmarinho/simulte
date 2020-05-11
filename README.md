@@ -165,14 +165,13 @@ Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 ========================== SO FAR ==========================
 
-Handover working (apparently)
+fixing bugs from runs
 
 ========================== NEXT ============================
 
-Find how to not enter 'if (htit == harqTxBuffers_.end())' at
-PATH/scr/stack/mac/layer/LteMacBase.cc line 100
+run everything again
 
 ========================== LAST UPDATE======================
 
-May 8th 2020
+May 11th 2020
 

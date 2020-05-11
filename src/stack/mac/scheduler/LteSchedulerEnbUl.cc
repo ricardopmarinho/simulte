@@ -40,13 +40,19 @@ LteSchedulerEnbUl::checkEligibility(MacNodeId id, Codeword& cw)
     return false;
 }
 
-void
-LteSchedulerEnbUl::updateHarqDescs()
+void LteSchedulerEnbUl::updateHarqDescs()
 {
     EV << NOW << "LteSchedulerEnbUl::updateHarqDescs  cell " << mac_->getMacCellId() << endl;
 
     HarqRxBuffers::iterator it;
     HarqStatus::iterator currentStatus;
+
+
+    if(setBuffers){
+        for(int i = 1025; i < 1025+100;i++)
+            harqStatus_[i]=0;
+    }
+    setBuffers = false;
 
     for (it=harqRxBuffers_->begin();it!=harqRxBuffers_->end();++it)
     {
@@ -209,9 +215,10 @@ LteSchedulerEnbUl::rtxschedule()
             }
             EV << NOW << "LteSchedulerEnbUl::rtxschedule user " << nodeId << " allocated bytes : " << allocatedBytes << endl;
         }
-
+        EV << "Aqui 1000" << endl;
         if (mac_->isD2DCapable())
         {
+            EV << "Aqui 1001" << endl;
             // --- START Schedule D2D retransmissions --- //
             Direction dir = D2D;
             HarqRxBuffersMirror* harqRxBuffersD2DMirror;
@@ -225,12 +232,16 @@ LteSchedulerEnbUl::rtxschedule()
             for(; it_d2d != et_d2d; ++it_d2d)
             {
 
+                EV << "Aqui 1002" << endl;
                 // get current nodeIDs
                 MacNodeId senderId = it_d2d->second->peerId_; // Transmitter
                 MacNodeId destId = it_d2d->first;             // Receiver
 
                 // get current Harq Process for nodeId
+                EV << "Aqui 1003" << endl;
+                EV << "SenderId: " << senderId << endl;
                 unsigned char currentAcid = harqStatus_.at(senderId);
+                EV << "Aqui 1004" << endl;
 
                 // check whether the UE has a H-ARQ process waiting for retransmission. If not, skip UE.
                 bool skip = true;

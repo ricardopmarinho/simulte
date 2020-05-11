@@ -43,3 +43,11 @@ When initializing enb, added a code to set D2D capability to UEs
 
 Commented if (binder_->hasUeHandoverTriggered(nodeId_) || binder_->hasUeHandoverTriggered(src)) (line 106)
 	On PATH/scr/stack/mac/layer/LteMacBase.cc
+
+Added code at PATH/src/stack/mac/scheduler/LteSchedulerEnbUl.cc (lines 51~55)
+	if(setBuffers){
+		for(int i = 1025; i < 1025+100;i++)
+		    harqStatus_[i]=0;
+	}
+	setBuffers = false;
+	and at PATH/src/stack/mac/scheduler/LteSchedulerEnbUl.h (line 33)

@@ -28,6 +28,12 @@ class LteSchedulerEnbUl : public LteSchedulerEnb
     unsigned int scheduleUnit_;
     //---------------------------------------------
 
+
+    /////////////
+    bool setBuffers=true;
+    /////////////
+
+
     /**
      * Checks Harq Descriptors and return the first free codeword.
      *

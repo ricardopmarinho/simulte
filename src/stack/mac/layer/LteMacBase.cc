@@ -82,11 +82,8 @@ void LteMacBase::fromPhy(cPacket *pkt)
 {
     // TODO: harq test (comment fromPhy: it has only to pass pdus to proper rx buffer and
     // to manage H-ARQ feedback)
-
     UserControlInfo *userInfo = check_and_cast<UserControlInfo *>(pkt->getControlInfo());
     MacNodeId src = userInfo->getSourceId();
-
-
     if(userInfo->getCAINEnable() && userInfo->getCAINDirection()==FWD){
         EV << "Receiving relay message: " << userInfo->getCAINOptions() << ", from relay: " << userInfo->getSourceId() << endl;
         macHandleRac(pkt);
