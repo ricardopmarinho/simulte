@@ -1223,10 +1223,18 @@ void LteBinder::setEnbPos(MacNodeId nodeId, Coord pos){
 
 void LteBinder::setD2Dcapable(int numDevs){
     for(int i = 1025; i<1025+numDevs; i++){
-        if(i != 1025+numDevs-1)
-            addD2DCapability(i,i+1);
-        else
-            addD2DCapability(i,1025);
+        for(int j = 1025; j<1025+numDevs ; j++){
+            if(i != j){
+                if(i != 1025+numDevs-1)
+                    addD2DCapability(i,j);
+                else
+                    addD2DCapability(i,1025);
+            }
+        }
+//        if(i != 1025+numDevs-1)
+//            addD2DCapability(i,i+1);
+//        else
+//            addD2DCapability(i,1025);
     }
 }
 /////////////////////////////////////////////

@@ -115,8 +115,8 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
                     EV << "d2scapability: "<< binder_->checkD2DCapability(lteinfo->getSourceId(), peerId) << endl;
                     EV << "nextHop: "<< binder_->getNextHop(peerId) << endl;
                     EV << "nodeId: "<< nodeId_ << endl;
-                    if (peerId != lteinfo->getSourceId() && binder_->checkD2DCapability(lteinfo->getSourceId(), peerId) && binder_->getNextHop(peerId) == nodeId_)
-                    {
+//                    if (peerId != lteinfo->getSourceId() && binder_->checkD2DCapability(lteinfo->getSourceId(), peerId) && binder_->getNextHop(peerId) == nodeId_)
+//                    {
                          // the source UE might communicate with this peer using D2D, so compute feedback
 
                          // retrieve the position of the peer
@@ -131,7 +131,7 @@ void LtePhyEnbD2D::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
                                  lteinfo->getSourceId());
 
                          pkt->setLteFeedbackDoubleVectorD2D(peerId, fb_);
-                    }
+//                    }
                 }
             }
             dir = UNKNOWN_DIRECTION;
