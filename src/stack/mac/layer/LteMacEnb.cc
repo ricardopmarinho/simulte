@@ -1195,6 +1195,7 @@ bool LteMacEnb::bufferizePacket(cPacket* pkt)
 
 void LteMacEnb::handleUpperMessage(cPacket* pkt)
 {
+    EV << "LteMacEnb::handleUpperMessage" << endl;
     FlowControlInfo* lteInfo = check_and_cast<FlowControlInfo*>(pkt->getControlInfo());
     MacCid cid = idToMacCid(lteInfo->getDestId(), lteInfo->getLcid());
     if (LteMacBase::bufferizePacket(pkt))

@@ -314,6 +314,7 @@ bool LteMacUeRealistic::bufferizePacket(cPacket* pkt)
         LteMacBufferMap::iterator it = macBuffers_.find(cid);
         if (it == macBuffers_.end())
         {
+            EV << "lteMacUeRealistic.cc::here" << endl;
             LteMacBuffer* vqueue = new LteMacBuffer();
             vqueue->pushBack(vpkt);
             macBuffers_[cid] = vqueue;
@@ -351,8 +352,11 @@ bool LteMacUeRealistic::bufferizePacket(cPacket* pkt)
         // Queue not found for this cid: create
         LteMacQueue* queue = new LteMacQueue(queueSize_);
 
+        EV << "lteMacUeRealistic.cc::queue" << endl;
         queue->pushBack(pkt);
+        EV<< "cid: " << cid << endl;
 
+        EV << "queue" << queue << endl;
         mbuf_[cid] = queue;
 
         EV << "LteMacBuffers : Using new buffer on node: " <<

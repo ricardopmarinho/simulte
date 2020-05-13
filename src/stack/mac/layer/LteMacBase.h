@@ -322,6 +322,7 @@ class LteMacBase : public cSimpleModule
      */
     virtual void handleUpperMessage(cPacket* pkt)
     {
+        EV << "LteMacBase::handleUpperMessage" << endl;
         bufferizePacket(pkt);
     }
 

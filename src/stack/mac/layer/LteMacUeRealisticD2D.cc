@@ -146,7 +146,7 @@ void LteMacUeRealisticD2D::macPduMake()
     }
 
     EV << "LteMacUeRealisticD2D::macPduMake2" << endl;
-    if(!bsrAlreadyMade)
+    /*if(!bsrAlreadyMade)
     {
         EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
         // In a D2D communication if BSR was created above this part isn't executed
@@ -210,6 +210,7 @@ void LteMacUeRealisticD2D::macPduMake()
             while (sduPerCid > 0)
             {
                 EV << "LteMacUeRealisticD2D::macPduMake6" << endl;
+                EV << "sduPerCid: " << sduPerCid << endl;
                 // Add SDU to PDU
                 // Find Mac Pkt
                 if (mbuf_.find(destCid) == mbuf_.end())
@@ -244,7 +245,7 @@ void LteMacUeRealisticD2D::macPduMake()
                     size += RLC_HEADER_AM;
             }
         }
-    }
+    }*/
 
     // Put MAC PDUs in H-ARQ buffers
     MacPduList::iterator pit;
