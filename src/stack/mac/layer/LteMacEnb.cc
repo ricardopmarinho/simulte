@@ -316,7 +316,7 @@ void LteMacEnb::initialize(int stage)
         info->fbmap = new feedbackMap();
         numDev = getModuleByPath("CAIN")->par("numUeD2DTx");
 
-        binder_->setD2Dcapable(numDev);
+//        binder_->setD2Dcapable(numDev);
         ///////
 
         binder_->addEnbInfo(info);
