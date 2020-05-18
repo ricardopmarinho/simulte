@@ -2635,7 +2635,7 @@ int LteRealisticChannelModel::createAreaMap(MacNodeId ueId, double recvPower){
     UeAreaMap* mapUe = NULL;
 
     for(unsigned int j = 0; j < vect->size();j++){
-        if(1 == vect->at(j)->id){
+        if(binder_->getEnbToUe(ueId) == vect->at(j)->id){
             int pwrThresh = vect->operator [](j)->pwrThresh;
             mapUe = vect->operator [](j)->mapUe;
             if(recvPower >= pwrThresh){

@@ -842,6 +842,11 @@ typedef std::map<MacNodeId, inet::Coord> coordList;
  * */
 typedef std::list<MacNodeId> assistedDevices;
 
+/*
+ * Stores the enb each ue is attached at
+ * */
+typedef std::map<MacNodeId, MacNodeId> EnbUeList;
+
 /*********************
  * Incell Interference Support
  *********************/

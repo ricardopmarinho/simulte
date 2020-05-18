@@ -493,13 +493,14 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
     EV << "LtePhyUeD2D: feedback from Feedback Generator" << endl;
 
     MacNodeId enb = binder_->getCloserEnb(getRadioPosition());
-    EV << "The closer relay is: " << enb << endl;
+    EV << "The closer enb is: " << enb << endl;
     int numDev = getModuleByPath("CAIN")->par("numUeD2DTx");
 
-    if(nodeId_==1025+numDev-1)
-        binder_->addD2DCapability(nodeId_,1025);
-    else
-        binder_->addD2DCapability(nodeId_,nodeId_+1);
+    binder_->setEnbToUe(enb,nodeId_);
+//    if(nodeId_==1025+numDev-1)
+//        binder_->addD2DCapability(nodeId_,1025);
+//    else
+//        binder_->addD2DCapability(nodeId_,nodeId_+1);
 
     if(enb!=0){
         if(enb!=masterId_){

@@ -1020,18 +1020,14 @@ void LteBinder::printTotalServedDevs(){
 }
 
 std::string LteBinder::checkCAINType(MacNodeId nodeId){
+
     int distThresh = getModuleByPath("CAIN")->par("distThresh");
     std::ostringstream str;
     std::vector<EnbInfo*>* vect = this->getEnbList();
-
-//    EV << "The closer hop is:" << 1027 << endl;
-//    str << "HOP_NTF|" << 1027 << ";" << 1026;
-//    increaseResourceBlock(1027,2);
-//    printIncreaseResourceBlock();
-//    return str.str();
+    MacNodeId enbId = getEnbToUe(nodeId);
 
     for(unsigned int i = 0; i < vect->size();i++){
-        if(1 == vect->at(i)->id){
+        if(enbId == vect->at(i)->id){
             UeAreaMap* ueMap = vect->operator [](i)->mapUe;
             int area = ueMap->operator [](nodeId);
             EV << "The area is: " << area << endl;
@@ -1082,12 +1078,15 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
 }
 
 std::pair<MacNodeId,double> LteBinder::findCloserRelay(MacNodeId ueId){
+
     std::vector<EnbInfo*>* vect = this->getEnbList();
     MacNodeId closerNode = 0;
     double minDist = INFINITY;
     std::pair<MacNodeId, double> p;
+    MacNodeId enbId = getEnbToUe(ueId);
+
     for(unsigned int i = 0; i < vect->size();i++){
-        if(1 == vect->at(i)->id){
+        if(enbId == vect->at(i)->id){
             UeAreaMap* ueMap = vect->operator [](i)->mapUe;
             UeAreaMap::iterator mapIt = ueMap->begin();
             /*
@@ -1114,9 +1113,10 @@ std::pair<MacNodeId,double> LteBinder::findCloserRelay(MacNodeId ueId){
 MacNodeId LteBinder::findCloserHop(MacNodeId ueId, MacNodeId relayId){
     std::vector<EnbInfo*>* vect = this->getEnbList();
     MacNodeId closerHop = 0;
+    MacNodeId enbId = getEnbToUe(ueId);
     double minDist = INFINITY;
     for(unsigned int i = 0; i < vect->size();i++){
-        if(1 == vect->at(i)->id){
+        if(enbId == vect->at(i)->id){
             UeAreaMap* ueMap = vect->operator [](i)->mapUe;
             UeAreaMap::iterator mapIt = ueMap->begin();
             /*
@@ -1197,7 +1197,6 @@ MacNodeId LteBinder::getCloserEnb(Coord uePos){
     float closer = 100000;
     MacNodeId enb = 10;
     Coord zero = Coord(0,0,0);
-    float distto0;
     for(unsigned int i = 0; i < vect->size();i++){
         EV << "uePos: " << uePos << endl;
         EV << "EnB id: " << vect->at(i)->id << endl;
@@ -1236,6 +1235,14 @@ void LteBinder::setD2Dcapable(int numDevs){
 //        else
 //            addD2DCapability(i,1025);
     }
+}
+
+void LteBinder::setEnbToUe(MacNodeId enb, MacNodeId ue){
+    EnbUe->operator[](ue) = enb;
+}
+
+MacNodeId LteBinder::getEnbToUe(MacNodeId ue){
+    return EnbUe->operator[](ue);
 }
 /////////////////////////////////////////////
 
