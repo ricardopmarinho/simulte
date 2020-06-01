@@ -67,7 +67,7 @@ class LteBinder : public cSimpleModule
     std::vector<bool> racServedDevs;
     int numRbUl;
     int qtdRbAllocated;
-    EnbUeList* EnbUe;
+    EnbUeList EnbUe;
     ///////////////////
 
     // list of static external cells. Used for intercell interference evaluation
@@ -220,6 +220,9 @@ class LteBinder : public cSimpleModule
     void setD2Dcapable(int numDevs);
     void setEnbToUe(MacNodeId enb, MacNodeId ue);
     MacNodeId getEnbToUe(MacNodeId ue);
+    void setEnb(int numDev);
+//    void initEnbMap(int numDev);
+    Coord getUeCoord(MacNodeId ueId);
     ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.

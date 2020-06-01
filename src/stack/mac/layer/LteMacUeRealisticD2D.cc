@@ -517,6 +517,7 @@ void LteMacUeRealisticD2D::checkRAC()
             EV << "Binder string: " << str << endl;
             std::vector<std::string> msgType = getMessageType(str,'|');
             EV << "Message type: " << msgType[0] << endl;
+            uinfo->setCAINCoord(binder_->getUeCoord(getMacNodeId()));
             if(msgType[0] == "NOTIFY"){
                 MacNodeId relayId = stoi(msgType[1]);
                 EV << "The relay id is: " << relayId << endl;
@@ -524,7 +525,7 @@ void LteMacUeRealisticD2D::checkRAC()
                 uinfo->setCAINDirection(NOTIFY);
                 uinfo->setCAINOption("");
                 uinfo->setDestId(relayId);
-                uinfo->setDirection(D2D);
+                uinfo->setDirection(UL);
                 cainMessageSent++;
                 emit(cainMessageSentSignal,cainMessageSent);
             }else if(msgType[0] == "HOP_NTF"){
@@ -541,7 +542,7 @@ void LteMacUeRealisticD2D::checkRAC()
                 stream.str("");
                 stream.clear();
                 uinfo->setDestId(hopId);
-                uinfo->setDirection(D2D);
+                uinfo->setDirection(UL);
                 cainHopMessageSent++;
                 emit(cainHopMesasgeSentSignal,cainHopMessageSent);
             }

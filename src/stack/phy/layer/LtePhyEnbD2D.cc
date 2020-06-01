@@ -151,7 +151,6 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
 
     binder_->setEnbPos(lteInfo->getDestId(),getRadioPosition());
 
-    EV << "AQUI MESMO\n";
 
     EV << "Device "<< lteInfo->getSourceId() << " sending the message to " << lteInfo->getDestId() << endl;
 

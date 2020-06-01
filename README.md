@@ -156,7 +156,6 @@ Modified PATH/src/stack/phy/LtePhy.ned line 40 and included "MASSIVEMIMO" as def
 Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
 
-
 ========================== CAIN msg =========================
 ---------------------------------------------
 |Source|Destination|eNB ID|Direction|Options|

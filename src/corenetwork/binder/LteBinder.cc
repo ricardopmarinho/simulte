@@ -1071,9 +1071,11 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
                 }
                 break;
             }
+        }else{
+            str << "DIR|Ok";
         }
     }
-    printIncreaseResourceBlock();
+//    printIncreaseResourceBlock();
     return str.str();
 }
 
@@ -1149,10 +1151,11 @@ MacNodeId LteBinder::findCloserHop(MacNodeId ueId, MacNodeId relayId){
 
 void LteBinder::increaseResourceBlock(MacNodeId nodeId, int incr){
     std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(nodeId);
     if(this->qtdRbAllocated+incr > this->numRbUl)
         return;
     for(unsigned int i = 0; i < vect->size();i++){
-        if(1 == vect->at(i)->id){
+        if(enbId == vect->at(i)->id){
             rbIncrease* rb = vect->operator [](i)->moreRb;
             rb->operator [](nodeId) = incr;
             this->qtdRbAllocated += incr;
@@ -1161,23 +1164,25 @@ void LteBinder::increaseResourceBlock(MacNodeId nodeId, int incr){
     }
 }
 
-void LteBinder::printIncreaseResourceBlock(){
-    EV << "Printing rb increase" << endl;
-    std::vector<EnbInfo*>* vect = this->getEnbList();
-    for(unsigned int i = 0; i < vect->size();i++){
-        if(1 == vect->at(i)->id){
-            rbIncrease* rb = vect->operator [](i)->moreRb;
-            rbIncrease::iterator it = rb->begin();
-            for(; it != rb->end(); it++)
-                EV << "Node: " << it->first << " increase: " << it->second << endl;
-        }
-    }
-}
+//void LteBinder::printIncreaseResourceBlock(){
+//    EV << "Printing rb increase" << endl;
+//    std::vector<EnbInfo*>* vect = this->getEnbList();
+//    MacNodeId enbId = getEnbToUe(ueId);
+//    for(unsigned int i = 0; i < vect->size();i++){
+//        if(1 == vect->at(i)->id){
+//            rbIncrease* rb = vect->operator [](i)->moreRb;
+//            rbIncrease::iterator it = rb->begin();
+//            for(; it != rb->end(); it++)
+//                EV << "Node: " << it->first << " increase: " << it->second << endl;
+//        }
+//    }
+//}
 
 int LteBinder::getIncreaseResourceBlock(MacNodeId nodeId){
     std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(nodeId);
     for(unsigned int i = 0; i < vect->size();i++){
-        if(1 == vect->at(i)->id){
+        if(enbId == vect->at(i)->id){
             rbIncrease* rb = vect->operator [](i)->moreRb;
             return rb->operator [](nodeId);
         }
@@ -1222,27 +1227,46 @@ void LteBinder::setEnbPos(MacNodeId nodeId, Coord pos){
 
 void LteBinder::setD2Dcapable(int numDevs){
     for(int i = 1025; i<1025+numDevs; i++){
-        for(int j = 1025; j<1025+numDevs ; j++){
-            if(i != j){
-                if(i != 1025+numDevs-1)
-                    addD2DCapability(i,j);
-                else
-                    addD2DCapability(i,1025);
-            }
-        }
-//        if(i != 1025+numDevs-1)
-//            addD2DCapability(i,i+1);
-//        else
-//            addD2DCapability(i,1025);
+//        for(int j = 1025; j<1025+numDevs ; j++){
+//            if(i != j){
+//                if(i != 1025+numDevs-1)
+//                    addD2DCapability(i,j);
+//                else
+//                    addD2DCapability(i,1025);
+//            }
+//        }
+        if(i != 1025+numDevs-1)
+            addD2DCapability(i,i+1);
+        else
+            addD2DCapability(i,1025);
     }
 }
 
 void LteBinder::setEnbToUe(MacNodeId enb, MacNodeId ue){
-    EnbUe->operator[](ue) = enb;
+    EnbUe[ue-1025]=enb;
 }
 
 MacNodeId LteBinder::getEnbToUe(MacNodeId ue){
-    return EnbUe->operator[](ue);
+    return EnbUe[ue-1025];
+}
+
+void LteBinder::setEnb(int numDev){
+    for(int i = 1025; i<1025+numDev;i++)
+        setEnbToUe(1,i);
+}
+
+//void LteBinder::initEnbMap(int numDev){
+//    EnbUe = new std::map<MacNodeId, MacNodeId>(numDev);
+//}
+
+Coord LteBinder::getUeCoord(MacNodeId ueId){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(ueId);
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(enbId == vect->at(i)->id){
+            return vect->operator [](i)->Clist->operator [](ueId);
+        }
+    }
 }
 /////////////////////////////////////////////
 

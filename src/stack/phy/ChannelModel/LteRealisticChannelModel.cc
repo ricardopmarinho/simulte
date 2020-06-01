@@ -910,7 +910,7 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
 
         EV << "Creating map" << endl;
         for(unsigned int j = 0; j < vect->size();j++){
-            if(eNbId == vect->at(j)->id){
+            if(1 == vect->at(j)->id){
                 pwrThresh = vect->operator [](j)->pwrThresh;
                 BsMap = vect->operator [](j)->Bmap;
                 WsMap = vect->operator [](j)->Wmap;
@@ -2633,9 +2633,10 @@ bool LteRealisticChannelModel::computeInCellD2DInterference(MacNodeId eNbId, Mac
 int LteRealisticChannelModel::createAreaMap(MacNodeId ueId, double recvPower){
     std::vector<EnbInfo*>* vect = binder_->getEnbList();
     UeAreaMap* mapUe = NULL;
+    MacNodeId enbId = binder_->getEnbToUe(ueId);
 
     for(unsigned int j = 0; j < vect->size();j++){
-        if(binder_->getEnbToUe(ueId) == vect->at(j)->id){
+        if(enbId == vect->at(j)->id){
             int pwrThresh = vect->operator [](j)->pwrThresh;
             mapUe = vect->operator [](j)->mapUe;
             if(recvPower >= pwrThresh){

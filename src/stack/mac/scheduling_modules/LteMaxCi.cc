@@ -24,6 +24,7 @@ void LteMaxCi::prepareSchedule()
 
     for ( ActiveSet::iterator it1 = activeConnectionTempSet_.begin ();it1 != activeConnectionTempSet_.end (); )
     {
+        EV << "OI1" << endl;
         // Current connection.
         cid = *it1;
 
@@ -46,6 +47,7 @@ void LteMaxCi::prepareSchedule()
             dir = DL;
 
         // compute available blocks for the current user
+        EV << "OI3" << endl;
         const UserTxParams& info = eNbScheduler_->mac_->getAmc()->computeTxParams(nodeId,dir);
         const std::set<Band>& bands = info.readBands();
         std::set<Band>::const_iterator it = bands.begin(),et=bands.end();

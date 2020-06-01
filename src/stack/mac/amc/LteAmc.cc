@@ -416,7 +416,6 @@ void LteAmc::pushFeedbackD2D(MacNodeId id, LteFeedback fb, MacNodeId peerId)
 {
     EV << "Feedback from MacNodeId " << id << " (direction D2D), peerId = " << peerId << endl;
 
-    EV << "Aqui1" << endl;
     std::map<MacNodeId, History_> *history = &d2dFeedbackHistory_;
     std::map<MacNodeId, unsigned int> *nodeIndex = &d2dNodeIndex_;
 

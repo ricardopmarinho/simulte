@@ -168,14 +168,15 @@ unsigned int LteSchedulerEnb::scheduleGrant(MacCid cid, unsigned int bytes,
     LogicalCid flowId = MacCidToLcid(cid);
 
     Direction dir = direction_;
-    if (dir == UL)
+    /*if (dir == UL)
     {
         // check if this connection is a D2D connection
         if (flowId == D2D_SHORT_BSR)
             dir = D2D;           // if yes, change direction
         if (flowId == D2D_MULTI_SHORT_BSR)
             dir = D2D_MULTI;     // if yes, change direction
-    }
+    }*/
+
 
     // Get user transmission parameters
     const UserTxParams& txParams = mac_->getAmc()->computeTxParams(nodeId, dir);
