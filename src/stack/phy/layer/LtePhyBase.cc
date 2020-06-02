@@ -239,7 +239,33 @@ void LtePhyBase::updateDisplayString()
 void LtePhyBase::sendBroadcast(LteAirFrame *airFrame)
 {
     // delegate the ChannelControl to send the airframe
-    sendToChannel(airFrame);
+//    sendToChannel(airFrame);
+
+    UserControlInfo *ci = check_and_cast<UserControlInfo *>(
+            airFrame->getControlInfo());
+
+    int numUe  = getModuleByPath("CAIN")->par("numUeD2DTx");
+    int i;
+    for(i = 1025;i<1025+numUe;i++){
+        if(i != nodeId_){
+            LteAirFrame* airFrameDup = airFrame->dup();
+            UserControlInfo* ciDup = ci->dup();
+            OmnetId destOmnetId = binder_->getOmnetId(i);
+            // get a pointer to receiving module
+            ciDup->setDestId(i);
+            airFrameDup->removeControlInfo();
+            airFrameDup->setControlInfo(ciDup);
+            cModule *receiver = getSimulation()->getModule(destOmnetId);
+            EV << "dest id: " << i << endl;
+            // receiver's gate
+            sendDirect(airFrameDup, 0, airFrameDup->getDuration(), receiver, "radioIn");
+        }
+    }
+
+//    OmnetId destOmnetId = binder_->getOmnetId(i);
+//    cModule *receiver = getSimulation()->getModule(destOmnetId);
+//    sendDirect(airFrame, 0, airFrame->getDuration(), receiver, "radioIn");
+    return;
 
 //    const ChannelControl::RadioRefVector& gateList = cc->getNeighbors(myRadioRef);
 //    ChannelControl::radioRefVector::const_iterator i = gateList.begin();

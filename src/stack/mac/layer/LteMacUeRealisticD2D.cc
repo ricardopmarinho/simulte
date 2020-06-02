@@ -146,7 +146,7 @@ void LteMacUeRealisticD2D::macPduMake()
     }
 
     EV << "LteMacUeRealisticD2D::macPduMake2" << endl;
-    /*if(!bsrAlreadyMade)
+    if(!bsrAlreadyMade)
     {
         EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
         // In a D2D communication if BSR was created above this part isn't executed
@@ -245,7 +245,7 @@ void LteMacUeRealisticD2D::macPduMake()
                     size += RLC_HEADER_AM;
             }
         }
-    }*/
+    }
 
     // Put MAC PDUs in H-ARQ buffers
     MacPduList::iterator pit;
@@ -511,8 +511,8 @@ void LteMacUeRealisticD2D::checkRAC()
         uinfo->setFrameType(RACPKT);
         racReq->setControlInfo(uinfo);
 
-        bool cainEnable = getModuleByPath("CAIN")->par("cainNetwork");
-        if(cainEnable){
+        std::string networkType = getModuleByPath("CAIN")->par("networkType");
+        if(networkType == "CAIN"){
             std::string str = binder_->checkCAINType(nodeId_);
             EV << "Binder string: " << str << endl;
             std::vector<std::string> msgType = getMessageType(str,'|');
@@ -565,6 +565,9 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
 
     UserControlInfo* uinfo = check_and_cast<UserControlInfo*>(pkt->getControlInfo());
 
+    ///////////
+
+
     EV << "Getting control info from node " << uinfo->getSourceId() << " to node " << uinfo->getDestId()<< endl;
     if(uinfo->getCAINEnable()){
         EV << "CAIN message arriving" << endl;
@@ -575,6 +578,7 @@ void LteMacUeRealisticD2D::macHandleRac(cPacket* pkt)
         }
 
     }else{
+        ///////////
     if (racPkt->getSuccess())
     {
         EV << "LteMacUeRealisticD2D::macHandleRac - Ue " << nodeId_ << " won RAC" << endl;

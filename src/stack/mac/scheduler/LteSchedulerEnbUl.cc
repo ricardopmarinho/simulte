@@ -48,10 +48,10 @@ void LteSchedulerEnbUl::updateHarqDescs()
     HarqStatus::iterator currentStatus;
 
 
-    if(setBuffers){
-        for(int i = 1025; i < 1025+100;i++)
-            harqStatus_[i]=0;
-    }
+//    if(setBuffers){
+//        for(int i = 1025; i < 1025+100;i++)
+//            harqStatus_[i]=0;
+//    }
     setBuffers = false;
 
     for (it=harqRxBuffers_->begin();it!=harqRxBuffers_->end();++it)

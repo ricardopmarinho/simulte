@@ -1268,6 +1268,30 @@ Coord LteBinder::getUeCoord(MacNodeId ueId){
         }
     }
 }
+
+void LteBinder::updateSocialMap(MacNodeId ueId, MacNodeId senderId){
+    std::vector<UeInfo*>* vect = this->getUeList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(ueId == vect->at(i)->id){
+            if(senderId != 1)
+                vect->operator [](i)->socialMap->operator [](senderId)++;
+        }
+    }
+    printSocialMap(ueId);
+}
+
+void LteBinder::printSocialMap(MacNodeId ueId){
+    std::vector<UeInfo*>* vect = this->getUeList();
+    EV << "Social Graph from device " << ueId << ":" << endl;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(ueId == vect->at(i)->id){
+            socialGraph::iterator it = vect->operator [](i)->socialMap->begin();
+            socialGraph::iterator itEnd = vect->operator [](i)->socialMap->end();
+            for(;it != itEnd; it++)
+                EV << it->first << ": " << it->second << endl;
+        }
+    }
+}
 /////////////////////////////////////////////
 
 

@@ -802,6 +802,11 @@ typedef std::map<MacNodeId,double> relayList;
 typedef std::vector<MacNodeId> rep_list;
 
 /*
+ * communication graph stores a map to inform with which devices
+ * a interaction happened
+ * */
+typedef std::map<MacNodeId,unsigned int> socialGraph;
+/*
  * Stores in which area (1 or 2) the ue is
  * */
 typedef std::map<MacNodeId,int> UeAreaMap;
@@ -897,6 +902,7 @@ struct UeInfo
     assistedDevices* assList;
     relayList* rList;
     rep_list* repList;
+    socialGraph* socialMap;
 ///////
 };
 

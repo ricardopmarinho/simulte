@@ -68,7 +68,17 @@ void LtePhyUeD2D::handleAirFrame(cMessage* msg)
 {
     UserControlInfo* lteInfo = check_and_cast<UserControlInfo*>(msg->removeControlInfo());
 
-    EV << "Message arriving with destination " << lteInfo->getDestId() << " from " << lteInfo->getSourceId() << endl;
+    MacNodeId sourceId = lteInfo->getSourceId();
+    MacNodeId destId = lteInfo->getDestId();
+//
+
+
+    EV << "Message arriving with destination " << destId << " from " << sourceId << endl;
+    if(lteInfo->getFrameType()== FEEDBACKPKT && destId != 1){
+        binder_->updateSocialMap(destId,sourceId);
+        delete lteInfo;
+        return;
+    }
     if(lteInfo->getCAINEnable()){
         EV<<"CAIN MESSAGE!!!!\n";
         EV<<"Options: "<< lteInfo->getCAINOptions() << endl;
@@ -497,10 +507,6 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
     int numDev = getModuleByPath("CAIN")->par("numUeD2DTx");
 
     binder_->setEnbToUe(enb,nodeId_);
-//    if(nodeId_==1025+numDev-1)
-//        binder_->addD2DCapability(nodeId_,1025);
-//    else
-//        binder_->addD2DCapability(nodeId_,nodeId_+1);
 
     if(enb!=0){
         if(enb!=masterId_){
@@ -546,19 +552,20 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
             EV << "LtePhy: " << nodeTypeToA(nodeType_) << " with id "
                << nodeId_ << " sending feedback to the air channel" << endl;
             sendUnicast(frame);
+            sendBroadcast(frame);
 
-            LteFeedbackPkt* fbPktDup = fbPkt->dup();
-            UserControlInfo* uinfoDup = uinfo->dup();
-            LteAirFrame* frameDup = frame->dup();
-            frameDup->decapsulate();
-            frameDup->encapsulate(check_and_cast<cPacket*>(fbPktDup));
-            frameDup->removeControlInfo();
-            MacNodeId bsId = masterId_+1;
-            uinfoDup->setDestId(bsId);
-            frameDup->setControlInfo(uinfoDup);
-
-            sendUnicast(frameDup);
-            lastFeedback_ = NOW;
+//            LteFeedbackPkt* fbPktDup = fbPkt->dup();
+//            UserControlInfo* uinfoDup = uinfo->dup();
+//            LteAirFrame* frameDup = frame->dup();
+//            frameDup->decapsulate();
+//            frameDup->encapsulate(check_and_cast<cPacket*>(fbPktDup));
+//            frameDup->removeControlInfo();
+//            MacNodeId bsId = masterId_+1;
+//            uinfoDup->setDestId(bsId);
+//            frameDup->setControlInfo(uinfoDup);
+//
+//            sendUnicast(frameDup);
+//            lastFeedback_ = NOW;
         }
     }else{
         //Create a feedback packet

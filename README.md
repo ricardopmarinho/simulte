@@ -155,6 +155,48 @@ Modified PATH/src/stack/phy/LtePhy.ned line 40 and included "MASSIVEMIMO" as def
 
 Added code on PATH/src/stack/phy/layer/LtePhyEnb.cc (lines 71, 77~79)
 
+Modified PATH/src/stack/phy/layer/LtePhUeD2D.cc::sendFeedback() to scenarios with two BSs
+
+Modified PATH/src/stack/phy/layer/LtePhyBase.cc::sendBroadcast() (line239)
+	Added code to broadcast feedback pkt
+	comented line sendToChannel(airFrame);
+
+Added sendBroadcast() (line 559) to PATH/src/stack/phy/layer/LtePhUeD2D.cc::sendFeedback()
+
+Added code on PATH/src/stack/phy/layer/LtePhUeD2D.cc::handleAirFrame()
+	if(lteInfo->getFrameType()== FEEDBACKPKT && destId != 1){
+		binder_->updateSocialMap(destId,sourceId);
+		delete lteInfo;
+		return;
+    	}
+
+Added coe on PATH/src/corenetwork/binder/LteBinder.cc
+	void LteBinder::updateSocialMap(MacNodeId ueId, MacNodeId senderId){
+		std::vector<UeInfo*>* vect = this->getUeList();
+		for(unsigned int i = 0; i < vect->size();i++){
+			if(ueId == vect->at(i)->id){
+				if(senderId != 1)
+					vect->operator [](i)->socialMap->operator [](senderId)++;
+			}
+		}
+			printSocialMap(ueId);
+	}
+
+	void LteBinder::printSocialMap(MacNodeId ueId){
+	    std::vector<UeInfo*>* vect = this->getUeList();
+	    EV << "Social Graph from device " << ueId << ":" << endl;
+	    for(unsigned int i = 0; i < vect->size();i++){
+		if(ueId == vect->at(i)->id){
+		    socialGraph::iterator it = vect->operator [](i)->socialMap->begin();
+		    socialGraph::iterator itEnd = vect->operator [](i)->socialMap->end();
+		    for(;it != itEnd; it++)
+			EV << it->first << ": " << it->second << endl;
+		}
+	    }
+	}
+
+Added socialGraph* socialMap to UeInfo on PATH/scr/common/LteCommon.h
+	and typedef std::map<MacNodeId,unsigned int> socialGraph;
 
 ========================== CAIN msg =========================
 ---------------------------------------------

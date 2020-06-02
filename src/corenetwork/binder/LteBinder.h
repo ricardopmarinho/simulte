@@ -223,6 +223,8 @@ class LteBinder : public cSimpleModule
     void setEnb(int numDev);
 //    void initEnbMap(int numDev);
     Coord getUeCoord(MacNodeId ueId);
+    void updateSocialMap(MacNodeId ueId, MacNodeId senderId);
+    void printSocialMap(MacNodeId ueId);
     ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.
