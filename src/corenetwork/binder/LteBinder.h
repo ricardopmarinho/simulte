@@ -208,6 +208,8 @@ class LteBinder : public cSimpleModule
     void printTotalServedDevs();
 
     std::string checkCAINType(MacNodeId nodeId);
+    MacNodeId checkSocialId(MacNodeId nodeId);
+    MacNodeId findSocialRelay(MacNodeId nodeId);
     std::pair<MacNodeId,double> findCloserRelay(MacNodeId ueId);
     MacNodeId findCloserHop(MacNodeId ueId, MacNodeId relayId);
     void increaseResourceBlock(MacNodeId nodeId, int incr);
@@ -223,7 +225,7 @@ class LteBinder : public cSimpleModule
     void setEnb(int numDev);
 //    void initEnbMap(int numDev);
     Coord getUeCoord(MacNodeId ueId);
-    void updateSocialMap(MacNodeId ueId, MacNodeId senderId);
+    void updateSocialMap(MacNodeId ueId, MacNodeId senderId, int qtd);
     void printSocialMap(MacNodeId ueId);
     ////////////////////////////////////////////////////////////////////////
     /**

@@ -75,7 +75,7 @@ void LtePhyUeD2D::handleAirFrame(cMessage* msg)
 
     EV << "Message arriving with destination " << destId << " from " << sourceId << endl;
     if(lteInfo->getFrameType()== FEEDBACKPKT && destId != 1){
-        binder_->updateSocialMap(destId,sourceId);
+        binder_->updateSocialMap(destId,sourceId,1);
         delete lteInfo;
         return;
     }

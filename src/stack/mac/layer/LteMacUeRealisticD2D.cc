@@ -546,6 +546,15 @@ void LteMacUeRealisticD2D::checkRAC()
                 cainHopMessageSent++;
                 emit(cainHopMesasgeSentSignal,cainHopMessageSent);
             }
+        }else if(networkType == "Social"){
+            MacNodeId destId = binder_->checkSocialId(nodeId_);
+            if(destId != getMacCellId()){
+                binder_->updateSocialMap(nodeId_,destId,2);
+                uinfo->setDestId(destId);
+                uinfo->setCAINEnable(true);
+                uinfo->setCAINDirection(SOC_NTF);
+                uinfo->setCAINOption("");
+            }
         }else{
             binder_->setRacSevedDev(nodeId_-1025,true);
         }
@@ -644,6 +653,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
              */
             EV << "Receiving a NOTIFY message to node "<< uinfo->getDestId() << endl;
 
+            MacNodeId enbId = binder_->getEnbToUe(uinfo->getSourceId());
+
             std::vector<MacNodeId> node = getNode(cainOpt);
             EV << "The nodes that need a relay are: " << endl;
             EV << "Node list size: " << node.size() << endl;
@@ -653,7 +664,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             stream << uinfo->getSourceId();
             uinfo->appendOption(stream.str());
             uinfo->setSourceId(uinfo->getDestId());
-            uinfo->setDestId(1);
+            uinfo->setDestId(enbId);
             uinfo->setCAINDirection(FWD);
             uinfo->setDirection(UL);
             sendLowerPackets(racPkt);
@@ -948,6 +959,21 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
              * Destination: eNB
              * */
             break;
+        }
+        case SOC_NTF:
+        {
+            MacNodeId enbId = binder_->getEnbToUe(uinfo->getSourceId());
+
+            EV << "Social notify message arrived from node " << uinfo->getSourceId() << " to"
+                    " node " << uinfo->getDestId() << endl;
+
+            binder_->updateSocialMap(uinfo->getDestId(),uinfo->getSourceId(),2);
+            uinfo->setCAINOption("");
+            uinfo->setSourceId(uinfo->getDestId());
+            uinfo->setDestId(enbId);
+            uinfo->setCAINDirection(SOC_FWD);
+            uinfo->setDirection(UL);
+            sendLowerPackets(racPkt);
         }
         default:
             EV << "Unknow CAIN message" << endl;

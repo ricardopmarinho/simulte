@@ -231,6 +231,7 @@ void LteMacEnb::initialize(int stage)
         racpktSignal = registerSignal("racpkt");
         racDistanceSignal = registerSignal("racDistanceSignal");
         racServedDevsSignal = registerSignal("racServedDevsSignal");
+        socialMsgSignal = registerSignal("socialMsg");
 
         // TODO: read NED parameters, when will be present
         deployer_ = getDeployer();
@@ -498,7 +499,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     racServedDevscount = binder_->racServedDevscount();
     emit(racServedDevsSignal,racServedDevscount);
     if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD || uinfo->getCAINDirection()==HOP_ANSW
-            || uinfo->getCAINDirection()==ANSW)){
+            || uinfo->getCAINDirection()==ANSW) || uinfo->getCAINDirection() == SOC_FWD){
         EV << "Options: " << uinfo->getCAINOptions() << endl;
         Coord enbCoord = uinfo->getEnbCoord();
         ueCoord = uinfo->getCoord();
@@ -632,6 +633,15 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "Message from: " << stoi(node[1]) << endl;
                 servDevs = binder_->countServedDevs();
                 emit(servedDevsSignal, servDevs);
+                delete pkt;
+                return;
+            }
+            case SOC_FWD:
+            {
+                EV << "Social forward message arrived from node " << uinfo->getSourceId() << " to"
+                                    " node " << uinfo->getDestId() << endl;
+                socialMsg++;
+                emit(socialMsgSignal,socialMsg);
                 delete pkt;
                 return;
             }

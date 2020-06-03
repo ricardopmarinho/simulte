@@ -132,7 +132,9 @@ enum CAINDirection
     HOP_REP,
     HOP_FWD,
     ANSW,
-    HOP_ANSW
+    HOP_ANSW,
+    SOC_NTF,
+    SOC_FWD
 };
 
 /// Modulations

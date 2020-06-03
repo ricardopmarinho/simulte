@@ -172,6 +172,9 @@ simple LteMacBase like LteMac {
         @signal[racServedDevsSignal](type=long);
         @statistic[racServedDevsSignal](title="# of devices served on rac arriavall";record=vector,count,max,last;interpolationmode=none);
         
+        @signal[socialMsg](type=long);
+        @statistic[socialMsg](title="# of social message arriving at the BS";record=vector,count,max,last;interpolationmode=none);
+        
         ///////////////////////////
     gates:
         //# 

@@ -1149,6 +1149,66 @@ MacNodeId LteBinder::findCloserHop(MacNodeId ueId, MacNodeId relayId){
     return closerHop;
 }
 
+MacNodeId LteBinder::checkSocialId(MacNodeId nodeId){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(nodeId);
+    MacNodeId destId = enbId;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(enbId == vect->at(i)->id){
+            UeAreaMap* ueMap = vect->operator [](i)->mapUe;
+            int area = ueMap->operator [](nodeId);
+            EV << "The area is: " << area << endl;
+            switch (area) {
+            case 1:
+                break;
+            case 2:
+                MacNodeId relayId = findSocialRelay(nodeId);
+                if(relayId != 0){
+                    destId=relayId;
+                }
+            }
+        }
+    }
+    return destId;
+}
+
+MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){
+
+    std::vector<EnbInfo*>* vectEnb = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(nodeId);
+    UeAreaMap* ueMap;
+    for(unsigned int i = 0; i < vectEnb->size();i++){
+        if(enbId == vectEnb->at(i)->id){
+            ueMap = vectEnb->operator [](i)->mapUe;
+            break;
+        }
+    }
+
+    std::vector<UeInfo*>* vect = this->getUeList();
+    unsigned int social = 0;
+    EV << "Node id: " << nodeId << endl;
+    MacNodeId relayId = 0;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(nodeId == vect->at(i)->id){
+            socialGraph::iterator it = vect->at(i)->socialMap->begin();
+            socialGraph::iterator itEnd = vect->operator [](i)->socialMap->end();
+            for(;it != itEnd; it++){
+                int area = ueMap->operator [](it->first);
+                EV << "relay id: " << it->first << endl;
+                EV << "area: " << area << endl;
+                EV << "social graph: " << it->second << endl;
+                EV << "social: " << social << endl;
+                if((area == 1) && (it->second > social)){
+                    relayId = it->first;
+                    social = it->second;
+                }
+            }
+            break;
+        }
+    }
+    return relayId;
+}
+
 void LteBinder::increaseResourceBlock(MacNodeId nodeId, int incr){
     std::vector<EnbInfo*>* vect = this->getEnbList();
     MacNodeId enbId = getEnbToUe(nodeId);
@@ -1269,12 +1329,12 @@ Coord LteBinder::getUeCoord(MacNodeId ueId){
     }
 }
 
-void LteBinder::updateSocialMap(MacNodeId ueId, MacNodeId senderId){
+void LteBinder::updateSocialMap(MacNodeId ueId, MacNodeId senderId, int qtd){
     std::vector<UeInfo*>* vect = this->getUeList();
     for(unsigned int i = 0; i < vect->size();i++){
         if(ueId == vect->at(i)->id){
             if(senderId != 1)
-                vect->operator [](i)->socialMap->operator [](senderId)++;
+                vect->operator [](i)->socialMap->operator [](senderId)+=qtd;
         }
     }
     printSocialMap(ueId);
