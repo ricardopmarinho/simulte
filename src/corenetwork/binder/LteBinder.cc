@@ -1194,10 +1194,6 @@ MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){
             socialGraph::iterator itEnd = vect->operator [](i)->socialMap->end();
             for(;it != itEnd; it++){
                 int area = ueMap->operator [](it->first);
-                EV << "relay id: " << it->first << endl;
-                EV << "area: " << area << endl;
-                EV << "social graph: " << it->second << endl;
-                EV << "social: " << social << endl;
                 if((area == 1) && (it->second > social)){
                     relayId = it->first;
                     social = it->second;

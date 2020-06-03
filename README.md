@@ -171,7 +171,7 @@ Added code on PATH/src/stack/phy/layer/LtePhUeD2D.cc::handleAirFrame()
     	}
 
 Added coe on PATH/src/corenetwork/binder/LteBinder.cc
-	void LteBinder::updateSocialMap(MacNodeId ueId, MacNodeId senderId){
+	void LteBinder::updateSocialMap(MacNodeId ueId, MacNodeId senderId, int qtd){
 		std::vector<UeInfo*>* vect = this->getUeList();
 		for(unsigned int i = 0; i < vect->size();i++){
 			if(ueId == vect->at(i)->id){
@@ -198,21 +198,120 @@ Added coe on PATH/src/corenetwork/binder/LteBinder.cc
 Added socialGraph* socialMap to UeInfo on PATH/scr/common/LteCommon.h
 	and typedef std::map<MacNodeId,unsigned int> socialGraph;
 
+Included SOC_NTF and SOC_FWD to CAINDirection (PATH/src/common/LteCommon.h line 122) so I don't have to modify the message struct
+
+Included social statistic to PATH/src/stack/mac/LteMac.ned (lines 175 and 176)
+
+Added code to PATH/src/stack/mac/layer/LteMacUeRealisticD2D.cc::checkRAC() (line 549)
+	else if(networkType == "Social"){
+		MacNodeId destId = binder_->checkSocialId(nodeId_);
+		if(destId != getMacCellId()){
+		binder_->updateSocialMap(nodeId_,destId,2);
+		uinfo->setDestId(destId);
+		uinfo->setCAINEnable(true);
+		uinfo->setCAINDirection(SOC_NTF);
+		uinfo->setCAINOption("");
+	}
+
+and void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt) line 963
+case SOC_NTF:
+{
+	MacNodeId enbId = binder_->getEnbToUe(uinfo->getSourceId());
+
+	EV << "Social notify message arrived from node " << uinfo->getSourceId() << " to"
+	" node " << uinfo->getDestId() << endl;
+
+	binder_->updateSocialMap(uinfo->getDestId(),uinfo->getSourceId(),2);
+	uinfo->setCAINOption("");
+	uinfo->setSourceId(uinfo->getDestId());
+	uinfo->setDestId(enbId);
+	uinfo->setCAINDirection(SOC_FWD);
+	uinfo->setDirection(UL);
+	sendLowerPackets(racPkt);
+}
+
+
+Added code to PATH/src/mac/layer/LteMacEnb.cc::macHandleRac(cPacket* pkt)
+case SOC_FWD: (line 639)
+{
+	EV << "Social forward message arrived from node " << uinfo->getSourceId() << " to"
+	    " node " << uinfo->getDestId() << endl;
+	socialMsg++;
+	emit(socialMsgSignal,socialMsg);
+	delete pkt;
+	return;
+}
+
+Adde code to PATH/src/corenetwork/binder/LteBinder.cc
+MacNodeId LteBinder::checkSocialId(MacNodeId nodeId){ (line 1152)
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(nodeId);
+    MacNodeId destId = enbId;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(enbId == vect->at(i)->id){
+            UeAreaMap* ueMap = vect->operator [](i)->mapUe;
+            int area = ueMap->operator [](nodeId);
+            EV << "The area is: " << area << endl;
+            switch (area) {
+            case 1:
+                break;
+            case 2:
+                MacNodeId relayId = findSocialRelay(nodeId);
+                if(relayId != 0){
+                    destId=relayId;
+                }
+            }
+        }
+    }
+    return destId;
+}
+
+MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){ (line 1175)
+
+    std::vector<EnbInfo*>* vectEnb = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(nodeId);
+    UeAreaMap* ueMap;
+    for(unsigned int i = 0; i < vectEnb->size();i++){
+        if(enbId == vectEnb->at(i)->id){
+            ueMap = vectEnb->operator [](i)->mapUe;
+            break;
+        }
+    }
+
+    std::vector<UeInfo*>* vect = this->getUeList();
+    unsigned int social = 0;
+    EV << "Node id: " << nodeId << endl;
+    MacNodeId relayId = 0;
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(nodeId == vect->at(i)->id){
+            socialGraph::iterator it = vect->at(i)->socialMap->begin();
+            socialGraph::iterator itEnd = vect->operator [](i)->socialMap->end();
+            for(;it != itEnd; it++){
+                int area = ueMap->operator [](it->first);
+                if((area == 1) && (it->second > social)){
+                    relayId = it->first;
+                    social = it->second;
+                }
+            }
+            break;
+        }
+    }
+    return relayId;
+}
 ========================== CAIN msg =========================
 ---------------------------------------------
 |Source|Destination|eNB ID|Direction|Options|
 ---------------------------------------------
 
-
 ========================== SO FAR ==========================
 
-fixing bugs from runs
+social graph working with 3 devices
 
 ========================== NEXT ============================
 
-run everything again
+test with more devices
 
 ========================== LAST UPDATE======================
 
-May 13th 2020
+Jun 3th 2020
 
