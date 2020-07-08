@@ -1172,7 +1172,26 @@ MacNodeId LteBinder::checkSocialId(MacNodeId nodeId){
     return destId;
 }
 
+bool LteBinder::checkLteMsg(MacNodeId nodeId){
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    MacNodeId enbId = getEnbToUe(nodeId);
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(enbId == vect->at(i)->id){
+            UeAreaMap* ueMap = vect->operator [](i)->mapUe;
+            int area = ueMap->operator [](nodeId);
+            switch (area) {
+            case 1:
+                return true;
+            case 2:
+                return false;
+            }
+        }
+    }
+}
+
 MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){
+
+    int distThresh = getModuleByPath("CAIN")->par("distThresh");
 
     std::vector<EnbInfo*>* vectEnb = this->getEnbList();
     MacNodeId enbId = getEnbToUe(nodeId);
@@ -1188,6 +1207,10 @@ MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){
     unsigned int social = 0;
     EV << "Node id: " << nodeId << endl;
     MacNodeId relayId = 0;
+    std::pair<MacNodeId, double> closerRelay = findCloserRelay(nodeId);
+    if(closerRelay.first == 0 || closerRelay.second > distThresh){
+        return relayId;
+    }
     for(unsigned int i = 0; i < vect->size();i++){
         if(nodeId == vect->at(i)->id){
             socialGraph::iterator it = vect->at(i)->socialMap->begin();
@@ -1345,6 +1368,16 @@ void LteBinder::printSocialMap(MacNodeId ueId){
             socialGraph::iterator itEnd = vect->operator [](i)->socialMap->end();
             for(;it != itEnd; it++)
                 EV << it->first << ": " << it->second << endl;
+        }
+    }
+}
+
+Coord LteBinder::getEnbCoord(MacNodeId ueId){
+    MacNodeId enbId = getEnbToUe(ueId);
+    std::vector<EnbInfo*>* vect = this->getEnbList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(enbId == vect->at(i)->id){
+            return vect->at(i)->pos;
         }
     }
 }

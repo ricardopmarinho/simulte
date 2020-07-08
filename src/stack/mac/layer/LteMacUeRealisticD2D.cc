@@ -512,16 +512,17 @@ void LteMacUeRealisticD2D::checkRAC()
         racReq->setControlInfo(uinfo);
 
         std::string networkType = getModuleByPath("CAIN")->par("networkType");
+        uinfo->setCAINCoord(binder_->getUeCoord(getMacNodeId()));
+        uinfo->setEnbCoord(binder_->getEnbCoord(getMacNodeId()));
+        uinfo->setCAINEnable(true);
         if(networkType == "CAIN"){
             std::string str = binder_->checkCAINType(nodeId_);
             EV << "Binder string: " << str << endl;
             std::vector<std::string> msgType = getMessageType(str,'|');
             EV << "Message type: " << msgType[0] << endl;
-            uinfo->setCAINCoord(binder_->getUeCoord(getMacNodeId()));
             if(msgType[0] == "NOTIFY"){
                 MacNodeId relayId = stoi(msgType[1]);
                 EV << "The relay id is: " << relayId << endl;
-                uinfo->setCAINEnable(true);
                 uinfo->setCAINDirection(NOTIFY);
                 uinfo->setCAINOption("");
                 uinfo->setDestId(relayId);
@@ -533,7 +534,6 @@ void LteMacUeRealisticD2D::checkRAC()
                 MacNodeId relayId = stoi(msgType[0]);
                 MacNodeId hopId = stoi(msgType[1]);
                 EV << "Hop notify message, relay->" << relayId << " hop->" << hopId << endl;
-                uinfo->setCAINEnable(true);
                 uinfo->setCAINDirection(HOP_NTF);
                 uinfo->setCAINOption("");
                 std::ostringstream stream;
@@ -545,18 +545,31 @@ void LteMacUeRealisticD2D::checkRAC()
                 uinfo->setDirection(UL);
                 cainHopMessageSent++;
                 emit(cainHopMesasgeSentSignal,cainHopMessageSent);
+            }else if(msgType[0] == "DIR"){
+                uinfo->setCAINDirection(DIR);
+                uinfo->setCAINOption("");
             }
         }else if(networkType == "Social"){
             MacNodeId destId = binder_->checkSocialId(nodeId_);
             if(destId != getMacCellId()){
                 binder_->updateSocialMap(nodeId_,destId,2);
                 uinfo->setDestId(destId);
-                uinfo->setCAINEnable(true);
                 uinfo->setCAINDirection(SOC_NTF);
                 uinfo->setCAINOption("");
+            }else{
+                uinfo->setCAINDirection(DIR);
+                uinfo->setCAINOption("");
             }
-        }else{
-            binder_->setRacSevedDev(nodeId_-1025,true);
+        }else if(networkType == "4G"){
+            bool send = binder_->checkLteMsg(nodeId_);
+            if(send){
+                binder_->setRacSevedDev(nodeId_-1025,true);
+                uinfo->setCAINDirection(LTE);
+                uinfo->setCAINOption("");
+            }else{
+                uinfo->setCAINDirection(DIR);
+                uinfo->setCAINOption("");
+            }
         }
 
         sendLowerPackets(racReq);
@@ -714,7 +727,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                }
                Coord nodeCoord = uinfo->getMapCoord()[nodeId_];
 
-               uinfo->setCAINCoord(nodeCoord);
+//               uinfo->setCAINCoord(nodeCoord);
 
                sendLowerPackets(pkt);
             }

@@ -232,6 +232,8 @@ void LteMacEnb::initialize(int stage)
         racDistanceSignal = registerSignal("racDistanceSignal");
         racServedDevsSignal = registerSignal("racServedDevsSignal");
         socialMsgSignal = registerSignal("socialMsg");
+        dirMsgSignal = registerSignal("dirMsgSignal");
+        lteMsgSignal = registerSignal("lteMsgSignal");
 
         // TODO: read NED parameters, when will be present
         deployer_ = getDeployer();
@@ -499,10 +501,11 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
     racServedDevscount = binder_->racServedDevscount();
     emit(racServedDevsSignal,racServedDevscount);
     if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD || uinfo->getCAINDirection()==HOP_ANSW
-            || uinfo->getCAINDirection()==ANSW) || uinfo->getCAINDirection() == SOC_FWD){
+            || uinfo->getCAINDirection()==ANSW) || uinfo->getCAINDirection() == SOC_FWD
+            || uinfo->getCAINDirection() == DIR || uinfo->getCAINDirection() == LTE){
         EV << "Options: " << uinfo->getCAINOptions() << endl;
         Coord enbCoord = uinfo->getEnbCoord();
-        ueCoord = uinfo->getCoord();
+        ueCoord = uinfo->getCAINCoord();
         distance = enbCoord.distance(ueCoord);
         emit(DistanceSignal,distance);
         switch (uinfo->getCAINDirection()) {
@@ -611,6 +614,8 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "Hop message from: " << stoi(node[1]) << endl;
                 servHopDevs = binder_->countServedHopDevs();
                 emit(servedHopDevsSignal, servHopDevs);
+                cainHopMessage++;
+                emit(cainHopMessageSignal,cainHopMessage);
                 delete pkt;
                 return;
             }
@@ -633,6 +638,8 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "Message from: " << stoi(node[1]) << endl;
                 servDevs = binder_->countServedDevs();
                 emit(servedDevsSignal, servDevs);
+                CainMessage++;
+                emit(cainMessageSignal,CainMessage);
                 delete pkt;
                 return;
             }
@@ -642,6 +649,24 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                                     " node " << uinfo->getDestId() << endl;
                 socialMsg++;
                 emit(socialMsgSignal,socialMsg);
+                delete pkt;
+                return;
+            }
+            case DIR:
+            {
+                EV << "Direct CAIN message arrived from node " << uinfo->getSourceId() << " to"
+                        " node " << uinfo->getDestId() << endl;
+                dirMsg++;
+                emit(dirMsgSignal,dirMsg);
+                delete pkt;
+                return;
+            }
+            case LTE:
+            {
+                EV << "LTE message arrived from node " << uinfo->getSourceId() << " to"
+                                " node " << uinfo->getDestId() << endl;
+                lteMsg++;
+                emit(lteMsgSignal,lteMsg);
                 delete pkt;
                 return;
             }

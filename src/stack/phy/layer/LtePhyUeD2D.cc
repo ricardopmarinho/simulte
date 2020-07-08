@@ -504,7 +504,7 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
 
     MacNodeId enb = binder_->getCloserEnb(getRadioPosition());
     EV << "The closer enb is: " << enb << endl;
-    int numDev = getModuleByPath("CAIN")->par("numUeD2DTx");
+//    int numenb = getModuleByPath("CAIN")->par("numEnB");
 
     binder_->setEnbToUe(enb,nodeId_);
 
@@ -514,6 +514,7 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
             candidateMasterId_=enb;
             LtePhyUe::triggerHandover();
         }else{
+
             //Create a feedback packet
             LteFeedbackPkt* fbPkt = new LteFeedbackPkt();
             //Set the feedback

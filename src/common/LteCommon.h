@@ -133,8 +133,10 @@ enum CAINDirection
     HOP_FWD,
     ANSW,
     HOP_ANSW,
+    DIR,
     SOC_NTF,
-    SOC_FWD
+    SOC_FWD,
+    LTE
 };
 
 /// Modulations

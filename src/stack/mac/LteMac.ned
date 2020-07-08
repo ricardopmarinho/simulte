@@ -153,9 +153,9 @@ simple LteMacBase like LteMac {
         @statistic[CainHopMessageSent](title="# of Sent CAIN hop message";record=vector,count;interpolationmode=none);
         
         @signal[DistanceSignal](type=long);
-        @statistic[DistanceSignal](title="Distance to enb";record=vector,count;interpolationmode=none);
+        @statistic[DistanceSignal](title="Distance to enb";record=vector,count,max;interpolationmode=none);
         @signal[HopDistanceSignal](type=long);
-        @statistic[HopDistanceSignal](title="Distance to enb with hop forwarding";record=vector,count;interpolationmode=none);
+        @statistic[HopDistanceSignal](title="Distance to enb with hop forwarding";record=vector,count,max;interpolationmode=none);
         
         @signal[ServedDevs](type=long);
         @statistic[ServedDevs](title="# of devices served on cain forwarding";record=vector,count,max,last;interpolationmode=none);
@@ -174,6 +174,13 @@ simple LteMacBase like LteMac {
         
         @signal[socialMsg](type=long);
         @statistic[socialMsg](title="# of social message arriving at the BS";record=vector,count,max,last;interpolationmode=none);
+        
+        @signal[dirMsgSignal](type=long);
+        @statistic[dirMsgSignal](title="# of direct CAIN message arriving at the BS";record=vector,count,max,last;interpolationmode=none);
+        
+        @signal[lteMsgSignal](type=long);
+        @statistic[lteMsgSignal](title="# of LTE message arriving at the BS";record=vector,count,max,last;interpolationmode=none);
+        
         
         ///////////////////////////
     gates:

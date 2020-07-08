@@ -73,6 +73,8 @@ class LteMacEnb : public LteMacBase
     simsignal_t racDistanceSignal;
     simsignal_t racServedDevsSignal;
     simsignal_t socialMsgSignal;
+    simsignal_t dirMsgSignal;
+    simsignal_t lteMsgSignal;
     long CainMessage = 0;
     long cainHopMessage = 0;
     long distance = 0;
@@ -84,6 +86,8 @@ class LteMacEnb : public LteMacBase
     long racDistance = 0;
     long racServedDevscount = 0;
     long socialMsg = 0;
+    long dirMsg = 0;
+    long lteMsg = 0;
     std::vector<bool> racServedDevs;
     bool d2dSetted = false;
     int numDev = 0;
