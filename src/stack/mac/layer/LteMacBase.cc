@@ -100,7 +100,7 @@ void LteMacBase::fromPhy(cPacket *pkt)
                 // where the harq buffer was deleted but a feedback was in transit)
                 // this case must be taken care of
 
-                if (binder_->hasUeHandoverTriggered(nodeId_) || binder_->hasUeHandoverTriggered(src))
+//                if (binder_->hasUeHandoverTriggered(nodeId_) || binder_->hasUeHandoverTriggered(src))
                     return;
 
                 throw cRuntimeError("Mac::fromPhy(): Received feedback for an unexisting H-ARQ tx buffer");

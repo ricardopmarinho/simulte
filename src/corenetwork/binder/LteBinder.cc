@@ -1031,32 +1031,37 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
             UeAreaMap* ueMap = vect->operator [](i)->mapUe;
             int area = ueMap->operator [](nodeId);
             EV << "The area is: " << area << endl;
+
             switch (area) {
             case 1:
                 str << "DIR|Ok";
+                return str.str();
                 break;
             case 2:
                 std::pair<MacNodeId, double> closerRelay = findCloserRelay(nodeId);
                 if(closerRelay.first == 0){
                     EV << "There is no device on area 1!" << endl;
                     str << "DIR|Ok";
+                    return str.str();
                 }
                 else{
                     EV << "The closest relay is: " << closerRelay.first << endl;
+                    EV << "Distance: " << closerRelay.second << endl;
                     if(closerRelay.second <= distThresh){
                         EV << "Node " << nodeId << " is close enough!" << endl;
                         str << "NOTIFY|" << closerRelay.first;
                         increaseResourceBlock(closerRelay.first,1);
                         setServedDev(nodeId-1025,true);
                         addD2DCapability(nodeId,closerRelay.first);
+                        return str.str();
                     }else{
                         MacNodeId hopId = findCloserHop(nodeId,closerRelay.first);
                         if(hopId == 0){
-                            EV << "There is no closer hop" << endl;
                             str << "NOTIFY|" << closerRelay.first;
                             increaseResourceBlock(closerRelay.first,1);
                             setServedDev(nodeId-1025,true);
                             addD2DCapability(nodeId,closerRelay.first);
+                            return str.str();
                         }else{
                             EV << "The closer hop is:" << hopId << endl;
                             str << "HOP_NTF|" << closerRelay.first << ";" << hopId;
@@ -1066,6 +1071,7 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
                             addD2DCapability(nodeId,closerRelay.first);
                             addD2DCapability(nodeId,hopId);
                             addD2DCapability(closerRelay.first,hopId);
+                            return str.str();
                         }
                     }
                 }
@@ -1086,6 +1092,7 @@ std::pair<MacNodeId,double> LteBinder::findCloserRelay(MacNodeId ueId){
     double minDist = INFINITY;
     std::pair<MacNodeId, double> p;
     MacNodeId enbId = getEnbToUe(ueId);
+    int qtdThresh = getModuleByPath("CAIN")->par("qtdThresh");
 
     for(unsigned int i = 0; i < vect->size();i++){
         if(enbId == vect->at(i)->id){
@@ -1098,8 +1105,12 @@ std::pair<MacNodeId,double> LteBinder::findCloserRelay(MacNodeId ueId){
                 if(mapIt->first != ueId && mapIt->second == 1){//if the ue is a relay (area 1) and is not the current ue
                     Coord ue = vect->operator [](i)->Clist->operator [](ueId);
                     Coord relay = vect->operator [](i)->Clist->operator [](mapIt->first);
+                    int qtdRelay = this->getQtdRelay(mapIt->first);
                     double distance = ue.distance(relay);//calculates the distance
-                    if(distance < minDist){
+                    if((distance < minDist)){//&& (qtdRelay < qtdThresh)
+                        /*
+                         * finds the closer relay node that can relay a message
+                         * */
                         minDist = distance;
                         closerNode = mapIt->first;
                     }
@@ -1163,9 +1174,10 @@ MacNodeId LteBinder::checkSocialId(MacNodeId nodeId){
                 break;
             case 2:
                 MacNodeId relayId = findSocialRelay(nodeId);
-                if(relayId != 0){
-                    destId=relayId;
-                }
+                if(relayId == 0)
+                    destId = nodeId;
+                else
+                    destId = relayId;
             }
         }
     }
@@ -1189,6 +1201,11 @@ bool LteBinder::checkLteMsg(MacNodeId nodeId){
     }
 }
 
+/*
+ * returns 0 if no social relay node was found
+ * return relayId otherwise
+ * */
+
 MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){
 
     int distThresh = getModuleByPath("CAIN")->par("distThresh");
@@ -1196,35 +1213,43 @@ MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){
     std::vector<EnbInfo*>* vectEnb = this->getEnbList();
     MacNodeId enbId = getEnbToUe(nodeId);
     UeAreaMap* ueMap;
+    coordList* coordList;
     for(unsigned int i = 0; i < vectEnb->size();i++){
         if(enbId == vectEnb->at(i)->id){
             ueMap = vectEnb->operator [](i)->mapUe;
+            coordList = vectEnb->operator [](i)->Clist;
             break;
         }
     }
-
     std::vector<UeInfo*>* vect = this->getUeList();
     unsigned int social = 0;
     EV << "Node id: " << nodeId << endl;
     MacNodeId relayId = 0;
-    std::pair<MacNodeId, double> closerRelay = findCloserRelay(nodeId);
-    if(closerRelay.first == 0 || closerRelay.second > distThresh){
-        return relayId;
-    }
+//    std::pair<MacNodeId, double> closerRelay = findCloserRelay(nodeId);
+//    if(closerRelay.first == 0 || closerRelay.second > distThresh){
+//        return relayId;
+//    }
+
     for(unsigned int i = 0; i < vect->size();i++){
         if(nodeId == vect->at(i)->id){
             socialGraph::iterator it = vect->at(i)->socialMap->begin();
             socialGraph::iterator itEnd = vect->operator [](i)->socialMap->end();
             for(;it != itEnd; it++){
                 int area = ueMap->operator [](it->first);
-                if((area == 1) && (it->second > social)){
-                    relayId = it->first;
-                    social = it->second;
+                Coord relay = coordList->operator [](it->first);
+                Coord ue = coordList->operator [](nodeId);
+                double distance = ue.distance(relay);
+                if((distance <= distThresh)){
+                    if((area == 1) && (it->second > social)){
+                        relayId = it->first;
+                        social = it->second;
+                    }
                 }
             }
             break;
         }
     }
+
     return relayId;
 }
 
@@ -1278,20 +1303,24 @@ bool LteBinder::getAllocatedRb(MacNodeId nodeId){
 
 MacNodeId LteBinder::getCloserEnb(Coord uePos){
     std::vector<EnbInfo*>* vect = this->getEnbList();
+    int enby = getModuleByPath("CAIN.eNodeB.mobility")->par("initialY");
+    int enbx = getModuleByPath("CAIN.eNodeB.mobility")->par("initialX");
+    int enb1y = getModuleByPath("CAIN.eNodeB1.mobility")->par("initialY");
+    int enb1x = getModuleByPath("CAIN.eNodeB1.mobility")->par("initialX");
     float closer = 100000;
     MacNodeId enb = 10;
-    Coord zero = Coord(0,0,0);
-    for(unsigned int i = 0; i < vect->size();i++){
-        EV << "uePos: " << uePos << endl;
-        EV << "EnB id: " << vect->at(i)->id << endl;
-        EV << "Pos: " << vect->at(i)->pos << endl;
-        if(operator ==(zero,vect->at(i)->pos))
-            return 0;
-        if(uePos.distance(vect->at(i)->pos) < closer){
-            closer=uePos.distance(vect->at(i)->pos);
-//            EV << "distance: " << uePos.distance(vect->at(i)->pos) << endl;
-            enb=vect->at(i)->id;
-        }
+    Coord cEnb = Coord(enbx,enby,0);
+    Coord cEnb1 = Coord(enb1x,enb1y,0);
+
+    EV << "uePos: " << uePos << endl;
+
+    if(uePos.distance(cEnb) < closer){
+        closer=uePos.distance(cEnb);
+        enb=1;
+    }
+    if(uePos.distance(cEnb1) < closer){
+            closer=uePos.distance(cEnb1);
+            enb=2;
     }
     return enb;
 }
@@ -1352,7 +1381,7 @@ void LteBinder::updateSocialMap(MacNodeId ueId, MacNodeId senderId, int qtd){
     std::vector<UeInfo*>* vect = this->getUeList();
     for(unsigned int i = 0; i < vect->size();i++){
         if(ueId == vect->at(i)->id){
-            if(senderId != 1)
+            if(senderId != 1 && senderId != 2)
                 vect->operator [](i)->socialMap->operator [](senderId)+=qtd;
         }
     }
@@ -1380,6 +1409,59 @@ Coord LteBinder::getEnbCoord(MacNodeId ueId){
             return vect->at(i)->pos;
         }
     }
+}
+
+/*
+ * when a relay node receives a notify or hop relay message
+ * increase the number of relayed devices
+ * */
+void LteBinder::increaseRelay(MacNodeId ueId){
+    std::vector<UeInfo*>* vect = this->getUeList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(ueId == vect->at(i)->id)
+            vect->at(i)->qtdRelay++;
+    }
+}
+
+/*
+ * when the relay sends or drops the message
+ * decrease the number of relayed devices
+ * */
+void LteBinder::decreaseRelay(MacNodeId ueId){
+    std::vector<UeInfo*>* vect = this->getUeList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(ueId == vect->at(i)->id)
+            vect->at(i)->qtdRelay--;
+    }
+}
+
+int LteBinder::getQtdRelay(MacNodeId ueId){
+    std::vector<UeInfo*>* vect = this->getUeList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(ueId == vect->at(i)->id)
+            return vect->at(i)->qtdRelay;
+    }
+}
+
+void LteBinder::printQtdRelay(MacNodeId ueId){
+    std::vector<UeInfo*>* vect = this->getUeList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        if(ueId == vect->at(i)->id)
+            EV << "qtd Relay for ue " << ueId << ": " <<  vect->at(i)->qtdRelay << endl;
+    }
+}
+
+void LteBinder::printAllQtdRelay(){
+    std::vector<UeInfo*>* vect = this->getUeList();
+    for(unsigned int i = 0; i < vect->size();i++){
+        EV << "qtd Relay for ue " << vect->at(i)->id << ": " <<  vect->at(i)->qtdRelay << endl;
+    }
+}
+
+void LteBinder::printUeMap(UeAreaMap* ueMap){
+    UeAreaMap::iterator it;
+    for(it=ueMap->begin(); it != ueMap->end();it++)
+        EV << "Ueid: " << it->first << " area: " << it->second << endl;
 }
 /////////////////////////////////////////////
 

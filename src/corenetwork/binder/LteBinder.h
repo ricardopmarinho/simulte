@@ -229,6 +229,12 @@ class LteBinder : public cSimpleModule
     void updateSocialMap(MacNodeId ueId, MacNodeId senderId, int qtd);
     void printSocialMap(MacNodeId ueId);
     Coord getEnbCoord(MacNodeId ueId);
+    void decreaseRelay(MacNodeId ueId);
+    void increaseRelay(MacNodeId ueId);
+    int getQtdRelay(MacNodeId ueId);
+    void printQtdRelay(MacNodeId ueId);
+    void printAllQtdRelay();
+    void printUeMap(UeAreaMap* ueMap);
     ////////////////////////////////////////////////////////////////////////
     /**
      * eNodeB creation.

@@ -270,6 +270,8 @@ void LtePhyEnb::requestFeedback(UserControlInfo* lteinfo, LteAirFrame* frame,
     Coord sendersPos = lteinfo->getCoord();
     deployer_->setUePosition(lteinfo->getSourceId(), sendersPos);
 
+    if(lteinfo->getDestId()==2)
+        endSimulation();
     //Apply analog model (pathloss)
     //Get snr for UL direction
     std::vector<double> snr = channelModel_->getSINR(frame, lteinfo);

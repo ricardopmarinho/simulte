@@ -234,6 +234,7 @@ void LteMacEnb::initialize(int stage)
         socialMsgSignal = registerSignal("socialMsg");
         dirMsgSignal = registerSignal("dirMsgSignal");
         lteMsgSignal = registerSignal("lteMsgSignal");
+        devsRelaySignal = registerSignal("devsRelaySignal");
 
         // TODO: read NED parameters, when will be present
         deployer_ = getDeployer();
@@ -318,6 +319,9 @@ void LteMacEnb::initialize(int stage)
         info->moreRb = new rbIncrease();
         info->fbmap = new feedbackMap();
         numDev = getModuleByPath("CAIN")->par("numUeD2DTx");
+
+        for(int i =0;i<numDev;i++)
+            this->devsRelay[i]=false;
 
 //        binder_->setD2Dcapable(numDev);
 //        binder_->initEnbMap();
@@ -500,9 +504,10 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
     racServedDevscount = binder_->racServedDevscount();
     emit(racServedDevsSignal,racServedDevscount);
-    if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD || uinfo->getCAINDirection()==HOP_ANSW
-            || uinfo->getCAINDirection()==ANSW) || uinfo->getCAINDirection() == SOC_FWD
-            || uinfo->getCAINDirection() == DIR || uinfo->getCAINDirection() == LTE){
+    if(uinfo->getCAINEnable() && (uinfo->getCAINDirection()==FWD || uinfo->getCAINDirection()==HOP_FWD
+            || uinfo->getCAINDirection()==HOP_ANSW || uinfo->getCAINDirection()==ANSW
+            || uinfo->getCAINDirection() == SOC_FWD || uinfo->getCAINDirection() == DIR
+            || uinfo->getCAINDirection() == LTE || uinfo->getCAINDirection() == SOC_ANSW)){
         EV << "Options: " << uinfo->getCAINOptions() << endl;
         Coord enbCoord = uinfo->getEnbCoord();
         ueCoord = uinfo->getCAINCoord();
@@ -517,13 +522,19 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                         binder_->getIncreaseResourceBlock(uinfo->getSourceId()) << endl;
 
 
+                if(!devsRelay[uinfo->getSourceId()-1025]){
+                    devsRelay[uinfo->getSourceId()-1025] = true;
+                    EV << devsRelay[uinfo->getSourceId()-1025] << endl;
+                    devsRelayCount++;
+                    emit(devsRelaySignal,devsRelayCount);
+                }
                 std::string opt = uinfo->getCAINOptions();
 
                 if(binder_->getAllocatedRb(uinfo->getSourceId()))
                 {
                     EV << "RB allocation ok" << endl;
                     uinfo->setDestId(uinfo->getSourceId());
-                    uinfo->setSourceId(1);
+                    uinfo->setSourceId(nodeId_);
                     uinfo->setCAINDirection(REP);
                     uinfo->setCAINOption("");
                     std::ostringstream stream;
@@ -534,7 +545,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 {
                     EV << "RB allocation not ok" << endl;
                     uinfo->setDestId(uinfo->getSourceId());
-                    uinfo->setSourceId(1);
+                    uinfo->setSourceId(nodeId_);
                     uinfo->setCAINDirection(REP);
                     uinfo->setCAINOption("");
                     std::ostringstream stream;
@@ -558,6 +569,13 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
 
                 EV << endl;
 
+                if(!devsRelay[uinfo->getSourceId()-1025]){
+                    devsRelay[uinfo->getSourceId()-1025] = true;
+                    EV << devsRelay[uinfo->getSourceId()-1025] << endl;
+                    devsRelayCount++;
+                    emit(devsRelaySignal,devsRelayCount);
+                }
+
                 std::vector<MacNodeId> node;
                 std::string token;
                 std::istringstream tokenStream(uinfo->getCAINOptions());
@@ -570,7 +588,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 {
                     EV << "RB allocation ok" << endl;
                     uinfo->setDestId(uinfo->getSourceId());
-                    uinfo->setSourceId(1);
+                    uinfo->setSourceId(nodeId_);
                     uinfo->setCAINDirection(HOP_REP);
                     uinfo->setCAINOption("");
                     std::ostringstream stream;
@@ -581,7 +599,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 {
                     EV << "RB allocation not ok" << endl;
                     uinfo->setDestId(uinfo->getSourceId());
-                    uinfo->setSourceId(1);
+                    uinfo->setSourceId(nodeId_);
                     uinfo->setCAINDirection(HOP_REP);
                     uinfo->setCAINOption("");
                     std::ostringstream stream;
@@ -645,8 +663,58 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
             }
             case SOC_FWD:
             {
+
                 EV << "Social forward message arrived from node " << uinfo->getSourceId() << " to"
                                     " node " << uinfo->getDestId() << endl;
+                std::string opt = uinfo->getCAINOptions();
+                std::vector<MacNodeId> node;
+                std::string token;
+                std::istringstream tokenStream(uinfo->getCAINOptions());
+                while (std::getline(tokenStream, token, '/'))
+                {
+                    node.push_back(stoi(token));
+                }
+                if(binder_->getAllocatedRb(uinfo->getSourceId()))
+                {
+                    EV << "RB allocation ok" << endl;
+                    uinfo->setDestId(uinfo->getSourceId());
+                    uinfo->setSourceId(nodeId_);
+                    uinfo->setCAINDirection(SOC_REP);
+                    uinfo->setCAINOption("");
+                    std::ostringstream stream;
+                    stream << "OK|" << opt;
+                    uinfo->appendOption(stream.str());
+                }
+                else
+                {
+                    EV << "RB allocation not ok" << endl;
+                    uinfo->setDestId(uinfo->getSourceId());
+                    uinfo->setSourceId(nodeId_);
+                    uinfo->setCAINDirection(SOC_REP);
+                    uinfo->setCAINOption("");
+                    std::ostringstream stream;
+                    stream << "NOK|" << opt;
+                    uinfo->appendOption(stream.str());
+                }
+//                socialMsg++;
+//                emit(socialMsgSignal,socialMsg);
+                sendLowerPackets(racPkt);
+                break;
+            }
+            case SOC_ANSW:
+            {
+                EV << "ENB receiving a Social ANSW message!" << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+                EV << endl;
+                std::vector<std::string> node;
+                std::string token;
+                std::istringstream tokenStream(uinfo->getCAINOptions());
+                while (std::getline(tokenStream, token, '|'))
+                {
+                    node.push_back(token);
+                }
+
                 socialMsg++;
                 emit(socialMsgSignal,socialMsg);
                 delete pkt;
@@ -1053,6 +1121,9 @@ void LteMacEnb::macHandleFeedbackPkt(cPacket *pkt)
     LteFeedbackDoubleVector fbMapUl = fb->getLteFeedbackDoubleVectorUl();
     //get Source Node Id<
     MacNodeId id = fb->getSourceNodeId();
+    EV << "source id: " << id << endl;
+    UserControlInfo* uinfo = check_and_cast<UserControlInfo *>(fb->getControlInfo());
+    MacNodeId dest = uinfo->getDestId();
     LteFeedbackDoubleVector::iterator it;
     LteFeedbackVector::iterator jt;
 

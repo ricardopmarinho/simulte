@@ -895,46 +895,59 @@ std::vector<double> LteRealisticChannelModel::getSINR(LteAirFrame *frame, UserCo
            << " speed " << speed << " thermal noise " << thermalNoise_
            << " fading attenuation " << fadingAttenuation << endl;
 
-        std::vector<EnbInfo*>* vect = binder_->getEnbList();
-        int pwrThresh = 0;
-        sinrMapB* BsMap = NULL;
-        sinrMapW* WsMap = NULL;
-        coordList* csList = NULL;
+//        std::vector<EnbInfo*>* vect = binder_->getEnbList();
+//        int pwrThresh = 0;
+//        sinrMapB* BsMap = NULL;
+//        sinrMapW* WsMap = NULL;
+//        coordList* csList = NULL;
 
         if(dir == UL){
             binder_->setEnbCoord(enbCoord);
         }
 
         int area = createAreaMap(ueId, recvPower);
-//        createDistMaps(ueId, area,ueCoord);
+        createDistMaps(ueId, area,ueCoord);
 
-        EV << "Creating map" << endl;
-        for(unsigned int j = 0; j < vect->size();j++){
-            if(1 == vect->at(j)->id){
-                pwrThresh = vect->operator [](j)->pwrThresh;
-                BsMap = vect->operator [](j)->Bmap;
-                WsMap = vect->operator [](j)->Wmap;
-                if(recvPower >= pwrThresh){
-                    /*
-                     * If a previous record from a node is recorded on the
-                     * other map, we must erase it to keep the integrity
-                     * */
-                    EV << "Storing a good power device: " << ueId << endl;
-                    if(WsMap->count(ueId)>=1)
-                        WsMap->erase(ueId);
-                    BsMap->operator [](ueId)=recvPower;
-                }else{
-                    EV << "Storing a bad power device: " << ueId << endl;
-                    if(BsMap->count(ueId)>=1)
-                        BsMap->erase(ueId);
-                    WsMap->operator [](ueId)=recvPower;
-                }
-                csList = vect->operator [](j)->Clist;
-                if(csList->count(ueId)>=1)
-                    csList->erase(ueId);
-                csList->operator [](ueId)=ueCoord;
+
+        coordList* clist;
+        std::vector<EnbInfo*>* vect = binder_->getEnbList();
+        MacNodeId enb = binder_->getEnbToUe(ueId);
+        for(unsigned int i = 0; i < vect->size();i++){
+            if(enb == vect->at(i)->id){
+                clist = vect->operator [](i)->Clist;
+                coordList::iterator it = clist->begin();
+                for(;it != clist->end();it++)
+                    EV << "id: " << it->first << " coord: " << it->second << endl;
             }
         }
+
+//        EV << "Creating map" << endl;
+//        for(unsigned int j = 0; j < vect->size();j++){
+//            if(1 == vect->at(j)->id){
+//                pwrThresh = vect->operator [](j)->pwrThresh;
+//                BsMap = vect->operator [](j)->Bmap;
+//                WsMap = vect->operator [](j)->Wmap;
+//                if(recvPower >= pwrThresh){
+//                    /*
+//                     * If a previous record from a node is recorded on the
+//                     * other map, we must erase it to keep the integrity
+//                     * */
+//                    EV << "Storing a good power device: " << ueId << endl;
+//                    if(WsMap->count(ueId)>=1)
+//                        WsMap->erase(ueId);
+//                    BsMap->operator [](ueId)=recvPower;
+//                }else{
+//                    EV << "Storing a bad power device: " << ueId << endl;
+//                    if(BsMap->count(ueId)>=1)
+//                        BsMap->erase(ueId);
+//                    WsMap->operator [](ueId)=recvPower;
+//                }
+//                csList = vect->operator [](j)->Clist;
+//                if(csList->count(ueId)>=1)
+//                    csList->erase(ueId);
+//                csList->operator [](ueId)=ueCoord;
+//            }
+//        }
 
         std::vector<UeInfo*> * ueinfo = binder_->getUeList();
         for(int i=0;i<ueinfo->size();i++){
@@ -2641,12 +2654,14 @@ int LteRealisticChannelModel::createAreaMap(MacNodeId ueId, double recvPower){
             mapUe = vect->operator [](j)->mapUe;
             if(recvPower >= pwrThresh){
                 EV << "Storing a good power device: " << ueId << endl;
+                EV << "bs " << enbId << endl;
                 if(mapUe->count(ueId)>=1)
                     mapUe->erase(ueId);
                 mapUe->operator [](ueId) = 1;
                 return 1;
             }else{
                 EV << "Storing a poor power device: " << ueId << endl;
+                EV << "bs " << enbId << endl;
                 if(mapUe->count(ueId)>=1)
                     mapUe->erase(ueId);
                 mapUe->operator [](ueId) = 2;
@@ -2661,35 +2676,42 @@ void LteRealisticChannelModel::createDistMaps(MacNodeId ueId, int area, Coord ue
     std::vector<EnbInfo*>* vect = binder_->getEnbList();
 
     EV << "Device: " << ueId << " at area " << area << endl;
+    MacNodeId enb = binder_->getEnbToUe(ueId);
 
     /*
      * Finding the enb
      * */
     unsigned int i;
     for(i = 0; i < vect->size();i++){
-        if(1 == vect->at(i)->id)
-            break;
+        if(enb == vect->at(i)->id){
+            /*
+            * Getting the structures
+            * */
+           relayDist* distMap = vect->operator [](i)->distMap;
+           coordList* cList= vect->operator [](i)->Clist;
+           ueRelay* relayMap = vect->operator [](i)->relayMap;
+
+           /*
+            * inserting the coordinate for this UE
+            * */
+           if(vect->operator [](i)->Clist->count(ueId)>=1)
+               vect->operator [](i)->Clist->erase(ueId);
+           vect->operator [](i)->Clist->operator [](ueId)=ueCoord;
+
+           coordList::iterator it = vect->operator [](i)->Clist->begin();
+           for(;it != vect->operator [](i)->Clist->end(); it++)
+               EV << "node: " << it->first << " coord: " << it->second << endl;
+
+        }
     }
-    /*
-     * Getting the structures
-     * */
-    relayDist* distMap = vect->operator [](i)->distMap;
-    coordList* cList= vect->operator [](i)->Clist;
-    ueRelay* relayMap = vect->operator [](i)->relayMap;
 
-    /*
-     * inserting the coordinate for this UE
-     * */
-    if(cList->count(ueId)>=1)
-        cList->erase(ueId);
-    cList->operator [](ueId)=ueCoord;
 
-    switch(area){
+    /*switch(area){
     case 1:
     {
-        /*
+
          * just create the map field (| UE | ... |)
-         * */
+         *
         if(distMap->operator [](ueId)==NULL)
             distMap->operator [](ueId) = new std::map<MacNodeId,double>();
 
@@ -2699,16 +2721,16 @@ void LteRealisticChannelModel::createDistMaps(MacNodeId ueId, int area, Coord ue
     }
     case 2:
     {
-        /*
+
          * create the relay list for that UE
-         * */
+         *
         if(relayMap->operator [](ueId)==NULL)
             relayMap->operator [](ueId) = new std::list<MacNodeId>();
 
-        /*
+
          * find a relay -> insert it to the relay list
          *              -> calculate the distance for this area 2 UE
-         * */
+         *
         if(distMap->count(ueId)>=1)
             distMap->erase(ueId);
 
@@ -2756,5 +2778,5 @@ void LteRealisticChannelModel::createDistMaps(MacNodeId ueId, int area, Coord ue
     default:
         EV << "Unknown area!" << endl;
         break;
-    }
+    }*/
 }

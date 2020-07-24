@@ -79,6 +79,7 @@ void LteMacUe::initialize(int stage)
         info->repList = new std::vector<MacNodeId>();
         info->assList = new std::list<MacNodeId>();
         info->socialMap = new socialGraph();
+        info->qtdRelay = 0;
         ///////////
 
         // Get the Physical Channel reference of the node

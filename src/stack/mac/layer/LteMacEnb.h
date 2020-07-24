@@ -75,6 +75,7 @@ class LteMacEnb : public LteMacBase
     simsignal_t socialMsgSignal;
     simsignal_t dirMsgSignal;
     simsignal_t lteMsgSignal;
+    simsignal_t devsRelaySignal;
     long CainMessage = 0;
     long cainHopMessage = 0;
     long distance = 0;
@@ -88,9 +89,11 @@ class LteMacEnb : public LteMacBase
     long socialMsg = 0;
     long dirMsg = 0;
     long lteMsg = 0;
+    long devsRelayCount = 0;
     std::vector<bool> racServedDevs;
     bool d2dSetted = false;
     int numDev = 0;
+    std::map<MacNodeId, bool> devsRelay;
     ////////////////////////////////
 
 //    typedef std::function<bool(std::pair<MacNodeId, double>, std::pair<MacNodeId, double>)> Comparator;

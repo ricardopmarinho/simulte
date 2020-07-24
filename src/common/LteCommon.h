@@ -136,6 +136,8 @@ enum CAINDirection
     DIR,
     SOC_NTF,
     SOC_FWD,
+    SOC_REP,
+    SOC_ANSW,
     LTE
 };
 
@@ -907,6 +909,7 @@ struct UeInfo
     relayList* rList;
     rep_list* repList;
     socialGraph* socialMap;
+    int qtdRelay;
 ///////
 };
 

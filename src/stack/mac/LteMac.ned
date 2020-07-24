@@ -181,6 +181,9 @@ simple LteMacBase like LteMac {
         @signal[lteMsgSignal](type=long);
         @statistic[lteMsgSignal](title="# of LTE message arriving at the BS";record=vector,count,max,last;interpolationmode=none);
         
+        @signal[devsRelaySignal](type=long);
+        @statistic[devsRelaySignal](title="# of unique relay devcies";record=vector,count,max,last;interpolationmode=none);
+        
         
         ///////////////////////////
     gates:

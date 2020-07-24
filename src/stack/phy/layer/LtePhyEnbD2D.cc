@@ -149,7 +149,7 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
     //CAINControlInfo* lteInfo = check_and_cast<CAINControlInfo*>(msg->removeControlInfo());
     LteAirFrame* frame = static_cast<LteAirFrame*>(msg);
 
-    binder_->setEnbPos(lteInfo->getDestId(),getRadioPosition());
+//    binder_->setEnbPos(lteInfo->getDestId(),getRadioPosition());
 
 
     EV << "Device "<< lteInfo->getSourceId() << " sending the message to " << lteInfo->getDestId() << endl;
@@ -183,6 +183,7 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
      */
     if (binder_->getNextHop(lteInfo->getSourceId()) != nodeId_)
     {
+
         EV << "WARNING: frame from a UE that is leaving this cell (handover): deleted " << endl;
         EV << "Source MacNodeId: " << lteInfo->getSourceId() << endl;
         EV << "Master MacNodeId: " << nodeId_ << endl;
@@ -213,7 +214,22 @@ void LtePhyEnbD2D::handleAirFrame(cMessage* msg)
         delete frame;
         return;
     }
-
+//    if(lteInfo->getDestId()==2){
+//       EV << "destination: " << lteInfo->getDestId() << endl;
+//       std::vector<EnbInfo*>* vect = binder_->getEnbList();
+//       for(unsigned int i = 0; i < vect->size();i++){
+//              if(lteInfo->getDestId() == vect->at(i)->id){
+//                  UeAreaMap* ueMap = vect->operator [](i)->mapUe;
+//                  UeAreaMap::iterator it;
+//                  for(it=ueMap->begin(); it != ueMap->end();it++){
+//                      if(it->second != 0){
+//                          binder_->printUeMap(ueMap);
+//                          endSimulation();
+//                      }
+//                  }
+//              }
+//       }
+//   }
     connectedNodeId_ = lteInfo->getSourceId();
     //handle all control pkt
     if (handleControlPkt(lteInfo, frame))

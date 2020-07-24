@@ -145,107 +145,107 @@ void LteMacUeRealisticD2D::macPduMake()
         }
     }
 
-    EV << "LteMacUeRealisticD2D::macPduMake2" << endl;
-    if(!bsrAlreadyMade)
-    {
-        EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
-        // In a D2D communication if BSR was created above this part isn't executed
-        // Build a MAC PDU for each scheduled user on each codeword
-        LteMacScheduleList::const_iterator it;
-        for (it = scheduleList_->begin(); it != scheduleList_->end(); it++)
-        {
-            EV << "LteMacUeRealisticD2D::macPduMake4" << endl;
-            LteMacPdu* macPkt;
-            cPacket* pkt;
-
-            MacCid destCid = it->first.first;
-            Codeword cw = it->first.second;
-
-            EV << "destCid: " << destCid << endl;
-
-            // get the direction (UL/D2D/D2D_MULTI) and the corresponding destination ID
-            FlowControlInfo* lteInfo = &(connDesc_.at(destCid));
-            MacNodeId destId = lteInfo->getDestId();
-            Direction dir = (Direction)lteInfo->getDirection();
-
-            std::pair<MacNodeId, Codeword> pktId = std::pair<MacNodeId, Codeword>(destId, cw);
-            unsigned int sduPerCid = it->second;
-
-            MacPduList::iterator pit = macPduList_.find(pktId);
-
-            if (sduPerCid == 0 && !bsrTriggered_ && !bsrD2DMulticastTriggered_)
-            {
-                continue;
-            }
-
-            // No packets for this user on this codeword
-            if (pit == macPduList_.end())
-            {
-                EV << "LteMacUeRealisticD2D::macPduMake5" << endl;
-                // Always goes here because of the macPduList_.clear() at the beginning
-                // Build the Control Element of the MAC PDU
-                UserControlInfo* uinfo = new UserControlInfo();
-                uinfo->setSourceId(getMacNodeId());
-                uinfo->setDestId(destId);
-                uinfo->setLcid(MacCidToLcid(destCid));
-                uinfo->setDirection(dir);
-                uinfo->setLcid(MacCidToLcid(SHORT_BSR));
-                if (usePreconfiguredTxParams_)
-                    uinfo->setUserTxParams(preconfiguredTxParams_->dup());
-                else
-                    uinfo->setUserTxParams(schedulingGrant_->getUserTxParams()->dup());
-                // Create a PDU
-                macPkt = new LteMacPdu("LteMacPdu");
-                macPkt->setHeaderLength(MAC_HEADER);
-                macPkt->setControlInfo(uinfo);
-                macPkt->setTimestamp(NOW);
-                macPduList_[pktId] = macPkt;
-            }
-            else
-            {
-                // Never goes here because of the macPduList_.clear() at the beginning
-                macPkt = pit->second;
-            }
-
-            while (sduPerCid > 0)
-            {
-                EV << "LteMacUeRealisticD2D::macPduMake6" << endl;
-                EV << "sduPerCid: " << sduPerCid << endl;
-                // Add SDU to PDU
-                // Find Mac Pkt
-                if (mbuf_.find(destCid) == mbuf_.end())
-                    throw cRuntimeError("Unable to find mac buffer for cid %d", destCid);
-
-                if (mbuf_[destCid]->empty())
-                    throw cRuntimeError("Empty buffer for cid %d, while expected SDUs were %d", destCid, sduPerCid);
-
-                pkt = mbuf_[destCid]->popFront();
-
-                // multicast support
-                // this trick gets the group ID from the MAC SDU and sets it in the MAC PDU
-                int32 groupId = check_and_cast<LteControlInfo*>(pkt->getControlInfo())->getMulticastGroupId();
-                if (groupId >= 0) // for unicast, group id is -1
-                    check_and_cast<LteControlInfo*>(macPkt->getControlInfo())->setMulticastGroupId(groupId);
-
-                drop(pkt);
-
-                macPkt->pushSdu(pkt);
-                sduPerCid--;
-            }
-
-            // consider virtual buffers to compute BSR size
-            size += macBuffers_[destCid]->getQueueOccupancy();
-
-            if (size > 0)
-            {
-                // take into account the RLC header size
-                if (connDesc_[destCid].getRlcType() == UM)
-                    size += RLC_HEADER_UM;
-                else if (connDesc_[destCid].getRlcType() == AM)
-                    size += RLC_HEADER_AM;
-            }
-        }
-    }
+//    EV << "LteMacUeRealisticD2D::macPduMake2" << endl;
+//    if(!bsrAlreadyMade)
+//    {
+//        EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
+//        // In a D2D communication if BSR was created above this part isn't executed
+//        // Build a MAC PDU for each scheduled user on each codeword
+//        LteMacScheduleList::const_iterator it;
+//        for (it = scheduleList_->begin(); it != scheduleList_->end(); it++)
+//        {
+//            EV << "LteMacUeRealisticD2D::macPduMake4" << endl;
+//            LteMacPdu* macPkt;
+//            cPacket* pkt;
+//
+//            MacCid destCid = it->first.first;
+//            Codeword cw = it->first.second;
+//
+//            EV << "destCid: " << destCid << endl;
+//
+//            // get the direction (UL/D2D/D2D_MULTI) and the corresponding destination ID
+//            FlowControlInfo* lteInfo = &(connDesc_.at(destCid));
+//            MacNodeId destId = lteInfo->getDestId();
+//            Direction dir = (Direction)lteInfo->getDirection();
+//
+//            std::pair<MacNodeId, Codeword> pktId = std::pair<MacNodeId, Codeword>(destId, cw);
+//            unsigned int sduPerCid = it->second;
+//
+//            MacPduList::iterator pit = macPduList_.find(pktId);
+//
+//            if (sduPerCid == 0 && !bsrTriggered_ && !bsrD2DMulticastTriggered_)
+//            {
+//                continue;
+//            }
+//
+//            // No packets for this user on this codeword
+//            if (pit == macPduList_.end())
+//            {
+//                EV << "LteMacUeRealisticD2D::macPduMake5" << endl;
+//                // Always goes here because of the macPduList_.clear() at the beginning
+//                // Build the Control Element of the MAC PDU
+//                UserControlInfo* uinfo = new UserControlInfo();
+//                uinfo->setSourceId(getMacNodeId());
+//                uinfo->setDestId(destId);
+//                uinfo->setLcid(MacCidToLcid(destCid));
+//                uinfo->setDirection(dir);
+//                uinfo->setLcid(MacCidToLcid(SHORT_BSR));
+//                if (usePreconfiguredTxParams_)
+//                    uinfo->setUserTxParams(preconfiguredTxParams_->dup());
+//                else
+//                    uinfo->setUserTxParams(schedulingGrant_->getUserTxParams()->dup());
+//                // Create a PDU
+//                macPkt = new LteMacPdu("LteMacPdu");
+//                macPkt->setHeaderLength(MAC_HEADER);
+//                macPkt->setControlInfo(uinfo);
+//                macPkt->setTimestamp(NOW);
+//                macPduList_[pktId] = macPkt;
+//            }
+//            else
+//            {
+//                // Never goes here because of the macPduList_.clear() at the beginning
+//                macPkt = pit->second;
+//            }
+//
+//            while (sduPerCid > 0)
+//            {
+//                EV << "LteMacUeRealisticD2D::macPduMake6" << endl;
+//                EV << "sduPerCid: " << sduPerCid << endl;
+//                // Add SDU to PDU
+//                // Find Mac Pkt
+//                if (mbuf_.find(destCid) == mbuf_.end())
+//                    throw cRuntimeError("Unable to find mac buffer for cid %d", destCid);
+//
+//                if (mbuf_[destCid]->empty())
+//                    throw cRuntimeError("Empty buffer for cid %d, while expected SDUs were %d", destCid, sduPerCid);
+//
+//                pkt = mbuf_[destCid]->popFront();
+//
+//                // multicast support
+//                // this trick gets the group ID from the MAC SDU and sets it in the MAC PDU
+//                int32 groupId = check_and_cast<LteControlInfo*>(pkt->getControlInfo())->getMulticastGroupId();
+//                if (groupId >= 0) // for unicast, group id is -1
+//                    check_and_cast<LteControlInfo*>(macPkt->getControlInfo())->setMulticastGroupId(groupId);
+//
+//                drop(pkt);
+//
+//                macPkt->pushSdu(pkt);
+//                sduPerCid--;
+//            }
+//
+//            // consider virtual buffers to compute BSR size
+//            size += macBuffers_[destCid]->getQueueOccupancy();
+//
+//            if (size > 0)
+//            {
+//                // take into account the RLC header size
+//                if (connDesc_[destCid].getRlcType() == UM)
+//                    size += RLC_HEADER_UM;
+//                else if (connDesc_[destCid].getRlcType() == AM)
+//                    size += RLC_HEADER_AM;
+//            }
+//        }
+//    }
 
     // Put MAC PDUs in H-ARQ buffers
     MacPduList::iterator pit;
@@ -505,21 +505,22 @@ void LteMacUeRealisticD2D::checkRAC()
     {
         LteRac* racReq = new LteRac("RacRequest");
         UserControlInfo* uinfo = new UserControlInfo();
-        uinfo->setSourceId(getMacNodeId());
+        uinfo->setSourceId(nodeId_);
         uinfo->setDestId(getMacCellId());
         uinfo->setDirection(UL);
         uinfo->setFrameType(RACPKT);
         racReq->setControlInfo(uinfo);
 
         std::string networkType = getModuleByPath("CAIN")->par("networkType");
-        uinfo->setCAINCoord(binder_->getUeCoord(getMacNodeId()));
-        uinfo->setEnbCoord(binder_->getEnbCoord(getMacNodeId()));
-        uinfo->setCAINEnable(true);
         if(networkType == "CAIN"){
+            uinfo->setCAINCoord(binder_->getUeCoord(getMacNodeId()));
+            uinfo->setEnbCoord(binder_->getEnbCoord(getMacNodeId()));
+            uinfo->setCAINEnable(true);
             std::string str = binder_->checkCAINType(nodeId_);
             EV << "Binder string: " << str << endl;
             std::vector<std::string> msgType = getMessageType(str,'|');
             EV << "Message type: " << msgType[0] << endl;
+            EV << "Node id: " << nodeId_ << endl;
             if(msgType[0] == "NOTIFY"){
                 MacNodeId relayId = stoi(msgType[1]);
                 EV << "The relay id is: " << relayId << endl;
@@ -550,17 +551,23 @@ void LteMacUeRealisticD2D::checkRAC()
                 uinfo->setCAINOption("");
             }
         }else if(networkType == "Social"){
-            MacNodeId destId = binder_->checkSocialId(nodeId_);
-            if(destId != getMacCellId()){
-                binder_->updateSocialMap(nodeId_,destId,2);
-                uinfo->setDestId(destId);
-                uinfo->setCAINDirection(SOC_NTF);
-                uinfo->setCAINOption("");
-            }else{
-                uinfo->setCAINDirection(DIR);
-                uinfo->setCAINOption("");
-            }
+            uinfo->setCAINCoord(binder_->getUeCoord(nodeId_));
+            uinfo->setEnbCoord(binder_->getEnbCoord(nodeId_));
+            uinfo->setCAINEnable(true);
+                MacNodeId destId = binder_->checkSocialId(nodeId_);
+                if(destId != nodeId_){
+                    binder_->updateSocialMap(nodeId_,destId,2);
+                    uinfo->setDestId(destId);
+                    uinfo->setCAINDirection(SOC_NTF);
+                    uinfo->setCAINOption("");
+                }else{
+                    uinfo->setCAINDirection(DIR);
+                    uinfo->setCAINOption("");
+                }
         }else if(networkType == "4G"){
+            uinfo->setCAINCoord(binder_->getUeCoord(getMacNodeId()));
+            uinfo->setEnbCoord(binder_->getEnbCoord(getMacNodeId()));
+            uinfo->setCAINEnable(true);
             bool send = binder_->checkLteMsg(nodeId_);
             if(send){
                 binder_->setRacSevedDev(nodeId_-1025,true);
@@ -659,11 +666,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
     switch(uinfo->getCAINDirection()){
         case NOTIFY:
         {
-            /**
-             * Message from eNB to relay
-             *
-             * The relay node receives this message
-             */
+            binder_->increaseRelay(uinfo->getDestId());
+            binder_->printAllQtdRelay();
             EV << "Receiving a NOTIFY message to node "<< uinfo->getDestId() << endl;
 
             MacNodeId enbId = binder_->getEnbToUe(uinfo->getSourceId());
@@ -683,65 +687,12 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             sendLowerPackets(racPkt);
             break;
         }
-        case REL:
-        {
-            /*
-             * Message from relay to UE
-             *
-             * The UE receives this message
-             * */
-            EV << "Receiving a REL message to node "<< uinfo->getDestId() << endl;
-            if(uinfo->getDestId()==nodeId_){
-
-                MacNodeId dest = uinfo->getSourceId();
-                /*
-                * Changing the connect address online
-                * */
-               const char* connectUe = binder_->getUeNodeNameById(dest);
-               this->getParentModule()->getParentModule()->getSubmodule("tcpApp",0)
-                       ->getAncestorPar("connectAddress") = connectUe;
-
-
-               /*
-                * Updating the relay list
-                * */
-
-               if(updateRelayList(dest)){
-                   EV << "Relay list updated" << endl;
-                   printRelayList(nodeId_);
-               }else{
-                   EV << "Relay list not updated: " << endl;
-               }
-
-               uinfo->setDestId(dest);
-               uinfo->setSourceId(nodeId_);
-               uinfo->setCAINDirection(REP);
-               uinfo->setCAINOption("message");
-               uinfo->setCAINEnable(true);
-
-               EV << "Node id: " << nodeId_ << endl;
-               coordList cList = uinfo->getMapCoord();
-               std::map<MacNodeId,Coord>::iterator Cit;
-               for(Cit = cList.begin(); Cit != cList.end(); Cit++){
-                   EV << "UE id: " << Cit->first << ", coordinate: " << Cit->second << endl;
-               }
-               Coord nodeCoord = uinfo->getMapCoord()[nodeId_];
-
-//               uinfo->setCAINCoord(nodeCoord);
-
-               sendLowerPackets(pkt);
-            }
-            break;
-        }
         case REP:
         {
-            /*
-             * Message from UE to relay
-             *
-             * The relay receives this message
-             * */
             EV << "Receiving a REP message to node "<< uinfo->getDestId() << endl;
 
+            binder_->decreaseRelay(uinfo->getDestId());
+            binder_->printAllQtdRelay();
             std::string opt = uinfo->getCAINOptions();
             std::vector<std::string> node;
             std::string token;
@@ -754,7 +705,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             {
                 EV << "Ok to relay message" << endl;
                 uinfo->setSourceId(uinfo->getDestId());
-                uinfo->setDestId(1);
+                uinfo->setDestId(binder_->getEnbToUe(uinfo->getDestId()));
                 uinfo->setCAINDirection(ANSW);
                 uinfo->setCAINEnable(true);
                 EV << "Source: " << uinfo->getSourceId() << endl;
@@ -775,14 +726,6 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
         }
         case HOP_NTF:
         {
-            /*
-             * Message from eNB to relay
-             *
-             * Begin:
-             * Source: ue
-             * Destination: hop
-             *
-             */
             EV << "Receiving a HOP_NTF message from ID: " << uinfo->getSourceId() << " to destination: " << uinfo->getDestId() << endl;
             std::vector<MacNodeId> node = getHopNodes(cainOpt);
             EV << "The relay node id is: " << node[0] << " and the Hop ID is: " << node[1] << endl;
@@ -800,25 +743,12 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             EV << "Dest: " << uinfo->getDestId() << endl;
             EV << "Options: " << uinfo->getCAINOptions() << endl;
             sendLowerPackets(pkt);
-            /*
-             * Message is being sent by the relay
-             * Ends:
-             * Source: relay
-             * Destination: Hop node
-             * */
             break;
         }
         case HOP_REL:
         {
-
-            /*
-             * Message from relay to Hop node
-             *
-             * Begin:
-             * Source: relay
-             * Destination: Hop node
-             *
-             */
+            binder_->increaseRelay(nodeId_);
+            binder_->printAllQtdRelay();
             EV << "Receiving a HOP_REL message" << endl;
             cainOpt = uinfo->getCAINOptions();
             std::vector<MacNodeId> node = getHopNodes(cainOpt);
@@ -838,86 +768,6 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             EV << "Dest: " << uinfo->getDestId() << endl;
             EV << "Options: " << uinfo->getCAINOptions() << endl;
             sendLowerPackets(pkt);
-            /*
-             * Message is being sent by the hop node
-             * Ends:
-             * Source: Hop node
-             * Destination: UE node
-             * */
-            break;
-        }
-        case HOP_REQ:
-        {
-
-            /*
-             * Message from Hop node to UE node
-             *
-             * Begin:
-             * Source: Hop node
-             * Destination: UE node
-             *
-             */
-            EV << "Receiving a HOP_REQ message" << endl;
-
-            MacNodeId hopId = uinfo->getSourceId();
-
-            uinfo->setSourceId(nodeId_);
-            uinfo->setDestId(hopId);
-            uinfo->setCAINDirection(HOP_RES);
-            std::ostringstream stream;
-            stream << uinfo->getCAINOptions() << "/" << "HOP Message";
-            uinfo->setCAINOption(stream.str());
-            stream.str("");
-            stream.clear();
-            uinfo->setCAINEnable(true);
-            EV << "Source: " << uinfo->getSourceId() << endl;
-            EV << "Dest: " << uinfo->getDestId() << endl;
-            EV << "Options: " << uinfo->getCAINOptions() << endl;
-            sendLowerPackets(pkt);
-            /*
-             * Message is being sent by the UE node
-             * Ends:
-             * Source: UE node
-             * Destination: Hop node
-             * */
-            break;
-        }
-        case HOP_RES:
-        {
-            /*
-             * Message from UE node to Hop node
-             *
-             * Begin:
-             * Source: UE node
-             * Destination: Hop Node
-             *
-             */
-            EV << "Receiving a HOP_RES message" << endl;
-
-
-            std::vector<std::string> node;
-            std::string token;
-            std::istringstream tokenStream(cainOpt);
-            while (std::getline(tokenStream, token, '/'))
-            {
-                node.push_back(token);
-            }
-
-            uinfo->setSourceId(uinfo->getDestId());
-            uinfo->setDestId(stoi(node[0]));
-            uinfo->setCAINDirection(HOP_REP);
-            uinfo->setCAINOption(node[1]);
-            uinfo->setCAINEnable(true);
-            EV << "Source: " << uinfo->getSourceId() << endl;
-            EV << "Dest: " << uinfo->getDestId() << endl;
-            EV << "Options: " << uinfo->getCAINOptions() << endl;
-            sendLowerPackets(pkt);
-            /*
-             * Message is being sent by Hop node to relay
-             * Ends:
-             * Source: Hop node
-             * Destination: relay
-             * */
             break;
         }
         case HOP_REP:
@@ -932,6 +782,8 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
              */
             EV << "Receiving a HOP_REP message" << endl;
 
+            binder_->decreaseRelay(uinfo->getDestId());
+            binder_->printAllQtdRelay();
             std::string opt = uinfo->getCAINOptions();
             std::vector<std::string> node;
             std::string token;
@@ -944,7 +796,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             {
                 EV << "Ok to relay message" << endl;
                 uinfo->setSourceId(uinfo->getDestId());
-                uinfo->setDestId(1);
+                uinfo->setDestId(binder_->getEnbToUe(uinfo->getDestId()));
                 uinfo->setCAINDirection(HOP_ANSW);
                 uinfo->setCAINEnable(true);
                 EV << "Source: " << uinfo->getSourceId() << endl;
@@ -960,22 +812,11 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                 delete pkt;
                 return;
             }
-
-//            uinfo->setSourceId(uinfo->getDestId());
-//            uinfo->setDestId(uinfo->getENBId());
-//            uinfo->setCAINDirection(HOP_FWD);
-//            uinfo->setCAINEnable(true);
-            /*
-             * Message is being sent by relay node to eNB
-             * Ends:
-             * Source: relay
-             * Destination: eNB
-             * */
             break;
         }
         case SOC_NTF:
         {
-            MacNodeId enbId = binder_->getEnbToUe(uinfo->getSourceId());
+            MacNodeId enbId = binder_->getEnbToUe(uinfo->getDestId());
 
             EV << "Social notify message arrived from node " << uinfo->getSourceId() << " to"
                     " node " << uinfo->getDestId() << endl;
@@ -987,6 +828,54 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             uinfo->setCAINDirection(SOC_FWD);
             uinfo->setDirection(UL);
             sendLowerPackets(racPkt);
+            break;
+        }
+        case SOC_REP:
+        {
+            /*
+             * Message from Hop node to relay
+             *
+             * Begin:
+             * Source: Hop node
+             * Destination: relay
+             *
+             */
+            EV << "Receiving a SOC_REP message from " << uinfo->getSourceId() <<
+                    " to " <<uinfo->getDestId()<< endl;
+
+
+            binder_->decreaseRelay(uinfo->getDestId());
+            std::string opt = uinfo->getCAINOptions();
+            std::vector<std::string> node;
+            std::string token;
+            std::istringstream tokenStream(opt);
+            while (std::getline(tokenStream, token, '|'))
+            {
+                node.push_back(token);
+            }
+            if(node[0] == "OK")
+            {
+                EV << "Ok to relay message" << endl;
+                uinfo->setSourceId(uinfo->getDestId());
+                MacNodeId enb = binder_->getEnbToUe(uinfo->getDestId());
+                EV<< "enb: " << enb << endl;
+                uinfo->setDestId(enb);
+                uinfo->setCAINDirection(SOC_ANSW);
+                uinfo->setCAINEnable(true);
+                EV << "Source: " << uinfo->getSourceId() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
+                sendLowerPackets(pkt);
+            }
+            else
+            {
+                EV << "Not ok to relay message" << endl;
+                dropedHopMessage++;
+                emit(dropedHopMessageSignal,dropedHopMessage);
+                delete pkt;
+                return;
+            }
+            break;
         }
         default:
             EV << "Unknow CAIN message" << endl;
