@@ -146,106 +146,106 @@ void LteMacUeRealisticD2D::macPduMake()
     }
 
 //    EV << "LteMacUeRealisticD2D::macPduMake2" << endl;
-//    if(!bsrAlreadyMade)
-//    {
-//        EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
-//        // In a D2D communication if BSR was created above this part isn't executed
-//        // Build a MAC PDU for each scheduled user on each codeword
-//        LteMacScheduleList::const_iterator it;
-//        for (it = scheduleList_->begin(); it != scheduleList_->end(); it++)
-//        {
-//            EV << "LteMacUeRealisticD2D::macPduMake4" << endl;
-//            LteMacPdu* macPkt;
-//            cPacket* pkt;
-//
-//            MacCid destCid = it->first.first;
-//            Codeword cw = it->first.second;
-//
-//            EV << "destCid: " << destCid << endl;
-//
-//            // get the direction (UL/D2D/D2D_MULTI) and the corresponding destination ID
-//            FlowControlInfo* lteInfo = &(connDesc_.at(destCid));
-//            MacNodeId destId = lteInfo->getDestId();
-//            Direction dir = (Direction)lteInfo->getDirection();
-//
-//            std::pair<MacNodeId, Codeword> pktId = std::pair<MacNodeId, Codeword>(destId, cw);
-//            unsigned int sduPerCid = it->second;
-//
-//            MacPduList::iterator pit = macPduList_.find(pktId);
-//
-//            if (sduPerCid == 0 && !bsrTriggered_ && !bsrD2DMulticastTriggered_)
-//            {
-//                continue;
-//            }
-//
-//            // No packets for this user on this codeword
-//            if (pit == macPduList_.end())
-//            {
-//                EV << "LteMacUeRealisticD2D::macPduMake5" << endl;
-//                // Always goes here because of the macPduList_.clear() at the beginning
-//                // Build the Control Element of the MAC PDU
-//                UserControlInfo* uinfo = new UserControlInfo();
-//                uinfo->setSourceId(getMacNodeId());
-//                uinfo->setDestId(destId);
-//                uinfo->setLcid(MacCidToLcid(destCid));
-//                uinfo->setDirection(dir);
-//                uinfo->setLcid(MacCidToLcid(SHORT_BSR));
-//                if (usePreconfiguredTxParams_)
-//                    uinfo->setUserTxParams(preconfiguredTxParams_->dup());
-//                else
-//                    uinfo->setUserTxParams(schedulingGrant_->getUserTxParams()->dup());
-//                // Create a PDU
-//                macPkt = new LteMacPdu("LteMacPdu");
-//                macPkt->setHeaderLength(MAC_HEADER);
-//                macPkt->setControlInfo(uinfo);
-//                macPkt->setTimestamp(NOW);
-//                macPduList_[pktId] = macPkt;
-//            }
-//            else
-//            {
-//                // Never goes here because of the macPduList_.clear() at the beginning
-//                macPkt = pit->second;
-//            }
-//
-//            while (sduPerCid > 0)
-//            {
-//                EV << "LteMacUeRealisticD2D::macPduMake6" << endl;
-//                EV << "sduPerCid: " << sduPerCid << endl;
-//                // Add SDU to PDU
-//                // Find Mac Pkt
-//                if (mbuf_.find(destCid) == mbuf_.end())
-//                    throw cRuntimeError("Unable to find mac buffer for cid %d", destCid);
-//
-//                if (mbuf_[destCid]->empty())
-//                    throw cRuntimeError("Empty buffer for cid %d, while expected SDUs were %d", destCid, sduPerCid);
-//
-//                pkt = mbuf_[destCid]->popFront();
-//
-//                // multicast support
-//                // this trick gets the group ID from the MAC SDU and sets it in the MAC PDU
-//                int32 groupId = check_and_cast<LteControlInfo*>(pkt->getControlInfo())->getMulticastGroupId();
-//                if (groupId >= 0) // for unicast, group id is -1
-//                    check_and_cast<LteControlInfo*>(macPkt->getControlInfo())->setMulticastGroupId(groupId);
-//
-//                drop(pkt);
-//
-//                macPkt->pushSdu(pkt);
-//                sduPerCid--;
-//            }
-//
-//            // consider virtual buffers to compute BSR size
-//            size += macBuffers_[destCid]->getQueueOccupancy();
-//
-//            if (size > 0)
-//            {
-//                // take into account the RLC header size
-//                if (connDesc_[destCid].getRlcType() == UM)
-//                    size += RLC_HEADER_UM;
-//                else if (connDesc_[destCid].getRlcType() == AM)
-//                    size += RLC_HEADER_AM;
-//            }
-//        }
-//    }
+    /*if(!bsrAlreadyMade)
+    {
+        EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
+        // In a D2D communication if BSR was created above this part isn't executed
+        // Build a MAC PDU for each scheduled user on each codeword
+        LteMacScheduleList::const_iterator it;
+        for (it = scheduleList_->begin(); it != scheduleList_->end(); it++)
+        {
+            EV << "LteMacUeRealisticD2D::macPduMake4" << endl;
+            LteMacPdu* macPkt;
+            cPacket* pkt;
+
+            MacCid destCid = it->first.first;
+            Codeword cw = it->first.second;
+
+            EV << "destCid: " << destCid << endl;
+
+            // get the direction (UL/D2D/D2D_MULTI) and the corresponding destination ID
+            FlowControlInfo* lteInfo = &(connDesc_.at(destCid));
+            MacNodeId destId = lteInfo->getDestId();
+            Direction dir = (Direction)lteInfo->getDirection();
+
+            std::pair<MacNodeId, Codeword> pktId = std::pair<MacNodeId, Codeword>(destId, cw);
+            unsigned int sduPerCid = it->second;
+
+            MacPduList::iterator pit = macPduList_.find(pktId);
+
+            if (sduPerCid == 0 && !bsrTriggered_ && !bsrD2DMulticastTriggered_)
+            {
+                continue;
+            }
+
+            // No packets for this user on this codeword
+            if (pit == macPduList_.end())
+            {
+                EV << "LteMacUeRealisticD2D::macPduMake5" << endl;
+                // Always goes here because of the macPduList_.clear() at the beginning
+                // Build the Control Element of the MAC PDU
+                UserControlInfo* uinfo = new UserControlInfo();
+                uinfo->setSourceId(getMacNodeId());
+                uinfo->setDestId(destId);
+                uinfo->setLcid(MacCidToLcid(destCid));
+                uinfo->setDirection(dir);
+                uinfo->setLcid(MacCidToLcid(SHORT_BSR));
+                if (usePreconfiguredTxParams_)
+                    uinfo->setUserTxParams(preconfiguredTxParams_->dup());
+                else
+                    uinfo->setUserTxParams(schedulingGrant_->getUserTxParams()->dup());
+                // Create a PDU
+                macPkt = new LteMacPdu("LteMacPdu");
+                macPkt->setHeaderLength(MAC_HEADER);
+                macPkt->setControlInfo(uinfo);
+                macPkt->setTimestamp(NOW);
+                macPduList_[pktId] = macPkt;
+            }
+            else
+            {
+                // Never goes here because of the macPduList_.clear() at the beginning
+                macPkt = pit->second;
+            }
+
+            while (sduPerCid > 0)
+            {
+                EV << "LteMacUeRealisticD2D::macPduMake6" << endl;
+                EV << "sduPerCid: " << sduPerCid << endl;
+                // Add SDU to PDU
+                // Find Mac Pkt
+                if (mbuf_.find(destCid) == mbuf_.end())
+                    throw cRuntimeError("Unable to find mac buffer for cid %d", destCid);
+
+                if (mbuf_[destCid]->empty())
+                    throw cRuntimeError("Empty buffer for cid %d, while expected SDUs were %d", destCid, sduPerCid);
+
+                pkt = mbuf_[destCid]->popFront();
+
+                // multicast support
+                // this trick gets the group ID from the MAC SDU and sets it in the MAC PDU
+                int32 groupId = check_and_cast<LteControlInfo*>(pkt->getControlInfo())->getMulticastGroupId();
+                if (groupId >= 0) // for unicast, group id is -1
+                    check_and_cast<LteControlInfo*>(macPkt->getControlInfo())->setMulticastGroupId(groupId);
+
+                drop(pkt);
+
+                macPkt->pushSdu(pkt);
+                sduPerCid--;
+            }
+
+            // consider virtual buffers to compute BSR size
+            size += macBuffers_[destCid]->getQueueOccupancy();
+
+            if (size > 0)
+            {
+                // take into account the RLC header size
+                if (connDesc_[destCid].getRlcType() == UM)
+                    size += RLC_HEADER_UM;
+                else if (connDesc_[destCid].getRlcType() == AM)
+                    size += RLC_HEADER_AM;
+            }
+        }
+    }*/
 
     // Put MAC PDUs in H-ARQ buffers
     MacPduList::iterator pit;
@@ -521,13 +521,19 @@ void LteMacUeRealisticD2D::checkRAC()
             std::vector<std::string> msgType = getMessageType(str,'|');
             EV << "Message type: " << msgType[0] << endl;
             EV << "Node id: " << nodeId_ << endl;
+            MacNodeId enbId = stoi(msgType[2]);
             if(msgType[0] == "NOTIFY"){
                 MacNodeId relayId = stoi(msgType[1]);
                 EV << "The relay id is: " << relayId << endl;
                 uinfo->setCAINDirection(NOTIFY);
                 uinfo->setCAINOption("");
                 uinfo->setDestId(relayId);
-                uinfo->setDirection(UL);
+                std::ostringstream stream;
+                stream << enbId;
+                uinfo->appendOption(stream.str());
+                stream.str("");
+                stream.clear();
+//                uinfo->setDirection(UL);
                 cainMessageSent++;
                 emit(cainMessageSentSignal,cainMessageSent);
             }else if(msgType[0] == "HOP_NTF"){
@@ -538,7 +544,7 @@ void LteMacUeRealisticD2D::checkRAC()
                 uinfo->setCAINDirection(HOP_NTF);
                 uinfo->setCAINOption("");
                 std::ostringstream stream;
-                stream << relayId << "/" << hopId;
+                stream << relayId << "/" << hopId << "/" << enbId;
                 uinfo->appendOption(stream.str());
                 stream.str("");
                 stream.clear();
@@ -561,6 +567,7 @@ void LteMacUeRealisticD2D::checkRAC()
                     uinfo->setCAINDirection(SOC_NTF);
                     uinfo->setCAINOption("");
                 }else{
+//                    uinfo->setDestId(destId);
                     uinfo->setCAINDirection(DIR);
                     uinfo->setCAINOption("");
                 }
@@ -672,18 +679,22 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
 
             MacNodeId enbId = binder_->getEnbToUe(uinfo->getSourceId());
 
-            std::vector<MacNodeId> node = getNode(cainOpt);
-            EV << "The nodes that need a relay are: " << endl;
-            EV << "Node list size: " << node.size() << endl;
+//            std::vector<MacNodeId> node = getNode(cainOpt);
+//            EV << "The nodes that need a relay are: " << endl;
+//            EV << "Node list size: " << node.size() << endl;
 
+            MacNodeId destId = stoi(cainOpt);
             uinfo->setCAINOption("");
             std::ostringstream stream;
             stream << uinfo->getSourceId();
             uinfo->appendOption(stream.str());
             uinfo->setSourceId(uinfo->getDestId());
-            uinfo->setDestId(enbId);
+            uinfo->setDestId(destId);
             uinfo->setCAINDirection(FWD);
             uinfo->setDirection(UL);
+            EV << "Source: " << uinfo->getSourceId() << endl;
+            EV << "Dest: " << uinfo->getDestId() << endl;
+            EV << "Options: " << uinfo->getCAINOptions() << endl;
             sendLowerPackets(racPkt);
             break;
         }
@@ -701,11 +712,13 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             {
                 node.push_back(token);
             }
+            MacNodeId oldSource = uinfo->getSourceId();
+            MacNodeId oldDest = uinfo->getDestId();
             if(node[0] == "OK")
             {
                 EV << "Ok to relay message" << endl;
-                uinfo->setSourceId(uinfo->getDestId());
-                uinfo->setDestId(binder_->getEnbToUe(uinfo->getDestId()));
+                uinfo->setSourceId(oldDest);
+                uinfo->setDestId(oldSource);
                 uinfo->setCAINDirection(ANSW);
                 uinfo->setCAINEnable(true);
                 EV << "Source: " << uinfo->getSourceId() << endl;
@@ -719,8 +732,9 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
                 dropedCainMessage++;
                 emit(dropedCainMessageSignal,dropedCainMessage);
                 delete pkt;
-                return;
+//                return;
             }
+//            endSimulation();
 
             break;
         }
@@ -732,7 +746,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             uinfo->setDestId(node[0]);
             uinfo->setCAINdest(uinfo->getSourceId());
             std::ostringstream stream;
-            stream << nodeId_ << "/" << uinfo->getSourceId();
+            stream << nodeId_ << "/" << uinfo->getSourceId() << "/" << node[2];
             uinfo->setCAINOption(stream.str());
             stream.str("");
             stream.clear();
@@ -755,7 +769,7 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             EV << "Hop id: " << node[0] << " ue: " << node[1] <<  endl;
 
             uinfo->setSourceId(uinfo->getDestId());
-            uinfo->setDestId(1);
+            uinfo->setDestId(node[2]);
             uinfo->setCAINDirection(HOP_FWD);
             uinfo->setDirection(UL);
             std::ostringstream stream;
@@ -792,11 +806,14 @@ void LteMacUeRealisticD2D::handleCainMsg(cPacket* pkt){
             {
                 node.push_back(token);
             }
+
+            MacNodeId oldSource = uinfo->getSourceId();
+            MacNodeId oldDest = uinfo->getDestId();
             if(node[0] == "OK")
             {
                 EV << "Ok to relay message" << endl;
-                uinfo->setSourceId(uinfo->getDestId());
-                uinfo->setDestId(binder_->getEnbToUe(uinfo->getDestId()));
+                uinfo->setSourceId(oldDest);
+                uinfo->setDestId(oldSource);
                 uinfo->setCAINDirection(HOP_ANSW);
                 uinfo->setCAINEnable(true);
                 EV << "Source: " << uinfo->getSourceId() << endl;

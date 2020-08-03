@@ -529,6 +529,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                     emit(devsRelaySignal,devsRelayCount);
                 }
                 std::string opt = uinfo->getCAINOptions();
+                binder_->printIncreaseResourceBlock();
 
                 if(binder_->getAllocatedRb(uinfo->getSourceId()))
                 {
@@ -540,6 +541,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                     std::ostringstream stream;
                     stream << "OK|" << opt;
                     uinfo->appendOption(stream.str());
+//                    endSimulation();
                 }
                 else
                 {
@@ -552,9 +554,11 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                     stream << "NOK|" << opt;
                     uinfo->appendOption(stream.str());
                 }
-
-                CainMessage++;
-                emit(cainMessageSignal,CainMessage);
+                EV << "Source: " << uinfo->getSourceId() << endl;
+                EV << "Dest: " << uinfo->getDestId() << endl;
+                EV << "Options: " << uinfo->getCAINOptions() << endl;
+//                CainMessage++;
+//                emit(cainMessageSignal,CainMessage);
 
                 sendLowerPackets(racPkt);
 
@@ -607,8 +611,8 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                     uinfo->appendOption(stream.str());
                 }
 
-                cainHopMessage++;
-                emit(cainHopMessageSignal,cainHopMessage);
+//                cainHopMessage++;
+//                emit(cainHopMessageSignal,cainHopMessage);
 
                 sendLowerPackets(racPkt);
                 break;
@@ -644,6 +648,8 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "CAIN Dest: " << uinfo->getCAINdest() << endl;
                 EV << "Dest: " << uinfo->getDestId() << endl;
 
+//                if(uinfo->getDestId() == 2)
+//                    endSimulation();
                 EV << endl;
                 std::vector<std::string> node;
                 std::string token;
@@ -684,6 +690,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                     std::ostringstream stream;
                     stream << "OK|" << opt;
                     uinfo->appendOption(stream.str());
+//                    endSimulation();
                 }
                 else
                 {
