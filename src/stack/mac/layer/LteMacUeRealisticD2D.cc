@@ -146,7 +146,7 @@ void LteMacUeRealisticD2D::macPduMake()
     }
 
 //    EV << "LteMacUeRealisticD2D::macPduMake2" << endl;
-    /*if(!bsrAlreadyMade)
+    if(!bsrAlreadyMade)
     {
         EV << "LteMacUeRealisticD2D::macPduMake3" << endl;
         // In a D2D communication if BSR was created above this part isn't executed
@@ -245,7 +245,7 @@ void LteMacUeRealisticD2D::macPduMake()
                     size += RLC_HEADER_AM;
             }
         }
-    }*/
+    }
 
     // Put MAC PDUs in H-ARQ buffers
     MacPduList::iterator pit;

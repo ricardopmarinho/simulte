@@ -480,11 +480,11 @@ LteSummaryFeedback LteAmc::getFeedbackD2D(MacNodeId id, Remote antenna, TxMode t
         std::map<MacNodeId, History_>::iterator it = d2dFeedbackHistory_.begin();
         for (; it != d2dFeedbackHistory_.end(); ++it)
         {
-//            if (binder_->checkD2DCapability(id, it->first))
-//            {
+            if (binder_->checkD2DCapability(id, it->first))
+            {
                 peerId = it->first;
                 break;
-//            }
+            }
         }
     }
     EV << "peerId: " << peerId << endl;

@@ -79,6 +79,13 @@ often used simulation parameters. To use it, right-click an Ini file, and choose
 'simulations/demo/gui.ini'.
 
 
+ricardopmarinho modifications:
+
+If you want to run a scenario with one BS use the CAINsimple configuration
+- do not change the value of 'numEnB', it will not work;
+- if you want to use more BSs, use the CAIN configuration
+If you want to run a scenario with more than one BS, adjust the number of BS with the parameter numEnB at the CAIN configuration.
+
 PATH: MY_USER/omnetpp-5.0/samples/simulte
 
 
