@@ -244,7 +244,7 @@ void LtePhyBase::sendBroadcast(LteAirFrame *airFrame)
     UserControlInfo *ci = check_and_cast<UserControlInfo *>(
             airFrame->getControlInfo());
 
-    int numUe  = getModuleByPath("CAIN")->par("numUeD2DTx");
+    int numUe  = this->getParentModule()->getParentModule()->getParentModule()->par("numUeD2DTx");
     int i;
     for(i = 1025;i<1025+numUe;i++){
         if(i != nodeId_){

@@ -15,6 +15,8 @@
 #include "inet/networklayer/ipv4/IPv4InterfaceData.h"
 #include "inet/networklayer/configurator/ipv4/IPv4NetworkConfigurator.h"
 
+#include <string>
+
 Define_Module(LteX2Manager);
 
 LteX2Manager::LteX2Manager() {
@@ -65,7 +67,7 @@ void LteX2Manager::initialize(int stage)
             // get the connectAddress for the X2App client and the corresponding X2 id
             L3Address addr = L3AddressResolver().resolve(client->par("connectAddress").stringValue());
             X2NodeId peerId = getBinder()->getX2NodeId(addr.toIPv4());
-            EV<< "l3addr: " << addr << endl;
+            EV << "l3addr: " << addr << endl;
             EV << "pperid: " << peerId<< endl;
 
             // bind the peerId to the output gate

@@ -504,7 +504,6 @@ void LtePhyUeD2D::sendFeedback(LteFeedbackDoubleVector fbDl, LteFeedbackDoubleVe
 
     MacNodeId enb = binder_->getCloserEnb(getRadioPosition());
     EV << "The closer enb is: " << enb << endl;
-//    int numenb = getModuleByPath("CAIN")->par("numEnB");
 
     binder_->setEnbToUe(enb,nodeId_);
 

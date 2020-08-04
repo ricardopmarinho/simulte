@@ -511,7 +511,7 @@ void LteMacUeRealisticD2D::checkRAC()
         uinfo->setFrameType(RACPKT);
         racReq->setControlInfo(uinfo);
 
-        std::string networkType = getModuleByPath("CAIN")->par("networkType");
+        std::string networkType = this->getParentModule()->getParentModule()->getParentModule()->par("networkType");
         if(networkType == "CAIN"){
             uinfo->setCAINCoord(binder_->getUeCoord(getMacNodeId()));
             uinfo->setEnbCoord(binder_->getEnbCoord(getMacNodeId()));

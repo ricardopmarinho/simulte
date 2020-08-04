@@ -311,14 +311,17 @@ void LteMacEnb::initialize(int stage)
         /////
         info->Bmap = new std::map<MacNodeId,double>();
         info->Wmap = new std::map<MacNodeId,double>();
-        info->pwrThresh = getModuleByPath("CAIN")->par("pwrThresh");
+        info->pwrThresh = this->getParentModule()->getParentModule()->getParentModule()->par("pwrThresh");
+        EV << this->getParentModule()->getParentModule()->getParentModule()->getFullName() << endl;
         info->Clist = new std::map<MacNodeId,Coord>();
         info->distMap = new relayDist();
         info->mapUe = new UeAreaMap();
         info->relayMap = new ueRelay();
         info->moreRb = new rbIncrease();
         info->fbmap = new feedbackMap();
-        numDev = getModuleByPath("CAIN")->par("numUeD2DTx");
+        numDev = this->getParentModule()->getParentModule()->getParentModule()->par("numUeD2DTx");
+
+//        endSimulation();
 
         for(int i =0;i<numDev;i++)
             this->devsRelay[i]=false;
@@ -648,7 +651,7 @@ void LteMacEnb::macHandleRac(cPacket* pkt)
                 EV << "CAIN Dest: " << uinfo->getCAINdest() << endl;
                 EV << "Dest: " << uinfo->getDestId() << endl;
 
-//                if(uinfo->getDestId() == 2)
+//                if(uinfo->getDestId() == 1)
 //                    endSimulation();
                 EV << endl;
                 std::vector<std::string> node;

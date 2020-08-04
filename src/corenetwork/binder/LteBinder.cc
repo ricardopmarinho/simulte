@@ -1021,7 +1021,7 @@ void LteBinder::printTotalServedDevs(){
 
 std::string LteBinder::checkCAINType(MacNodeId nodeId){
 
-    int distThresh = getModuleByPath("CAIN")->par("distThresh");
+    int distThresh = this->getParentModule()->par("distThresh");
 
     std::vector<EnbInfo*>* vect = this->getEnbList();
 
@@ -1030,7 +1030,7 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
 
     std::ostringstream str;
     MacNodeId enbId = getEnbToUe(nodeId);
-//    if(enbId == 2){
+//    if(enbId == 1){
 //        for(unsigned int i = 0; i < vect->size();i++){
 //            if(vect->at(i)->id == enbId){
 //                EV << "id: " << vect->at(i)->id << endl;
@@ -1041,7 +1041,7 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
     for(unsigned int i = 0; i < vect->size();i++){
         if(vect->at(i)->id == enbId){
 
-//            if(enbId == 2){
+//            if(enbId == 1){
 //               EV << "enb id:" << enbId << endl;
 //
 //               UeAreaMap* ueMap = vect->operator [](i)->mapUe;
@@ -1063,7 +1063,6 @@ std::string LteBinder::checkCAINType(MacNodeId nodeId){
             if(ueMap->size() == 0){
                 EV << "uemap Size: " << ueMap->size() << endl;
                 str << "DIR|Ok|" << enbId;
-//                endSimulation();
                 return str.str();
             }else{
             int area = ueMap->operator [](nodeId);
@@ -1138,7 +1137,7 @@ std::pair<MacNodeId,double> LteBinder::findCloserRelay(MacNodeId ueId){
     double minDist = INFINITY;
     std::pair<MacNodeId, double> p;
     MacNodeId enbId = getEnbToUe(ueId);
-    int qtdThresh = getModuleByPath("CAIN")->par("qtdThresh");
+    int qtdThresh = this->getParentModule()->par("qtdThresh");
 
     for(unsigned int i = 0; i < vect->size();i++){
         if(enbId == vect->at(i)->id){
@@ -1272,7 +1271,7 @@ bool LteBinder::checkLteMsg(MacNodeId nodeId){
 
 MacNodeId LteBinder::findSocialRelay(MacNodeId nodeId){
 
-    int distThresh = getModuleByPath("CAIN")->par("distThresh");
+    int distThresh = this->getParentModule()->par("distThresh");
 
     std::vector<EnbInfo*>* vectEnb = this->getEnbList();
     MacNodeId enbId = getEnbToUe(nodeId);
@@ -1370,25 +1369,24 @@ bool LteBinder::getAllocatedRb(MacNodeId nodeId){
 }
 
 MacNodeId LteBinder::getCloserEnb(Coord uePos){
-    std::vector<EnbInfo*>* vect = this->getEnbList();
-    int enby = getModuleByPath("CAIN.eNodeB.mobility")->par("initialY");
-    int enbx = getModuleByPath("CAIN.eNodeB.mobility")->par("initialX");
-    int enb1y = getModuleByPath("CAIN.eNodeB1.mobility")->par("initialY");
-    int enb1x = getModuleByPath("CAIN.eNodeB1.mobility")->par("initialX");
+
+    int numEnb = this->getParentModule()->par("numEnB");
+    std::string networkName = this->getParentModule()->getFullName();
     float closer = 100000;
-    MacNodeId enb = 10;
-    Coord cEnb = Coord(enbx,enby,0);
-    Coord cEnb1 = Coord(enb1x,enb1y,0);
-
-    EV << "uePos: " << uePos << endl;
-
-    if(uePos.distance(cEnb) < closer){
-        closer=uePos.distance(cEnb);
-        enb=1;
-    }
-    if(uePos.distance(cEnb1) < closer){
-            closer=uePos.distance(cEnb1);
-            enb=2;
+    MacNodeId enb = numEnb+1;
+    for(int i = 0; i < numEnb; i++){
+        std::string modulePath = "";
+        modulePath.append(networkName+".eNodeB["+std::to_string(i)+"].mobility");
+        EV << "path: " << modulePath << endl;
+        int enby = getModuleByPath(modulePath.c_str())->par("initialY");
+        int enbx = getModuleByPath(modulePath.c_str())->par("initialX");
+        EV << "y: " << enby << endl;
+        EV << "x: " << enbx << endl;
+        Coord cEnb = Coord(enbx,enby,0);
+        if(uePos.distance(cEnb) < closer){
+            closer=uePos.distance(cEnb);
+            enb=i+1;
+        }
     }
     return enb;
 }
